@@ -45,7 +45,6 @@ Vagrant.configure("2") do |config|
 	sudo apt-get install -y nodejs
 	sudo npm install -g  -y @angular/cli express @nestjs/cli
 	sudo systemctl start mongod
-	sudo systemctl enable mongod
 	#change to trusted ip location instead of broad access
 	#sudo ufw allow from {other-server-ip}/32 to any port 27017
 	sudo ufw allow 27017
