@@ -28,28 +28,29 @@ Vagrant.configure("2") do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  # config.vm.network "private_network", ip: "192.168.33.10"
+  config.vm.network "private_network", ip: "192.168.33.10"
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
   # your network.
-  config.vm.network "public_network"
+  # config.vm.network "public_network"
 
   # Enable provisioning with a shell script. Additional provisioners such as
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
+	mkdir _project
+	ln -s /vagrant _project
 	sudo wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
 	sudo echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 	sudo apt-get update
 	sudo apt-get install -y mongodb-org
-	curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+	curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 	sudo apt-get install -y nodejs
-	sudo npm install -g  -y @angular/cli express yarn gulp @nestjs/cli @nrwl/nest nx @nrwl/workspace @nrwl/angular
+	sudo npm install -g -y @angular/cli express prettier create-nx-workspace tslib yarn gulp nx 
 	sudo systemctl start mongod
 	#change to trusted ip location instead of broad access
 	#sudo ufw allow from {other-server-ip}/32 to any port 27017
 	sudo ufw allow 27017
-	
   SHELL
 end
