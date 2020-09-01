@@ -52,15 +52,15 @@ Vagrant.configure("2") do |config|
 	sudo npm install -g @angular/cli nx @nestjs/cli
 
 	# Install all application projects
-	cd _project/vagrant
+	cd _project/vagrant/cs4360
 	npm install
 	cd ../..
 
 	# Start mongo
 	sudo systemctl start mongod
 
-	#change to trusted ip location instead of broad access
-	#sudo ufw allow from {other-server-ip}/32 to any port 27017
+	# change to trusted ip location instead of broad access
+	# sudo ufw allow from {other-server-ip}/32 to any port 27017
 	sudo ufw allow 27017
   SHELL
 end
