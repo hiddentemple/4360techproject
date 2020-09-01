@@ -47,10 +47,20 @@ Vagrant.configure("2") do |config|
 	sudo apt-get install -y mongodb-org
 	curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 	sudo apt-get install -y nodejs
-	sudo npm install -g -y @angular/cli express prettier create-nx-workspace tslib yarn gulp nx @nestjs/cli @nrwl/nest @nrwl/workspace @nrwl/angular @nrwl/schematics
+
+	# Install global NPM packages
+	sudo npm install -g @angular/cli nx @nestjs/cli
+
+	# Install all application projects
+	cd _project/vagrant/cs4360
+	npm install
+	cd ../..
+
+	# Start mongo
 	sudo systemctl start mongod
-	#change to trusted ip location instead of broad access
-	#sudo ufw allow from {other-server-ip}/32 to any port 27017
+
+	# change to trusted ip location instead of broad access
+	# sudo ufw allow from {other-server-ip}/32 to any port 27017
 	sudo ufw allow 27017
   SHELL
 end
