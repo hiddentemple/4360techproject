@@ -68,6 +68,5 @@ Vagrant.configure("2") do |config|
 	npm install
 	cd ../..
 
-
   SHELL
 end
