@@ -40,21 +40,23 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
   
-	#creates dir @ root directory name _project
+	# Creates dir @ root directory name _project
 	mkdir _project
-	#links shared folder with _project @ root
+
+	# Links shared folder with _project @ root
 	ln -s /vagrant _project
 	
-	#gathers updates for OS
+	# Gathers updates for OS
 	sudo apt-get update
 	
-	#install postgresql
+	# Install postgresql
 	sudo apt-get install -y postgresql postgresql-contrib
-	#creating superuser & tempDB
+
+	# Creating superuser & tempDB
 	sudo -u postgres psql -c "CREATE SUPERUSER vagrant;"
 	sudo -u postgres createdb vagrant
 	
-	#download and install nodeJS
+	# Download and install nodeJS
 	curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 	sudo apt-get install -y nodejs
 
