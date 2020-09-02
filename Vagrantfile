@@ -45,15 +45,18 @@ Vagrant.configure("2") do |config|
 	#links shared folder with _project @ root
 	ln -s /vagrant _project
 	
-	#gathers updates for OS
+	# Create the file repository configuration:
+	sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+	# Import the repository signing key:
+	wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+	
+	# Update the package lists:
 	sudo apt-get update
 	
-	#install postgresql
-	sudo apt-get install -y postgresql postgresql-contrib
-	#creating superuser & tempDB
-	sudo -u postgres psql -c "CREATE SUPERUSER vagrant;"
-	sudo -u postgres createdb vagrant
-	
+	# Install the latest version of PostgreSQL.
+	# If a specific version is needed, use 'postgresql-12' or similar instead of 'postgresql':
+	sudo apt-get -y install postgresql postgresql-contrib
+
 	#download and install nodeJS
 	curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 	sudo apt-get install -y nodejs
@@ -66,6 +69,8 @@ Vagrant.configure("2") do |config|
 	npm install
 	cd ../..
 
+	#change to the postgres user
+	#sudo -i -u postgres
 
   SHELL
 end
