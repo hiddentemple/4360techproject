@@ -16,7 +16,11 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@cs4360/api-interfaces": ["libs/api-interfaces/src/index.ts"]
+      "@cs4360/api-interfaces": ["libs/api-interfaces/src/index.ts"],
+      "@cs4360/auth": ["libs/auth/src/index.ts"],
+      "@cs4360/auth-ui": ["libs/auth-ui/src/index.ts"],
+      "@cs4360/auth-api": ["libs/auth-api/src/index.ts"],
+      "@cs4360/contracts": ["libs/contracts/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

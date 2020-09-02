@@ -11,6 +11,7 @@ describe('AppService', () => {
     }).compile();
 
     service = app.get<AppService>(AppService);
+    return undefined;
   });
 
   describe('getData', () => {
