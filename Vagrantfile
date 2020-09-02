@@ -39,14 +39,20 @@ Vagrant.configure("2") do |config|
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
+  
+	#creates dir @ root directory name _project
 	mkdir _project
+	#links shared folder with _project @ root
 	ln -s /vagrant _project
+	
+	#gathers updates for OS
 	sudo apt-get update
 	
 	#install postgresql
 	sudo apt-get install -y postgresql postgresql-contrib
-	#creating user
-	sudo -u postgres psql -c "CREATE USER admin WITH PASSWORD 'password';"
+	#creating superuser & tempDB
+	sudo -u postgres psql -c "CREATE SUPERUSER vagrant;"
+	sudo -u postgres createdb vagrant
 	
 	#download and install nodeJS
 	curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
@@ -60,11 +66,6 @@ Vagrant.configure("2") do |config|
 	npm install
 	cd ../..
 
-	# Start mongo
-	sudo systemctl start mongod
 
-	# change to trusted ip location instead of broad access
-	# sudo ufw allow from {other-server-ip}/32 to any port 27017
-	sudo ufw allow 27017
   SHELL
 end
