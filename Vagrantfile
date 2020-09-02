@@ -40,9 +40,10 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
   
-	#creates dir @ root directory name _project
+	# Creates dir @ root directory name _project
 	mkdir _project
-	#links shared folder with _project @ root
+
+	# Links shared folder with _project @ root
 	ln -s /vagrant _project
 	
 	# Create the file repository configuration:
@@ -52,12 +53,12 @@ Vagrant.configure("2") do |config|
 	
 	# Update the package lists:
 	sudo apt-get update
-	
-	# Install the latest version of PostgreSQL.
-	# If a specific version is needed, use 'postgresql-12' or similar instead of 'postgresql':
-	sudo apt-get -y install postgresql postgresql-contrib
 
-	#download and install nodeJS
+	# Install postgresql
+	# If a specific version is needed, use 'postgresql-12' or similar instead of 'postgresql':
+	sudo apt-get install -y postgresql postgresql-contrib
+	
+	# Download and install nodeJS
 	curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 	sudo apt-get install -y nodejs
 
@@ -68,9 +69,6 @@ Vagrant.configure("2") do |config|
 	cd _project/vagrant/cs4360
 	npm install
 	cd ../..
-
-	#change to the postgres user
-	#sudo -i -u postgres
 
   SHELL
 end
