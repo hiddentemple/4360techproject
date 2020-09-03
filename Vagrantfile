@@ -56,7 +56,8 @@ Vagrant.configure("2") do |config|
 
 	# Install postgresql
 	# If a specific version is needed, use 'postgresql-12' or similar instead of 'postgresql':
-	sudo apt-get install -y postgresql postgresql-contrib
+	sudo apt-get install -y postgresql postgresql-contrib pgadmin4 postgresql-common
+	sudo sh /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
 	
 	# Download and install nodeJS
 	curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
