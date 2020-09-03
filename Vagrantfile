@@ -48,18 +48,18 @@ Vagrant.configure("2") do |config|
 	
 	# Create the file repository configuration:
 	sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+
 	# Import the repository signing key:
 	wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-	
-	
-	#configure yarn repo
+
+	# Configure yarn repo
 	curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 	echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 	
 	# Update the package lists:
 	sudo apt-get update
 	
-	#install yarn
+	# Install yarn
 	sudo apt -y install yarn
 	
 	# Install postgresql
@@ -67,7 +67,7 @@ Vagrant.configure("2") do |config|
 	sudo apt-get install -y postgresql postgresql-contrib pgadmin4 postgresql-common 
 	#sudo sh /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
 	
-	#install packages for typeORM, and plugins for nestJS
+	# Install packages for typeORM, and plugins for nestJS
 	yarn global add pg typeorm @nestjs/typeorm @nestjsx/crud
 	
 	# Download and install nodeJS
@@ -82,7 +82,7 @@ Vagrant.configure("2") do |config|
 	npm install
 	cd ../..
 	
-	#create vagrant superuser for postgresql
+	# Create vagrant superuser for postgresql
 	echo "CREATING vagrant SUPERUSER ROLE"
 	sudo -u postgres psql -c "CREATE ROLE vagrant WITH SUPERUSER CREATEDB CREATEROLE LOGIN ENCRYPTED PASSWORD 'password'";
 	
