@@ -14,7 +14,7 @@ import { CustomersEntity } from './customers.entity'
         }
     }
 })
-@Controller('pokemon')
+@Controller('customers')
 export class CustomersController {
     constructor (public service: CustomersService) {}
 }
