@@ -23,9 +23,9 @@ Vagrant.configure("2") do |config|
   # Creates a forwarded port mapping, which allows access to a specific port
   # within the guest machine; from a port on the host machine and only allows access
   # via 127.0.0.1 to disable public access
-  config.vm.network "forwarded_port", guest: 4200, host: 8080, host_ip: "127.0.0.1"
-  config.vm.network "forwarded_port", guest: 3333, host: 8090, host_ip: "127.0.0.1"
-  config.vm.network "forwarded_port", guest: 5432, host: 5432, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 4200, host: 8080, host_ip: "127.0.0.1" # Angular
+  config.vm.network "forwarded_port", guest: 3333, host: 8090, host_ip: "127.0.0.1" # NestJS
+  config.vm.network "forwarded_port", guest: 5432, host: 5432, host_ip: "127.0.0.1" # Postgres
 
 
   # Create a private network, which allows host-only access to the machine
@@ -84,6 +84,8 @@ Vagrant.configure("2") do |config|
 
   echo "**** Restarting postgresql ****"
 	sudo service postgresql restart
+
+
 
   SHELL
 end
