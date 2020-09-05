@@ -25,6 +25,8 @@ Vagrant.configure("2") do |config|
   # via 127.0.0.1 to disable public access
   config.vm.network "forwarded_port", guest: 4200, host: 8080, host_ip: "127.0.0.1"
   config.vm.network "forwarded_port", guest: 3333, host: 8090, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 5432, host: 5432, host_ip: "127.0.0.1"
+
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -40,53 +42,45 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
   
-	# Creates dir @ root directory name _project
+	echo Create and link directories
 	mkdir _project
-
-	# Links shared folder with _project @ root
 	ln -s /vagrant _project
 	
-	# Create the file repository configuration:
+	echo Create the file repository configuration
 	sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-	# Import the repository signing key:
+
+	echo Import the repository signing key
 	wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 	
-	
-	#configure yarn repo
-	curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-	echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-	
-	# Update the package lists:
+	echo Update the package lists
 	sudo apt-get update
 	
-	#install yarn
-	sudo apt -y install yarn
-	
-	# Install postgresql
+	echo Install postgresql
 	# If a specific version is needed, use 'postgresql-12' or similar instead of 'postgresql':
-	sudo apt-get install -y postgresql postgresql-contrib pgadmin4 postgresql-common 
-	#sudo sh /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
-	
-	#install packages for typeORM, and plugins for nestJS
-	yarn global add pg typeorm @nestjs/typeorm @nestjsx/crud
-	
-	# Download and install nodeJS
+	sudo apt-get install -y postgresql postgresql-contrib pgadmin4 postgresql-common
+
+    echo Create vagrant super user role
+    sudo -u postgres psql -c "CREATE ROLE vagrant WITH SUPERUSER CREATEDB CREATEROLE LOGIN ENCRYPTED PASSWORD 'password'";
+    echo SUPERUSER CREATED
+
+    echo Copy in postgres configuration files
+    cp /home/vagrant/_project/vagrant/db/pg_hba.conf /etc/postgresql/12/main/pg_hba.conf
+    cp /home/vagrant/_project/vagrant/db/postgresql.conf /etc/postgresql/12/main/postgresql.conf
+
+	echo Download and install nodeJS
 	curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 	sudo apt-get install -y nodejs
 
-	# Install global NPM packages
+	echo Install global NPM packages
+	# Only packages which are *required* to be global go here. All other packages should be installed via package.json
 	sudo npm install -g @angular/cli nx @nestjs/cli
 
-	# Install all application projects
+	echo Install all application projects
 	cd _project/vagrant/cs4360
 	npm install
 	cd ../..
-	
-	#create vagrant superuser for postgresql
-	echo "CREATING vagrant SUPERUSER ROLE"
-	sudo -u postgres psql -c "CREATE ROLE vagrant WITH SUPERUSER CREATEDB CREATEROLE LOGIN ENCRYPTED PASSWORD 'password'";
-	
-	
+
+	echo Completed :)
 
   SHELL
 end
