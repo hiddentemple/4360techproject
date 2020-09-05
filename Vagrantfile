@@ -50,38 +50,36 @@ Vagrant.configure("2") do |config|
 	
 	# Create the file repository configuration:
 	sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+
 	# Import the repository signing key:
 	wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-	
-	
-	#configure yarn repo
-	curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-	echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 	
 	# Update the package lists:
 	sudo apt-get update
 	
 	# Install postgresql
 	# If a specific version is needed, use 'postgresql-12' or similar instead of 'postgresql':
-	sudo apt-get install -y postgresql postgresql-contrib pgadmin4 postgresql-common 
+	sudo apt-get install -y postgresql postgresql-contrib pgadmin4 postgresql-common
+
+    # Create vagrant superuser for postgresql
+    echo "CREATING vagrant SUPERUSER ROLE"
+    sudo -u postgres psql -c "CREATE ROLE vagrant WITH SUPERUSER CREATEDB CREATEROLE LOGIN ENCRYPTED PASSWORD 'password'";
+
+    # Copy in configuration files
+    TODO
 	
 	# Download and install nodeJS
 	curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 	sudo apt-get install -y nodejs
 
 	# Install global NPM packages
+	# Only packages which are *required* to be global go here. All other packages should be installed via package.json
 	sudo npm install -g @angular/cli nx @nestjs/cli
 
 	# Install all application projects
 	cd _project/vagrant/cs4360
 	npm install
 	cd ../..
-	
-	#create vagrant superuser for postgresql
-	echo "CREATING vagrant SUPERUSER ROLE"
-	sudo -u postgres psql -c "CREATE ROLE vagrant WITH SUPERUSER CREATEDB CREATEROLE LOGIN ENCRYPTED PASSWORD 'password'";
-	
-	
 
   SHELL
 end
