@@ -5,7 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CustomersModule } from './customers/customers.module';
 
 @Module({
-  imports: [ TypeOrmModule.forRoot(), CustomersModule],
+  imports: [ TypeOrmModule.forRoot( {
+    autoLoadEntities: true
+    }
+  ), CustomersModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -25,6 +25,8 @@ Vagrant.configure("2") do |config|
   # via 127.0.0.1 to disable public access
   config.vm.network "forwarded_port", guest: 4200, host: 8080, host_ip: "127.0.0.1"
   config.vm.network "forwarded_port", guest: 3333, host: 8090, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 5432, host: 5432, host_ip: "127.0.0.1"
+
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -59,16 +61,9 @@ Vagrant.configure("2") do |config|
 	# Update the package lists:
 	sudo apt-get update
 	
-	#install yarn
-	sudo apt -y install yarn
-	
 	# Install postgresql
 	# If a specific version is needed, use 'postgresql-12' or similar instead of 'postgresql':
 	sudo apt-get install -y postgresql postgresql-contrib pgadmin4 postgresql-common 
-	#sudo sh /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
-	
-	#install packages for typeORM, and plugins for nestJS
-	yarn global add pg typeorm @nestjs/typeorm @nestjsx/crud
 	
 	# Download and install nodeJS
 	curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -

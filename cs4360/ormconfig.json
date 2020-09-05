@@ -4,8 +4,8 @@
   "port": 5432,
   "username": "vagrant",
   "password": "password",
-  "database": "vagrant"
-  "entities": ["dist/**/*.entity.js"],
+  "database": "vagrant",
+  "entities": [],
   "synchronize": true,
   "logging": true
 }
