@@ -54,16 +54,12 @@ Vagrant.configure("2") do |config|
 	wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 	
 	
-	#configure yarn repo
-	curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-	echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-	
 	# Update the package lists:
 	sudo apt-get update
 	
 	# Install postgresql
 	# If a specific version is needed, use 'postgresql-12' or similar instead of 'postgresql':
-	sudo apt-get install -y postgresql postgresql-contrib pgadmin4 postgresql-common 
+	sudo apt-get install -y postgresql postgresql-contrib postgresql-common 
 	
 	# Download and install nodeJS
 	curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
@@ -80,8 +76,9 @@ Vagrant.configure("2") do |config|
 	#create vagrant superuser for postgresql
 	echo "CREATING vagrant SUPERUSER ROLE"
 	sudo -u postgres psql -c "CREATE ROLE vagrant WITH SUPERUSER CREATEDB CREATEROLE LOGIN ENCRYPTED PASSWORD 'password'";
-	
-	
+	sudo chmod -R 777 /etc/postgresql/12/main 
+	cp /vagrant/DB/postgresql.conf /etc/postgresql/12/main/postgresql.conf
+	cp /vagrant/DB/pg_hba.conf /etc/postgresql/12/main/pg_hba.conf
 
   SHELL
 end
