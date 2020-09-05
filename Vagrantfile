@@ -42,44 +42,45 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
   
-	# Creates dir @ root directory name _project
+	echo Create and link directories
 	mkdir _project
-
-	# Links shared folder with _project @ root
 	ln -s /vagrant _project
 	
-	# Create the file repository configuration:
+	echo Create the file repository configuration
 	sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 
-	# Import the repository signing key:
+	echo Import the repository signing key
 	wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 	
-	# Update the package lists:
+	echo Update the package lists
 	sudo apt-get update
 	
-	# Install postgresql
+	echo Install postgresql
 	# If a specific version is needed, use 'postgresql-12' or similar instead of 'postgresql':
 	sudo apt-get install -y postgresql postgresql-contrib pgadmin4 postgresql-common
 
-    # Create vagrant superuser for postgresql
-    echo "CREATING vagrant SUPERUSER ROLE"
+    echo Create vagrant super user role
     sudo -u postgres psql -c "CREATE ROLE vagrant WITH SUPERUSER CREATEDB CREATEROLE LOGIN ENCRYPTED PASSWORD 'password'";
+    echo SUPERUSER CREATED
 
-    # Copy in configuration files
-    TODO
-	
-	# Download and install nodeJS
+    echo Copy in postgres configuration files
+    cp /home/vagrant/_project/vagrant/db/pg_hba.conf /etc/postgresql/12/main/pg_hba.conf
+    cp /home/vagrant/_project/vagrant/db/postgresql.conf /etc/postgresql/12/main/postgresql.conf
+
+	echo Download and install nodeJS
 	curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 	sudo apt-get install -y nodejs
 
-	# Install global NPM packages
+	echo Install global NPM packages
 	# Only packages which are *required* to be global go here. All other packages should be installed via package.json
 	sudo npm install -g @angular/cli nx @nestjs/cli
 
-	# Install all application projects
+	echo Install all application projects
 	cd _project/vagrant/cs4360
 	npm install
 	cd ../..
+
+	echo Completed :)
 
   SHELL
 end
