@@ -5,7 +5,10 @@
   "username": "vagrant",
   "password": "password",
   "database": "vagrant",
-  "entities": [],
+  "entities": [
+    "dist/**/*.entity.js",
+    "customers/**/*.entity{.ts,.js}"
+  ],
   "synchronize": true,
   "logging": true
 }
