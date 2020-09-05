@@ -76,9 +76,12 @@ Vagrant.configure("2") do |config|
 	#create vagrant superuser for postgresql
 	echo "CREATING vagrant SUPERUSER ROLE"
 	sudo -u postgres psql -c "CREATE ROLE vagrant WITH SUPERUSER CREATEDB CREATEROLE LOGIN ENCRYPTED PASSWORD 'password'";
+	
+	echo "COPYING DB CONFIG FILES"
 	sudo chmod -R 777 /etc/postgresql/12/main 
 	cp /vagrant/DB/postgresql.conf /etc/postgresql/12/main/postgresql.conf
 	cp /vagrant/DB/pg_hba.conf /etc/postgresql/12/main/pg_hba.conf
+	sudo service postgresql restart
 
   SHELL
 end
