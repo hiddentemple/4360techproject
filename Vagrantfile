@@ -20,7 +20,7 @@ Vagrant.configure("2") do |config|
   # config.vm.network "forwarded_port", guest: 4200, host: 8080
   # config.vm.network "forwarded_port", guest: 3333, host: 8090
 
-  # Creates a forwarded port mapping, which allows access to a specific port 
+  # Creates a forwarded port mapping, which allows access to a specific port
   # within the guest machine; from a port on the host machine and only allows access
   # via 127.0.0.1 to disable public access
   config.vm.network "forwarded_port", guest: 4200, host: 8080, host_ip: "127.0.0.1"
@@ -41,46 +41,48 @@ Vagrant.configure("2") do |config|
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
-  
-	# Creates dir @ root directory name _project
-	mkdir _project
 
-	# Links shared folder with _project @ root
+	echo Create and link directories
+	mkdir _project
 	ln -s /vagrant _project
-	
-	# Create the file repository configuration:
+
+	echo Create the file repository configuration
 	sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-	# Import the repository signing key:
+
+	echo Import the repository signing key
 	wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-	
-	
-	# Update the package lists:
+
+	echo Update the package lists
 	sudo apt-get update
-	
-	# Install postgresql
+
+	echo Install postgresql
 	# If a specific version is needed, use 'postgresql-12' or similar instead of 'postgresql':
-	sudo apt-get install -y postgresql postgresql-contrib postgresql-common 
-	
-	# Download and install nodeJS
+	sudo apt-get install -y postgresql postgresql-contrib postgresql-common
+
+	echo Download and install nodeJS
 	curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 	sudo apt-get install -y nodejs
 
-	# Install global NPM packages
+	echo Install global NPM packages
+	# Only packages which are *required* to be global go here. All other packages should be installed via package.json
 	sudo npm install -g @angular/cli nx @nestjs/cli
 
-	# Install all application projects
+	echo Install all application projects
 	cd _project/vagrant/cs4360
 	npm install
 	cd ../..
-	
+
 	#create vagrant superuser for postgresql
-	echo "CREATING vagrant SUPERUSER ROLE"
+  echo Create vagrant super user role
 	sudo -u postgres psql -c "CREATE ROLE vagrant WITH SUPERUSER CREATEDB CREATEROLE LOGIN ENCRYPTED PASSWORD 'password'";
-	
-	echo "COPYING DB CONFIG FILES"
-	sudo chmod -R 777 /etc/postgresql/12/main 
+	echo "**** Superuser created **** "
+
+	echo "**** Copying database config files ****"
+	sudo chmod -R 777 /etc/postgresql/12/main
 	cp /vagrant/DB/postgresql.conf /etc/postgresql/12/main/postgresql.conf
 	cp /vagrant/DB/pg_hba.conf /etc/postgresql/12/main/pg_hba.conf
+
+  echo "**** Restarting postgresql ****"
 	sudo service postgresql restart
 
   SHELL
