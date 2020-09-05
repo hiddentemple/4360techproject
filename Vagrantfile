@@ -25,6 +25,8 @@ Vagrant.configure("2") do |config|
   # via 127.0.0.1 to disable public access
   config.vm.network "forwarded_port", guest: 4200, host: 8080, host_ip: "127.0.0.1"
   config.vm.network "forwarded_port", guest: 3333, host: 8090, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 5432, host: 5432, host_ip: "127.0.0.1"
+
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -48,27 +50,20 @@ Vagrant.configure("2") do |config|
 	
 	# Create the file repository configuration:
 	sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-
 	# Import the repository signing key:
 	wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-
-	# Configure yarn repo
+	
+	
+	#configure yarn repo
 	curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 	echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 	
 	# Update the package lists:
 	sudo apt-get update
 	
-	# Install yarn
-	sudo apt -y install yarn
-	
 	# Install postgresql
 	# If a specific version is needed, use 'postgresql-12' or similar instead of 'postgresql':
 	sudo apt-get install -y postgresql postgresql-contrib pgadmin4 postgresql-common 
-	#sudo sh /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
-	
-	# Install packages for typeORM, and plugins for nestJS
-	yarn global add pg typeorm @nestjs/typeorm @nestjsx/crud
 	
 	# Download and install nodeJS
 	curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
@@ -82,7 +77,7 @@ Vagrant.configure("2") do |config|
 	npm install
 	cd ../..
 	
-	# Create vagrant superuser for postgresql
+	#create vagrant superuser for postgresql
 	echo "CREATING vagrant SUPERUSER ROLE"
 	sudo -u postgres psql -c "CREATE ROLE vagrant WITH SUPERUSER CREATEDB CREATEROLE LOGIN ENCRYPTED PASSWORD 'password'";
 	
