@@ -63,10 +63,6 @@ Vagrant.configure("2") do |config|
     sudo -u postgres psql -c "CREATE ROLE vagrant WITH SUPERUSER CREATEDB CREATEROLE LOGIN ENCRYPTED PASSWORD 'password'";
     echo SUPERUSER CREATED
 
-    echo Copy in postgres configuration files
-    cp /home/vagrant/_project/vagrant/db/pg_hba.conf /etc/postgresql/12/main/pg_hba.conf
-    cp /home/vagrant/_project/vagrant/db/postgresql.conf /etc/postgresql/12/main/postgresql.conf
-
 	echo Download and install nodeJS
 	curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 	sudo apt-get install -y nodejs
@@ -80,7 +76,7 @@ Vagrant.configure("2") do |config|
 	npm install
 	cd ../..
 
-	echo Completed :)
+	echo Completed
 
   SHELL
 end
