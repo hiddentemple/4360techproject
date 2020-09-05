@@ -59,13 +59,6 @@ Vagrant.configure("2") do |config|
 	# If a specific version is needed, use 'postgresql-12' or similar instead of 'postgresql':
 	sudo apt-get install -y postgresql postgresql-contrib postgresql-common
 
-    echo Copy in postgres configuration files
-    cp /home/vagrant/_project/vagrant/db/pg_hba.conf /etc/postgresql/12/main/pg_hba.conf
-    cp /home/vagrant/_project/vagrant/db/postgresql.conf /etc/postgresql/12/main/postgresql.conf
-
-    echo Restart postgres so changes populate
-    sudo service postgresql restart
-
 	echo Download and install nodeJS
 	curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 	sudo apt-get install -y nodejs
