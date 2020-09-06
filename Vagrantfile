@@ -59,6 +59,21 @@ Vagrant.configure("2") do |config|
 	# If a specific version is needed, use 'postgresql-12' or similar instead of 'postgresql':
 	sudo apt-get install -y postgresql postgresql-contrib postgresql-common
 
+    echo Create vagrant super user role
+    sudo -u postgres psql -c "CREATE ROLE vagrant WITH SUPERUSER CREATEDB CREATEROLE LOGIN ENCRYPTED PASSWORD 'password'";
+    echo "**** Superuser created **** "
+
+    echo "**** Copying database config files ****"
+    sudo chmod -R 777 /etc/postgresql/12/main
+    cp /vagrant/DB/postgresql.conf /etc/postgresql/12/main/postgresql.conf
+    cp /vagrant/DB/pg_hba.conf /etc/postgresql/12/main/pg_hba.conf
+
+    echo Create DB
+    createdb vagrant
+
+    echo "**** Restarting postgresql ****"
+    sudo service postgresql restart
+
 	echo Download and install nodeJS
 	curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 	sudo apt-get install -y nodejs
@@ -71,23 +86,6 @@ Vagrant.configure("2") do |config|
 	cd _project/vagrant/cs4360
 	npm install
 	cd ../..
-
-    echo Create vagrant super user role
-	sudo -u postgres psql -c "CREATE ROLE vagrant WITH SUPERUSER CREATEDB CREATEROLE LOGIN ENCRYPTED PASSWORD 'password'";
-	echo "**** Superuser created **** "
-
-	echo "**** Copying database config files ****"
-	sudo chmod -R 777 /etc/postgresql/12/main
-	cp /vagrant/DB/postgresql.conf /etc/postgresql/12/main/postgresql.conf
-	cp /vagrant/DB/pg_hba.conf /etc/postgresql/12/main/pg_hba.conf
-
-    echo Create DB
-    createdb vagrant
-
- `` echo "**** Restarting postgresql ****"
-	sudo service postgresql restart
-
-
 
   SHELL
 end
