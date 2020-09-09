@@ -61,17 +61,17 @@ Vagrant.configure("2") do |config|
 
     echo Create vagrant super user role
     sudo -u postgres psql -c "CREATE ROLE vagrant WITH SUPERUSER CREATEDB CREATEROLE LOGIN ENCRYPTED PASSWORD 'password'";
-    echo "**** Superuser created **** "
+    echo Superuser created
 
-    echo "**** Copying database config files ****"
+    echo Copying database config files
     sudo chmod -R 777 /etc/postgresql/12/main
-    cp /vagrant/DB/postgresql.conf /etc/postgresql/12/main/postgresql.conf
-    cp /vagrant/DB/pg_hba.conf /etc/postgresql/12/main/pg_hba.conf
+    cp /vagrant/db/postgresql.conf /etc/postgresql/12/main/postgresql.conf
+    cp /vagrant/db/pg_hba.conf /etc/postgresql/12/main/pg_hba.conf
 
-    echo Create DB
-    createdb vagrant
+    echo Create database
+    sudo -u vagrant createdb vagrant
 
-    echo "**** Restarting postgresql ****"
+    echo Restarting postgresql
     sudo service postgresql restart
 
 	echo Download and install nodeJS
@@ -84,7 +84,7 @@ Vagrant.configure("2") do |config|
 
 	echo Install all application projects
 	cd _project/vagrant/cs4360
-	npm install
+	sudo npm install
 	cd ../..
 
   SHELL
