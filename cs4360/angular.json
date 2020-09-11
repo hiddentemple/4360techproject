@@ -1,42 +1,36 @@
 {
   "version": 1,
   "projects": {
-    "timmy-crm": {
+    "crm-ui": {
       "projectType": "application",
       "schematics": {
         "@nrwl/angular:component": {
           "style": "scss"
         }
       },
-      "root": "apps/timmy-crm",
-      "sourceRoot": "apps/timmy-crm/src",
+      "root": "apps/crm/ui",
+      "sourceRoot": "apps/crm/ui/src",
       "prefix": "cs4360",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/apps/timmy-crm",
-            "index": "apps/timmy-crm/src/index.html",
-            "main": "apps/timmy-crm/src/main.ts",
-            "polyfills": "apps/timmy-crm/src/polyfills.ts",
-            "tsConfig": "apps/timmy-crm/tsconfig.app.json",
+            "outputPath": "dist/apps/crm/ui",
+            "index": "apps/crm/ui/src/index.html",
+            "main": "apps/crm/ui/src/main.ts",
+            "polyfills": "apps/crm/ui/src/polyfills.ts",
+            "tsConfig": "apps/crm/ui/tsconfig.app.json",
             "aot": true,
-            "assets": [
-              "apps/timmy-crm/src/favicon.ico",
-              "apps/timmy-crm/src/assets"
-            ],
-            "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "apps/timmy-crm/src/styles.scss"
-            ],
+            "assets": ["apps/crm/ui/src/favicon.ico", "apps/crm/ui/src/assets"],
+            "styles": ["apps/crm/ui/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "apps/timmy-crm/src/environments/environment.ts",
-                  "with": "apps/timmy-crm/src/environments/environment.prod.ts"
+                  "replace": "apps/crm/ui/src/environments/environment.ts",
+                  "with": "apps/crm/ui/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -65,83 +59,82 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "timmy-crm:build",
-            "proxyConfig": "apps/timmy-crm/proxy.conf.json"
+            "browserTarget": "crm-ui:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "timmy-crm:build:production"
+              "browserTarget": "crm-ui:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "timmy-crm:build"
+            "browserTarget": "crm-ui:build"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "apps/timmy-crm/tsconfig.app.json",
-              "apps/timmy-crm/tsconfig.spec.json"
+              "apps/crm/ui/tsconfig.app.json",
+              "apps/crm/ui/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/timmy-crm/**/*"]
+            "exclude": ["**/node_modules/**", "!apps/crm/ui/**/*"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "apps/timmy-crm/jest.config.js",
-            "tsConfig": "apps/timmy-crm/tsconfig.spec.json",
+            "jestConfig": "apps/crm/ui/jest.config.js",
+            "tsConfig": "apps/crm/ui/tsconfig.spec.json",
             "passWithNoTests": true,
-            "setupFile": "apps/timmy-crm/src/test-setup.ts"
+            "setupFile": "apps/crm/ui/src/test-setup.ts"
           }
         }
       }
     },
-    "timmy-crm-e2e": {
-      "root": "apps/timmy-crm-e2e",
-      "sourceRoot": "apps/timmy-crm-e2e/src",
+    "crm/ui-e2e": {
+      "root": "apps/crm/ui-e2e",
+      "sourceRoot": "apps/crm/ui-e2e/src",
       "projectType": "application",
       "architect": {
         "e2e": {
           "builder": "@nrwl/cypress:cypress",
           "options": {
-            "cypressConfig": "apps/timmy-crm-e2e/cypress.json",
-            "tsConfig": "apps/timmy-crm-e2e/tsconfig.e2e.json",
-            "devServerTarget": "timmy-crm:serve"
+            "cypressConfig": "apps/crm/ui-e2e/cypress.json",
+            "tsConfig": "apps/crm/ui-e2e/tsconfig.e2e.json",
+            "devServerTarget": "crm-ui:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "timmy-crm:serve:production"
+              "devServerTarget": "crm-ui:serve:production"
             }
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/timmy-crm-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/timmy-crm-e2e/**/*"]
+            "tsConfig": ["apps/crm/ui-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/crm/ui-e2e/**/*"]
           }
         }
       }
     },
-    "api": {
-      "root": "apps/api",
-      "sourceRoot": "apps/api/src",
+    "crm-api": {
+      "root": "apps/crm/api",
+      "sourceRoot": "apps/crm/api/src",
       "projectType": "application",
-      "prefix": "api",
+      "prefix": "crm-api",
       "schematics": {},
       "architect": {
         "build": {
           "builder": "@nrwl/node:build",
           "options": {
-            "outputPath": "dist/apps/api",
-            "main": "apps/api/src/main.ts",
-            "tsConfig": "apps/api/tsconfig.app.json",
-            "assets": ["apps/api/src/assets"]
+            "outputPath": "dist/apps/crm/api",
+            "main": "apps/crm/api/src/main.ts",
+            "tsConfig": "apps/crm/api/tsconfig.app.json",
+            "assets": ["apps/crm/api/src/assets"]
           },
           "configurations": {
             "production": {
@@ -150,8 +143,8 @@
               "inspect": false,
               "fileReplacements": [
                 {
-                  "replace": "apps/api/src/environments/environment.ts",
-                  "with": "apps/api/src/environments/environment.prod.ts"
+                  "replace": "apps/crm/api/src/environments/environment.ts",
+                  "with": "apps/crm/api/src/environments/environment.prod.ts"
                 }
               ]
             }
@@ -160,32 +153,32 @@
         "serve": {
           "builder": "@nrwl/node:execute",
           "options": {
-            "buildTarget": "api:build"
+            "buildTarget": "crm-api:build"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "apps/api/tsconfig.app.json",
-              "apps/api/tsconfig.spec.json"
+              "apps/crm/api/tsconfig.app.json",
+              "apps/crm/api/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/api/**/*"]
+            "exclude": ["**/node_modules/**", "!apps/crm/api/**/*"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "apps/api/jest.config.js",
-            "tsConfig": "apps/api/tsconfig.spec.json",
+            "jestConfig": "apps/crm/api/jest.config.js",
+            "tsConfig": "apps/crm/api/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }
       }
     },
-    "api-interfaces": {
-      "root": "libs/api-interfaces",
-      "sourceRoot": "libs/api-interfaces/src",
+    "crm-nest-dao": {
+      "root": "libs/crm/nest/dao",
+      "sourceRoot": "libs/crm/nest/dao/src",
       "projectType": "library",
       "schematics": {},
       "architect": {
@@ -193,199 +186,19 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "libs/api-interfaces/tsconfig.lib.json",
-              "libs/api-interfaces/tsconfig.spec.json"
+              "libs/crm/nest/dao/tsconfig.lib.json",
+              "libs/crm/nest/dao/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/api-interfaces/**/*"]
+            "exclude": ["**/node_modules/**", "!libs/crm/nest/dao/**/*"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "libs/api-interfaces/jest.config.js",
-            "tsConfig": "libs/api-interfaces/tsconfig.spec.json",
+            "jestConfig": "libs/crm/nest/dao/jest.config.js",
+            "tsConfig": "libs/crm/nest/dao/tsconfig.spec.json",
             "passWithNoTests": true
           }
-        }
-      }
-    },
-    "auth": {
-      "projectType": "library",
-      "root": "libs/auth",
-      "sourceRoot": "libs/auth/src",
-      "prefix": "cs4360",
-      "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/auth/tsconfig.lib.json",
-              "libs/auth/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/auth/**/*"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/auth/jest.config.js",
-            "tsConfig": "libs/auth/tsconfig.spec.json",
-            "passWithNoTests": true,
-            "setupFile": "libs/auth/src/test-setup.ts"
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/angular:component": {
-          "style": "scss"
-        }
-      }
-    },
-    "auth-ui": {
-      "projectType": "library",
-      "root": "libs/auth-ui",
-      "sourceRoot": "libs/auth-ui/src",
-      "prefix": "cs4360",
-      "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/auth-ui/tsconfig.lib.json",
-              "libs/auth-ui/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/auth-ui/**/*"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/auth-ui/jest.config.js",
-            "tsConfig": "libs/auth-ui/tsconfig.spec.json",
-            "passWithNoTests": true,
-            "setupFile": "libs/auth-ui/src/test-setup.ts"
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/angular:component": {
-          "style": "scss"
-        }
-      }
-    },
-    "auth-api": {
-      "root": "libs/auth-api",
-      "sourceRoot": "libs/auth-api/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/auth-api/tsconfig.lib.json",
-              "libs/auth-api/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/auth-api/**/*"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/auth-api/jest.config.js",
-            "tsConfig": "libs/auth-api/tsconfig.spec.json",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "contracts": {
-      "root": "libs/contracts",
-      "sourceRoot": "libs/contracts/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/contracts/tsconfig.lib.json",
-              "libs/contracts/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/contracts/**/*"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/contracts/jest.config.js",
-            "tsConfig": "libs/contracts/tsconfig.spec.json",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "layout": {
-      "projectType": "library",
-      "root": "libs/layout",
-      "sourceRoot": "libs/layout/src",
-      "prefix": "cs4360",
-      "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/layout/tsconfig.lib.json",
-              "libs/layout/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/layout/**/*"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/layout/jest.config.js",
-            "tsConfig": "libs/layout/tsconfig.spec.json",
-            "passWithNoTests": true,
-            "setupFile": "libs/layout/src/test-setup.ts"
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/angular:component": {
-          "style": "scss"
-        }
-      }
-    },
-    "contact-boook": {
-      "projectType": "library",
-      "root": "libs/contact-boook",
-      "sourceRoot": "libs/contact-boook/src",
-      "prefix": "cs4360",
-      "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/contact-boook/tsconfig.lib.json",
-              "libs/contact-boook/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/contact-boook/**/*"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/contact-boook/jest.config.js",
-            "tsConfig": "libs/contact-boook/tsconfig.spec.json",
-            "passWithNoTests": true,
-            "setupFile": "libs/contact-boook/src/test-setup.ts"
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/angular:component": {
-          "style": "scss"
         }
       }
     }

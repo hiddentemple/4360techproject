@@ -16,13 +16,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@cs4360/api-interfaces": ["libs/api-interfaces/src/index.ts"],
-      "@cs4360/auth": ["libs/auth/src/index.ts"],
-      "@cs4360/auth-ui": ["libs/auth-ui/src/index.ts"],
-      "@cs4360/auth-api": ["libs/auth-api/src/index.ts"],
-      "@cs4360/contracts": ["libs/contracts/src/index.ts"],
-      "@cs4360/layout": ["libs/layout/src/index.ts"],
-      "@cs4360/contact-boook": ["libs/contact-boook/src/index.ts"]
+      "@crm/ng/contact-book": ["libs/crm/contact-book/src/index.ts"],
+      "@crm/shared/contracts": ["libs/crm/shared/contracts/index.ts"],
+      "@crm/shared/dto": ["libs/crm/shared/dto/index.ts"],
     }
   },
   "exclude": ["node_modules", "tmp"]

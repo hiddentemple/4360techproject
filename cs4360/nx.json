@@ -52,6 +52,25 @@
     },
     "contact-boook": {
       "tags": []
+    },
+    "authn": {
+      "tags": []
+    },
+    "dao": {
+      "tags": []
+    },
+    "crm-ui": {
+      "tags": []
+    },
+    "crm/ui-e2e": {
+      "tags": [],
+      "implicitDependencies": ["crm-ui"]
+    },
+    "crm-api": {
+      "tags": []
+    },
+    "crm-nest-dao": {
+      "tags": []
     }
   }
 }

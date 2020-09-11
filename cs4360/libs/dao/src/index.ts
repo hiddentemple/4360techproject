@@ -1,2 +1,1 @@
-export * from './dao.module';
-export * from './dao.service';
+export * from './lib/dao.module';
