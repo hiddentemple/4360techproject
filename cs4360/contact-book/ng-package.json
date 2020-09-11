@@ -1,0 +1,7 @@
+{
+  "$schema": "../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../dist/contact-book",
+  "lib": {
+    "entryFile": "src/libs/4360/ng.ts"
+  }
+}

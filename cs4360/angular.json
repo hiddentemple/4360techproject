@@ -356,6 +356,38 @@
           "style": "scss"
         }
       }
+    },
+    "contact-boook": {
+      "projectType": "library",
+      "root": "libs/contact-boook",
+      "sourceRoot": "libs/contact-boook/src",
+      "prefix": "cs4360",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/contact-boook/tsconfig.lib.json",
+              "libs/contact-boook/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/contact-boook/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/contact-boook/jest.config.js",
+            "tsConfig": "libs/contact-boook/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/contact-boook/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
     }
   },
   "cli": {
