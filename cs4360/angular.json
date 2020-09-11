@@ -202,6 +202,32 @@
           }
         }
       }
+    },
+    "crm-shared": {
+      "root": "libs/crm/shared",
+      "sourceRoot": "libs/crm/shared/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/crm/shared/tsconfig.lib.json",
+              "libs/crm/shared/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/crm/shared/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/crm/shared/jest.config.js",
+            "tsConfig": "libs/crm/shared/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {
@@ -250,6 +276,5 @@
     "@nrwl/angular:library": {
       "unitTestRunner": "jest"
     }
-  },
-  "defaultProject": "timmy-crm"
+  }
 }

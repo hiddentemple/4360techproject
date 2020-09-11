@@ -1,0 +1,5 @@
+{
+  "extends": "../../cs4360/tslint.json",
+  "linterOptions": { "exclude": ["!**/*"] },
+  "rules": {}
+}

@@ -22,43 +22,6 @@
     }
   },
   "projects": {
-    "timmy-crm": {
-      "tags": []
-    },
-    "timmy-crm-e2e": {
-      "tags": [],
-      "implicitDependencies": ["timmy-crm"]
-    },
-    "api": {
-      "tags": []
-    },
-    "api-interfaces": {
-      "tags": []
-    },
-    "auth": {
-      "tags": []
-    },
-    "auth-ui": {
-      "tags": []
-    },
-    "auth-api": {
-      "tags": []
-    },
-    "contracts": {
-      "tags": []
-    },
-    "layout": {
-      "tags": []
-    },
-    "contact-boook": {
-      "tags": []
-    },
-    "authn": {
-      "tags": []
-    },
-    "dao": {
-      "tags": []
-    },
     "crm-ui": {
       "tags": []
     },
@@ -70,6 +33,9 @@
       "tags": []
     },
     "crm-nest-dao": {
+      "tags": []
+    },
+    "crm-shared": {
       "tags": []
     }
   }
