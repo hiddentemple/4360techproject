@@ -1,11 +1,10 @@
 import {
   Column,
   Entity,
-  JoinTable,
-  ManyToMany, OneToMany,
+  OneToMany,
   PrimaryGeneratedColumn
 } from "typeorm";
-import {ContactEntity} from "./contact.entity";
+
 import {EmployeeEntity} from "./employee.entity";
 
 @Entity('companies')

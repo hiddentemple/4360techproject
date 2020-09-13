@@ -1,8 +1,7 @@
 import {
   Column,
   Entity,
-  ManyToOne, OneToMany,
-  OneToOne,
+  ManyToOne,
   PrimaryGeneratedColumn
 } from "typeorm";
 import {ContactEntity} from "./contact.entity";
@@ -17,7 +16,7 @@ export class EmployeeEntity {
   @Column('varchar', { length: 50, nullable: false })
   email: string;
 
-  @Column('numeric', { min: 10 })
+  @Column('numeric', {  })
   phone?: string;
 
   @Column('varchar', { length: 250 })

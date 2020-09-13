@@ -1,11 +1,5 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  OneToMany,
-} from 'typeorm'
-
-import {EmployeeEntity} from "./employee.entity";
+import {Entity, Column, PrimaryGeneratedColumn, OneToMany} from 'typeorm'
+import { EmployeeEntity } from "../../../../../../libs/crm/nest/dao/src/lib/entities/employee.entity";
 
 @Entity("contacts")
 export class ContactEntity {

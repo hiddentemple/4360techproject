@@ -1,14 +1,21 @@
 {
   "type": "postgres",
-  "host": "localhost",
-  "port": 5432,
-  "username": "vagrant",
-  "password": "password",
-  "database": "vagrant",
+  "host": "db-4360-techproject-do-user-7683203-0.b.db.ondigitalocean.com",
+  "port": 25060,
+  "username": "4360user",
+  "password": "ogedeqbnk5m7i4pj",
+  "database": "crmDB",
   "entities": [
     "dist/**/*.entity.js",
-    "customers/**/*.entity{.ts,.js}"
+    "libs/crm/nest/dao/src/lib/entities/*.entity.ts"
   ],
+  "ssl": true,
+  "extra": {
+    "ssl": {
+      "rejectUnauthorized": false
+    }
+  },
   "synchronize": true,
-  "logging": true
+  "logging": true,
+  "autoLoadEntities": true
 }
