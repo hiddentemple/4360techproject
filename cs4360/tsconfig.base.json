@@ -19,7 +19,7 @@
       "@crm/ng/contact-book": ["libs/crm/contact-book/src/index.ts"],
       "@crm/shared/contracts": ["libs/crm/shared/contracts/index.ts"],
       "@crm/shared/dto": ["libs/crm/shared/dto/index.ts"],
-      "@cs4360/crm/shared": ["libs/crm/shared/src/index.ts"]
+      "@crm/crm/shared": ["libs/crm/shared/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

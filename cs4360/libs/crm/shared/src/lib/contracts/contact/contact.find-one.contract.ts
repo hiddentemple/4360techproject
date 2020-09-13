@@ -1,6 +1,9 @@
 import {ContactDTO} from "../../dto/contact.dto";
 
+export interface FindOneContactRequest {
 
-export interface FindOneContactResponse extends ContactDTO {
+  id?: string;
 
 }
+
+export interface FindOneContactResponse extends ContactDTO { }

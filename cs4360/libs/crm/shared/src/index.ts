@@ -1,1 +1,2 @@
-export * from './lib/crm-shared';
+
+export * from './lib/dto/index'
