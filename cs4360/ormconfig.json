@@ -6,8 +6,7 @@
   "password": "ogedeqbnk5m7i4pj",
   "database": "crmDB",
   "entities": [
-    "dist/**/*.entity.js",
-    "libs/crm/nest/dao/src/lib/entities/*.entity.ts"
+    "dist/**/*.entity.js"
   ],
   "ssl": true,
   "extra": {

@@ -3,6 +3,7 @@ import {ContactEntity} from "./entities/contact.entity";
 import {EmployeeEntity} from "./entities/employee.entity";
 import {CompanyEntity} from "./entities/company.entity";
 
+
 @Module({
   controllers: [],
   providers: [],
