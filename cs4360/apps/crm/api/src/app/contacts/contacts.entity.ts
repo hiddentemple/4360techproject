@@ -26,7 +26,7 @@ export class ContactEntity implements ContactDTO{
   @Column('varchar', { length: 50, nullable: true })
   personalEmail?: string;
 
-  @OneToMany(type => EmployeeEntity, employee => employee.contact)
-  jobs: EmployeeEntity[];
+  // @OneToMany(type => EmployeeEntity, employee => employee.contact)
+  // jobs: EmployeeEntity[];
 
 }

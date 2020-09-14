@@ -1,6 +1,7 @@
 import { Controller } from '@nestjs/common';
 import {Crud} from "@nestjsx/crud";
 import {EmployeeEntity} from "./employees.entity";
+import {EmployeesService} from "./employees.service";
 
 @Crud({
   model: {
@@ -16,4 +17,7 @@ import {EmployeeEntity} from "./employees.entity";
 })
 
 @Controller('employees')
-export class EmployeesController {}
+export class EmployeesController {
+  constructor(public service: EmployeesService) {
+  }
+}
