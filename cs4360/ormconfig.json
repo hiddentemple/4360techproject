@@ -6,7 +6,7 @@
   "password": "ogedeqbnk5m7i4pj",
   "database": "crmDB",
   "entities": [
-    "dist/**/*.entity.js"
+
   ],
   "ssl": true,
   "extra": {
@@ -15,6 +15,5 @@
     }
   },
   "synchronize": true,
-  "logging": true,
-  "autoLoadEntities": true
+  "logging": true
 }
