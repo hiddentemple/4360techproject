@@ -7,8 +7,8 @@ export interface ContactDTO {
 
   id: string;
 
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
 
   emails?: EmailDTO[];
   phones?: PhoneDTO[];
