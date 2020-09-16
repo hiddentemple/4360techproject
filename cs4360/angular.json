@@ -21,8 +21,14 @@
             "polyfills": "apps/crm/ui/src/polyfills.ts",
             "tsConfig": "apps/crm/ui/tsconfig.app.json",
             "aot": true,
-            "assets": ["apps/crm/ui/src/favicon.ico", "apps/crm/ui/src/assets"],
-            "styles": ["apps/crm/ui/src/styles.scss"],
+            "assets": [
+              "apps/crm/ui/src/favicon.ico",
+              "apps/crm/ui/src/assets"
+            ],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "apps/crm/ui/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -81,7 +87,10 @@
               "apps/crm/ui/tsconfig.app.json",
               "apps/crm/ui/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/crm/ui/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/crm/ui/**/*"
+            ]
           }
         },
         "test": {
@@ -116,8 +125,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/crm/ui-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/crm/ui-e2e/**/*"]
+            "tsConfig": [
+              "apps/crm/ui-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/crm/ui-e2e/**/*"
+            ]
           }
         }
       }
@@ -135,7 +149,9 @@
             "outputPath": "dist/apps/crm/api",
             "main": "apps/crm/api/src/main.ts",
             "tsConfig": "apps/crm/api/tsconfig.app.json",
-            "assets": ["apps/crm/api/src/assets"]
+            "assets": [
+              "apps/crm/api/src/assets"
+            ]
           },
           "configurations": {
             "production": {
@@ -164,7 +180,10 @@
               "apps/crm/api/tsconfig.app.json",
               "apps/crm/api/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/crm/api/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/crm/api/**/*"
+            ]
           }
         },
         "test": {
@@ -190,7 +209,10 @@
               "libs/crm/nest/dao/tsconfig.lib.json",
               "libs/crm/nest/dao/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/crm/nest/dao/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/crm/nest/dao/**/*"
+            ]
           }
         },
         "test": {
@@ -216,7 +238,10 @@
               "libs/crm/shared/tsconfig.lib.json",
               "libs/crm/shared/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/crm/shared/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/crm/shared/**/*"
+            ]
           }
         },
         "test": {
@@ -276,5 +301,6 @@
     "@nrwl/angular:library": {
       "unitTestRunner": "jest"
     }
-  }
+  },
+  "defaultProject": "crm-ui"
 }
