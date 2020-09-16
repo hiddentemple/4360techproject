@@ -1,4 +1,6 @@
 import {EmployeeDTO} from "./employee.dto";
+import {PhoneDTO} from "./phone.dto";
+import {EmailDTO} from "./email.dto";
 
 
 export interface ContactDTO {
@@ -8,8 +10,8 @@ export interface ContactDTO {
   firstname: string;
   lastname: string;
 
-  personalPhone?: number;
-  personalEmail?: string;
+  emails?: EmailDTO[];
+  phones?: PhoneDTO[];
 
   jobs?: EmployeeDTO[];
 
