@@ -5,8 +5,17 @@ export interface CreateContactRequest {
   firstname: string;
   lastname: string;
 
-  personalPhone?: number;
-  personalEmail?: string
+  company?: string; // ID of company
+
+  emails?: [{
+    address: string;
+    type: string;
+  }];
+
+  phones?: [{
+    address: string;
+    type: string;
+  }];
 
 }
 
