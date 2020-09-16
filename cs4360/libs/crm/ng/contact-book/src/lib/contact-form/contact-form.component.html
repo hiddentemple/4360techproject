@@ -1,1 +1,11 @@
 <p>contact-form works!</p>
+<form class="contact-form" [formGroup]="contactForm">
+  <mat-form-field class="example-full-width">
+    <mat-label>First Name</mat-label>
+    <input matInput maxlength="256" placeholder="Ex. John...">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-label>Last Name</mat-label>
+    <input matInput maxlength="256" placeholder="Ex. John...">
+  </mat-form-field>
+</form>

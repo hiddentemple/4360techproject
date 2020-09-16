@@ -6,6 +6,9 @@ import { RouterModule } from '@angular/router';
 import { DevComponent } from './dev/dev.component';
 import {AppRoutingModule} from "./app-routing.module";
 import {ContactBookModule} from "@crm/ng/contact-book";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [AppComponent, DevComponent],
@@ -13,9 +16,10 @@ import {ContactBookModule} from "@crm/ng/contact-book";
     // Angular Modules
     BrowserModule,
     RouterModule,
-
+    BrowserAnimationsModule,
     // Core Modules
-
+    MatFormFieldModule,
+    MatInputModule,
     // Imported from Libs
     ContactBookModule,
 
