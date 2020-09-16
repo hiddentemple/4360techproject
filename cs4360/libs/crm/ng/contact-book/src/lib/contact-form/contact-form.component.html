@@ -1,11 +1,15 @@
 <p>contact-form works!</p>
-<form class="contact-form" [formGroup]="contactForm">
+<form class="contact-form" [formGroup]="nameForm" (ngSubmit)="onSubmit()">
   <mat-form-field class="example-full-width">
     <mat-label>First Name</mat-label>
-    <input matInput maxlength="256" placeholder="Ex. John...">
+    <input matInput maxlength="256" placeholder="Ex. John..." formControlName="firstName">
   </mat-form-field>
   <mat-form-field class="example-full-width">
     <mat-label>Last Name</mat-label>
-    <input matInput maxlength="256" placeholder="Ex. John...">
+    <input matInput maxlength="256" placeholder="Ex. John..." formControlName="lastName">
   </mat-form-field>
+  <button mat-button type="submit">Submit</button>
 </form>
+<p>
+  {{nameForm.value | json}}
+</p>
