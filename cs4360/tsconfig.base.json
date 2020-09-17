@@ -16,6 +16,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@crm/nest/entities": ["libs/crm/nest/dao/src/lib/entities/index.ts"],
       "@crm/ng/contact-book": ["libs/crm/ng/contact-book/src/index.ts"],
       "@crm/shared/contracts": ["libs/crm/shared/contracts/index.ts"],
       "@crm/shared/dto": ["libs/crm/shared/dto/index.ts"],

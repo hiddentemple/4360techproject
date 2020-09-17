@@ -2,30 +2,43 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  OneToMany,
+  OneToMany, ManyToOne,
 } from 'typeorm'
 
-import {EmployeeEntity} from "./employee.entity";
 
-@Entity("contacts")
+import {EmailEntity} from "./email.entity";
+import {PhoneEntity} from "./phone.entity";
+import {UserEntity} from "./user.entity";
+
+@Entity("contact")
 export class ContactEntity {
 
   @PrimaryGeneratedColumn('uuid')
   id: string
 
   @Column('varchar', { length: 50, nullable: false })
-  firstname: string;
+  firstName: string;
 
   @Column('varchar', { length: 50, nullable: false })
-  lastname: string;
+  lastName: string;
 
-  @Column('numeric', {  })
-  personalPhone?: number;
+  @Column('varchar', { length: 50, nullable: true})
+  company: string
 
-  @Column('varchar', { length: 50 })
-  personalEmail?: string;
+  @Column('varchar', {length: 250, nullable: true})
+  notes: string
 
-  @OneToMany(type => EmployeeEntity, employee => employee.contact)
-  jobs: EmployeeEntity[];
+  @OneToMany(type => EmailEntity, email => email.contact, {
+    cascade: true
+  })
+  emails?: EmailEntity[];
+
+  @OneToMany(type => PhoneEntity, phone => phone.contact, {
+    cascade: true
+  })
+  phones?: PhoneEntity[];
+
+
+
 
 }

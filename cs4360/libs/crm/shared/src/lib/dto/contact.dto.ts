@@ -1,4 +1,3 @@
-import {EmployeeDTO} from "./employee.dto";
 import {PhoneDTO} from "./phone.dto";
 import {EmailDTO} from "./email.dto";
 
@@ -12,7 +11,8 @@ export interface ContactDTO {
 
   emails?: EmailDTO[];
   phones?: PhoneDTO[];
+  company? : string
 
-  jobs?: EmployeeDTO[];
+  notes?: string;
 
 }

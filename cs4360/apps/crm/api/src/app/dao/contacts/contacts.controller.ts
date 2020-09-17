@@ -1,6 +1,6 @@
 import { Controller } from '@nestjs/common';
 import {Crud} from "@nestjsx/crud";
-import {ContactEntity} from "./contacts.entity";
+import { ContactEntity } from '@crm/nest/entities';
 import {ContactsService} from "./contacts.service";
 
 @Crud({
@@ -9,14 +9,14 @@ import {ContactsService} from "./contacts.service";
   },
   params: {
     id:{
-      field: "id",
-      type: "uuid",
+      field: 'id',
+      type: 'uuid',
       primary: true
     }
   }
 })
 
-@Controller('contacts')
+@Controller('contact')
 export class ContactsController {
   constructor(public service: ContactsService) {}
 }

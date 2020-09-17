@@ -3,37 +3,37 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {Connection} from "typeorm";
-import { ContactsModule } from './contacts/contacts.module';
-import { EmployeesModule } from './employees/employees.module';
-import { CompaniesModule } from './companies/companies.module';
-import { ContactEntity } from "./contacts/contacts.entity";
-import { EmployeeEntity } from "./employees/employees.entity";
-import { CompanyEntity } from "./companies/companies.entity";
+import { ContactsModule } from './dao/contacts/contacts.module';
+import {ContactEntity, EmailEntity, PhoneEntity, UserEntity, UserTypeEntity} from "@crm/nest/entities";
+import {UserModule} from "./dao/user/user.module";
+
+
 
 @Module({
   imports: [TypeOrmModule.forRoot({
-    "type": "postgres",
-    "host": "db-4360-techproject-do-user-7683203-0.b.db.ondigitalocean.com",
-    "port": 25060,
-    "username": "4360user",
-    "password": "ogedeqbnk5m7i4pj",
-    "database": "crmDB",
-    "entities": [ ContactEntity, CompanyEntity, EmployeeEntity ],
-    "ssl": true,
-    "extra": {
-      "ssl": {
-        "rejectUnauthorized": false
+    type: "postgres",
+    host: "db-4360-techproject-do-user-7683203-0.b.db.ondigitalocean.com",
+    port: 25060,
+    username: "4360user",
+    password: "ogedeqbnk5m7i4pj",
+    database: "crmDB",
+    entities: [ ContactEntity, EmailEntity, PhoneEntity, UserEntity, UserTypeEntity ],
+    ssl: true,
+    extra: {
+      ssl: {
+        rejectUnauthorized: false
       }
     },
-    "synchronize": true,
-    "logging": true
+     synchronize: true,
+     logging: true,
+     autoLoadEntities: true
   }),
     ContactsModule,
-    EmployeesModule,
-    CompaniesModule
+    UserModule
   ],
   controllers: [AppController],
   providers: [AppService],
+
 })
 export class AppModule {
   constructor(private connection: Connection) {
