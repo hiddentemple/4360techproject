@@ -15,7 +15,7 @@
 
 
   <h3>Emails</h3>
-    <button (click)="addEmail()" type="button">Add Email</button>
+    <button (click)="addEmailInput()" type="button">Add Email</button>
 
   <div formArrayName="emails">
       <div *ngFor="let email of getEmailFormArray().controls; let i=index">
