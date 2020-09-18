@@ -19,10 +19,11 @@ import {CreateUserRequest, CreateUserResponse} from "@crm/shared";
   query: {
     join: {
       userType: {
-        eager: true
+        eager: true, // deep copy down
       },
       contact: {
-        allow: ['id']
+        eager: true,
+        allow: ['id', 'firstName', 'lastName']
       }
     },
     exclude: ['passwordHash']
