@@ -9,9 +9,10 @@ import {
 import {EmailEntity} from "./email.entity";
 import {PhoneEntity} from "./phone.entity";
 import {UserEntity} from "./user.entity";
+import {ContactDTO} from "@crm/shared";
 
 @Entity("contacts")
-export class ContactEntity {
+export class ContactEntity implements ContactDTO {
 
   @PrimaryGeneratedColumn('uuid')
   id: string
