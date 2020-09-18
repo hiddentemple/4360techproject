@@ -1,4 +1,4 @@
-import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {EmailDTO} from "@crm/shared";
 import {ContactEntity} from "./contact.entity";
 
@@ -18,5 +18,6 @@ export class EmailEntity implements EmailDTO{
   @ManyToOne(type => ContactEntity, contact => contact.emails, {
     onDelete: "CASCADE"
   })
+  @JoinColumn()
   contact: ContactEntity
 }

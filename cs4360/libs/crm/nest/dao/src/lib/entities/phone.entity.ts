@@ -1,4 +1,4 @@
-import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {PhoneDTO} from "@crm/shared";
 import {ContactEntity} from "./contact.entity";
 
@@ -17,5 +17,6 @@ export class PhoneEntity implements PhoneDTO{
   @ManyToOne(type => ContactEntity, contact => contact.phones, {
     onDelete: "CASCADE"
   })
+  @JoinColumn()
   contact: ContactEntity
 }

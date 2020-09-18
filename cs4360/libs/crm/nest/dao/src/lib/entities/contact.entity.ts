@@ -29,16 +29,14 @@ export class ContactEntity implements ContactDTO {
   @Column('varchar', {length: 250, nullable: true})
   notes?: string
 
-  @ManyToMany(type => EmailEntity, email => email.contact, {
+  @OneToMany(type => EmailEntity, email => email.contact, {
     cascade: true
   })
-  @JoinTable()
   emails?: EmailEntity[];
 
-  @ManyToMany(type => PhoneEntity, phone => phone.contact, {
+  @OneToMany(type => PhoneEntity, phone => phone.contact, {
     cascade: true
   })
-  @JoinTable()
   phones?: PhoneEntity[];
 
 
