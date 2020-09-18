@@ -1,7 +1,7 @@
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
-import {UserTypeDTO} from "@crm/crm/shared";
+import {UserTypeDTO} from "@crm/shared";
 
-@Entity('userType')
+@Entity('user_types')
 export class UserTypeEntity implements UserTypeDTO{
 
   @PrimaryGeneratedColumn('uuid')

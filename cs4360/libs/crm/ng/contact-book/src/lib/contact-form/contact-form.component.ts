@@ -1,7 +1,7 @@
 import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
 import {Form, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {CreateContactRequest} from "../../../../../shared/src/lib/contracts/contact";
-import {ContactDTO, EmailDTO, PhoneDTO} from "@crm/crm/shared";
+import {ContactDTO, EmailDTO, PhoneDTO} from "@crm/shared";
 
 @Component({
   selector: 'crm-ui-contact-form',

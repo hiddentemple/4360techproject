@@ -26,7 +26,8 @@
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
-    "serve:ui": "nx serve crm-ui"
+    "serve:ui": "nx serve crm-ui",
+    "serve:api": "nx serve crm-api"
   },
   "private": true,
   "dependencies": {

@@ -1,8 +1,8 @@
 import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
-import {PhoneDTO} from "@crm/crm/shared";
+import {PhoneDTO} from "@crm/shared";
 import {ContactEntity} from "./contact.entity";
 
-@Entity('phone')
+@Entity('phones')
 export class PhoneEntity implements PhoneDTO{
 
   @PrimaryGeneratedColumn('uuid')

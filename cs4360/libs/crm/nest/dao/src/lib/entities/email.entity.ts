@@ -1,9 +1,9 @@
 import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
-import {EmailDTO} from "@crm/crm/shared";
+import {EmailDTO} from "@crm/shared";
 import {ContactEntity} from "./contact.entity";
 
 
-@Entity('email')
+@Entity('emails')
 export class EmailEntity implements EmailDTO{
 
   @PrimaryGeneratedColumn('uuid')

@@ -1,3 +1,4 @@
+import {ContactDTO} from "./contact.dto";
 
 
 export interface PhoneDTO {
@@ -5,5 +6,7 @@ export interface PhoneDTO {
 
   number: number;
   type?: string;
+
+  contact: ContactDTO;
 
 }

@@ -2,7 +2,7 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  OneToMany, ManyToOne,
+  OneToMany, ManyToOne, JoinTable, ManyToMany,
 } from 'typeorm'
 
 
@@ -10,7 +10,7 @@ import {EmailEntity} from "./email.entity";
 import {PhoneEntity} from "./phone.entity";
 import {UserEntity} from "./user.entity";
 
-@Entity("contact")
+@Entity("contacts")
 export class ContactEntity {
 
   @PrimaryGeneratedColumn('uuid')
@@ -23,19 +23,21 @@ export class ContactEntity {
   lastName: string;
 
   @Column('varchar', { length: 50, nullable: true})
-  company: string
+  company?: string
 
   @Column('varchar', {length: 250, nullable: true})
-  notes: string
+  notes?: string
 
-  @OneToMany(type => EmailEntity, email => email.contact, {
+  @ManyToMany(type => EmailEntity, email => email.contact, {
     cascade: true
   })
+  @JoinTable()
   emails?: EmailEntity[];
 
-  @OneToMany(type => PhoneEntity, phone => phone.contact, {
+  @ManyToMany(type => PhoneEntity, phone => phone.contact, {
     cascade: true
   })
+  @JoinTable()
   phones?: PhoneEntity[];
 
 

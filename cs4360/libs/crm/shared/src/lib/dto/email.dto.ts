@@ -1,7 +1,13 @@
+import {IsEmail} from "class-validator";
+import {ContactDTO} from "./contact.dto";
 
-export interface EmailDTO {
+export class EmailDTO {
+
   id: string;
 
+  @IsEmail()
   address: string;
   type?: string;
+
+  contact: ContactDTO;
 }
