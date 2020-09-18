@@ -1,7 +1,7 @@
 import {UserTypeDTO} from "./user-type.dto";
 import {ContactDTO} from "@crm/shared";
 
-export interface UserDTO{
+export interface UserDTO {
   id: string
 
   email: string;

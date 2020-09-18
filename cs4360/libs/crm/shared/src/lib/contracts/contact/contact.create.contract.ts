@@ -1,21 +1,17 @@
+import {EmailDTO, PhoneDTO} from "@crm/shared";
 
 
 export interface CreateContactRequest {
 
-  firstname: string;
-  lastname: string;
+  // Properties
+  firstName: string;
+  lastName: string;
+  company? : string
+  notes?: string;
 
-  company?: string; // ID of company
-
-  emails?: [{
-    address: string;
-    type: string;
-  }];
-
-  phones?: [{
-    address: string;
-    type: string;
-  }];
+  // Relations
+  emails?: EmailDTO[];
+  phones?: PhoneDTO[];
 
 }
 

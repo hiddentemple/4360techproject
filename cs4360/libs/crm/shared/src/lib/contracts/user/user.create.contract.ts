@@ -1,12 +1,9 @@
-import {ContactDTO, UserDTO, UserTypeDTO} from "@crm/shared";
+import {ContactDTO, UserTypeDTO} from "@crm/shared";
 
-
-// tslint:disable-next-line:no-empty-interface
-export class CreateUserRequest implements UserDTO {
+export class CreateUserRequest {
   contact: ContactDTO;
   email: string;
-  id: string;
-  passwordHash: string;
+  password: string;
   userType: UserTypeDTO;
 }
 

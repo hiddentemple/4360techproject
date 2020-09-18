@@ -4,7 +4,7 @@ import {UserTypeEntity} from "./user-type.entity";
 import {ContactEntity} from "./contact.entity";
 
 @Entity('users')
-export class UserEntity implements UserDTO{
+export class UserEntity implements UserDTO {
 
   @PrimaryGeneratedColumn('uuid')
   id: string
