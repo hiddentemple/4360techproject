@@ -2,31 +2,44 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  OneToMany,
-  ManyToMany
+  OneToMany, ManyToOne, JoinTable, ManyToMany,
 } from 'typeorm'
-import {CompanyEntity} from "./company.entity";
-import {EmployeeEntity} from "./employee.entity";
+
+
+import {EmailEntity} from "./email.entity";
+import {PhoneEntity} from "./phone.entity";
+import {UserEntity} from "./user.entity";
+import {ContactDTO} from "@crm/shared";
 
 @Entity("contacts")
-export class ContactEntity {
+export class ContactEntity implements ContactDTO {
 
   @PrimaryGeneratedColumn('uuid')
   id: string
 
   @Column('varchar', { length: 50, nullable: false })
-  firstname: string;
+  firstName: string;
 
   @Column('varchar', { length: 50, nullable: false })
-  lastname: string;
+  lastName: string;
 
-  @Column('numeric', { min: 10 })
-  personalPhone?: number;
+  @Column('varchar', { length: 50, nullable: true})
+  company?: string
 
-  @Column('varchar', { length: 50 })
-  personalEmail?: string;
+  @Column('varchar', {length: 250, nullable: true})
+  notes?: string
 
-  @OneToMany(type => EmployeeEntity, employee => employee.contact)
-  jobs: EmployeeEntity[];
+  @OneToMany(type => EmailEntity, email => email.contact, {
+    cascade: true
+  })
+  emails?: EmailEntity[];
+
+  @OneToMany(type => PhoneEntity, phone => phone.contact, {
+    cascade: true
+  })
+  phones?: PhoneEntity[];
+
+
+
 
 }

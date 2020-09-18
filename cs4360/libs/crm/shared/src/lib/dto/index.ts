@@ -1,5 +1,3 @@
-export * from './company.dto'
 export * from './contact.dto'
-export * from './employee.dto'
-export * from './email.dto'
-export * from './phone.dto'
+export * from './user.dto'
+export * from './user-type.dto'

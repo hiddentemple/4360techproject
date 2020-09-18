@@ -1,1 +1,64 @@
 <p>contact-form works!</p>
+<form class="contact-form" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+
+  <h3>Name</h3>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>First Name</mat-label>
+    <input matInput maxlength="256" placeholder="Ex. John" formControlName="firstName">
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>Last Name</mat-label>
+    <input matInput maxlength="256" placeholder="Ex. Doe" formControlName="lastName">
+  </mat-form-field>
+
+
+  <h3>Emails</h3>
+    <button (click)="addEmailInput()" type="button">Add Email</button>
+
+  <div formArrayName="emails">
+      <div *ngFor="let email of getEmailFormArray().controls; let i=index">
+        <!-- address header, show remove button when more than one address available -->
+        <div>
+          <span>Email {{i + 1}}</span>
+          <button (click)="removeEmail(i)" type="button">Remove</button>
+        </div>
+
+        <!-- Angular assigns array index as group name by default 0, 1, 2, ... -->
+        <div [formGroupName]="i">
+          <mat-form-field>
+            <mat-label>address</mat-label>
+            <input matInput type="text" formControlName="address">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+  <h3>Phone</h3>
+  <button (click)="addPhoneInput()" type="button">Add Phone #</button>
+
+  <div formArrayName="Phone">
+    <div *ngFor="let phone of getPhoneFormArray().controls; let i=index">
+      <!-- address header, show remove button when more than one address available -->
+      <div>
+        <span>Phone {{i + 1}}</span>
+        <button (click)="removePhone(i)" type="button">Remove</button>
+      </div>
+
+      <!-- Angular assigns array index as group name by default 0, 1, 2, ... -->
+      <div [formGroupName]="i">
+        <mat-form-field>
+          <mat-label>Phone Number</mat-label>
+          <input matInput type="text" formControlName="address">
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+
+  <button mat-button [disabled]="!contactForm.valid" type="submit">Submit</button>
+</form>
+<p>
+  {{contactForm.value | json}}
+</p>
