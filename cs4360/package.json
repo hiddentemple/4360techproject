@@ -27,7 +27,7 @@
     "dep-graph": "nx dep-graph",
     "help": "nx help",
     "serve:ui": "nx serve crm-ui",
-    "serve:api": "nx serve crm-api"
+    "serve:api": "nx serve crm-api -- --watch"
   },
   "private": true,
   "dependencies": {
