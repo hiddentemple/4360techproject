@@ -1,0 +1,77 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import {ContactFormComponent, PhoneRegex, PhoneValidator} from './contact-form.component';
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {CommonModule} from "@angular/common";
+import {MatButtonModule} from "@angular/material/button";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+
+describe('Phone Validator', () => {
+  const regex = PhoneRegex;
+
+  it('should return no errors with valid phone number', () => {
+    // Given
+    const testStr: string = "3039876545";
+
+    // When
+    const result = testStr.match(regex)
+
+    //Then
+    expect(result).toBeDefined();
+  })
+
+  it('should return an error if the input is not a number', () => {
+    // Given
+    const testStr: string = "bob";
+
+    // When
+    const result = testStr.match(regex)
+
+    //Then
+    expect(result).toBeNull();
+  })
+  //
+  // it('should return an error if the input is a number, but is not long enough', () => {
+  //   const result = validator.apply('123')
+  //   console.log(result) // For debugging, remove when complete
+  //   // TODO
+  // })
+  //
+  // it('should return an error if the input is a number, but it is too long', () => {
+  //   const result = validator.apply('30345635320242')
+  //   console.log(result) // For debugging, remove when complete
+  //   // TODO
+  // })
+})
+
+describe('ContactFormComponent', () => {
+  let component: ContactFormComponent;
+  let fixture: ComponentFixture<ContactFormComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ ContactFormComponent ],
+      imports: [
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        CommonModule,
+        BrowserAnimationsModule,
+        MatButtonModule
+      ],
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ContactFormComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
