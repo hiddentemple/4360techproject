@@ -151,7 +151,8 @@
             "tsConfig": "apps/crm/api/tsconfig.app.json",
             "assets": [
               "apps/crm/api/src/assets"
-            ]
+            ],
+            "scripts": ["apps/crm/api/db/migrations"]
           },
           "configurations": {
             "production": {

@@ -1,0 +1,23 @@
+{
+  "type": "postgres",
+  "host": "db-4360-techproject-do-user-7683203-0.b.db.ondigitalocean.com",
+  "port": 25060,
+  "username": "4360user",
+  "password": "ogedeqbnk5m7i4pj",
+  "database": "crmDB",
+  "ssl": true,
+  "entities": ["dist/**/*.entity{.js}"],
+  "keepCollectionAlive": true,
+  "extra": {
+    "ssl": {
+      "rejectUnauthorized": false
+    }
+  },
+  "synchronize": true,
+  "logging": true,
+  "migrations": ["dist/apps/crm/api/main.js"],
+  "cli": {
+    "migrationsDir": "apps/crm/api/src/app/migration"
+  }
+}
+
