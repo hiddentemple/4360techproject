@@ -6,7 +6,7 @@
   "password": "ogedeqbnk5m7i4pj",
   "database": "crmDB",
   "ssl": true,
-  "entities": ["dist/**/*.entity{.js}"],
+  "entities": ["dist/**/*.entity{.js, .ts}"],
   "extra": {
     "ssl": {
       "rejectUnauthorized": false
