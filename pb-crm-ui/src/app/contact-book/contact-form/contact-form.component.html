@@ -14,13 +14,15 @@
   </mat-form-field>
 
 
-  <h3>Emails</h3>
+  <h3>Emails
+    <button (click)="addEmailInput()" type="button">Add Email</button>
+  </h3>
+
 
   <div formArrayName="emails">
       <div *ngFor="let email of getEmailFormArray().controls; let i=index">
         <div>
           <span>Email {{i + 1}}</span>
-          <button (click)="addEmailInput()" type="button">Add Email</button>
           <button (click)="removeEmailInput(i)">Remove</button>
         </div>
 
@@ -38,13 +40,14 @@
       </div>
     </div>
 
-  <h3>Phone</h3>
+  <h3>Phone
+      <button (click)="addPhoneInput()" type="button">Add</button>
+  </h3>
 
   <div formArrayName="phones">
     <div *ngFor="let phone of getPhoneFormArray().controls; let i=index">
       <div>
         <span>Phone {{i + 1}}</span>
-        <button (click)="addPhoneInput()" type="button">Add Phone</button>
         <button (click)="removePhoneInput(i)" type="button">Remove</button>
       </div>
 

@@ -127,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "pb-crm-ui"
+  "defaultProject": "pb-crm-ui",
+  "cli": {
+    "analytics": false
+  }
 }

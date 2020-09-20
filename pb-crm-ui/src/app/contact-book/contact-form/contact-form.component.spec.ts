@@ -13,37 +13,47 @@ describe('Phone Validator', () => {
 
   it('should return no errors with valid phone number', () => {
     // Given
-    const testStr: string = "3039876545";
+    const testStr: string = '3039876545';
 
     // When
-    const result = testStr.match(regex)
+    const result = testStr.match(regex);
 
-    //Then
+    // Then
     expect(result).toBeDefined();
   })
 
   it('should return an error if the input is not a number', () => {
     // Given
-    const testStr: string = "bob";
+    const testStr: string = 'bob';
 
     // When
-    const result = testStr.match(regex)
+    const result = testStr.match(regex);
 
-    //Then
+    // Then
     expect(result).toBeNull();
   })
-  //
-  // it('should return an error if the input is a number, but is not long enough', () => {
-  //   const result = validator.apply('123')
-  //   console.log(result) // For debugging, remove when complete
-  //   // TODO
-  // })
-  //
-  // it('should return an error if the input is a number, but it is too long', () => {
-  //   const result = validator.apply('30345635320242')
-  //   console.log(result) // For debugging, remove when complete
-  //   // TODO
-  // })
+
+  it('should return an error if the input is a number, but is not long enough', () => {
+    // Given
+    const testStr: string = '123';
+
+    // When
+    const result = testStr.match(regex);
+
+    // Then
+    expect(result).toBeNull();
+  })
+
+  it('should return an error if the input is a number, but it is too long', () => {
+    // Given
+    const testStr: string = '12312312341';
+
+    // When
+    const result = testStr.match(regex);
+
+    // Then
+    expect(result).toBeNull();
+  })
 })
 
 describe('ContactFormComponent', () => {
