@@ -8,6 +8,7 @@ import {PhoneEntity} from "./entities/phone.entity";
 import {UserEntity} from "./entities/user.entity";
 import {UserTypeEntity} from "./entities/user-type.entity";
 import {ContactModule} from "./contact/contact.module";
+import { UsersModule } from './users/users.module';
 
 @Module({
     imports: [
@@ -15,6 +16,7 @@ import {ContactModule} from "./contact/contact.module";
         // Feature Modules
         ContactModule,
         AuthnModule,
+        UsersModule
     ],
     controllers: [],
     providers: [],
