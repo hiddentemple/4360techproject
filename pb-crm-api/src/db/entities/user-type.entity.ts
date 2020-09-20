@@ -1,5 +1,5 @@
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
-import {UserTypeModel} from "../../../api-interfaces/contact-book/user/model/user-type.model";
+import {UserTypeModel} from "../../api-interfaces/user/model/user-type.model";
 
 @Entity('user_types')
 export class UserTypeEntity implements UserTypeModel {

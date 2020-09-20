@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import {Crud, CrudAuth, CrudController} from "@nestjsx/crud";
 import {ContactsService} from "./contacts.service";
-import {ContactEntity} from "../entities/contact.entity";
+import {ContactEntity} from "../db/entities/contact.entity";
 
 @Crud({
   model: {

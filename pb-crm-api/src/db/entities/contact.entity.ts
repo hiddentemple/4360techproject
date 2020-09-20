@@ -1,7 +1,7 @@
 import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {EmailEntity} from "./email.entity";
 import {PhoneEntity} from "./phone.entity";
-import {ContactModel} from "../../../api-interfaces/contact-book/contact/models/contact.model";
+import {ContactModel} from "../../api-interfaces/contact/models/contact.model";
 
 @Entity("contacts")
 export class ContactEntity implements ContactModel {

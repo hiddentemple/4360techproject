@@ -1,7 +1,7 @@
 import {Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {UserTypeEntity} from "./user-type.entity";
 import {ContactEntity} from "./contact.entity";
-import {UserModel} from "../../../api-interfaces/contact-book/user/model/user.model";
+import {UserModel} from "../../api-interfaces/user/model/user.model";
 
 @Entity('users')
 export class UserEntity implements UserModel {

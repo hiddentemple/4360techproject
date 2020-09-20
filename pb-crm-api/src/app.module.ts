@@ -2,13 +2,13 @@ import {Module} from '@nestjs/common';
 import {AuthnModule} from './authn/authn.module';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {ContactsController} from "./contact/contacts.controller";
-import {ContactEntity} from "./entities/contact.entity";
-import {EmailEntity} from "./entities/email.entity";
-import {PhoneEntity} from "./entities/phone.entity";
-import {UserEntity} from "./entities/user.entity";
-import {UserTypeEntity} from "./entities/user-type.entity";
+import {ContactEntity} from "./db/entities/contact.entity";
+import {EmailEntity} from "./db/entities/email.entity";
+import {PhoneEntity} from "./db/entities/phone.entity";
+import {UserEntity} from "./db/entities/user.entity";
+import {UserTypeEntity} from "./db/entities/user-type.entity";
 import {ContactModule} from "./contact/contact.module";
-import { UsersModule } from './users/users.module';
+import { UsersModule } from './authn/users/users.module';
 
 @Module({
     imports: [
