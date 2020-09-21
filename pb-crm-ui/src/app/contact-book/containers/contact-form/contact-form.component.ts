@@ -1,6 +1,6 @@
 import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
 import {Form, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ContactModel} from '../../api/api-interfaces/contact/models/contact.model';
+import {ContactModel} from '../../../api/api-interfaces/contact/models/contact.model';
 
 export const PhoneRegex = /[0-9]{10}/;
 export const PhoneValidator = Validators.pattern(PhoneRegex); // TODO validate length and numeric
@@ -14,6 +14,8 @@ export class ContactFormComponent implements OnInit {
   contactForm: FormGroup;
 
   @Input() set contact(contact: ContactModel) {
+    if (!contact) { return; }
+
     console.log('Setting contact to', contact);
 
     this.contactForm.controls.firstName.setValue(contact.firstName);
@@ -30,7 +32,7 @@ export class ContactFormComponent implements OnInit {
     this.contactForm.controls.phones = this.fb.array(phoneControls);
   }
 
-  @Output() submit = new EventEmitter<ContactModel>();
+  @Output() submitContact = new EventEmitter<ContactModel>();
 
   constructor(private fb: FormBuilder) {
     this.contactForm = new FormGroup({
@@ -88,7 +90,7 @@ export class ContactFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.contactForm.valid) {
-      this.submit.emit(this.contactForm.value);
+      this.submitContact.emit(this.contactForm.value as ContactModel);
     } else {
       console.error('Try to submit when form is invalid.', this.contactForm);
     }

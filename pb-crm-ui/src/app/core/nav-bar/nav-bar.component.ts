@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ContactBookRoutes} from "../../contact-book/contact-book-routing.module";
 
 @Component({
   selector: 'app-nav-bar',
@@ -20,7 +21,7 @@ import { Component, OnInit } from '@angular/core';
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="#">Contacts</a>
+            <a class="nav-link" routerLink="{{contactHomeRoute}}" routerLinkActive="active">Contacts</a>
           </li>
         </ul>
       </div>
@@ -32,11 +33,6 @@ import { Component, OnInit } from '@angular/core';
     }`
   ]
 })
-export class NavBarComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+export class NavBarComponent  {
+  get contactHomeRoute() { return ContactBookRoutes.home; }
 }

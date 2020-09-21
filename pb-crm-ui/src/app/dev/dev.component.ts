@@ -6,10 +6,10 @@ import {ContactModel} from "../api/api-interfaces/contact/models/contact.model";
   template: `
     <div class="container">
       <h1>Add Form</h1>
-      <app-contact-form (submit)="onSubmit($event)"></app-contact-form>
+      <app-contact-form (submitContact)="onSubmit($event)"></app-contact-form>
 
       <h1>Update Form</h1>
-      <app-contact-form [contact]="mockContact" (submit)="onSubmit($event)"></app-contact-form>
+      <app-contact-form [contact]="mockContact" (submitContact)="onSubmit($event)"></app-contact-form>
     </div>
 
   `
