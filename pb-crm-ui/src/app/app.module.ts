@@ -7,10 +7,11 @@ import {ContactBookModule} from './contact-book/contact-book.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {ApiModule} from './api/api.module';
-import {CoreModule} from "./core/core.module";
+import {CoreModule} from './core/core.module';
+import {DevComponent} from './dev/dev.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, DevComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

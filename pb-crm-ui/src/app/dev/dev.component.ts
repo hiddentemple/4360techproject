@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ContactModel} from '../../../../api-interfaces/contact-book/contact/models/contact.model';
+import {ContactModel} from "../api/api-interfaces/contact/models/contact.model";
 
 @Component({
   selector: 'app-dev',
