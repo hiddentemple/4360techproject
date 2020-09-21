@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {DevComponent} from "./dev/dev.component";
+import {DevComponent} from './core/dev/dev.component';
 
 const routes: Routes = [
   { path: 'dev', component: DevComponent }
