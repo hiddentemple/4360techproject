@@ -19,10 +19,21 @@ export class ContactService {
     // TODO - Error handling
   }
 
+  getContact(id: string): Observable<ContactModel>{
+    return this.http.get<ContactModel>('/api/contacts/' + id);
+    // TODO - Error handling
+  }
+
   createContact(contact: ContactModel): Observable<CreateContactResponse> {
     return this.http.post<CreateContactResponse>('/api/contacts', contact, {});
     // TODO - Error handling
   }
+
+
+  createContacts(contacts: ContactModel[]): Observable<CreateContactResponse>{
+    return this.http.post<CreateContactResponse>('/api/contacts/bulk', contacts, {});
+  }
+
 
   updateContact(contact: ContactModel, id: string): Observable<UpdateContactResponse> {
     const url = '/api/contacts/' + id;
