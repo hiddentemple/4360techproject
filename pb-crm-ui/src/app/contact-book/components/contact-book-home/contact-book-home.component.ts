@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {ContactService} from '../../contact.service';
-import {MatDialog} from '@angular/material/dialog';
-import {CreateContactDialogComponent} from '../../containers/create-contact-dialog/create-contact-dialog.component';
-import {ContactModel} from '../../../api/api-interfaces/contact/models/contact.model';
+import { ContactService } from '../../contact.service';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateContactDialogComponent } from '../../containers/create-contact-dialog/create-contact-dialog.component';
+import { ContactModel } from '../../../api/api-interfaces/contact/models/contact.model';
 
 @Component({
   selector: 'app-contact-book-home',
@@ -14,31 +14,31 @@ import {ContactModel} from '../../../api/api-interfaces/contact/models/contact.m
         <span><app-create-contact-button (add)="addContact()"></app-create-contact-button></span>
       </div>
 
-      <hr class="mt-0"/>
+      <hr class="mt-0" />
 
       <app-contact-table [contacts]="contacts"></app-contact-table>
     </div>
   `,
   styles: [
-    `
+      `
       .add-contact {
         margin: auto;
       }
     `,
-    `
+      `
       .add-spacer {
         flex: 1 1 auto;
       }
-    `
-  ]
+    `,
+  ],
 })
 export class ContactBookHomeComponent implements OnInit {
   contacts: ContactModel[] = [];
 
   constructor(
     private contactService: ContactService,
-    private dialog: MatDialog
-  ) { }
+    private dialog: MatDialog,
+  ) {}
 
   ngOnInit() {
     this.contactService.getContacts().subscribe(contacts => this.contacts = contacts);
@@ -49,7 +49,11 @@ export class ContactBookHomeComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((newContact: ContactModel) => {
       console.log('Create contact dialog closed. Data:', newContact);
-      if (newContact) { this.contactService.createContact(newContact); }
+      if (newContact) {
+        this.contactService.createContact(newContact)
+          .subscribe(contact => this.contacts.push(contact));
+      }
+      console.log(this.contacts);
     });
   }
 }
