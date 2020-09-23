@@ -1,5 +1,5 @@
-import {EmailModel} from "./email.model";
-import {PhoneModel} from "./phone.model";
+import {EmailModel} from './email.model';
+import {PhoneModel} from './phone.model';
 
 export interface ContactModel {
 
@@ -7,7 +7,7 @@ export interface ContactModel {
 
     firstName?: string;
     lastName?: string;
-    company? : string
+    company?: string;
     notes?: string;
 
     emails?: EmailModel[];
