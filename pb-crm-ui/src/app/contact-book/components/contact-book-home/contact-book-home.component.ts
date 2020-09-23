@@ -11,7 +11,7 @@ import {ContactModel} from "../../../api/api-interfaces/contact/models/contact.m
       <div class="row mt-2">
         <span><h1 class="">Contact Book</h1></span>
         <span class="add-spacer"></span>
-        <span><app-create-contact-button (add)="addContact()"></app-create-contact-button></span>
+        <span><app-create-contact-button (click)="addContact()"></app-create-contact-button></span>
       </div>
 
       <hr class="mt-0"/>

@@ -19,6 +19,9 @@ import { ContactTableComponent } from './containers/contact-table/contact-table.
 import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import { ContactDetailComponent } from './components/contact-detail/contact-detail.component';
+import { ContactDetailPageComponent } from './components/contact-detail-page/contact-detail-page.component';
+import {ContactDetailComponent} from "./containers/contact-detail/contact-detail.component";
 
 
 @NgModule({
@@ -30,9 +33,13 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     ContactSearchComponent,
     CreateContactDialogComponent,
     ContactTableComponent,
+    ContactDetailComponent,
+    ContactDetailPageComponent,
+    ContactDetailComponent,
   ],
   exports: [
-    ContactFormComponent
+    ContactFormComponent,
+    ContactDetailComponent
   ],
   imports: [
     CommonModule,
