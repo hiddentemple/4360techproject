@@ -64,6 +64,27 @@
     </div>
   </div>
 
+  <h3>Company
+    <button (click)="addCompanyInput()" type="button">Add</button>
+  </h3>
+
+  <div formArrayName="companies">
+    <div *ngFor="let company of getCompanyFormArray().controls; let i=index">
+      <div>
+        <span>Company {{i + 1}}</span>
+        <button (click)="removeCompanyInput(i)" type="button">Remove</button>
+      </div>
+
+      <!-- Angular assigns array index as group name by default 0, 1, 2, ... -->
+      <div [formGroupName]="i">
+        <mat-form-field>
+          <mat-label>Company Name</mat-label>
+          <input matInput type="text" placeholder="Ex. Juan in a Million"formControlName="number">
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
   <button mat-button [disabled]="!contactForm.valid" type="submit">Submit</button>
 </form>
 <!--<p>-->

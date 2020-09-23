@@ -30,6 +30,11 @@ export class ContactFormComponent implements OnInit {
       email => this.initPhone(String(email.number), email.type)
     );
     this.contactForm.controls.phones = this.fb.array(phoneControls);
+
+    const companyControls: FormGroup[] = Object.values(contact.company).map(
+      company => this.initCompany(String(company))
+    );
+    this.contactForm.controls.companys = this.fb.array(companyControls);
   }
 
   @Output() submitContact = new EventEmitter<ContactModel>();
@@ -39,7 +44,8 @@ export class ContactFormComponent implements OnInit {
       firstName: new FormControl('', [Validators.required, Validators.maxLength(25)]),
       lastName: new FormControl('', [Validators.required, Validators.maxLength(25)]),
       emails: this.fb.array([this.initEmail()]),
-      phones: this.fb.array([this.initPhone()])
+      phones: this.fb.array([this.initPhone()]),
+      companys: this.fb.array([this.initCompany()])
     });
   }
 
@@ -52,6 +58,10 @@ export class ContactFormComponent implements OnInit {
 
   getPhoneFormArray(): FormArray {
     return this.contactForm.controls.phones as FormArray;
+  }
+
+  getCompanyFormArray(): FormArray {
+    return this.contactForm.controls.companys as FormArray;
   }
 
   initEmail(address: string = '', type: string = ''): FormGroup {
@@ -68,6 +78,12 @@ export class ContactFormComponent implements OnInit {
     });
   }
 
+  initCompany(name: string = ''): FormGroup {
+    return this.fb.group({
+      name: [name]
+    });
+  }
+
   addEmailInput(): void {
     const control: FormArray = this.getEmailFormArray();
     control.push(this.initEmail());
@@ -78,6 +94,11 @@ export class ContactFormComponent implements OnInit {
     control.push(this.initPhone());
   }
 
+  addCompanyInput(): void {
+    const control: FormArray = this.getCompanyFormArray();
+    control.push(this.initCompany());
+  }
+
   removeEmailInput(i: number): void {
     const control: FormArray = this.getEmailFormArray();
     control.removeAt(i);
@@ -85,6 +106,11 @@ export class ContactFormComponent implements OnInit {
 
   removePhoneInput(i: number): void {
     const control: FormArray = this.getPhoneFormArray();
+    control.removeAt(i);
+  }
+
+  removeCompanyInput(i: number): void {
+    const control: FormArray = this.getCompanyFormArray();
     control.removeAt(i);
   }
 

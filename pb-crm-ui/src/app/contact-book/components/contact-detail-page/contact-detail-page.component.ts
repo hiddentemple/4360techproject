@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {ContactModel} from "../../../api/api-interfaces/contact/models/contact.model";
+import {ActivatedRoute, Router} from '@angular/router';
+import {ContactModel} from '../../../api/api-interfaces/contact/models/contact.model';
 
 @Component({
   selector: 'app-contact-detail-page',
@@ -18,7 +18,7 @@ export class ContactDetailPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(map => this.contact map.id)
+    this.route.paramMap.subscribe(map => this.contact);
   }
 
 }
