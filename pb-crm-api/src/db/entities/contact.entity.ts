@@ -24,7 +24,7 @@ export class ContactEntity implements ContactModel {
     @OneToMany(type => EmailEntity, email => email.contact, {
         cascade: true
     })
-    emails: EmailEntity[];
+    emails?: EmailEntity[];
 
     @OneToMany(type => PhoneEntity, phone => phone.contact, {
         cascade: true

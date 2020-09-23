@@ -1,11 +1,12 @@
 import {EmailEntity} from "../entities/email.entity";
 import {define} from "typeorm-seeding";
 
-const EmailTypes = ['Personal', 'Work', 'Private', '', '', '']
+// An empty type is just as likely as a filled one
+const MockEmailTypes = ['Personal', 'Work', 'Private', '', '', '']
 
-define(EmailEntity, (faker: typeof Faker) => {
-    const address = faker.internet.email();
-
-    const tpye
-
+define(EmailEntity, faker => {
+    const email = new EmailEntity();
+    email.address = faker.internet.email();
+    email.type = faker.random.arrayElement(MockEmailTypes)
+    return email
 })
