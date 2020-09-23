@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {ApiModule} from './api/api.module';
 import {CoreModule} from './core/core.module';
 import {DevComponent} from './dev/dev.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent, DevComponent],
@@ -16,6 +17,7 @@ import {DevComponent} from './dev/dev.component';
     BrowserModule,
     BrowserAnimationsModule,
     NgbModule,
+    HttpClientModule,
 
     ContactBookModule,
     ApiModule,

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {ContactService} from "../../contact.service";
-import {MatDialog} from "@angular/material/dialog";
-import {CreateContactDialogComponent} from "../../containers/create-contact-dialog/create-contact-dialog.component";
-import {ContactModel} from "../../../api/api-interfaces/contact/models/contact.model";
+import {ContactService} from '../../contact.service';
+import {MatDialog} from '@angular/material/dialog';
+import {CreateContactDialogComponent} from '../../containers/create-contact-dialog/create-contact-dialog.component';
+import {ContactModel} from '../../../api/api-interfaces/contact/models/contact.model';
 
 @Component({
   selector: 'app-contact-book-home',
@@ -45,11 +45,11 @@ export class ContactBookHomeComponent implements OnInit {
   }
 
   addContact() {
-    const dialogRef = this.dialog.open(CreateContactDialogComponent)
+    const dialogRef = this.dialog.open(CreateContactDialogComponent);
 
     dialogRef.afterClosed().subscribe((newContact: ContactModel) => {
-      console.log("Create contact dialog closed. Data:", newContact);
+      console.log('Create contact dialog closed. Data:', newContact);
       if (newContact) { this.contactService.createContact(newContact); }
-    })
+    });
   }
 }

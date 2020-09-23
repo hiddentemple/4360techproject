@@ -1,5 +1,5 @@
-import {ContactModel} from "../../contact/models/contact.model";
-import {UserTypeModel} from "../model/user-type.model";
+import {ContactModel} from '../../contact/models/contact.model';
+import {UserTypeModel} from '../model/user-type.model';
 
 
 export class CreateUserRequest {

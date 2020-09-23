@@ -1,7 +1,7 @@
 
 
 export interface UserTypeModel {
-    id?: string
-    type?: string
-    description?: string
+    id?: string;
+    type?: string;
+    description?: string;
 }
