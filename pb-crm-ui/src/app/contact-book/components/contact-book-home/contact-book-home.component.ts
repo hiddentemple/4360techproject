@@ -3,6 +3,10 @@ import { ContactService } from '../../contact.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateContactDialogComponent } from '../../containers/create-contact-dialog/create-contact-dialog.component';
 import { ContactModel } from '../../../api/api-interfaces/contact/models/contact.model';
+import { FindAllContactResponse } from '../../../api/api-interfaces/contact/contracts/find-all.contact';
+import { pipe } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { ContactTableComponent } from '../../containers/contact-table/contact-table.component';
 
 @Component({
   selector: 'app-contact-book-home',
@@ -33,12 +37,13 @@ import { ContactModel } from '../../../api/api-interfaces/contact/models/contact
   ],
 })
 export class ContactBookHomeComponent implements OnInit {
-  contacts: ContactModel[] = [];
+  contacts: FindAllContactResponse;
 
   constructor(
     private contactService: ContactService,
     private dialog: MatDialog,
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.contactService.getContacts().subscribe(contacts => this.contacts = contacts);
@@ -46,14 +51,15 @@ export class ContactBookHomeComponent implements OnInit {
 
   addContact() {
     const dialogRef = this.dialog.open(CreateContactDialogComponent);
-
     dialogRef.afterClosed().subscribe((newContact: ContactModel) => {
       console.log('Create contact dialog closed. Data:', newContact);
       if (newContact) {
         this.contactService.createContact(newContact)
-          .subscribe(contact => this.contacts.push(contact));
+          .subscribe( resData =>
+            console.log('Created user with id: ' + resData.firstName)
+          );
       }
-      console.log(this.contacts);
+      console.log('Contact list with new Contact', this.contacts);
     });
   }
 }

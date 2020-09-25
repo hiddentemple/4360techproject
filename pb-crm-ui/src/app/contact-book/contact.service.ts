@@ -1,49 +1,58 @@
 import {Injectable} from '@angular/core';
-import { EMPTY, Observable, of, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import {ContactModel} from '../api/api-interfaces/contact/models/contact.model';
-import {CreateContactResponse} from '../api/api-interfaces/contact/contracts/create.contact';
-import {UpdateContactResponse} from '../api/api-interfaces/contact/contracts/update.contact';
-import {DeleteContactResponse} from '../api/api-interfaces/contact/contracts/delete.contact';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, retry } from 'rxjs/operators';
+import { CreateContactRequest, CreateContactResponse } from '../api/api-interfaces/contact/contracts/create.contact';
+import { UpdateContactRequest, UpdateContactResponse } from '../api/api-interfaces/contact/contracts/update.contact';
+
+import { tap } from 'rxjs/operators';
+import { ApiService } from '../api/api.service';
+import { FindAllContactResponse } from '../api/api-interfaces/contact/contracts/find-all.contact';
+import {
+  FindOneContactRequest,
+  FindOneContactResponse,
+} from '../api/api-interfaces/contact/contracts/find-one.contact';
+import {
+  CreateBulkContactRequest,
+  CreateBulkContactResponse,
+} from '../api/api-interfaces/contact/contracts/create.bulkContacts';
+
+
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContactService {
-  constructor(private http?: HttpClient) {
-  }
-
-  getContacts(): Observable<ContactModel[]> {
-    return this.http.get<ContactModel[]>('/api/contacts');
-    // TODO - Error handling
-  }
-
-  getContact(id: string): Observable<ContactModel>{
-    return this.http.get<ContactModel>('/api/contacts/' + id);
-    // TODO - Error handling
-  }
-
-  createContact(contact: ContactModel): Observable<CreateContactResponse> {
-    return this.http.post<CreateContactResponse>('/api/contacts', contact, {});
-    // TODO - Error handling
+  constructor(private apiService: ApiService) {
   }
 
 
-  createContacts(contacts: ContactModel[]): Observable<CreateContactResponse>{
-    return this.http.post<CreateContactResponse>('/api/contacts/bulk', contacts, {});
+  // TODO - Error handling
+  getContacts(): Observable<FindAllContactResponse>  {
+    return this.apiService.get<FindAllContactResponse>('/api/contacts', {});
   }
 
+  getContact(contact: FindOneContactRequest): Observable<FindOneContactResponse>{
+    return this.apiService.get<FindOneContactResponse>('/api/contacts/' + contact.id);
+  }
 
-  updateContact(contact: ContactModel, id: string): Observable<UpdateContactResponse> {
+  createContact(contact: CreateContactRequest): Observable<CreateContactResponse> {
+    return this.apiService.post<CreateContactResponse>('/api/contacts', contact, {});
+  }
+
+  createContacts(contacts: CreateBulkContactRequest): Observable<CreateBulkContactResponse>{
+    return this.apiService.post<CreateBulkContactResponse>('/api/contacts/bulk', contacts, {});
+  }
+
+  updateContact(contact: UpdateContactRequest): Observable<UpdateContactResponse> {
+    const url = '/api/contacts/' + contact.id;
+    return this.apiService.put<UpdateContactResponse>(url, contact.data, {});
+  }
+
+  deleteContact(id: string): Observable<any> {
     const url = '/api/contacts/' + id;
-    return this.http.put<UpdateContactResponse>(url, contact, {});
-    // TODO - Error handling
-  }
-
-  deleteContact(id: string): Observable<DeleteContactResponse> {
-    const url = '/api/contacts/' + id;
-    return this.http.delete(url, {});
-    // TODO - Error handling
+    return this.apiService.delete(url, {});
+    // TODO - implement interface
   }
 }

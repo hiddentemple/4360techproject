@@ -1,5 +1,6 @@
 import {EmailModel} from "../models/email.model";
 import {PhoneModel} from "../models/phone.model";
+import { ContactModel } from '../models/contact.model';
 
 
 export interface CreateContactRequest {
@@ -17,7 +18,5 @@ export interface CreateContactRequest {
 }
 
 export interface CreateContactResponse {
-
-    id: string;
-
+    contact: ContactModel;
 }

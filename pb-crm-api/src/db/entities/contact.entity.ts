@@ -1,7 +1,17 @@
-import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    JoinColumn,
+    OneToMany,
+    OneToOne,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
+} from 'typeorm';
 import {EmailEntity} from "./email.entity";
 import {PhoneEntity} from "./phone.entity";
 import {ContactModel} from "../../api-interfaces/contact/models/contact.model";
+import { UserEntity } from './user.entity';
 
 @Entity("contacts")
 export class ContactEntity implements ContactModel {
@@ -22,12 +32,22 @@ export class ContactEntity implements ContactModel {
     notes?: string
 
     @OneToMany(type => EmailEntity, email => email.contact, {
-        cascade: true
+        cascade: true,
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
     })
     emails: EmailEntity[];
 
     @OneToMany(type => PhoneEntity, phone => phone.contact, {
-        cascade: true
+        cascade: true,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
     })
     phones?: PhoneEntity[];
+
+    @CreateDateColumn()
+    createdAt: string
+
+    @UpdateDateColumn()
+    updatedAt: string
 }

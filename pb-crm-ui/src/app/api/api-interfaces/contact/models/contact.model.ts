@@ -5,8 +5,8 @@ export interface ContactModel {
 
     id?: string;
 
-    firstName?: string;
-    lastName?: string;
+    firstName: string;
+    lastName: string;
     company?: string;
     notes?: string;
 

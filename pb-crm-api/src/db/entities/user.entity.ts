@@ -15,11 +15,12 @@ export class UserEntity implements UserModel {
   @Column('varchar', {length: 50, nullable: true }) // TODO change to false after authn updates
   password: string
 
-  @OneToOne(type => UserTypeEntity, {cascade: true})
+  @OneToOne(type => UserTypeEntity, { cascade: true, onDelete: 'CASCADE',
+  })
   @JoinColumn()
   userType: UserTypeEntity
 
-  @OneToOne(type => ContactEntity,{cascade: true})
+  @OneToOne(type => ContactEntity,{ cascade : true, onDelete: "CASCADE", })
   @JoinColumn()
   contact: ContactEntity
 }

@@ -7,6 +7,6 @@ export interface FindOneContactRequest {
     id: string;
 }
 
-export interface FindOneContactResponse extends ContactModel {
-
+export interface FindOneContactResponse {
+  contact: ContactModel;
 }
