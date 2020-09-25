@@ -12,6 +12,11 @@
     <input matInput maxlength="256" placeholder="Ex. Doe" formControlName="lastName">
   </mat-form-field>
 
+  <h3>Company</h3>
+  <mat-form-field class="example-full-width">
+    <mat-label>Compnay Name</mat-label>
+    <input matInput maxlength="256" placeholder="Ex. Juan in a Million" formControlName="companyName">
+  </mat-form-field>
 
   <h3>Emails
     <button (click)="addEmailInput()" type="button">Add Email</button>
@@ -59,27 +64,6 @@
         <mat-form-field>
           <mat-label>type</mat-label>
           <input matInput type="text" placeholder="Ex. Personal" formControlName="type">
-        </mat-form-field>
-      </div>
-    </div>
-  </div>
-
-  <h3>Company
-    <button (click)="addCompanyInput()" type="button">Add</button>
-  </h3>
-
-  <div formArrayName="companies">
-    <div *ngFor="let company of getCompanyFormArray().controls; let i=index">
-      <div>
-        <span>Company {{i + 1}}</span>
-        <button (click)="removeCompanyInput(i)" type="button">Remove</button>
-      </div>
-
-      <!-- Angular assigns array index as group name by default 0, 1, 2, ... -->
-      <div [formGroupName]="i">
-        <mat-form-field>
-          <mat-label>Company Name</mat-label>
-          <input matInput type="text" placeholder="Ex. Juan in a Million"formControlName="number">
         </mat-form-field>
       </div>
     </div>
