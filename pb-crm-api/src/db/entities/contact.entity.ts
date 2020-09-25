@@ -36,7 +36,7 @@ export class ContactEntity implements ContactModel {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
     })
-    emails: EmailEntity[];
+    emails?: EmailEntity[];
 
     @OneToMany(type => PhoneEntity, phone => phone.contact, {
         cascade: true,
