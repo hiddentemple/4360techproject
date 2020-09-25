@@ -46,8 +46,8 @@ export class ContactEntity implements ContactModel {
     phones?: PhoneEntity[];
 
     @CreateDateColumn()
-    createdAt: string
+    createdAt!: Date
 
     @UpdateDateColumn()
-    updatedAt: string
+    updatedAt!: Date
 }
