@@ -2,6 +2,7 @@ import {Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn}
 import {UserTypeEntity} from "./user-type.entity";
 import {ContactEntity} from "./contact.entity";
 import {UserModel} from "../../api-interfaces/user/model/user.model";
+import {Length, IsEmail, validate, validateOrReject} from "class-validator";
 
 @Entity('users')
 export class UserEntity implements UserModel {
@@ -9,10 +10,13 @@ export class UserEntity implements UserModel {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @Column('varchar', {length: 50, nullable: false, unique: true})
+  @Column('varchar', { nullable: false, unique: true})
+  @IsEmail()
+  @Length(0,50)
   email: string
 
-  @Column('varchar', {length: 50, nullable: true }) // TODO change to false after authn updates
+  @Column('varchar', { nullable: true }) // TODO change to false after authn updates
+  @Length(8,50)
   password: string
 
   @OneToOne(type => UserTypeEntity, {cascade: true})
@@ -23,3 +27,16 @@ export class UserEntity implements UserModel {
   @JoinColumn()
   contact: ContactEntity
 }
+let user = new UserEntity()
+
+validate(user).then(errors => { // errors is an array of validation errors
+  if (errors.length > 0) {
+    console.log("validation failed. errors: ", errors);
+  } else {
+    console.log("validation succeed");
+  }
+});
+
+validateOrReject(user).catch(errors => {
+  console.log("Promise rejected (validation failed). Errors: ", errors);
+});
