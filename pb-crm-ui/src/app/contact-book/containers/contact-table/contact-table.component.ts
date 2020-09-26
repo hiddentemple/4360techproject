@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
-import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
-import {ContactModel} from "../../../api/api-interfaces/contact/models/contact.model";
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {ContactModel} from '../../../api/api-interfaces/contact/models/contact.model';
 
 @Component({
   selector: 'app-contact-table',
@@ -29,11 +29,11 @@ export class ContactTableComponent implements AfterViewInit {
 
   @Input() set contacts(contacts: ContactModel[]) {
     if (!contacts || contacts === []) {
-      console.log("Contacts received a falsey value: ", contacts);
+      console.log('Contacts received a falsey value: ', contacts);
       return;
     }
 
-    console.log("Contact Table received new contacts: ", contacts);
+    console.log('Contact Table received new contacts: ', contacts);
     this.dataSource.data = contacts;
   }
 

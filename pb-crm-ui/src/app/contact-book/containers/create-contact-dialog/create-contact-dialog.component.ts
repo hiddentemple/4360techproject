@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {ContactModel} from "../../../api/api-interfaces/contact/models/contact.model";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {ContactModel} from '../../../api/api-interfaces/contact/models/contact.model';
 
 @Component({
   selector: 'app-create-contact-dialog',

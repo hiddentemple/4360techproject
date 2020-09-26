@@ -19,11 +19,12 @@ export class UserEntity implements UserModel {
   @Length(8,50)
   password: string
 
-  @OneToOne(type => UserTypeEntity, {cascade: true})
+  @OneToOne(type => UserTypeEntity, { cascade: true, onDelete: 'CASCADE',
+  })
   @JoinColumn()
   userType: UserTypeEntity
 
-  @OneToOne(type => ContactEntity,{cascade: true})
+  @OneToOne(type => ContactEntity,{ cascade : true, onDelete: "CASCADE", })
   @JoinColumn()
   contact: ContactEntity
 }

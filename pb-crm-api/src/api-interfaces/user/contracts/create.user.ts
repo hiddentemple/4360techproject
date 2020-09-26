@@ -11,5 +11,6 @@ export class CreateUserRequest {
 }
 
 export class CreateUserResponse {
+    message: string
     id: string;
 }
