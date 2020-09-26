@@ -6,7 +6,6 @@ import { catchError } from 'rxjs/operators';
 import { ErrorService } from '../services/error.service';
 
 
-
 @Crud({
   model: {
     type: ContactEntity
