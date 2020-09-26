@@ -1,11 +1,10 @@
-import { Controller, HttpCode, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, HttpCode, HttpException, HttpStatus, UseFilters } from '@nestjs/common';
 import {Crud, CrudController, CrudRequest, Override, ParsedBody, ParsedRequest} from "@nestjsx/crud";
 import {UserService} from "./user.service";
 import {UserEntity} from "../../db/entities/user.entity";
 import {
   CreateUserResponse
 } from "../../api-interfaces/user/contracts/create.user";
-import { throwError } from 'rxjs';
 import { ErrorService } from '../../services/error.service';
 
 
@@ -43,17 +42,17 @@ export class UserController implements CrudController<UserEntity> {
   }
 
   @Override()
-  @HttpCode(202)
+  @HttpCode(201)
   async createOne(@ParsedRequest() req: CrudRequest, @ParsedBody() dto: UserEntity): Promise<CreateUserResponse> {
     const user: UserEntity = await this.base.createOneBase(req, dto).catch(error =>{
-      error = this.errorService.handleError(error.detail)
-      throw new HttpException({
-        error: error
-      }, HttpStatus.BAD_REQUEST)
+      error = this.errorService.handleError(error)
+      throw error
     });
     return {
       message: "User created",
       id: user.id
     };
   }
+
+
 }
