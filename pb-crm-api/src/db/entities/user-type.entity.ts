@@ -18,6 +18,7 @@ export class UserTypeEntity implements UserTypeModel {
   description?: string;
 
 }
+/*
 let user_type = new UserTypeEntity()
 
 validate(user_type).then(errors => { // errors is an array of validation errors
@@ -31,3 +32,4 @@ validate(user_type).then(errors => { // errors is an array of validation errors
 validateOrReject(user_type).catch(errors => {
   console.log("Promise rejected (validation failed). Errors: ", errors);
 });
+ */

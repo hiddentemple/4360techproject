@@ -52,7 +52,7 @@ export class ContactEntity implements ContactModel {
 
 
 }
-
+/*
 let contact = new ContactEntity()
 
 validate(contact).then(errors => { // errors is an array of validation errors
@@ -66,3 +66,4 @@ validate(contact).then(errors => { // errors is an array of validation errors
 validateOrReject(contact).catch(errors => {
     console.log("Promise rejected (validation failed). Errors: ", errors);
 });
+ */

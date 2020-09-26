@@ -25,7 +25,7 @@ export class EmailEntity implements EmailModel {
     @JoinColumn()
     contact: ContactEntity
 }
-
+/*
 let email = new EmailEntity()
 
 validate(email).then(errors => { // errors is an array of validation errors
@@ -39,3 +39,4 @@ validate(email).then(errors => { // errors is an array of validation errors
 validateOrReject(email).catch(errors => {
     console.log("Promise rejected (validation failed). Errors: ", errors);
 });
+ */

@@ -28,6 +28,7 @@ export class UserEntity implements UserModel {
   @JoinColumn()
   contact: ContactEntity
 }
+/*
 let user = new UserEntity()
 
 validate(user).then(errors => { // errors is an array of validation errors
@@ -41,3 +42,4 @@ validate(user).then(errors => { // errors is an array of validation errors
 validateOrReject(user).catch(errors => {
   console.log("Promise rejected (validation failed). Errors: ", errors);
 });
+ */
