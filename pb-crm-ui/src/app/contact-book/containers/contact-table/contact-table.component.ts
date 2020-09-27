@@ -1,8 +1,11 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
-import {MatTableDataSource} from '@angular/material/table';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {ContactModel} from '../../../api/api-interfaces/contact/models/contact.model';
+import { MatMenuTrigger } from '@angular/material/menu';
+
+
 
 @Component({
   selector: 'app-contact-table',
@@ -21,11 +24,21 @@ import {ContactModel} from '../../../api/api-interfaces/contact/models/contact.m
   ]
 })
 export class ContactTableComponent implements AfterViewInit {
-  displayedColumns: string[] = ['name', 'phone', 'email', 'company'];
+  displayedColumns: string[] = ['name', 'phone', 'email', 'company', 'actions'];
   dataSource: MatTableDataSource<ContactModel>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
+  @ViewChild(MatTable) dataTable: MatTable<any>;
+
+  @Output() delete = new EventEmitter<any>();
+  onClick(id: string) {
+    this.delete.emit({ Event, id});
+    this.dataTable.renderRows();
+  }
+
+
 
   @Input() set contacts(contacts: ContactModel[]) {
     if (!contacts || contacts === []) {
@@ -63,5 +76,10 @@ export class ContactTableComponent implements AfterViewInit {
   getEmailForRow(contact: ContactModel): string {
     if (contact.emails && contact.emails.length > 0) { return contact.emails[0].address; }
     else { return ''; }
+  }
+
+  getIDForRow(contact: ContactModel): string {
+    if (contact.id) { return contact.id; }
+    else { return null; }
   }
 }
