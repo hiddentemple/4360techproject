@@ -1,7 +1,20 @@
-import {Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {
+  BeforeInsert,
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import {UserTypeEntity} from "./user-type.entity";
 import {ContactEntity} from "./contact.entity";
 import {UserModel} from "../../api-interfaces/user/model/user.model";
+import {Length, IsEmail, validate, validateOrReject} from "class-validator";
+import * as bcrypt from 'bcrypt';
+
+
 
 @Entity('users')
 export class UserEntity implements UserModel {
@@ -9,18 +22,35 @@ export class UserEntity implements UserModel {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @Column('varchar', {length: 50, nullable: false, unique: true})
+  @Column('varchar', { nullable: false, unique: true})
+  @IsEmail()
+  @Length(0,50)
   email: string
 
-  @Column('varchar', {length: 50, nullable: true }) // TODO change to false after authn updates
+  @Column('varchar', { nullable: true }) // TODO change to false after authn updates
+  @Length(8,50)
   password: string
 
-  @OneToOne(type => UserTypeEntity, { cascade: true, onDelete: 'CASCADE',
-  })
+  @OneToOne(type => UserTypeEntity, { cascade: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'})
   @JoinColumn()
   userType: UserTypeEntity
 
-  @OneToOne(type => ContactEntity,{ cascade : true, onDelete: "CASCADE", })
+  @OneToOne(type => ContactEntity,{ cascade : true, onDelete: "CASCADE", onUpdate: 'CASCADE' })
   @JoinColumn()
   contact: ContactEntity
+
+  @CreateDateColumn({name: 'createdAt', nullable: false})
+  createdAt: Date;
+
+  @UpdateDateColumn({name: 'updatedAt', nullable: true})
+  updatedAt: Date;
+
+  @BeforeInsert()
+  async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 10)
+  }
+
+  async comparePassword(attempt: string): Promise<boolean> {
+    return await bcrypt.compare(attempt, this.password)
+  }
 }

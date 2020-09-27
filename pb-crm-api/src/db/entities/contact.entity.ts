@@ -2,16 +2,15 @@ import {
     Column,
     CreateDateColumn,
     Entity,
-    JoinColumn,
     OneToMany,
-    OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
 import {EmailEntity} from "./email.entity";
 import {PhoneEntity} from "./phone.entity";
 import {ContactModel} from "../../api-interfaces/contact/models/contact.model";
-import { UserEntity } from './user.entity';
+import { Length, MaxLength, IsOptional, IsAlpha } from 'class-validator';
+
 
 @Entity("contacts")
 export class ContactEntity implements ContactModel {
@@ -19,16 +18,24 @@ export class ContactEntity implements ContactModel {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @Column('varchar', {length: 50, nullable: false})
+    @IsAlpha()
+    @Column('varchar', { nullable: false})
+    @Length(2)
     firstName: string;
 
-    @Column('varchar', {length: 50, nullable: false})
+    @IsAlpha()
+    @Column('varchar', { nullable: false})
+    @Length(2)
     lastName: string;
 
-    @Column('varchar', {length: 50, nullable: true})
+    @Column('varchar', { nullable: true})
+    @IsOptional()
+    @MaxLength(50)
     company?: string
 
-    @Column('varchar', {length: 250, nullable: true})
+    @Column('varchar', { nullable: true})
+    @IsOptional()
+    @MaxLength(250)
     notes?: string
 
     @OneToMany(type => EmailEntity, email => email.contact, {
@@ -44,6 +51,12 @@ export class ContactEntity implements ContactModel {
         onUpdate: 'CASCADE'
     })
     phones?: PhoneEntity[];
+
+    @CreateDateColumn({name: 'createdAt', nullable: false})
+    createdAt: Date;
+
+    @UpdateDateColumn({name: 'updatedAt', nullable: true})
+    updatedAt: Date;
 
 
 }

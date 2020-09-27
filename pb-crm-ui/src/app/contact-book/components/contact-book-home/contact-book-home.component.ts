@@ -4,9 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreateContactDialogComponent } from '../../containers/create-contact-dialog/create-contact-dialog.component';
 import { ContactModel } from '../../../api/api-interfaces/contact/models/contact.model';
 import { FindAllContactResponse } from '../../../api/api-interfaces/contact/contracts/find-all.contact';
-import { pipe } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { ContactTableComponent } from '../../containers/contact-table/contact-table.component';
+
 
 @Component({
   selector: 'app-contact-book-home',
@@ -20,7 +18,7 @@ import { ContactTableComponent } from '../../containers/contact-table/contact-ta
 
       <hr class="mt-0" />
 
-      <app-contact-table [contacts]="contacts"></app-contact-table>
+      <app-contact-table [contacts]="contacts" (delete)="deleteContact($event.id)"></app-contact-table>
     </div>
   `,
   styles: [
@@ -55,11 +53,17 @@ export class ContactBookHomeComponent implements OnInit {
       console.log('Create contact dialog closed. Data:', newContact);
       if (newContact) {
         this.contactService.createContact(newContact)
-          .subscribe( resData =>
-            console.log('Created user with id: ' + resData.firstName)
-          );
+          .subscribe( contact => {
+            this.ngOnInit();
+          });
       }
-      console.log('Contact list with new Contact', this.contacts);
+    });
+  }
+
+  deleteContact(id: string): any {
+    console.log('Deleting Contact with ID: ' + id);
+    this.contactService.deleteContact(id).subscribe( res => {
+      this.contactService.getContacts().subscribe(contacts => this.contacts = contacts);
     });
   }
 }

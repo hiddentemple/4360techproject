@@ -1,68 +1,77 @@
-import { Controller, HttpCode, UseFilters } from '@nestjs/common';
+import { Controller, HttpCode, HttpException, HttpStatus, UseFilters } from '@nestjs/common';
 import { Crud, CrudAuth, CrudController, CrudRequest, Override, ParsedBody, ParsedRequest } from '@nestjsx/crud';
-import {ContactsService} from "./contacts.service";
-import {ContactEntity} from "../db/entities/contact.entity";
+import { ContactsService } from './contacts.service';
+import { ContactEntity } from '../db/entities/contact.entity';
 import { catchError } from 'rxjs/operators';
 import { ErrorService } from '../services/error.service';
+import { validate, validateOrReject } from 'class-validator';
+import { throwError } from 'rxjs';
 
 
 @Crud({
   model: {
-    type: ContactEntity
+    type: ContactEntity,
   },
-
+  //these parameters that are used in request --> /api/contacts/{{id}}
   params: {
-    id:{
+    id: {
       field: 'id',
       type: 'uuid',
-      primary: true
-    }
+      primary: true,
+    },
   },
 
   query: {
     join: {
       emails: {
-        eager: true
+        eager: true,
       },
       phones: {
-        eager: true
-      }
-    }
-  }
+        eager: true,
+      },
+    },
+  },
 })
 @CrudAuth({
   // TODO https://github.com/nestjsx/crud/wiki/Controllers#request-authentication
 })
 
 
-
 @Controller('contacts')
 export class ContactsController implements CrudController<ContactEntity> {
-  constructor(public service: ContactsService, public errorService: ErrorService) {}
+  constructor(public service: ContactsService, public errorService: ErrorService) {
+  }
 
   get base(): CrudController<ContactEntity> {
     return this;
   }
 
+  //allows customization of POST request for single contact
   @Override()
   @HttpCode(201)
-  async createOne(@ParsedRequest() req:CrudRequest, @ParsedBody() dto: ContactEntity){
-    const contact: ContactEntity = await this.base.createOneBase(req, dto).catch(error => {
-        error = this.errorService.handleError(error)
-        throw error
+  async createOne(@ParsedRequest() req: CrudRequest, @ParsedBody() dto: ContactEntity) {
+    //this tries to post the contact from the request to the database
+    const contact: ContactEntity = await this.base.createOneBase(req, dto)
+      //if there are errors catch and transform
+      .catch(error => {
+        //transforms generic 500 error, to more specific error and throws exception response
+        throw this.errorService.handleError(error);
       });
-      return {
-        contact
-      };
+    //else return the contact as response body with 201 created
+    return {
+      contact,
+    };
   }
 
+
+  //allows customization for DELETE request
   @Override()
   async deleteOne(
     @ParsedRequest() req: CrudRequest,
   ) {
     return this.base.deleteOneBase(req).catch(error => {
-      error = this.errorService.handleError(error)
-      throw error
+      error = this.errorService.handleError(error);
+      throw error;
     });
   }
 }

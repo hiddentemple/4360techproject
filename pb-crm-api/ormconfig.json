@@ -18,6 +18,6 @@
   "seeds": ["dist/db/seeders/**/*.js"],
   "factories": ["dist/db/factories/**/*.js"],
   "cli": {
-    "migrationsDir": "db/migrations"
+    "migrationsDir": "src/db/migrations"
   }
 }

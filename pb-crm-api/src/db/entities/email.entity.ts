@@ -1,7 +1,8 @@
 import {ContactEntity} from "./contact.entity";
 import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {EmailModel} from "../../api-interfaces/contact/models/email.model";
-import {IsEmail} from "class-validator";
+import { IsEmail, IsOptional, Length, validate, validateOrReject } from 'class-validator';
+
 
 @Entity('emails')
 export class EmailEntity implements EmailModel {
@@ -9,15 +10,19 @@ export class EmailEntity implements EmailModel {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
+    @Column('varchar', { nullable: false })
     @IsEmail()
-    @Column('varchar', { length: 50, nullable: false })
+    @Length(5,50)
     address: string
 
-    @Column('varchar', { length: 50, nullable: true })
+    @Column('varchar', {  nullable: true })
+    @IsOptional()
+    @Length(0,50)
     type?: string
 
     @ManyToOne(type => ContactEntity, contact => contact.emails, {
-        onDelete: "CASCADE"
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE"
     })
     @JoinColumn()
     contact: ContactEntity
