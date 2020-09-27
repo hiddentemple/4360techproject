@@ -1,9 +1,9 @@
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
-  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -12,6 +12,9 @@ import {UserTypeEntity} from "./user-type.entity";
 import {ContactEntity} from "./contact.entity";
 import {UserModel} from "../../api-interfaces/user/model/user.model";
 import {Length, IsEmail, validate, validateOrReject} from "class-validator";
+import * as bcrypt from 'bcrypt';
+
+
 
 @Entity('users')
 export class UserEntity implements UserModel {
@@ -41,4 +44,13 @@ export class UserEntity implements UserModel {
 
   @UpdateDateColumn({name: 'updatedAt', nullable: true})
   updatedAt: Date;
+
+  @BeforeInsert()
+  async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 10)
+  }
+
+  async comparePassword(attempt: string): Promise<boolean> {
+    return await bcrypt.compare(attempt, this.password)
+  }
 }
