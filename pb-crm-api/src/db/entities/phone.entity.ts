@@ -18,7 +18,8 @@ export class PhoneEntity implements PhoneModel {
     type?: string
 
     @ManyToOne(type => ContactEntity, contact => contact.phones, {
-        onDelete: "CASCADE"
+        onDelete: "CASCADE",
+        onUpdate: 'CASCADE'
     })
     @JoinColumn()
     contact: ContactEntity

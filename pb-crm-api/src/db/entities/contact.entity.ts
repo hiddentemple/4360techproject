@@ -51,10 +51,10 @@ export class ContactEntity implements ContactModel {
     phones?: PhoneEntity[];
 
     @CreateDateColumn({name: 'createdAt', nullable: false})
-    createdAt!: Date;
+    createdAt: Date;
 
     @UpdateDateColumn({name: 'updatedAt', nullable: true})
-    updatedAt!: Date;
+    updatedAt: Date;
 
 
 }

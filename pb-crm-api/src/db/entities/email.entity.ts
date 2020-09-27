@@ -20,7 +20,8 @@ export class EmailEntity implements EmailModel {
     type?: string
 
     @ManyToOne(type => ContactEntity, contact => contact.emails, {
-        onDelete: "CASCADE"
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE"
     })
     @JoinColumn()
     contact: ContactEntity
