@@ -6,15 +6,14 @@ export class ErrorService {
 
   handleError(error): HttpException {
     console.log('Details: ' + error)
+
     switch (error.code) {
-
-
       case '23505': {       //postgres code 23505 is unique violation
         let duplicateKey = error.detail.substring(error.detail.indexOf('(') + 1, error.detail.indexOf(')')).toString()
         duplicateKey = duplicateKey.charAt(0).toUpperCase() + duplicateKey.slice(1)
         return new HttpException({
           status: HttpStatus.BAD_REQUEST + ' Bad Request',
-          error: duplicateKey + " already exists, please try another."
+          error: duplicateKey + " already exists."
         }, HttpStatus.BAD_REQUEST)
       }
 

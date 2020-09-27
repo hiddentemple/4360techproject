@@ -2,17 +2,15 @@ import {
     Column,
     CreateDateColumn,
     Entity,
-    JoinColumn,
     OneToMany,
-    OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
 import {EmailEntity} from "./email.entity";
 import {PhoneEntity} from "./phone.entity";
 import {ContactModel} from "../../api-interfaces/contact/models/contact.model";
-import {validate, validateOrReject, Length} from "class-validator";
-import { UserEntity } from './user.entity';
+import { Length, MaxLength, IsOptional } from 'class-validator';
+
 
 @Entity("contacts")
 export class ContactEntity implements ContactModel {
@@ -21,19 +19,21 @@ export class ContactEntity implements ContactModel {
     id: string
 
     @Column('varchar', { nullable: false})
-    @Length(1)
+    @Length(2)
     firstName: string;
 
     @Column('varchar', { nullable: false})
-    @Length(1)
+    @Length(2)
     lastName: string;
 
     @Column('varchar', { nullable: true})
-    @Length(0,50)
+    @IsOptional()
+    @MaxLength(50)
     company?: string
 
     @Column('varchar', { nullable: true})
-    @Length(0,250)
+    @IsOptional()
+    @MaxLength(250)
     notes?: string
 
     @OneToMany(type => EmailEntity, email => email.contact, {
@@ -50,20 +50,11 @@ export class ContactEntity implements ContactModel {
     })
     phones?: PhoneEntity[];
 
+    @CreateDateColumn({name: 'createdAt', nullable: false})
+    createdAt!: Date;
+
+    @UpdateDateColumn({name: 'updatedAt', nullable: true})
+    updatedAt!: Date;
+
 
 }
-/*
-let contact = new ContactEntity()
-
-validate(contact).then(errors => { // errors is an array of validation errors
-    if (errors.length > 0) {
-        console.log("validation failed. errors: ", errors);
-    } else {
-        console.log("validation succeed");
-    }
-});
-
-validateOrReject(contact).catch(errors => {
-    console.log("Promise rejected (validation failed). Errors: ", errors);
-});
- */

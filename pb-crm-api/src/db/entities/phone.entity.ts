@@ -23,18 +23,3 @@ export class PhoneEntity implements PhoneModel {
     @JoinColumn()
     contact: ContactEntity
 }
-/*
-let phone = new PhoneEntity()
-
-validate(phone).then(errors => { // errors is an array of validation errors
-    if (errors.length > 0) {
-        console.log("validation failed. errors: ", errors);
-    } else {
-        console.log("validation succeed");
-    }
-});
-
-validateOrReject(phone).catch(errors => {
-    console.log("Promise rejected (validation failed). Errors: ", errors);
-});
- */

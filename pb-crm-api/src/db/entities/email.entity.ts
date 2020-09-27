@@ -25,18 +25,3 @@ export class EmailEntity implements EmailModel {
     @JoinColumn()
     contact: ContactEntity
 }
-/*
-let email = new EmailEntity()
-
-validate(email).then(errors => { // errors is an array of validation errors
-    if (errors.length > 0) {
-        console.log("validation failed. errors: ", errors);
-    } else {
-        console.log("validation succeed");
-    }
-});
-
-validateOrReject(email).catch(errors => {
-    console.log("Promise rejected (validation failed). Errors: ", errors);
-});
- */

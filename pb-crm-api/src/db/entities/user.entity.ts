@@ -1,4 +1,13 @@
-import {Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import {UserTypeEntity} from "./user-type.entity";
 import {ContactEntity} from "./contact.entity";
 import {UserModel} from "../../api-interfaces/user/model/user.model";
@@ -27,19 +36,10 @@ export class UserEntity implements UserModel {
   @OneToOne(type => ContactEntity,{ cascade : true, onDelete: "CASCADE", })
   @JoinColumn()
   contact: ContactEntity
+
+  @CreateDateColumn({name: 'createdAt', nullable: false})
+  createdAt: Date;
+
+  @UpdateDateColumn({name: 'updatedAt', nullable: true})
+  updatedAt: Date;
 }
-/*
-let user = new UserEntity()
-
-validate(user).then(errors => { // errors is an array of validation errors
-  if (errors.length > 0) {
-    console.log("validation failed. errors: ", errors);
-  } else {
-    console.log("validation succeed");
-  }
-});
-
-validateOrReject(user).catch(errors => {
-  console.log("Promise rejected (validation failed). Errors: ", errors);
-});
- */
