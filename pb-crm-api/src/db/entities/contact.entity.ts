@@ -9,7 +9,7 @@ import {
 import {EmailEntity} from "./email.entity";
 import {PhoneEntity} from "./phone.entity";
 import {ContactModel} from "../../api-interfaces/contact/models/contact.model";
-import { Length, MaxLength, IsOptional, IsAlpha } from 'class-validator';
+import { MinLength, MaxLength, IsOptional, IsAlpha } from 'class-validator';
 
 
 @Entity("contacts")
@@ -20,12 +20,12 @@ export class ContactEntity implements ContactModel {
 
     @IsAlpha()
     @Column('varchar', { nullable: false})
-    @Length(2)
+    @MinLength(1)
     firstName: string;
 
     @IsAlpha()
     @Column('varchar', { nullable: false})
-    @Length(2)
+    @MinLength(1)
     lastName: string;
 
     @Column('varchar', { nullable: true})

@@ -1,6 +1,6 @@
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 import {UserTypeModel} from "../../api-interfaces/user/model/user-type.model";
-import {Length, validate, validateOrReject} from "class-validator";
+import {MaxLength, IsOptional} from "class-validator";
 import {ContactEntity} from "./contact.entity";
 
 @Entity('user_types')
@@ -10,11 +10,12 @@ export class UserTypeEntity implements UserTypeModel {
   id: string
 
   @Column('varchar', { nullable: false})
-  @Length(0,50)
+  @MaxLength(50)
   type: string
 
   @Column('varchar', { nullable: true})
-  @Length(0,100)
+  @IsOptional()
+  @MaxLength(100)
   description?: string;
 
 }
