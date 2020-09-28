@@ -1,9 +1,4 @@
-import {ContactModel} from "../models/contact.model";
-
-
-export interface FindAllContactRequest {
-
-}
+import {ContactModel} from '../models/contact.model';
 
 export interface FindAllContactResponse {
     contacts: ContactModel[];

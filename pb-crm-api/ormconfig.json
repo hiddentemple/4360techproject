@@ -6,7 +6,7 @@
   "password": "ogedeqbnk5m7i4pj",
   "database": "crmDB",
   "ssl": true,
-  "entities": ["dist/**/*.entity{.js, .ts}"],
+  "entities": ["dist/db/entities/**/*.entity{.js, .ts}"],
   "extra": {
     "ssl": {
       "rejectUnauthorized": false
@@ -15,7 +15,9 @@
   "synchronize": false,
   "logging": true,
   "migrations": ["dist/db/migrations/*{.js,.ts}"],
+  "seeds": ["dist/db/seeders/**/*.js"],
+  "factories": ["dist/db/factories/**/*.js"],
   "cli": {
-    "migrationsDir": "db/migrations"
+    "migrationsDir": "src/db/migrations"
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ContactBookRoutes} from "../../contact-book/contact-book-routing.module";
+import {ContactBookRoutes} from '../../contact-book/contact-book-routing.module';
 
 @Component({
   selector: 'app-nav-bar',

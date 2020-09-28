@@ -1,9 +1,7 @@
-
-
 export interface DeleteContactRequest {
-    id: string;
+  id: string;
 }
 
-export interface DeleteContactResponse {
-
-}
+// export interface DeleteContactResponse {
+//   status: string;
+// }
