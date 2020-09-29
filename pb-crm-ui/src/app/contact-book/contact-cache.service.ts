@@ -8,8 +8,10 @@ import {CreateContactRequest, CreateContactResponse} from "../api/api-interfaces
 import {UpdateContactRequest} from "../api/api-interfaces/contact/contracts/update.contact";
 import {DeleteContactRequest} from "../api/api-interfaces/contact/contracts/delete.contact";
 
-@Injectable()
-export class ContactCache {
+@Injectable({
+  providedIn: 'root'
+})
+export class ContactCacheService {
   private _contacts$: BehaviorSubject<ContactModel[]>;
 
   constructor(private contactService: ContactService) {
@@ -73,7 +75,10 @@ export class ContactCache {
   refresh(): void {
     this.contactService.getContacts().subscribe(
       // Uses object deconstruction to pull out the contacts parameter of the FindAllContactsResponse (the type)
-      ({contacts}: FindAllContactResponse) => this._contacts$.next(contacts)
+      (contacts: ContactModel[]) => {
+        console.log("New contacts received in cache", contacts)
+        this._contacts$.next(contacts)
+      }
     )
   }
 

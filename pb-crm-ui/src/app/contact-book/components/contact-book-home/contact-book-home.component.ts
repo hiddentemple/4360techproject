@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ContactService } from '../../contact.service';
-import { MatDialog } from '@angular/material/dialog';
-import { CreateContactDialogComponent } from '../../containers/create-contact-dialog/create-contact-dialog.component';
-import { ContactModel } from '../../../api/api-interfaces/contact/models/contact.model';
-import { FindAllContactResponse } from '../../../api/api-interfaces/contact/contracts/find-all.contact';
+import {Component, OnInit} from '@angular/core';
+import {ContactService} from '../../contact.service';
+import {MatDialog} from '@angular/material/dialog';
+import {CreateContactDialogComponent} from '../../containers/create-contact-dialog/create-contact-dialog.component';
+import {ContactModel} from '../../../api/api-interfaces/contact/models/contact.model';
+import {FindAllContactResponse} from '../../../api/api-interfaces/contact/contracts/find-all.contact';
+import {ContactCacheService} from "../../contact-cache.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 @Component({
@@ -16,54 +18,47 @@ import { FindAllContactResponse } from '../../../api/api-interfaces/contact/cont
         <span><app-create-contact-button (add)="addContact()"></app-create-contact-button></span>
       </div>
 
-      <hr class="mt-0" />
+      <hr class="mt-0"/>
 
       <app-contact-table [contacts]="contacts" (delete)="deleteContact($event.id)"></app-contact-table>
     </div>
   `,
   styles: [
-      `
-      .add-contact {
-        margin: auto;
-      }
-    `,
-      `
-      .add-spacer {
+      `.add-spacer {
         flex: 1 1 auto;
-      }
-    `,
+      }`,
   ],
 })
 export class ContactBookHomeComponent implements OnInit {
-  contacts: FindAllContactResponse;
+  contacts: ContactModel[];
 
   constructor(
-    private contactService: ContactService,
     private dialog: MatDialog,
-  ) {
-  }
+    private contactCache: ContactCacheService,
+    private snackbar: MatSnackBar
+  ) {}
 
   ngOnInit() {
-    this.contactService.getContacts().subscribe(contacts => this.contacts = contacts);
+    this.contactCache.contacts$.subscribe(contacts => this.contacts = contacts);
   }
 
   addContact() {
     const dialogRef = this.dialog.open(CreateContactDialogComponent);
+
     dialogRef.afterClosed().subscribe((newContact: ContactModel) => {
       console.log('Create contact dialog closed. Data:', newContact);
       if (newContact) {
-        this.contactService.createContact(newContact)
-          .subscribe( contact => {
-            this.ngOnInit();
-          });
+        this.contactCache.addContact(newContact).subscribe(
+          (wasAdded: boolean) => this.snackbar.open("Contact added", "X")
+        );
       }
     });
   }
 
   deleteContact(id: string): any {
     console.log('Deleting Contact with ID: ' + id);
-    this.contactService.deleteContact(id).subscribe( res => {
-      this.contactService.getContacts().subscribe(contacts => this.contacts = contacts);
-    });
+    this.contactCache.deleteContact(id).subscribe(
+      (wasDeleted: boolean) => this.snackbar.open("Contact Deleted", "X")
+    )
   }
 }

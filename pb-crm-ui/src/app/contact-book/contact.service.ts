@@ -35,8 +35,8 @@ export class ContactService {
 
 
   // TODO - Error handling
-  getContacts(): Observable<FindAllContactResponse>  {
-    return this.apiService.get<FindAllContactResponse>('/api/contacts', {});
+  getContacts(): Observable<ContactModel[]>  {
+    return this.apiService.get<ContactModel[]>('/api/contacts', {});
   }
 
   getContact(contact: FindOneContactRequest): Observable<FindOneContactResponse>{
