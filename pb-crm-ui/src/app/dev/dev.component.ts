@@ -5,11 +5,11 @@ import {ContactModel} from '../api/api-interfaces/contact/models/contact.model';
   selector: 'app-dev',
   template: `
     <div class="container">
-      <h1>Add Form</h1>
-      <app-contact-form (submitContact)="onSubmit($event)"></app-contact-form>
-
-      <h1>Update Form</h1>
-      <app-contact-form [contact]="mockContact" (submitContact)="onSubmit($event)"></app-contact-form>
+      <div class="row">
+        <div class="col-4">
+          <app-login-component></app-login-component>
+        </div>
+      </div>
     </div>
 
   `
