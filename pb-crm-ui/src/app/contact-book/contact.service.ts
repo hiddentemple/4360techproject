@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import { Observable } from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {ContactModel} from '../api/api-interfaces/contact/models/contact.model';
 import { CreateContactRequest, CreateContactResponse } from '../api/api-interfaces/contact/contracts/create.contact';
 import { UpdateContactRequest, UpdateContactResponse } from '../api/api-interfaces/contact/contracts/update.contact';
@@ -15,6 +15,7 @@ import {
   CreateBulkContactRequest,
   CreateBulkContactResponse,
 } from '../api/api-interfaces/contact/contracts/create.bulkContacts';
+import {DeleteContactRequest, DeleteContactResponse} from "../api/api-interfaces/contact/contracts/delete.contact";
 
 
 
@@ -24,8 +25,13 @@ import {
   providedIn: 'root'
 })
 export class ContactService {
+  private _contacts$: Subject<Partial<ContactModel>>;
+
   constructor(private apiService: ApiService) {
+    this._contacts$ = new Subject<Partial<ContactModel>>();
   }
+
+  get contacts$(): Observable<Partial<ContactModel>> { return this._contacts$.asObservable(); }
 
 
   // TODO - Error handling
@@ -47,12 +53,11 @@ export class ContactService {
 
   updateContact(contact: UpdateContactRequest): Observable<UpdateContactResponse> {
     const url = '/api/contacts/' + contact.id;
-    return this.apiService.put<UpdateContactResponse>(url, contact.data, {});
+    return this.apiService.put<UpdateContactResponse>(url, contact, {});
   }
 
-  deleteContact(id: string): Observable<any> {
+  deleteContact({id}: DeleteContactRequest): Observable<DeleteContactResponse> {
     const url = '/api/contacts/' + id;
     return this.apiService.delete(url, {});
-    // TODO - implement interface
   }
 }
