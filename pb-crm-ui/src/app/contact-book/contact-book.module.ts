@@ -21,6 +21,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { MatMenuModule } from '@angular/material/menu';
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
+import { ContactHomeSidenavComponent } from './containers/contact-home-sidenav/contact-home-sidenav.component';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
     ContactSearchComponent,
     CreateContactDialogComponent,
     ContactTableComponent,
+    ContactHomeSidenavComponent,
   ],
   exports: [
     ContactFormComponent
