@@ -2,7 +2,7 @@ import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChil
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {ContactModel, ContactNameModel} from '../../../api/api-interfaces/contact/models/contact.model';
+import {ContactModel} from '../../../api/api-interfaces/contact/models/contact.model';
 import { MatMenuTrigger } from '@angular/material/menu';
 
 
@@ -19,13 +19,13 @@ import { MatMenuTrigger } from '@angular/material/menu';
       width: 100%;
     }`,
     `td, th {
-        width: 25%;
+      width: auto;
     }`
   ]
 })
 export class ContactTableComponent implements AfterViewInit {
-  displayedColumns: string[] = ['firstName', 'lastName', 'company', 'actions'];
-  dataSource: MatTableDataSource<ContactNameModel>;
+  displayedColumns: string[] = ['firstName', 'lastName', 'company', 'updatedAt', 'actions'];
+  dataSource: MatTableDataSource<ContactModel>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;

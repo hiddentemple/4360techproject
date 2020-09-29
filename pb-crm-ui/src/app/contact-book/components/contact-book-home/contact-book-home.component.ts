@@ -15,12 +15,26 @@ import {MatSnackBar} from "@angular/material/snack-bar";
       <div class="row mt-2">
         <span><h1 class="">Contact Book</h1></span>
         <span class="add-spacer"></span>
-        <span><app-create-contact-button (add)="addContact()"></app-create-contact-button></span>
+        <span>
+          <app-create-contact-button (add)="addContact()"></app-create-contact-button>
+          <button mat-icon-button
+                  matTooltip="Refresh"
+                  matTooltipPosition="left"
+                  (click)="refresh()">
+            <mat-icon color="primary">refresh</mat-icon>
+          </button>
+        </span>
+
       </div>
 
       <hr class="mt-0"/>
 
-      <app-contact-table [contacts]="contacts" (delete)="deleteContact($event.id)"></app-contact-table>
+      <app-contact-table
+        [contacts]="contacts"
+        (delete)="deleteContact($event)"
+        (edit)="editContact($event)"
+        (view)="viewContact($event)">
+      </app-contact-table>
     </div>
   `,
   styles: [
@@ -49,7 +63,9 @@ export class ContactBookHomeComponent implements OnInit {
       console.log('Create contact dialog closed. Data:', newContact);
       if (newContact) {
         this.contactCache.addContact(newContact).subscribe(
-          (wasAdded: boolean) => this.snackbar.open("Contact added", "X")
+          (wasAdded: boolean) => this.snackbar.open("Contact added", "X", {
+            duration: 1000
+          })
         );
       }
     });
@@ -58,7 +74,21 @@ export class ContactBookHomeComponent implements OnInit {
   deleteContact(id: string): any {
     console.log('Deleting Contact with ID: ' + id);
     this.contactCache.deleteContact(id).subscribe(
-      (wasDeleted: boolean) => this.snackbar.open("Contact Deleted", "X")
+      (wasDeleted: boolean) => this.snackbar.open("Contact Deleted", "X", {
+        duration: 1000
+      })
     )
+  }
+
+  editContact(id: string) {
+    console.log('Request edit contact with ID: ' + id)
+  }
+
+  viewContact(id: string) {
+    console.log('Request view contact with ID: ' + id)
+  }
+
+  refresh() {
+    this.contactCache.refresh();
   }
 }

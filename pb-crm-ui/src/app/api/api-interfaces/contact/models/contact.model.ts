@@ -7,17 +7,11 @@ export interface ContactModel {
 
     firstName: string;
     lastName: string;
+    updatedAt: Date;
+    createdAt: Date;
     company?: string;
     notes?: string;
 
     emails?: EmailModel[];
     phones?: PhoneModel[];
-}
-
-export interface ContactNameModel extends Pick<ContactModel, "id" | "firstName" | "lastName"> {
-  // https://www.typescriptlang.org/docs/handbook/utility-types.html#picktype-keys
-}
-
-export function contactToNameModel({id, firstName, lastName}: ContactModel): ContactNameModel {
-  return {id, firstName, lastName}
 }

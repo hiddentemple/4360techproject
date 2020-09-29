@@ -17,15 +17,6 @@ export interface CreateContactRequest {
 
 }
 
-export interface CreateContactResponse {
-
-  id: string;
-  firstName: string;
-  lastName: string;
-  company?: string;
-  notes?: string;
-
-  emails?: EmailModel[];
-  phones?: PhoneModel[];
+export interface CreateContactResponse extends ContactModel {
 
 }

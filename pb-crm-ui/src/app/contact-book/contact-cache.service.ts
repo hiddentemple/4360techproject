@@ -1,5 +1,5 @@
 import {BehaviorSubject, Observable, Subject} from "rxjs";
-import {ContactModel, contactToNameModel, ContactNameModel} from "../api/api-interfaces/contact/models/contact.model";
+import {ContactModel} from "../api/api-interfaces/contact/models/contact.model";
 import {ContactService} from "./contact.service";
 import {Injectable} from "@angular/core";
 import {map, tap} from "rxjs/operators";
@@ -21,10 +21,6 @@ export class ContactCacheService {
 
   get contacts$(): Observable<ContactModel[]> {
     return this._contacts$.asObservable();
-  }
-
-  get names$(): Observable<ContactNameModel[]> {
-    return this.contacts$.pipe(map((contacts: ContactModel[]) => contacts.map(contactToNameModel)));
   }
 
   addContact(contact: ContactModel): Observable<boolean> {
