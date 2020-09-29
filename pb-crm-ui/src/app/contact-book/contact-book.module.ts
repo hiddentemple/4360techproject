@@ -7,7 +7,6 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {ContactBookHomeComponent} from './components/contact-book-home/contact-book-home.component';
-import {ContactCardComponent} from './containers/contact-card/contact-card.component';
 import {CreateContactButtonComponent} from './containers/create-contact-button/create-contact-button.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -19,6 +18,8 @@ import { ContactTableComponent } from './containers/contact-table/contact-table.
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {ContactDetailPageComponent} from './components/contact-detail-page/contact-detail-page.component';
+import {ContactDetailComponent} from './containers/contact-detail/contact-detail.component';
 import { MatMenuModule } from '@angular/material/menu';
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import { ContactHomeSidenavComponent } from './containers/contact-home-sidenav/contact-home-sidenav.component';
@@ -28,12 +29,12 @@ import { ContactHomeSidenavComponent } from './containers/contact-home-sidenav/c
   declarations: [
     ContactFormComponent,
     ContactBookHomeComponent,
-    ContactCardComponent,
     CreateContactButtonComponent,
-    ContactSearchComponent,
     CreateContactDialogComponent,
     ContactTableComponent,
-    ContactHomeSidenavComponent,
+    ContactDetailPageComponent,
+    ContactDetailComponent,
+    ContactSearchComponent
   ],
   exports: [
     ContactFormComponent

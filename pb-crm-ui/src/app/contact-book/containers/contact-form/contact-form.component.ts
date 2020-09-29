@@ -20,6 +20,7 @@ export class ContactFormComponent implements OnInit {
 
     this.contactForm.controls.firstName.setValue(contact.firstName);
     this.contactForm.controls.lastName.setValue(contact.lastName);
+    this.contactForm.controls.companyName.setValue(contact.company);
 
     const emailControls: FormGroup[] = Object.values(contact.emails).map(
       email => this.initEmail(email.address, email.type)
@@ -30,6 +31,7 @@ export class ContactFormComponent implements OnInit {
       email => this.initPhone(String(email.number), email.type)
     );
     this.contactForm.controls.phones = this.fb.array(phoneControls);
+
   }
 
   @Output() submitContact = new EventEmitter<ContactModel>();
@@ -38,8 +40,9 @@ export class ContactFormComponent implements OnInit {
     this.contactForm = new FormGroup({
       firstName: new FormControl('', [Validators.required, Validators.maxLength(25)]),
       lastName: new FormControl('', [Validators.required, Validators.maxLength(25)]),
+      companyName: new FormControl('', [Validators.required, Validators.maxLength(25)]),
       emails: this.fb.array([this.initEmail()]),
-      phones: this.fb.array([this.initPhone()])
+      phones: this.fb.array([this.initPhone()]),
     });
   }
 
