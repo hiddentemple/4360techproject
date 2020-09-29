@@ -11,38 +11,31 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 @Component({
   selector: 'app-contact-book-home',
   template: `
-    <mat-sidenav-container>
-      <mat-sidenav opened mode="side">
-        <app-contact-home-sidenav style="background-color: antiquewhite"></app-contact-home-sidenav>
-      </mat-sidenav>
-      <mat-sidenav opened mode="side" position="end">End content</mat-sidenav>
-      Implicit main content
-    </mat-sidenav-container>
-<!--    <div class="container">-->
-<!--      <div class="row mt-2">-->
-<!--        <span><h1 class="">Contact Book</h1></span>-->
-<!--        <span class="add-spacer"></span>-->
-<!--        <span>-->
-<!--          <app-create-contact-button (add)="addContact()"></app-create-contact-button>-->
-<!--          <button mat-icon-button-->
-<!--                  matTooltip="Refresh"-->
-<!--                  matTooltipPosition="left"-->
-<!--                  (click)="refresh()">-->
-<!--            <mat-icon color="primary">refresh</mat-icon>-->
-<!--          </button>-->
-<!--        </span>-->
+    <div class="container">
+      <div class="row mt-2">
+        <span><h1 class="">Contact Book</h1></span>
+        <span class="add-spacer"></span>
+        <span>
+          <app-create-contact-button (add)="addContact()"></app-create-contact-button>
+          <button mat-icon-button
+                  matTooltip="Refresh"
+                  matTooltipPosition="left"
+                  (click)="refresh()">
+            <mat-icon color="primary">refresh</mat-icon>
+          </button>
+        </span>
 
-<!--      </div>-->
+      </div>
 
-<!--      <hr class="mt-0"/>-->
+      <hr class="mt-0"/>
 
-<!--      <app-contact-table-->
-<!--        [contacts]="contacts"-->
-<!--        (delete)="deleteContact($event)"-->
-<!--        (edit)="editContact($event)"-->
-<!--        (view)="viewContact($event)">-->
-<!--      </app-contact-table>-->
-<!--    </div>-->
+      <app-contact-table
+        [contacts]="contacts"
+        (delete)="deleteContact($event)"
+        (edit)="editContact($event)"
+        (view)="viewContact($event)">
+      </app-contact-table>
+    </div>
   `,
   styles: [
       `.add-spacer {
