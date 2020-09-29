@@ -70,7 +70,6 @@ export class ContactCacheService {
 
   refresh(): void {
     this.contactService.getContacts().subscribe(
-      // Uses object deconstruction to pull out the contacts parameter of the FindAllContactsResponse (the type)
       (contacts: ContactModel[]) => {
         console.log("New contacts received in cache", contacts)
         this._contacts$.next(contacts)

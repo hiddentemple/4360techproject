@@ -81,4 +81,6 @@ export class ContactTableComponent implements AfterViewInit {
   onEdit(id: string) { this.edit.emit(id); }
 
   onDelete(id: string) { this.delete.emit(id); }
+
+  onView(id: string) { this.view.emit(id); }
 }

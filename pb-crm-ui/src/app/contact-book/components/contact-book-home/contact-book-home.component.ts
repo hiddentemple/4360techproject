@@ -11,6 +11,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 @Component({
   selector: 'app-contact-book-home',
   template: `
+
     <div class="container">
       <div class="row mt-2">
         <span><h1 class="">Contact Book</h1></span>
@@ -28,29 +29,51 @@ import {MatSnackBar} from "@angular/material/snack-bar";
       </div>
 
       <hr class="mt-0"/>
+      <div>
+        <as-split>
+          <as-split-area *ngIf="showTable" [order]="0">
+            <app-contact-table [contacts]="contacts"
+                               (delete)="deleteContact($event)"
+                               (edit)="editContact($event)"
+                               (view)="viewContact($event)">
+            </app-contact-table>
+          </as-split-area>
+          <as-split-area *ngIf="showDetail" [order]="1">
+            <button mat-icon-button
+                    matTooltip="Close Detail"
+                    matTooltipPosition="left"
+                    (click)="closeRightPanel()">
+              <mat-icon>close</mat-icon>
+            </button>
+            <app-contact-detail [contact]="selectedContact"></app-contact-detail>
+          </as-split-area>
 
-      <app-contact-table
-        [contacts]="contacts"
-        (delete)="deleteContact($event)"
-        (edit)="editContact($event)"
-        (view)="viewContact($event)">
-      </app-contact-table>
+        </as-split>
+      </div>
+
     </div>
   `,
   styles: [
       `.add-spacer {
-        flex: 1 1 auto;
-      }`,
+      flex: 1 1 auto;
+    }`,
+      `.split-view {
+      height: auto;
+    }`
   ],
 })
 export class ContactBookHomeComponent implements OnInit {
   contacts: ContactModel[];
+  selectedContact: ContactModel;
+  showTable: boolean = true;
+  showDetail: boolean = false;
 
   constructor(
     private dialog: MatDialog,
     private contactCache: ContactCacheService,
     private snackbar: MatSnackBar
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.contactCache.contacts$.subscribe(contacts => this.contacts = contacts);
@@ -86,9 +109,20 @@ export class ContactBookHomeComponent implements OnInit {
 
   viewContact(id: string) {
     console.log('Request view contact with ID: ' + id)
+
+    this.contactCache.getContact(id).subscribe(contact => this.selectedContact = contact);
+    this.openRightPanel();
   }
 
   refresh() {
     this.contactCache.refresh();
+  }
+
+  private openRightPanel() {
+    this.showDetail = true;
+  }
+
+  private closeRightPanel() {
+    this.showDetail = false;
   }
 }

@@ -23,6 +23,8 @@ import {ContactDetailComponent} from './containers/contact-detail/contact-detail
 import { MatMenuModule } from '@angular/material/menu';
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import { ContactHomeSidenavComponent } from './containers/contact-home-sidenav/contact-home-sidenav.component';
+import {MatRippleModule} from "@angular/material/core";
+import {AngularSplitModule} from "angular-split";
 
 
 @NgModule({
@@ -57,7 +59,9 @@ import { ContactHomeSidenavComponent } from './containers/contact-home-sidenav/c
     MatSortModule,
     MatPaginatorModule,
     MatMenuModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatRippleModule,
+    AngularSplitModule.forRoot()
   ]
 })
 export class ContactBookModule {

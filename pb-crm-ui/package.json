@@ -24,6 +24,7 @@
     "@angular/router": "~10.1.1",
     "@nestjsx/crud-request": "^4.6.2",
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
+    "angular-split": "^4.0.0",
     "bootstrap": "^4.5.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
