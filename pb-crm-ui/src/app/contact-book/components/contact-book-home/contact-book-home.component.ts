@@ -17,7 +17,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
         <span><h1 class="">Contact Book</h1></span>
         <span class="add-spacer"></span>
         <span>
-          <app-create-contact-button (add)="addContact()"></app-create-contact-button>
+          <app-create-contact-button (click)="addContact()"></app-create-contact-button>
           <button mat-icon-button
                   matTooltip="Refresh"
                   matTooltipPosition="left"

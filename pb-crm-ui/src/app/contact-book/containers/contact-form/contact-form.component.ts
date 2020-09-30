@@ -8,7 +8,7 @@ export const PhoneValidator = Validators.pattern(PhoneRegex); // TODO validate l
 @Component({
   selector: 'app-contact-form',
   templateUrl: './contact-form.component.html',
-  styleUrls: ['./contact-form.component.scss']
+  styles: []
 })
 export class ContactFormComponent implements OnInit {
   contactForm: FormGroup;
@@ -41,8 +41,8 @@ export class ContactFormComponent implements OnInit {
       firstName: new FormControl('', [Validators.required, Validators.maxLength(25)]),
       lastName: new FormControl('', [Validators.required, Validators.maxLength(25)]),
       companyName: new FormControl('', [Validators.required, Validators.maxLength(25)]),
-      emails: this.fb.array([this.initEmail()]),
-      phones: this.fb.array([this.initPhone()]),
+      emails: this.fb.array([]),
+      phones: this.fb.array([]),
     });
   }
 

@@ -2,17 +2,19 @@
 
   <h3>Name</h3>
 
-  <mat-form-field class="example-full-width">
-    <mat-label>First Name</mat-label>
-    <input matInput maxlength="256" placeholder="Ex. John" formControlName="firstName">
-  </mat-form-field>
+  <p>
+    <mat-form-field class="example-full-width">
+      <mat-label>First Name</mat-label>
+      <input matInput maxlength="256" placeholder="Ex. John" formControlName="firstName">
+    </mat-form-field>
 
-  <mat-form-field class="example-full-width">
-    <mat-label>Last Name</mat-label>
-    <input matInput maxlength="256" placeholder="Ex. Doe" formControlName="lastName">
-  </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <mat-label>Last Name</mat-label>
+      <input matInput maxlength="256" placeholder="Ex. Doe" formControlName="lastName">
+    </mat-form-field>
+  </p>
 
-  <h3>Company</h3>
+
   <mat-form-field class="example-full-width">
     <mat-label>Compnay Name</mat-label>
     <input matInput maxlength="256" placeholder="Ex. Juan in a Million" formControlName="companyName">
@@ -69,7 +71,7 @@
     </div>
   </div>
 
-  <button mat-button [disabled]="!contactForm.valid" type="submit">Submit</button>
+  <button mat-button [disabled]="!contactForm.valid" type="submit" sticky>Submit</button>
 </form>
 <!--<p>-->
 <!--  {{contactForm.value | json}}-->
