@@ -25,6 +25,8 @@ import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import { ContactHomeSidenavComponent } from './containers/contact-home-sidenav/contact-home-sidenav.component';
 import {MatRippleModule} from "@angular/material/core";
 import {AngularSplitModule} from "angular-split";
+import {LayoutModule} from "@angular/cdk/layout";
+import {MatDividerModule} from "@angular/material/divider";
 
 
 @NgModule({
@@ -61,7 +63,7 @@ import {AngularSplitModule} from "angular-split";
     MatMenuModule,
     MatSnackBarModule,
     MatRippleModule,
-    AngularSplitModule.forRoot()
+    AngularSplitModule.forRoot(),
   ]
 })
 export class ContactBookModule {

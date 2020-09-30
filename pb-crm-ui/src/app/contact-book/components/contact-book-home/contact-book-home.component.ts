@@ -96,10 +96,11 @@ export class ContactBookHomeComponent implements OnInit {
 
   deleteContact(id: string): any {
     console.log('Deleting Contact with ID: ' + id);
-    this.contactCache.deleteContact(id).subscribe(
-      (wasDeleted: boolean) => this.snackbar.open("Contact Deleted", "X", {
-        duration: 1000
-      })
+    this.contactCache.deleteContact(id).subscribe((wasDeleted: boolean) => {
+        this.snackbar.open("Contact Deleted", "X", {
+          duration: 1000
+        })
+      }
     )
   }
 

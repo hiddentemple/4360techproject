@@ -5,7 +5,7 @@ import {ContactModel} from '../../../api/api-interfaces/contact/models/contact.m
   selector: 'app-contact-detail',
   template: `
     <div class="container-fluid">
-      <h2>Name: {{contact.firstName}} {{contact.lastName}}</h2>
+      <h2>Name: {{contact?.firstName}} {{contact?.lastName}}</h2>
     </div>
 
   `,
