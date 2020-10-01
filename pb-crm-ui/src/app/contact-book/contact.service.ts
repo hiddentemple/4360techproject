@@ -53,7 +53,7 @@ export class ContactService {
 
   updateContact(contact: UpdateContactRequest): Observable<UpdateContactResponse> {
     const url = '/api/contacts/' + contact.id;
-    return this.apiService.put<UpdateContactResponse>(url, contact, {});
+    return this.apiService.patch<UpdateContactResponse>(url, contact, {});
   }
 
   deleteContact({id}: DeleteContactRequest): Observable<DeleteContactResponse> {

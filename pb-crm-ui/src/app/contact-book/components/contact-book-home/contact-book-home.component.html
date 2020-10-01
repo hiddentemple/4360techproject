@@ -1,0 +1,59 @@
+<div class="container">
+  <div class="row mt-2">
+    <span><h1 class="">Contact Book</h1></span>
+    <span class="add-spacer"></span>
+    <span>
+          <button mat-icon-button
+                  aria-label="Add Contact"
+                  matTooltip="Add a new contact"
+                  matTooltipPosition="left"
+                  (click)="openContactForm()">
+            <mat-icon color="primary">add_circle_outline</mat-icon>
+          </button>
+          <button mat-icon-button
+                  matTooltip="Refresh"
+                  matTooltipPosition="left"
+                  (click)="refresh()">
+            <mat-icon color="primary">refresh</mat-icon>
+          </button>
+        </span>
+  </div>
+
+  <hr class="mt-0"/>
+
+  <div>
+    <as-split>
+      <as-split-area *ngIf="showTable" [order]="0">
+        <app-contact-table [contacts]="contacts"
+                           [size]="tableSize"
+                           (delete)="deleteContact($event)"
+                           (edit)="setEditContact($event)"
+                           (view)="setViewContact($event)">
+        </app-contact-table>
+      </as-split-area>
+      <as-split-area *ngIf="showDetail" [order]="1">
+        <button mat-icon-button
+                matTooltip="Close Detail"
+                matTooltipPosition="left"
+                (click)="closeRightPanelAndReset()">
+          <mat-icon>close</mat-icon>
+        </button>
+        <div>
+          <ng-template [cdkPortalOutlet]="selectedPortal"></ng-template>
+        </div>
+      </as-split-area>
+    </as-split>
+  </div>
+</div>
+
+<ng-template #contactDetail>
+  <app-contact-detail [contact]="selectedContact"></app-contact-detail>
+</ng-template>
+
+<ng-template #createContactForm>
+  <app-contact-form [contact]="selectedContact" (submitContact)="createContract($event)"></app-contact-form>
+</ng-template>
+
+<ng-template #editContactForm>
+  <app-contact-form [contact]="selectedContact" (submitContact)="editContact($event)"></app-contact-form>
+</ng-template>

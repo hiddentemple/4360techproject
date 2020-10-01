@@ -30,21 +30,14 @@ export class ContactTableComponent implements AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatTable) dataTable: MatTable<any>;
 
-  @Output() delete = new EventEmitter<string>();
-  @Output() edit = new EventEmitter<string>();
-  @Output() view = new EventEmitter<string>();
+  @Output() delete = new EventEmitter<ContactModel>();
+  @Output() edit = new EventEmitter<ContactModel>();
+  @Output() view = new EventEmitter<ContactModel>();
 
   @Input() size: TableSize;
   @Input() set contacts(contacts: ContactModel[]) { this.setContacts(contacts); }
 
-  get displayedColumns(): string[] {
-    switch (this.size){
-      case TableSize.COMPACT:
-        return ['firstName', 'lastName', 'company', 'actions'];
-      case TableSize.FULL:
-        return ['firstName', 'lastName', 'company', 'updatedAt', 'actions'];
-    }
-  }
+  get displayedColumns(): string[] { return this.getColumns(); }
 
   constructor() {
     this.dataSource = new MatTableDataSource([]);
@@ -55,10 +48,9 @@ export class ContactTableComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  getIDForRow(contact: ContactModel): string { return contact.id }
-  onEdit(id: string) { this.edit.emit(id); }
-  onDelete(id: string) { this.delete.emit(id); }
-  onView(id: string) { this.view.emit(id); }
+  onEdit(contact: ContactModel) { this.edit.emit(contact); }
+  onDelete(contact: ContactModel) { this.delete.emit(contact); }
+  onView(contact: ContactModel) { this.view.emit(contact); }
 
   applyFilter(event: Event) {
     const filterValue: string = (event.target as HTMLInputElement).value;
@@ -81,6 +73,15 @@ export class ContactTableComponent implements AfterViewInit {
     if (this.dataTable) {
       console.log("Data table is present, rendering rows");
       this.dataTable.renderRows();
+    }
+  }
+
+  private getColumns(): string[] {
+    switch (this.size){
+      case TableSize.COMPACT:
+        return ['firstName', 'lastName', 'company', 'actions'];
+      case TableSize.FULL:
+        return ['firstName', 'lastName', 'company', 'updatedAt', 'actions'];
     }
   }
 }

@@ -12,64 +12,7 @@ import {ContactFormComponent} from "../../containers/contact-form/contact-form.c
 
 @Component({
   selector: 'app-contact-book-home',
-  template: `
-
-    <div class="container">
-      <div class="row mt-2">
-        <span><h1 class="">Contact Book</h1></span>
-        <span class="add-spacer"></span>
-        <span>
-          <button mat-icon-button
-                  aria-label="Add Contact"
-                  matTooltip="Add a new contact"
-                  matTooltipPosition="left"
-                  (click)="openContactForm()">
-            <mat-icon color="primary">add_circle_outline</mat-icon>
-          </button>
-          <button mat-icon-button
-                  matTooltip="Refresh"
-                  matTooltipPosition="left"
-                  (click)="refresh()">
-            <mat-icon color="primary">refresh</mat-icon>
-          </button>
-        </span>
-      </div>
-
-      <hr class="mt-0"/>
-
-      <div>
-        <as-split>
-          <as-split-area *ngIf="showTable" [order]="0">
-            <app-contact-table [contacts]="contacts"
-                               [size]="tableSize"
-                               (delete)="deleteContact($event)"
-                               (edit)="editContact($event)"
-                               (view)="viewContact($event)">
-            </app-contact-table>
-          </as-split-area>
-          <as-split-area *ngIf="showDetail" [order]="1">
-            <button mat-icon-button
-                    matTooltip="Close Detail"
-                    matTooltipPosition="left"
-                    (click)="closeRightPanel()">
-              <mat-icon>close</mat-icon>
-            </button>
-            <div>
-              <ng-template [cdkPortalOutlet]="selectedPortal"></ng-template>
-            </div>
-          </as-split-area>
-        </as-split>
-      </div>
-    </div>
-
-    <ng-template #contactDetail>
-      <app-contact-detail [contact]="selectedContact"></app-contact-detail>
-    </ng-template>
-
-    <ng-template #contactForm>
-      <app-contact-form [contact]="selectedContact" (submitContact)="createContract($event)"></app-contact-form>
-    </ng-template>
-  `,
+  templateUrl: './contact-book-home.component.html',
   styles: [
     `.add-spacer {
       flex: 1 1 auto;
@@ -85,10 +28,13 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
 
   selectedPortal: Portal<any>;
   detailPortal: TemplatePortal<any>;
-  formPortal: TemplatePortal<any>;
+  createPortal: TemplatePortal<any>;
+  editPortal: TemplatePortal<any>;
 
   @ViewChild('contactDetail') contactDetail: TemplateRef<unknown>;
-  @ViewChild('contactForm') contactForm: TemplateRef<unknown>;
+  @ViewChild('createContactForm') createContactForm: TemplateRef<unknown>;
+  @ViewChild('editContactForm') editContactForm: TemplateRef<unknown>;
+
 
   constructor(
     private dialog: MatDialog,
@@ -104,7 +50,8 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.detailPortal = new TemplatePortal(this.contactDetail, this.viewContainerRef);
-    this.formPortal = new TemplatePortal(this.contactForm, this.viewContainerRef);
+    this.createPortal = new TemplatePortal(this.createContactForm, this.viewContainerRef);
+    this.editPortal = new TemplatePortal(this.editContactForm, this.viewContainerRef);
   }
 
   refresh() {
@@ -112,55 +59,56 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
   }
 
   openContactForm() {
-    this.selectedPortal = this.formPortal;
+    this.selectedPortal = this.createPortal;
     this.openRightPanel();
   }
 
-  openContactDetail() {
-    this.selectedPortal = this.detailPortal;
-    this.openRightPanel();
-  }
-
-  openRightPanel() {
-    this.showDetail = true;
-    this.tableSize = TableSize.COMPACT;
-  }
-
-  closeRightPanel() {
+  closeRightPanelAndReset() {
     this.showDetail = false;
     this.tableSize = TableSize.FULL;
     this.selectedContact = undefined;
     this.selectedPortal = undefined;
   }
 
-  viewContact(id: string) {
-    this.contactCache.getContact(id).subscribe(contact => {
-      this.selectedContact = contact;
-      this.openContactDetail();
-    });
+  setViewContact(contact: ContactModel) {
+    this.selectedContact = contact;
+    this.selectedPortal = this.detailPortal;
+    this.openRightPanel();
+  }
+
+  setEditContact(contact: ContactModel) {
+    this.selectedContact = contact;
+    this.selectedPortal = this.editPortal;
+    this.openRightPanel();
   }
 
   createContract(contact: ContactModel) {
     console.log('Request Contract')
-    this.contactCache.addContact(contact).subscribe(id => {
-      console.log("Created contact with id: ", id);
-      this.snackbar.open('Contact Created', 'X', {duration: 1000});
-      this.viewContact(id);
+    this.contactCache.addContact(contact).subscribe(contact => {
+      this.snackbar.open('Contact Created', 'Close', {duration: 1000});
+      this.setViewContact(contact)
     })
   }
 
-  deleteContact(id: string): any {
-    this.contactCache.deleteContact(id).subscribe(() => {
+  editContact(contact: ContactModel) {
+    this.contactCache.updateContact(contact).subscribe(updatedContact =>
+      this.setViewContact(updatedContact)
+    )
+  }
+
+  deleteContact(contact: ContactModel) {
+    this.contactCache.deleteContact(contact.id).subscribe(() => {
         this.snackbar.open("Contact Deleted", "X", {duration: 1000});
-        if (this.selectedContact?.id === id) {
-          this.closeRightPanel();
-          this.selectedContact = undefined;
+        if (this.selectedContact === contact) {
+          this.closeRightPanelAndReset();
         }
       }
     )
   }
 
-  editContact(id: string) {
-    console.log('Request edit contact with ID: ' + id)
+  private openRightPanel() {
+    this.showDetail = true;
+    this.tableSize = TableSize.COMPACT;
   }
+
 }

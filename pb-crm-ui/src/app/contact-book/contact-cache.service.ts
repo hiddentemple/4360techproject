@@ -23,14 +23,14 @@ export class ContactCacheService {
     return this._contacts$.asObservable();
   }
 
-  addContact(contact: ContactModel): Observable<string> {
+  addContact(contact: ContactModel): Observable<ContactModel> {
     const req: CreateContactRequest = contact;
     return this.contactService.createContact(req).pipe(
       map(({contact}: CreateContactResponse) => {
           const current: ContactModel[] = this._contacts$.getValue();
           // Add the created contact to the array using the spread operator
           this._contacts$.next([...current, contact]);
-          return contact.id;
+          return contact;
         }
       ));
   }
@@ -43,9 +43,9 @@ export class ContactCacheService {
     ));
   }
 
-  updateContact(id: string, updated: Partial<ContactModel>): Observable<ContactModel> {
+  updateContact(updated: ContactModel): Observable<ContactModel> {
     // Object construction with the spread operator
-    const req: UpdateContactRequest = {...updated, id};
+    const {id, ...req} = updated;
     return this.contactService.updateContact(req).pipe(map((contact: ContactModel) => {
       const filtered = this.remove(id);
       filtered.push(contact);
