@@ -35,7 +35,6 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
   @ViewChild('createContactForm') createContactForm: TemplateRef<unknown>;
   @ViewChild('editContactForm') editContactForm: TemplateRef<unknown>;
 
-
   constructor(
     private dialog: MatDialog,
     private contactCache: ContactCacheService,
@@ -58,16 +57,13 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     this.contactCache.refresh();
   }
 
-  openContactForm() {
+  openCreateContactForm() {
     this.selectedPortal = this.createPortal;
     this.openRightPanel();
   }
 
   closeRightPanelAndReset() {
-    this.showDetail = false;
-    this.tableSize = TableSize.FULL;
-    this.selectedContact = undefined;
-    this.selectedPortal = undefined;
+    this.reset();
   }
 
   setViewContact(contact: ContactModel) {
@@ -83,7 +79,6 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
   }
 
   createContract(contact: ContactModel) {
-    console.log('Request Contract')
     this.contactCache.addContact(contact).subscribe(contact => {
       this.snackbar.open('Contact Created', 'Close', {duration: 1000});
       this.setViewContact(contact)
@@ -100,7 +95,7 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     this.contactCache.deleteContact(contact.id).subscribe(() => {
         this.snackbar.open("Contact Deleted", "X", {duration: 1000});
         if (this.selectedContact === contact) {
-          this.closeRightPanelAndReset();
+          this.reset();
         }
       }
     )
@@ -111,4 +106,10 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     this.tableSize = TableSize.COMPACT;
   }
 
+  private reset() {
+    this.showDetail = false;
+    this.tableSize = TableSize.FULL;
+    this.selectedContact = undefined;
+    this.selectedPortal = undefined;
+  }
 }

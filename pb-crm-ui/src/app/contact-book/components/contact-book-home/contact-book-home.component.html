@@ -1,13 +1,17 @@
 <div class="container">
   <div class="row mt-2">
+    <!-- Title -->
     <span><h1 class="">Contact Book</h1></span>
+
     <span class="add-spacer"></span>
+
+    <!-- Right Buttons -->
     <span>
           <button mat-icon-button
                   aria-label="Add Contact"
                   matTooltip="Add a new contact"
                   matTooltipPosition="left"
-                  (click)="openContactForm()">
+                  (click)="openCreateContactForm()">
             <mat-icon color="primary">add_circle_outline</mat-icon>
           </button>
           <button mat-icon-button
@@ -21,6 +25,7 @@
 
   <hr class="mt-0"/>
 
+  <!-- Split View --->
   <div>
     <as-split>
       <as-split-area *ngIf="showTable" [order]="0">

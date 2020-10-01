@@ -8,9 +8,7 @@ import { catchError, retry } from 'rxjs/operators';
 })
 export class ApiService {
 
-  constructor(private http: HttpClient) {
-  }
-
+  constructor(private http: HttpClient) {}
 
   private static handleError(error: HttpErrorResponse): Observable<any>{
     if (error.error instanceof ErrorEvent) {
