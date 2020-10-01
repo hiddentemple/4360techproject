@@ -1,9 +1,10 @@
-import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
+import {Component, OnInit, Output, EventEmitter, Input, InjectionToken, Inject} from '@angular/core';
 import {Form, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ContactModel} from '../../../api/api-interfaces/contact/models/contact.model';
 import {BreakpointObserver} from "@angular/cdk/layout";
 import {BreakpointService} from "../../../core/layout/breakpoint.service";
 import {Observable} from "rxjs";
+import {PortalInjector} from "@angular/cdk/portal";
 
 export const PhoneRegex = /[0-9]{10}/;
 export const PhoneValidator = Validators.pattern(PhoneRegex); // TODO validate length and numeric
@@ -11,14 +12,7 @@ export const PhoneValidator = Validators.pattern(PhoneRegex); // TODO validate l
 @Component({
   selector: 'app-contact-form',
   templateUrl: './contact-form.component.html',
-  styles: [
-    `.name-input {
-      width: 42.5%;
-    }`,
-    `.name-spacer {
-      width: 5%;
-    }`
-  ]
+  styles: []
 })
 export class ContactFormComponent implements OnInit {
   contactForm: FormGroup;
@@ -31,7 +25,7 @@ export class ContactFormComponent implements OnInit {
     this.contactForm = new FormGroup({
       firstName: new FormControl('', [Validators.required, Validators.maxLength(50)]),
       lastName: new FormControl('', [Validators.required, Validators.maxLength(50)]),
-      companyName: new FormControl('', [Validators.required, Validators.maxLength(150)]),
+      company: new FormControl('', [Validators.required, Validators.maxLength(150)]),
       emails: this.fb.array([]),
       phones: this.fb.array([]),
     });
@@ -43,6 +37,7 @@ export class ContactFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.contactForm.valid) {
+      console.log("Contact Form Submit: ", this.contactForm.value)
       this.submitContact.emit(this.contactForm.value as ContactModel);
     } else {
       console.error('Try to submit when form is invalid.', this.contactForm);
@@ -56,7 +51,7 @@ export class ContactFormComponent implements OnInit {
 
     this.contactForm.controls.firstName.setValue(contact.firstName);
     this.contactForm.controls.lastName.setValue(contact.lastName);
-    this.contactForm.controls.companyName.setValue(contact.company);
+    this.contactForm.controls.company.setValue(contact.company);
 
     const emailControls: FormGroup[] = Object.values(contact.emails).map(
       email => this.initEmail(email.address, email.type)

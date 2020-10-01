@@ -7,7 +7,6 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {ContactBookHomeComponent} from './components/contact-book-home/contact-book-home.component';
-import {CreateContactButtonComponent} from './containers/create-contact-button/create-contact-button.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
@@ -27,13 +26,13 @@ import {MatRippleModule} from "@angular/material/core";
 import {AngularSplitModule} from "angular-split";
 import {LayoutModule} from "@angular/cdk/layout";
 import {MatDividerModule} from "@angular/material/divider";
+import {PortalModule} from "@angular/cdk/portal";
 
 
 @NgModule({
   declarations: [
     ContactFormComponent,
     ContactBookHomeComponent,
-    CreateContactButtonComponent,
     CreateContactDialogComponent,
     ContactTableComponent,
     ContactDetailPageComponent,
@@ -64,6 +63,11 @@ import {MatDividerModule} from "@angular/material/divider";
     MatSnackBarModule,
     MatRippleModule,
     AngularSplitModule.forRoot(),
+    PortalModule,
+  ],
+  entryComponents: [
+    ContactFormComponent,
+    ContactDetailComponent
   ]
 })
 export class ContactBookModule {

@@ -16,21 +16,21 @@ export class ContactCacheService {
 
   constructor(private contactService: ContactService) {
     this._contacts$ = new BehaviorSubject<ContactModel[]>([]);
-    this.refresh();
+    this.refresh().subscribe(() => console.log("Cache Init"));
   }
 
   get contacts$(): Observable<ContactModel[]> {
     return this._contacts$.asObservable();
   }
 
-  addContact(contact: ContactModel): Observable<boolean> {
+  addContact(contact: ContactModel): Observable<string> {
     const req: CreateContactRequest = contact;
     return this.contactService.createContact(req).pipe(
-      map((contact: CreateContactResponse) => {
+      map(({contact}: CreateContactResponse) => {
           const current: ContactModel[] = this._contacts$.getValue();
           // Add the created contact to the array using the spread operator
           this._contacts$.next([...current, contact]);
-          return true;
+          return contact.id;
         }
       ));
   }
@@ -68,13 +68,15 @@ export class ContactCacheService {
     )
   }
 
-  refresh(): void {
-    this.contactService.getContacts().subscribe(
-      (contacts: ContactModel[]) => {
-        console.log("New contacts received in cache", contacts)
-        this._contacts$.next(contacts)
-      }
-    )
+  refresh(): Observable<any> {
+    return this.contactService.getContacts()
+      .pipe(
+        tap((contacts: ContactModel[]) => {
+          console.log("New contacts received in cache", contacts)
+          this._contacts$.next(contacts)
+        })
+      )
+
   }
 
   private remove(id: string): ContactModel[] {
