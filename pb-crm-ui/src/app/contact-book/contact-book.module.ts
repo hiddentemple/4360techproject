@@ -25,6 +25,7 @@ import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import { ContactHomeSidenavComponent } from './containers/contact-home-sidenav/contact-home-sidenav.component';
 import {AngularSplitModule} from "angular-split";
 import { EmailTableComponent } from './containers/email-table/email-table.component';
+import { PhoneTableComponent } from './containers/phone-table/phone-table.component';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { EmailTableComponent } from './containers/email-table/email-table.compon
     ContactDetailPageComponent,
     ContactDetailComponent,
     ContactSearchComponent,
-    EmailTableComponent
+    EmailTableComponent,
+    PhoneTableComponent
   ],
   exports: [
     ContactFormComponent
