@@ -5,13 +5,13 @@ import {EmailModel} from '../../../api/api-interfaces/contact/models/email.model
   selector: 'app-email-table',
   template: `
     <table mat-table [dataSource]="emails">
-      <!-- ID Column -->
+      <!-- Address Column -->
       <ng-container matColumnDef="address">
         <th mat-header-cell *matHeaderCellDef>Address</th>
         <td mat-cell *matCellDef="let email"> {{email.address}}</td>
       </ng-container>
 
-      <!-- First Name Column -->
+      <!-- Type Column -->
       <ng-container matColumnDef="type">
         <th mat-header-cell *matHeaderCellDef>Type</th>
         <td mat-cell *matCellDef="let email">{{email.type}}</td>

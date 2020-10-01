@@ -4,14 +4,14 @@ import {PhoneModel} from '../../../api/api-interfaces/contact/models/phone.model
 @Component({
   selector: 'app-phone-table',
   template: `
-    <table mat-table [dataSource]="phones">
-      <!-- ID Column -->
+    <table mat-table [dataSource]="phones" class="full-width-table" >
+      <!-- Phone Column -->
       <ng-container matColumnDef="number">
-        <th mat-header-cell *matHeaderCellDef>Number</th>
+        <th mat-header-cell *matHeaderCellDef>Phone Number</th>
         <td mat-cell *matCellDef="let phone"> {{phone.number}}</td>
       </ng-container>
 
-      <!-- First Name Column -->
+      <!-- Type Column -->
       <ng-container matColumnDef="type">
         <th mat-header-cell *matHeaderCellDef>Type</th>
         <td mat-cell *matCellDef="let phone">{{phone.type}}</td>

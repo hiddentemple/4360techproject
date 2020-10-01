@@ -6,7 +6,7 @@ import {ContactModel} from '../../../api/api-interfaces/contact/models/contact.m
   template: `
     <div class="container-fluid">
       <h2>{{contact.firstName}} {{contact.lastName}}</h2>
-      <h4>Company: {{contact.company}}</h4>
+      <h3>Company: {{contact.company}}</h3>
       <app-phone-table [phones]="contact?.phones"></app-phone-table>
       <app-email-table [emails]="contact?.emails"></app-email-table>
     </div>
