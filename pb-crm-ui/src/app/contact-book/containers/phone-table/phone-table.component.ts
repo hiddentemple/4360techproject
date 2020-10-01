@@ -21,8 +21,7 @@ import {PhoneModel} from '../../../api/api-interfaces/contact/models/phone.model
       <tr mat-row *matRowDef="let phone; columns: displayedColumns;"></tr>
     </table>
   `,
-  styles: [
-  ]
+  styleUrls: ['phone-table.component.css']
 })
 export class PhoneTableComponent {
   displayedColumns: string[] = ['number', 'type'];

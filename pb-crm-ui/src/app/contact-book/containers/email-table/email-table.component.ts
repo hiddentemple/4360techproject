@@ -4,7 +4,7 @@ import {EmailModel} from '../../../api/api-interfaces/contact/models/email.model
 @Component({
   selector: 'app-email-table',
   template: `
-    <table mat-table [dataSource]="emails">
+    <table mat-table [dataSource]="emails" class="full-width-table">
       <!-- Address Column -->
       <ng-container matColumnDef="address">
         <th mat-header-cell *matHeaderCellDef>Address</th>
@@ -21,7 +21,7 @@ import {EmailModel} from '../../../api/api-interfaces/contact/models/email.model
       <tr mat-row *matRowDef="let email; columns: displayedColumns;"></tr>
     </table>
   `,
-  styles: []
+  styleUrls: ['email-table.component.css']
 })
 
 
