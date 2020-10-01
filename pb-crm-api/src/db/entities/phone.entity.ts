@@ -16,7 +16,7 @@ export class PhoneEntity implements PhoneModel {
     @Column('varchar', { nullable: false })
     @IsOptional()
     @MaxLength(50)
-    type?: string
+    type: string
 
     @ManyToOne(type => ContactEntity, contact => contact.phones, {
         onDelete: "CASCADE",

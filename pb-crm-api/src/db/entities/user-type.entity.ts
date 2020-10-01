@@ -16,6 +16,6 @@ export class UserTypeEntity implements UserTypeModel {
   @Column('varchar', { nullable: true})
   @IsOptional()
   @MaxLength(100)
-  description?: string;
+  description: string;
 
 }
