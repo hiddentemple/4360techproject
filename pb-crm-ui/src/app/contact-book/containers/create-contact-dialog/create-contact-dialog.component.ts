@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {ContactModel} from '../../../api/api-interfaces/contact/models/contact.model';
+import {ContactModel} from '@shared/contact/models/contact.model';
 
 @Component({
   selector: 'app-create-contact-dialog',
@@ -28,7 +28,7 @@ export class CreateContactDialogComponent {
     this.dialogRef.close();
   }
 
-  onSubmit(event: ContactModel) {
+  onSubmit(event: ContactModel): any {
     this.dialogRef.close(event);
   }
 }

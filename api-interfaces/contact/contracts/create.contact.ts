@@ -1,5 +1,5 @@
-import {EmailModel} from "../models/email.model";
-import {PhoneModel} from "../models/phone.model";
+import { EmailModel } from '../models/email.model';
+import { PhoneModel } from '../models/phone.model';
 import { ContactModel } from '../models/contact.model';
 
 
@@ -8,7 +8,7 @@ export interface CreateContactRequest {
     // Properties
     firstName: string;
     lastName: string;
-    company? : string
+    company?: string;
     notes?: string;
 
     // Relations
@@ -18,5 +18,7 @@ export interface CreateContactRequest {
 }
 
 export interface CreateContactResponse {
+
     contact: ContactModel;
+
 }

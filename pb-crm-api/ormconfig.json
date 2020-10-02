@@ -6,7 +6,7 @@
   "password": "ogedeqbnk5m7i4pj",
   "database": "crmDB",
   "ssl": true,
-  "entities": ["dist/db/entities/**/*.entity{.js, .ts}"],
+  "entities": ["dist/pb-crm-api/src/db/entities/**/*.entity{.js, .ts}"],
   "extra": {
     "ssl": {
       "rejectUnauthorized": false

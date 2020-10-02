@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import {EmailEntity} from "./email.entity";
 import {PhoneEntity} from "./phone.entity";
-import {ContactModel} from "../../api-interfaces/contact/models/contact.model";
+import {ContactModel} from '@shared/contact/models/contact.model';
 import { Length, MaxLength, IsOptional, IsAlpha } from 'class-validator';
 
 

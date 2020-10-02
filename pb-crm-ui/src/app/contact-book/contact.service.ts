@@ -1,27 +1,15 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import {ContactModel} from '../api/api-interfaces/contact/models/contact.model';
-import { CreateContactRequest, CreateContactResponse } from '../api/api-interfaces/contact/contracts/create.contact';
-import { UpdateContactRequest, UpdateContactResponse } from '../api/api-interfaces/contact/contracts/update.contact';
-
-import { tap } from 'rxjs/operators';
+import { CreateContactRequest, CreateContactResponse, } from '@shared/contact/contracts/create.contact';
+import { UpdateContactRequest, UpdateContactResponse, } from '@shared/contact/contracts/update.contact';
 import { ApiService } from '../api/api.service';
-import { FindAllContactResponse } from '../api/api-interfaces/contact/contracts/find-all.contact';
-import {
-  FindOneContactRequest,
-  FindOneContactResponse,
-} from '../api/api-interfaces/contact/contracts/find-one.contact';
-import {
-  CreateBulkContactRequest,
-  CreateBulkContactResponse,
-} from '../api/api-interfaces/contact/contracts/create.bulkContacts';
-
-
-
+import { FindAllContactResponse } from '@shared/contact/contracts/find-all.contact';
+import { FindOneContactRequest, FindOneContactResponse, } from '@shared/contact/contracts/find-one.contact';
+import { CreateBulkContactRequest, CreateBulkContactResponse, } from '@shared/contact/contracts/create.bulkContacts';
 
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ContactService {
   constructor(private apiService: ApiService) {
@@ -29,11 +17,11 @@ export class ContactService {
 
 
   // TODO - Error handling
-  getContacts(): Observable<FindAllContactResponse>  {
+  getContacts(): Observable<FindAllContactResponse> {
     return this.apiService.get<FindAllContactResponse>('/api/contacts', {});
   }
 
-  getContact(contact: FindOneContactRequest): Observable<FindOneContactResponse>{
+  getContact(contact: FindOneContactRequest): Observable<FindOneContactResponse> {
     return this.apiService.get<FindOneContactResponse>('/api/contacts/' + contact.id);
   }
 
@@ -41,7 +29,7 @@ export class ContactService {
     return this.apiService.post<CreateContactResponse>('/api/contacts', contact, {});
   }
 
-  createContacts(contacts: CreateBulkContactRequest): Observable<CreateBulkContactResponse>{
+  createContacts(contacts: CreateBulkContactRequest): Observable<CreateBulkContactResponse> {
     return this.apiService.post<CreateBulkContactResponse>('/api/contacts/bulk', contacts, {});
   }
 

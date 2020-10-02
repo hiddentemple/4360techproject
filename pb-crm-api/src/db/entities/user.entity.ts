@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import {UserTypeEntity} from "./user-type.entity";
 import {ContactEntity} from "./contact.entity";
-import {UserModel} from "../../api-interfaces/user/model/user.model";
+import {UserModel} from '@shared/user/model/user.model';
 import {Length, IsEmail, validate, validateOrReject} from "class-validator";
 import * as bcrypt from 'bcrypt';
 

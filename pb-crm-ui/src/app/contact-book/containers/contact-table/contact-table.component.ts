@@ -2,7 +2,7 @@ import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChil
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {ContactModel} from '../../../api/api-interfaces/contact/models/contact.model';
+import {ContactModel} from '@shared/contact/models/contact.model';
 import { MatMenuTrigger } from '@angular/material/menu';
 
 

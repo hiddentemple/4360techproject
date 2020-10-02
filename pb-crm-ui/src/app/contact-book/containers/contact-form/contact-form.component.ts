@@ -1,6 +1,6 @@
 import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
 import {Form, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ContactModel} from '../../../api/api-interfaces/contact/models/contact.model';
+import {ContactModel} from '@shared/contact/models/contact.model';
 
 export const PhoneRegex = /[0-9]{10}/;
 export const PhoneValidator = Validators.pattern(PhoneRegex); // TODO validate length and numeric
