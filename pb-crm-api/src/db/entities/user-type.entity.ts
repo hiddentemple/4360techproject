@@ -1,5 +1,5 @@
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
-import {UserTypeModel} from '@shared/user/model/user-type.model';
+import {UserTypeModel} from 'api-interfaces';
 import {Length, validate, validateOrReject} from "class-validator";
 import {ContactEntity} from "./contact.entity";
 

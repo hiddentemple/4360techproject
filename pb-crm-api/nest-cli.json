@@ -1,4 +1,4 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "pb-crm-api/src/"
+  "sourceRoot": "src"
 }

@@ -13,9 +13,6 @@
     "incremental": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "paths": {
-      "@shared/*": ["../api-interfaces/*"]
-    }
+    "skipLibCheck": true
   }
 }

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CreateContactRequest, CreateContactResponse, } from '@shared/contact/contracts/create.contact';
-import { UpdateContactRequest, UpdateContactResponse, } from '@shared/contact/contracts/update.contact';
+import { CreateContactRequest, CreateContactResponse, } from 'api-interfaces';
+import { UpdateContactRequest, UpdateContactResponse, } from 'api-interfaces';
 import { ApiService } from '../api/api.service';
-import { FindAllContactResponse } from '@shared/contact/contracts/find-all.contact';
-import { FindOneContactRequest, FindOneContactResponse, } from '@shared/contact/contracts/find-one.contact';
-import { CreateBulkContactRequest, CreateBulkContactResponse, } from '@shared/contact/contracts/create.bulkContacts';
+import { FindAllContactResponse } from 'api-interfaces';
+import { FindOneContactRequest, FindOneContactResponse, } from 'api-interfaces';
+import { CreateBulkContactRequest, CreateBulkContactResponse, } from 'api-interfaces';
 
 
 @Injectable({
