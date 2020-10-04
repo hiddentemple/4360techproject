@@ -59,6 +59,7 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
 
   openCreateContactForm() {
     this.selectedPortal = this.createPortal;
+    this.selectedContact = undefined;
     this.openRightPanel();
   }
 
@@ -102,6 +103,7 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
   }
 
   private openRightPanel() {
+    console.log("Opening right panel with active portal: " + this.portalToDescription())
     this.showDetail = true;
     this.tableSize = TableSize.COMPACT;
   }
@@ -111,5 +113,15 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     this.tableSize = TableSize.FULL;
     this.selectedContact = undefined;
     this.selectedPortal = undefined;
+  }
+
+  private portalToDescription(): string {
+    if (!this.selectedPortal) return 'undefined'
+    if (this.selectedPortal === this.detailPortal) return 'detail'
+    if (this.selectedPortal === this.createPortal) return 'create'
+    if (this.selectedPortal === this.editPortal) return 'edit'
+
+
+    throw new Error('Invalid portalToDescription method - does not have mapping for selected portal')
   }
 }

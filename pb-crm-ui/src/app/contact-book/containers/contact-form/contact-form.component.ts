@@ -23,7 +23,7 @@ export class ContactFormComponent implements OnInit {
   get emailFormArray(): FormArray { return this.contactForm.controls.emails as FormArray; }
   get phoneFormArray(): FormArray { return this.contactForm.controls.phones as FormArray; }
   get firstNameFormControl(): FormControl { return this.contactForm.controls.firstName as FormControl; }
-  get lastNameFormControl(): FormControl { return this.contactForm.controls.firstName as FormControl; }
+  get lastNameFormControl(): FormControl { return this.contactForm.controls.lastName as FormControl; }
   get companyFormControl(): FormControl { return this.contactForm.controls.company as FormControl; }
 
   constructor(private fb: FormBuilder, private breakpointService: BreakpointService) {
