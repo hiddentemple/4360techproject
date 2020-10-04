@@ -20,14 +20,12 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {ContactDetailPageComponent} from './components/contact-detail-page/contact-detail-page.component';
 import {ContactDetailComponent} from './containers/contact-detail/contact-detail.component';
 import { MatMenuModule } from '@angular/material/menu';
-import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
-import { ContactHomeSidenavComponent } from './containers/contact-home-sidenav/contact-home-sidenav.component';
-import {AngularSplitModule} from "angular-split";
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {AngularSplitModule} from 'angular-split';
 import { EmailTableComponent } from './containers/email-table/email-table.component';
 import { PhoneTableComponent } from './containers/phone-table/phone-table.component';
-import {LayoutModule} from "@angular/cdk/layout";
-import {MatDividerModule} from "@angular/material/divider";
-import {PortalModule} from "@angular/cdk/portal";
+import {PortalModule} from '@angular/cdk/portal';
+import { MatRippleModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -64,7 +62,7 @@ import {PortalModule} from "@angular/cdk/portal";
     MatPaginatorModule,
     MatMenuModule,
     MatSnackBarModule,
-    AngularSplitModule.forRoot()
+    AngularSplitModule.forRoot(),
     MatRippleModule,
     PortalModule,
   ],
