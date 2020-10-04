@@ -52,7 +52,6 @@ export class UserController implements CrudController<UserEntity> {
       throw error
     });
     return {
-      message: "User created",
       id: user.id
     };
   }

@@ -31,9 +31,10 @@ export class ContactService {
     return this.apiService.post<CreateBulkContactResponse>('/api/contacts/bulk', contacts, {});
   }
 
-  updateContact(contact: Pick<ContactModel, 'firstName' | 'lastName' | 'company' | 'notes' | 'emails' | 'phones'>): Observable<UpdateContactResponse> {
-    const url = '/api/contacts/' + contact.id;
-    return this.apiService.patch<UpdateContactResponse>(url, contact, {});
+
+  updateContact(contact: UpdateContactRequest): Observable<UpdateContactResponse>{
+      const url = '/api/contacts/' + contact.id;
+      return this.apiService.patch<UpdateContactResponse>(url, contact, {});
   }
 
   deleteContact({id}: DeleteContactRequest): Observable<DeleteContactResponse> {
