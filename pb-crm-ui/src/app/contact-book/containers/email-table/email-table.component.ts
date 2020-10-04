@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {EmailModel} from '../../../api/api-interfaces/contact/models/email.model';
+import {EmailModel} from 'api-interfaces';
 
 @Component({
   selector: 'app-email-table',

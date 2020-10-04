@@ -1,13 +1,12 @@
 import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild, ViewContainerRef} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {CreateContactDialogComponent} from '../../containers/create-contact-dialog/create-contact-dialog.component';
-import {ContactModel} from '../../../api/api-interfaces/contact/models/contact.model';
-import {ContactCacheService} from "../../contact-cache.service";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {TableSize} from "../../containers/contact-table/contact-table.component";
-import {ComponentPortal, ComponentType, Portal, TemplatePortal} from "@angular/cdk/portal";
-import {ContactDetailComponent} from "../../containers/contact-detail/contact-detail.component";
-import {ContactFormComponent} from "../../containers/contact-form/contact-form.component";
+import {ContactModel} from 'api-interfaces';
+import {ContactCacheService} from '../../contact-cache.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {TableSize} from '../../containers/contact-table/contact-table.component';
+import {Portal, TemplatePortal} from '@angular/cdk/portal';
+
 
 
 @Component({
@@ -22,8 +21,8 @@ import {ContactFormComponent} from "../../containers/contact-form/contact-form.c
 export class ContactBookHomeComponent implements OnInit, AfterViewInit {
   contacts: ContactModel[];
   selectedContact: ContactModel;
-  showTable: boolean = true;
-  showDetail: boolean = false;
+  showTable = true;
+  showDetail = false;
   tableSize: TableSize = TableSize.FULL;
 
   selectedPortal: Portal<any>;
@@ -82,24 +81,24 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
   createContract(contact: ContactModel) {
     this.contactCache.addContact(contact).subscribe(contact => {
       this.snackbar.open('Contact Created', 'Close', {duration: 1000});
-      this.setViewContact(contact)
-    })
+      this.setViewContact(contact);
+    });
   }
 
   editContact(contact: ContactModel) {
     this.contactCache.updateContact(contact).subscribe(updatedContact =>
       this.setViewContact(updatedContact)
-    )
+    );
   }
 
   deleteContact(contact: ContactModel) {
     this.contactCache.deleteContact(contact.id).subscribe(() => {
-        this.snackbar.open("Contact Deleted", "X", {duration: 1000});
+        this.snackbar.open('Contact Deleted', 'X', {duration: 1000});
         if (this.selectedContact === contact) {
           this.reset();
         }
       }
-    )
+    );
   }
 
   private openRightPanel() {

@@ -1,22 +1,13 @@
 import {
-  Body,
   Controller,
-  Get,
   HttpCode,
-  HttpException,
-  HttpStatus,
-  Param,
-  ParseArrayPipe,
-  Post,
-  UseFilters
 } from '@nestjs/common';
 import { Crud, CrudAuth, CrudController, CrudRequest, Override, ParsedBody, ParsedRequest } from '@nestjsx/crud';
 import { ContactsService } from './contacts.service';
 import { ContactEntity } from '../db/entities/contact.entity';
-import { catchError } from 'rxjs/operators';
+
 import { ErrorService } from '../services/error.service';
-import { throwError } from 'rxjs';
-import {FindAllContactResponse} from "../api-interfaces/contact/contracts/find-all.contact";
+
 
 @Crud({
   model: {
