@@ -19,7 +19,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {ContactDetailPageComponent} from './components/contact-detail-page/contact-detail-page.component';
 import {ContactDetailComponent} from './containers/contact-detail/contact-detail.component';
 import { MatMenuModule } from '@angular/material/menu';
-import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatRippleModule} from "@angular/material/core";
 import {AngularSplitModule} from "angular-split";
 import {EmailTableComponent} from "./containers/email-table/email-table.component";

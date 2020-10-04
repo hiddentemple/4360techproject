@@ -9,7 +9,8 @@ import {
 import {EmailEntity} from "./email.entity";
 import {PhoneEntity} from "./phone.entity";
 import {ContactModel} from "../../api-interfaces/contact/models/contact.model";
-import { Length, MaxLength, IsOptional, IsAlpha } from 'class-validator';
+import { MinLength, MaxLength, IsOptional, IsAlpha, ValidateNested } from 'class-validator';
+import {Type} from "class-transformer";
 
 
 @Entity("contacts")
@@ -20,37 +21,43 @@ export class ContactEntity implements ContactModel {
 
     @IsAlpha()
     @Column('varchar', { nullable: false})
-    @Length(2)
+    @MinLength(1)
     firstName: string;
 
     @IsAlpha()
     @Column('varchar', { nullable: false})
-    @Length(2)
+    @MinLength(1)
     lastName: string;
 
     @Column('varchar', { nullable: true})
     @IsOptional()
     @MaxLength(50)
-    company?: string
+    company: string
 
     @Column('varchar', { nullable: true})
     @IsOptional()
     @MaxLength(250)
-    notes?: string
+    notes: string
 
     @OneToMany(type => EmailEntity, email => email.contact, {
         cascade: true,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
     })
-    emails?: EmailEntity[];
+    @IsOptional()
+    @ValidateNested({ each: true })
+    @Type(() => EmailEntity)
+    emails: EmailEntity[];
 
     @OneToMany(type => PhoneEntity, phone => phone.contact, {
         cascade: true,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     })
-    phones?: PhoneEntity[];
+    @IsOptional()
+    @ValidateNested({ each: true })
+    @Type(() => PhoneEntity)
+    phones: PhoneEntity[];
 
     @CreateDateColumn({name: 'createdAt', nullable: false})
     createdAt: Date;
