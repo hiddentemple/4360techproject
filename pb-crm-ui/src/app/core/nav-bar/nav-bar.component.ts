@@ -4,7 +4,7 @@ import {ContactBookRoutes} from '../../contact-book/contact-book-routing.module'
 @Component({
   selector: 'app-nav-bar',
   template: `
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
       <!-- Icon -->
       <img src="assets/img/peanut-butter.svg" width="30" height="30" alt="" loading="lazy">
 
