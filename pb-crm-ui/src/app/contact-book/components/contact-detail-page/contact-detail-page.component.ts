@@ -4,7 +4,7 @@ import {ContactModel} from 'api-interfaces';
 
 @Component({
   selector: 'app-contact-detail-page',
-  template:`
+  template: `
     <p>Contact Detail Page Works</p>
   `,
   styles: []

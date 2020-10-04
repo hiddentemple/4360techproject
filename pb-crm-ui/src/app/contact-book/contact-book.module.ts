@@ -10,7 +10,6 @@ import {ContactBookHomeComponent} from './components/contact-book-home/contact-b
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import { ContactSearchComponent } from './containers/contact-search/contact-search.component';
 import { CreateContactDialogComponent } from './containers/create-contact-dialog/create-contact-dialog.component';
 import { MatDialogModule} from '@angular/material/dialog';
 import { ContactTableComponent } from './containers/contact-table/contact-table.component';
@@ -21,11 +20,13 @@ import {ContactDetailPageComponent} from './components/contact-detail-page/conta
 import {ContactDetailComponent} from './containers/contact-detail/contact-detail.component';
 import { MatMenuModule } from '@angular/material/menu';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatRippleModule} from '@angular/material/core';
 import {AngularSplitModule} from 'angular-split';
-import { EmailTableComponent } from './containers/email-table/email-table.component';
-import { PhoneTableComponent } from './containers/phone-table/phone-table.component';
+import {EmailTableComponent} from './containers/email-table/email-table.component';
+import {PhoneTableComponent} from './containers/phone-table/phone-table.component';
 import {PortalModule} from '@angular/cdk/portal';
-import { MatRippleModule } from '@angular/material/core';
+
+
 
 
 @NgModule({
@@ -36,7 +37,6 @@ import { MatRippleModule } from '@angular/material/core';
     ContactTableComponent,
     ContactDetailPageComponent,
     ContactDetailComponent,
-    ContactSearchComponent,
     EmailTableComponent,
     PhoneTableComponent
   ],
@@ -62,8 +62,8 @@ import { MatRippleModule } from '@angular/material/core';
     MatPaginatorModule,
     MatMenuModule,
     MatSnackBarModule,
-    AngularSplitModule.forRoot(),
     MatRippleModule,
+    AngularSplitModule.forRoot(),
     PortalModule,
   ],
   entryComponents: [

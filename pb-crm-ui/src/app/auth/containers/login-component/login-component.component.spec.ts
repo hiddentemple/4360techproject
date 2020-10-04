@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ContactHomeSidenavComponent } from './contact-home-sidenav.component';
+import { LoginComponentComponent } from './login-component.component';
 
-describe('ContactHomeSidenavComponent', () => {
-  let component: ContactHomeSidenavComponent;
-  let fixture: ComponentFixture<ContactHomeSidenavComponent>;
+describe('LoginComponentComponent', () => {
+  let component: LoginComponentComponent;
+  let fixture: ComponentFixture<LoginComponentComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ContactHomeSidenavComponent ]
+      declarations: [ LoginComponentComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ContactHomeSidenavComponent);
+    fixture = TestBed.createComponent(LoginComponentComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
