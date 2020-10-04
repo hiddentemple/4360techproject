@@ -11,7 +11,7 @@ import {
 import {UserTypeEntity} from "./user-type.entity";
 import {ContactEntity} from "./contact.entity";
 import {UserModel} from "../../api-interfaces/user/model/user.model";
-import {Length, IsEmail, validate, validateOrReject} from "class-validator";
+import {Length, MaxLength, IsEmail} from "class-validator";
 import * as bcrypt from 'bcrypt';
 
 
@@ -24,7 +24,7 @@ export class UserEntity implements UserModel {
 
   @Column('varchar', { nullable: false, unique: true})
   @IsEmail()
-  @Length(0,50)
+  @MaxLength(50)
   email: string
 
   @Column('varchar', { nullable: true }) // TODO change to false after authn updates
