@@ -10,7 +10,7 @@ import {ApiModule} from './api/api.module';
 import {CoreModule} from './core/core.module';
 import {DevComponent} from './dev/dev.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {HttpRequestLoggerInterceptor} from "./core/http-request-logger-interceptor.service";
+import {HttpRequestLoggerInterceptor} from "./core/interceptors/http-request-logger-interceptor.service";
 
 @NgModule({
   declarations: [AppComponent, DevComponent],

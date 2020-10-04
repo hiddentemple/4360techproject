@@ -18,23 +18,12 @@ import {
 import {DeleteContactRequest, DeleteContactResponse} from "../api/api-interfaces/contact/contracts/delete.contact";
 
 
-
-
-
 @Injectable({
   providedIn: 'root'
 })
 export class ContactService {
-  private _contacts$: Subject<Partial<ContactModel>>;
+  constructor(private apiService: ApiService) {}
 
-  constructor(private apiService: ApiService) {
-    this._contacts$ = new Subject<Partial<ContactModel>>();
-  }
-
-  get contacts$(): Observable<Partial<ContactModel>> { return this._contacts$.asObservable(); }
-
-
-  // TODO - Error handling
   getContacts(): Observable<ContactModel[]>  {
     return this.apiService.get<ContactModel[]>('/api/contacts', {});
   }
@@ -53,7 +42,7 @@ export class ContactService {
 
   updateContact(contact: UpdateContactRequest): Observable<UpdateContactResponse> {
     const url = '/api/contacts/' + contact.id;
-    return this.apiService.put<UpdateContactResponse>(url, contact, {});
+    return this.apiService.patch<UpdateContactResponse>(url, contact, {});
   }
 
   deleteContact({id}: DeleteContactRequest): Observable<DeleteContactResponse> {

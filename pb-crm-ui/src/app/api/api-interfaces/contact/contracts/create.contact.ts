@@ -17,6 +17,7 @@ export interface CreateContactRequest {
 
 }
 
-export interface CreateContactResponse extends ContactModel {
+export interface CreateContactResponse {
 
+  contact: ContactModel
 }

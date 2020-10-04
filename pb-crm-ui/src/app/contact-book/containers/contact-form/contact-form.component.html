@@ -1,76 +1,105 @@
 <form class="contact-form" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
 
-  <h3>Name</h3>
+  <!-- Name Input-->
+  <div class="row">
+    <mat-form-field class="col-6">
+      <mat-label>First Name</mat-label>
+      <input matInput maxlength="256" placeholder="Ex. John" formControlName="firstName">
+      <mat-error *ngIf="firstNameHasRequiredError">
+        First name is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="col-6">
+      <mat-label>Last Name</mat-label>
+      <input matInput maxlength="256" placeholder="Ex. Doe" formControlName="lastName">
+      <mat-error *ngIf="firstNameHasMaxLengthError">
+        Last name is required
+      </mat-error>
+    </mat-form-field>
+  </div>
 
-  <mat-form-field class="example-full-width">
-    <mat-label>First Name</mat-label>
-    <input matInput maxlength="256" placeholder="Ex. John" formControlName="firstName">
-  </mat-form-field>
+  <!-- Company Input -->
+  <div class="row">
+    <mat-form-field class="col-12">
+      <mat-label>Company Name</mat-label>
+      <input matInput maxlength="256" placeholder="Ex. Juan in a Million" formControlName="company">
+    </mat-form-field>
+  </div>
 
-  <mat-form-field class="example-full-width">
-    <mat-label>Last Name</mat-label>
-    <input matInput maxlength="256" placeholder="Ex. Doe" formControlName="lastName">
-  </mat-form-field>
+  <hr *ngIf="hasEmails()"/>
 
-  <h3>Company</h3>
-  <mat-form-field class="example-full-width">
-    <mat-label>Compnay Name</mat-label>
-    <input matInput maxlength="256" placeholder="Ex. Juan in a Million" formControlName="companyName">
-  </mat-form-field>
-
-  <h3>Emails
-    <button (click)="addEmailInput()" type="button">Add Email</button>
-  </h3>
-
-
+  <!-- Mobile Email Input -->
   <div formArrayName="emails">
-      <div *ngFor="let email of getEmailFormArray().controls; let i=index">
-        <div>
-          <span>Email {{i + 1}}</span>
-          <button (click)="removeEmailInput(i)">Remove</button>
-        </div>
-
-        <!-- Angular assigns array index as group name by default 0, 1, 2, ... -->
-        <div [formGroupName]="i">
-          <mat-form-field>
-            <mat-label>address</mat-label>
-            <input matInput type="text" placeholder="Ex. example@gmail.com" formControlName="address">
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>type</mat-label>
-            <input matInput type="text" placeholder="Ex. Personal" formControlName="type">
-          </mat-form-field>
-        </div>
-      </div>
-    </div>
-
-  <h3>Phone
-      <button (click)="addPhoneInput()" type="button">Add</button>
-  </h3>
-
-  <div formArrayName="phones">
-    <div *ngFor="let phone of getPhoneFormArray().controls; let i=index">
-      <div>
-        <span>Phone {{i + 1}}</span>
-        <button (click)="removePhoneInput(i)" type="button">Remove</button>
-      </div>
-
+    <div *ngFor="let email of emailFormArray.controls; let i=index">
       <!-- Angular assigns array index as group name by default 0, 1, 2, ... -->
-      <div [formGroupName]="i">
-        <mat-form-field>
-          <mat-label>Phone Number</mat-label>
-          <input matInput type="text" placeholder="Ex. 303 867 5309"formControlName="number">
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>type</mat-label>
-          <input matInput type="text" placeholder="Ex. Personal" formControlName="type">
-        </mat-form-field>
+      <div class="row" [formGroupName]="i">
+        <div class="col-1">
+          <button class="col-1" mat-icon-button (click)="removeEmailInput(i)">
+            <mat-icon color="accent">remove_circle_outline</mat-icon>
+          </button>
+        </div>
+        <div class="col-11">
+          <div class="row">
+            <mat-form-field class="col-sm-12 col-md-8">
+              <mat-label>Email Address</mat-label>
+              <input matInput type="text" placeholder="Ex. example@gmail.com" formControlName="address">
+              <mat-error *ngIf="emailHasRequiredError(email)">
+                Email is required
+              </mat-error>
+              <mat-error *ngIf="emailHasEmailError(email)">
+                Not a valid email
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-sm-12 col-md-4">
+              <mat-label>Type</mat-label>
+              <input matInput type="text" placeholder="Ex. Personal" formControlName="type">
+            </mat-form-field>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <button mat-button [disabled]="!contactForm.valid" type="submit">Submit</button>
+  <hr *ngIf="hasPhones()"/>
+
+  <!-- Phone Input -->
+  <div formArrayName="phones">
+    <div *ngFor="let phone of phoneFormArray.controls; let i=index">
+      <!-- Angular assigns array index as group name by default 0, 1, 2, ... -->
+      <div class="row" [formGroupName]="i">
+        <div class="col-1">
+          <button class="col-1" mat-icon-button type="button" (click)="removePhoneInput(i)">
+            <mat-icon color="accent">remove_circle_outline</mat-icon>
+          </button>
+        </div>
+        <div class="col-11">
+          <div class="row">
+            <mat-form-field class="col-sm-12 col-md-8">
+              <mat-label>Phone Number</mat-label>
+              <input matInput type="text" placeholder="Ex. 303 867 5309" formControlName="number">
+              <mat-error *ngIf="phoneHasRequiredError(phone)">
+                A phone is required
+              </mat-error>
+              <mat-error *ngIf="phoneHasPatternError(phone)">
+                Not a valid phone number
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-sm-12 col-md-4">
+              <mat-label>Type</mat-label>
+              <input matInput type="text" placeholder="Ex. Personal" formControlName="type">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Bottom Buttons -->
+  <div class="mt-2">
+    <button mat-raised-button (click)="addEmailInput()" type="button" class="mr-1" color="accent">Add Email</button>
+    <button mat-raised-button (click)="addPhoneInput()" type="button" color="accent">Add Phone</button>
+    <button mat-raised-button color="primary" [disabled]="!contactForm.valid" type="submit" class="float-right">Submit
+    </button>
+  </div>
+
 </form>
-<!--<p>-->
-<!--  {{contactForm.value | json}}-->
-<!--</p>-->

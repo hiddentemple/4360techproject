@@ -5,7 +5,7 @@ import {MatSort} from '@angular/material/sort';
 import {ContactModel} from '../../../api/api-interfaces/contact/models/contact.model';
 import { MatMenuTrigger } from '@angular/material/menu';
 
-
+export enum TableSize { FULL, COMPACT }
 
 @Component({
   selector: 'app-contact-table',
@@ -24,26 +24,20 @@ import { MatMenuTrigger } from '@angular/material/menu';
   ]
 })
 export class ContactTableComponent implements AfterViewInit {
-  displayedColumns: string[] = ['firstName', 'lastName', 'company', 'updatedAt', 'actions'];
   dataSource: MatTableDataSource<ContactModel>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatTable) dataTable: MatTable<any>;
 
-  @Output() delete = new EventEmitter<string>();
-  @Output() edit = new EventEmitter<string>();
-  @Output() view = new EventEmitter<string>();
+  @Output() delete = new EventEmitter<ContactModel>();
+  @Output() edit = new EventEmitter<ContactModel>();
+  @Output() view = new EventEmitter<ContactModel>();
 
-  @Input() set contacts(contacts: ContactModel[]) {
-    if (!contacts || contacts === []) {
-      console.log('Contacts received a falsey value: ', contacts);
-      return;
-    }
+  @Input() size: TableSize;
+  @Input() set contacts(contacts: ContactModel[]) { this.setContacts(contacts); }
 
-    console.log('Contact Table received new contacts: ', contacts);
-    this.dataSource.data = contacts;
-  }
+  get displayedColumns(): string[] { return this.getColumns(); }
 
   constructor() {
     this.dataSource = new MatTableDataSource([]);
@@ -54,33 +48,40 @@ export class ContactTableComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  onEdit(contact: ContactModel) { this.edit.emit(contact); }
+  onDelete(contact: ContactModel) { this.delete.emit(contact); }
+  onView(contact: ContactModel) { this.view.emit(contact); }
 
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
+  applyFilter(event: Event) {
+    const filterValue: string = (event.target as HTMLInputElement).value;
+    this.setFilter(filterValue)
+  }
+
+  private setFilter(filterStr: string) {
+    this.dataSource.filter = filterStr.trim().toLowerCase();
+    this.dataSource.paginator.firstPage();
+  }
+
+  private setContacts(contacts: ContactModel[]) {
+    if ((!contacts) || contacts === []) {
+      console.log('Contacts received a falsey value: ', contacts);
+      return;
+    }
+
+    console.log('Contact Table received new contacts: ', contacts);
+    this.dataSource.data = contacts;
+    if (this.dataTable) {
+      console.log("Data table is present, rendering rows");
+      this.dataTable.renderRows();
     }
   }
 
-  getPhoneForRow(contact: ContactModel): number | string {
-    if (contact.phones && contact.phones.length > 0) { return contact.phones[0].number; }
-    else { return ''; }
+  private getColumns(): string[] {
+    switch (this.size){
+      case TableSize.COMPACT:
+        return ['firstName', 'lastName', 'company', 'actions'];
+      case TableSize.FULL:
+        return ['firstName', 'lastName', 'company', 'updatedAt', 'actions'];
+    }
   }
-
-  getEmailForRow(contact: ContactModel): string {
-    if (contact.emails && contact.emails.length > 0) { return contact.emails[0].address; }
-    else { return ''; }
-  }
-
-  getIDForRow(contact: ContactModel): string {
-    if (contact.id) { return contact.id; }
-    else { return null; }
-  }
-
-  onEdit(id: string) { this.edit.emit(id); }
-
-  onDelete(id: string) { this.delete.emit(id); }
-
-  onView(id: string) { this.view.emit(id); }
 }
