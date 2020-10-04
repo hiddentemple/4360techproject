@@ -1,22 +1,21 @@
-import {BehaviorSubject, Observable, Subject} from "rxjs";
-import {ContactModel} from "../api/api-interfaces/contact/models/contact.model";
-import {ContactService} from "./contact.service";
-import {Injectable} from "@angular/core";
-import {map, tap} from "rxjs/operators";
-import {FindAllContactResponse} from "../api/api-interfaces/contact/contracts/find-all.contact";
-import {CreateContactRequest, CreateContactResponse} from "../api/api-interfaces/contact/contracts/create.contact";
-import {UpdateContactRequest} from "../api/api-interfaces/contact/contracts/update.contact";
-import {DeleteContactRequest} from "../api/api-interfaces/contact/contracts/delete.contact";
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {ContactModel} from 'api-interfaces';
+import {ContactService} from './contact.service';
+import {Injectable} from '@angular/core';
+import {map, tap} from 'rxjs/operators';
+import {CreateContactRequest, CreateContactResponse} from 'api-interfaces';
+import {DeleteContactRequest} from 'api-interfaces';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContactCacheService {
+  // tslint:disable-next-line:variable-name
   private _contacts$: BehaviorSubject<ContactModel[]>;
 
   constructor(private contactService: ContactService) {
     this._contacts$ = new BehaviorSubject<ContactModel[]>([]);
-    this.refresh().subscribe(() => console.log("Cache Init"));
+    this.refresh().subscribe(() => console.log('Cache Init'));
   }
 
   get contacts$(): Observable<ContactModel[]> {
@@ -65,23 +64,23 @@ export class ContactCacheService {
         this._contacts$.next(filtered);
         return true;
       })
-    )
+    );
   }
 
   refresh(): Observable<any> {
     return this.contactService.getContacts()
       .pipe(
         tap((contacts: ContactModel[]) => {
-          console.log("New contacts received in cache", contacts)
-          this._contacts$.next(contacts)
+          console.log('New contacts received in cache', contacts);
+          this._contacts$.next(contacts);
         })
-      )
+      );
 
   }
 
   private remove(id: string): ContactModel[] {
     const current: ContactModel[] = this._contacts$.getValue();
-    return current.filter(element => element.id !== id)
+    return current.filter(element => element.id !== id);
   }
 
 }

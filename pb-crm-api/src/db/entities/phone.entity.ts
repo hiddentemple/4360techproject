@@ -1,6 +1,6 @@
 import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {ContactEntity} from "./contact.entity";
-import {PhoneModel} from "../../api-interfaces/contact/models/phone.model";
+import {PhoneModel} from 'api-interfaces';
 import {IsOptional, MaxLength, IsPhoneNumber} from "class-validator"
 
 @Entity('phones')

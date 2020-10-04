@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {PhoneModel} from '../../../api/api-interfaces/contact/models/phone.model';
+import {PhoneModel} from 'api-interfaces';
 
 @Component({
   selector: 'app-phone-table',

@@ -1,9 +1,8 @@
 import {Component, OnInit, Output, EventEmitter, Input, InjectionToken, Inject} from '@angular/core';
 import {AbstractControl, Form, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ContactModel} from '../../../api/api-interfaces/contact/models/contact.model';
-import {BreakpointObserver} from "@angular/cdk/layout";
-import {BreakpointService} from "../../../core/layout/breakpoint.service";
-import {Observable} from "rxjs";
+import {ContactModel} from 'api-interfaces';
+import {BreakpointService} from '../../../core/layout/breakpoint.service';
+
 
 export const PhoneRegex = /[0-9]{10}/;
 export const PhoneValidator = Validators.pattern(PhoneRegex); // TODO validate length and numeric
@@ -42,7 +41,7 @@ export class ContactFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.contactForm.valid) {
-      console.log("Contact Form Submit: ", this.contactForm.value)
+      console.log('Contact Form Submit: ', this.contactForm.value)
       this.submitContact.emit(this.contactForm.value as ContactModel);
     } else {
       console.error('Try to submit when form is invalid.', this.contactForm);

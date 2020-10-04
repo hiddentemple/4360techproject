@@ -1,21 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
-import {ContactModel} from '../api/api-interfaces/contact/models/contact.model';
-import { CreateContactRequest, CreateContactResponse } from '../api/api-interfaces/contact/contracts/create.contact';
-import { UpdateContactRequest, UpdateContactResponse } from '../api/api-interfaces/contact/contracts/update.contact';
-
-import { tap } from 'rxjs/operators';
+import {ContactModel} from 'api-interfaces';
+import { CreateContactRequest, CreateContactResponse } from 'api-interfaces';
+import { UpdateContactRequest, UpdateContactResponse } from 'api-interfaces';
 import { ApiService } from '../api/api.service';
-import { FindAllContactResponse } from '../api/api-interfaces/contact/contracts/find-all.contact';
-import {
-  FindOneContactRequest,
-  FindOneContactResponse,
-} from '../api/api-interfaces/contact/contracts/find-one.contact';
-import {
-  CreateBulkContactRequest,
-  CreateBulkContactResponse,
-} from '../api/api-interfaces/contact/contracts/create.bulkContacts';
-import {DeleteContactRequest, DeleteContactResponse} from "../api/api-interfaces/contact/contracts/delete.contact";
+import { FindOneContactRequest, FindOneContactResponse, } from 'api-interfaces';
+import { CreateBulkContactRequest, CreateBulkContactResponse, } from 'api-interfaces';
+import {DeleteContactRequest, DeleteContactResponse} from 'api-interfaces';
 
 
 @Injectable({
@@ -40,7 +31,7 @@ export class ContactService {
     return this.apiService.post<CreateBulkContactResponse>('/api/contacts/bulk', contacts, {});
   }
 
-  updateContact(contact: UpdateContactRequest): Observable<UpdateContactResponse> {
+  updateContact(contact: Pick<ContactModel, 'firstName' | 'lastName' | 'company' | 'notes' | 'emails' | 'phones'>): Observable<UpdateContactResponse> {
     const url = '/api/contacts/' + contact.id;
     return this.apiService.patch<UpdateContactResponse>(url, contact, {});
   }
