@@ -1,69 +1,115 @@
-import { Component, OnInit } from '@angular/core';
-import { ContactService } from '../../contact.service';
-import { MatDialog } from '@angular/material/dialog';
-import { CreateContactDialogComponent } from '../../containers/create-contact-dialog/create-contact-dialog.component';
-import { ContactModel } from '../../../api/api-interfaces/contact/models/contact.model';
-import { FindAllContactResponse } from '../../../api/api-interfaces/contact/contracts/find-all.contact';
+import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild, ViewContainerRef} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {CreateContactDialogComponent} from '../../containers/create-contact-dialog/create-contact-dialog.component';
+import {ContactModel} from '../../../api/api-interfaces/contact/models/contact.model';
+import {ContactCacheService} from "../../contact-cache.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {TableSize} from "../../containers/contact-table/contact-table.component";
+import {ComponentPortal, ComponentType, Portal, TemplatePortal} from "@angular/cdk/portal";
+import {ContactDetailComponent} from "../../containers/contact-detail/contact-detail.component";
+import {ContactFormComponent} from "../../containers/contact-form/contact-form.component";
 
 
 @Component({
   selector: 'app-contact-book-home',
-  template: `
-    <div class="container">
-      <div class="row mt-2">
-        <span><h1 class="">Contact Book</h1></span>
-        <span class="add-spacer"></span>
-        <span><app-create-contact-button (add)="addContact()"></app-create-contact-button></span>
-      </div>
-
-      <hr class="mt-0" />
-
-      <app-contact-table [contacts]="contacts" (delete)="deleteContact($event.id)"></app-contact-table>
-    </div>
-  `,
+  templateUrl: './contact-book-home.component.html',
   styles: [
-      `
-      .add-contact {
-        margin: auto;
-      }
-    `,
-      `
-      .add-spacer {
-        flex: 1 1 auto;
-      }
-    `,
+    `.add-spacer {
+      flex: 1 1 auto;
+    }`
   ],
 })
-export class ContactBookHomeComponent implements OnInit {
-  contacts: FindAllContactResponse;
+export class ContactBookHomeComponent implements OnInit, AfterViewInit {
+  contacts: ContactModel[];
+  selectedContact: ContactModel;
+  showTable: boolean = true;
+  showDetail: boolean = false;
+  tableSize: TableSize = TableSize.FULL;
+
+  selectedPortal: Portal<any>;
+  detailPortal: TemplatePortal<any>;
+  createPortal: TemplatePortal<any>;
+  editPortal: TemplatePortal<any>;
+
+  @ViewChild('contactDetail') contactDetail: TemplateRef<unknown>;
+  @ViewChild('createContactForm') createContactForm: TemplateRef<unknown>;
+  @ViewChild('editContactForm') editContactForm: TemplateRef<unknown>;
 
   constructor(
-    private contactService: ContactService,
     private dialog: MatDialog,
+    private contactCache: ContactCacheService,
+    private snackbar: MatSnackBar,
+    private viewContainerRef: ViewContainerRef
   ) {
   }
 
   ngOnInit() {
-    this.contactService.getContacts().subscribe(contacts => this.contacts = contacts);
+    this.contactCache.contacts$.subscribe(contacts => this.contacts = contacts);
   }
 
-  addContact() {
-    const dialogRef = this.dialog.open(CreateContactDialogComponent);
-    dialogRef.afterClosed().subscribe((newContact: ContactModel) => {
-      console.log('Create contact dialog closed. Data:', newContact);
-      if (newContact) {
-        this.contactService.createContact(newContact)
-          .subscribe( contact => {
-            this.ngOnInit();
-          });
+  ngAfterViewInit(): void {
+    this.detailPortal = new TemplatePortal(this.contactDetail, this.viewContainerRef);
+    this.createPortal = new TemplatePortal(this.createContactForm, this.viewContainerRef);
+    this.editPortal = new TemplatePortal(this.editContactForm, this.viewContainerRef);
+  }
+
+  refresh() {
+    this.contactCache.refresh();
+  }
+
+  openCreateContactForm() {
+    this.selectedPortal = this.createPortal;
+    this.openRightPanel();
+  }
+
+  closeRightPanelAndReset() {
+    this.reset();
+  }
+
+  setViewContact(contact: ContactModel) {
+    this.selectedContact = contact;
+    this.selectedPortal = this.detailPortal;
+    this.openRightPanel();
+  }
+
+  setEditContact(contact: ContactModel) {
+    this.selectedContact = contact;
+    this.selectedPortal = this.editPortal;
+    this.openRightPanel();
+  }
+
+  createContract(contact: ContactModel) {
+    this.contactCache.addContact(contact).subscribe(contact => {
+      this.snackbar.open('Contact Created', 'Close', {duration: 1000});
+      this.setViewContact(contact)
+    })
+  }
+
+  editContact(contact: ContactModel) {
+    this.contactCache.updateContact(contact).subscribe(updatedContact =>
+      this.setViewContact(updatedContact)
+    )
+  }
+
+  deleteContact(contact: ContactModel) {
+    this.contactCache.deleteContact(contact.id).subscribe(() => {
+        this.snackbar.open("Contact Deleted", "X", {duration: 1000});
+        if (this.selectedContact === contact) {
+          this.reset();
+        }
       }
-    });
+    )
   }
 
-  deleteContact(id: string): any {
-    console.log('Deleting Contact with ID: ' + id);
-    this.contactService.deleteContact(id).subscribe( res => {
-      this.contactService.getContacts().subscribe(contacts => this.contacts = contacts);
-    });
+  private openRightPanel() {
+    this.showDetail = true;
+    this.tableSize = TableSize.COMPACT;
+  }
+
+  private reset() {
+    this.showDetail = false;
+    this.tableSize = TableSize.FULL;
+    this.selectedContact = undefined;
+    this.selectedPortal = undefined;
   }
 }

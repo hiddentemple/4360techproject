@@ -9,7 +9,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {ApiModule} from './api/api.module';
 import {CoreModule} from './core/core.module';
 import {DevComponent} from './dev/dev.component';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HttpRequestLoggerInterceptor} from "./core/interceptors/http-request-logger-interceptor.service";
 
 @NgModule({
   declarations: [AppComponent, DevComponent],
@@ -25,7 +26,9 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     CoreModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: HttpRequestLoggerInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

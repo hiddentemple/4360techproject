@@ -6,6 +6,7 @@ import { catchError } from 'rxjs/operators';
 import { ErrorService } from '../services/error.service';
 import { validate, validateOrReject } from 'class-validator';
 import { throwError } from 'rxjs';
+import {FindAllContactResponse} from "../api-interfaces/contact/contracts/find-all.contact";
 
 
 @Crud({
@@ -62,6 +63,7 @@ export class ContactsController implements CrudController<ContactEntity> {
       contact,
     };
   }
+
 
 
   //allows customization for DELETE request

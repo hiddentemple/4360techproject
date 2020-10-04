@@ -1,6 +1,9 @@
-import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
-import {Form, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Component, OnInit, Output, EventEmitter, Input, InjectionToken, Inject} from '@angular/core';
+import {AbstractControl, Form, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ContactModel} from '../../../api/api-interfaces/contact/models/contact.model';
+import {BreakpointObserver} from "@angular/cdk/layout";
+import {BreakpointService} from "../../../core/layout/breakpoint.service";
+import {Observable} from "rxjs";
 
 export const PhoneRegex = /[0-9]{10}/;
 export const PhoneValidator = Validators.pattern(PhoneRegex); // TODO validate length and numeric
@@ -8,18 +11,52 @@ export const PhoneValidator = Validators.pattern(PhoneRegex); // TODO validate l
 @Component({
   selector: 'app-contact-form',
   templateUrl: './contact-form.component.html',
-  styleUrls: ['./contact-form.component.scss']
+  styles: []
 })
 export class ContactFormComponent implements OnInit {
   contactForm: FormGroup;
+  isHandset = false;
 
-  @Input() set contact(contact: ContactModel) {
+  @Input() set contact(contact: ContactModel) { this.setContact(contact); }
+  @Output() submitContact = new EventEmitter<ContactModel>();
+
+  get emailFormArray(): FormArray { return this.contactForm.controls.emails as FormArray; }
+  get phoneFormArray(): FormArray { return this.contactForm.controls.phones as FormArray; }
+  get firstNameFormControl(): FormControl { return this.contactForm.controls.firstName as FormControl; }
+  get lastNameFormControl(): FormControl { return this.contactForm.controls.firstName as FormControl; }
+  get companyFormControl(): FormControl { return this.contactForm.controls.company as FormControl; }
+
+  constructor(private fb: FormBuilder, private breakpointService: BreakpointService) {
+    this.contactForm = new FormGroup({
+      firstName: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+      lastName: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+      company: new FormControl('', [Validators.maxLength(150)]),
+      emails: this.fb.array([]),
+      phones: this.fb.array([]),
+    });
+  }
+
+  ngOnInit(): void {
+    this.breakpointService.isHandset$().subscribe((matches: boolean) => this.isHandset = matches)
+  }
+
+  onSubmit(): void {
+    if (this.contactForm.valid) {
+      console.log("Contact Form Submit: ", this.contactForm.value)
+      this.submitContact.emit(this.contactForm.value as ContactModel);
+    } else {
+      console.error('Try to submit when form is invalid.', this.contactForm);
+    }
+  }
+
+  setContact(contact: ContactModel) {
     if (!contact) { return; }
 
     console.log('Setting contact to', contact);
 
-    this.contactForm.controls.firstName.setValue(contact.firstName);
-    this.contactForm.controls.lastName.setValue(contact.lastName);
+    this.firstNameFormControl?.setValue(contact.firstName);
+    this.lastNameFormControl?.setValue(contact.lastName);
+    this.companyFormControl?.setValue(contact.company);
 
     const emailControls: FormGroup[] = Object.values(contact.emails).map(
       email => this.initEmail(email.address, email.type)
@@ -32,27 +69,28 @@ export class ContactFormComponent implements OnInit {
     this.contactForm.controls.phones = this.fb.array(phoneControls);
   }
 
-  @Output() submitContact = new EventEmitter<ContactModel>();
-
-  constructor(private fb: FormBuilder) {
-    this.contactForm = new FormGroup({
-      firstName: new FormControl('', [Validators.required, Validators.maxLength(25)]),
-      lastName: new FormControl('', [Validators.required, Validators.maxLength(25)]),
-      emails: this.fb.array([this.initEmail()]),
-      phones: this.fb.array([this.initPhone()])
-    });
+  /** First Name **/
+  firstNameHasRequiredError(): boolean {
+    return this.firstNameFormControl.hasError('required') && !this.firstNameHasRequiredError
   }
 
-  ngOnInit(): void {
+  firstNameHasMaxLengthError(): boolean {
+    return this.firstNameFormControl?.hasError('maxLength')
   }
 
-  getEmailFormArray(): FormArray {
-    return this.contactForm.controls.emails as FormArray;
+  /** Last Name **/
+  lastNameHasRequiredError(): boolean {
+    return this.lastNameFormControl?.hasError('required') && !this.lastNameHasRequiredError
   }
 
-  getPhoneFormArray(): FormArray {
-    return this.contactForm.controls.phones as FormArray;
+  lastNameHasMaxLengthError(): boolean {
+    return this.lastNameFormControl?.hasError('maxLength')
   }
+
+  /** Email **/
+  addEmailInput(): void { this.emailFormArray.push(this.initEmail()); }
+  removeEmailInput(i: number): void { this.emailFormArray.removeAt(i); }
+  hasEmails(): boolean { return this.emailFormArray.length > 0; }
 
   initEmail(address: string = '', type: string = ''): FormGroup {
     return this.fb.group({
@@ -61,6 +99,19 @@ export class ContactFormComponent implements OnInit {
     });
   }
 
+  emailHasRequiredError(emailControl: AbstractControl): boolean {
+    return emailControl.get('address').hasError('required');
+  }
+
+  emailHasEmailError(emailControl: AbstractControl): boolean {
+    return emailControl.get('address').hasError('email');
+  }
+
+  /** Phone **/
+
+  addPhoneInput(): void { this.phoneFormArray.push(this.initPhone()); }
+  removePhoneInput(i: number): void { this.phoneFormArray.removeAt(i); }
+  hasPhones(): boolean { return this.phoneFormArray.length > 0; }
   initPhone(number: string = '', type: string = ''): FormGroup {
     return this.fb.group({
       number: [number, [Validators.required, PhoneValidator]],
@@ -68,31 +119,12 @@ export class ContactFormComponent implements OnInit {
     });
   }
 
-  addEmailInput(): void {
-    const control: FormArray = this.getEmailFormArray();
-    control.push(this.initEmail());
+  phoneHasRequiredError(phoneControl: AbstractControl): boolean {
+    return phoneControl.get('number').hasError('required');
   }
 
-  addPhoneInput(): void {
-    const control: FormArray = this.getPhoneFormArray();
-    control.push(this.initPhone());
+  phoneHasPatternError(phoneControl: AbstractControl): boolean {
+    return phoneControl.get('number').hasError('pattern');
   }
 
-  removeEmailInput(i: number): void {
-    const control: FormArray = this.getEmailFormArray();
-    control.removeAt(i);
-  }
-
-  removePhoneInput(i: number): void {
-    const control: FormArray = this.getPhoneFormArray();
-    control.removeAt(i);
-  }
-
-  onSubmit(): void {
-    if (this.contactForm.valid) {
-      this.submitContact.emit(this.contactForm.value as ContactModel);
-    } else {
-      console.error('Try to submit when form is invalid.', this.contactForm);
-    }
-  }
 }

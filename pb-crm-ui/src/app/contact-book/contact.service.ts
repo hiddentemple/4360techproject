@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import { Observable } from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {ContactModel} from '../api/api-interfaces/contact/models/contact.model';
 import { CreateContactRequest, CreateContactResponse } from '../api/api-interfaces/contact/contracts/create.contact';
 import { UpdateContactRequest, UpdateContactResponse } from '../api/api-interfaces/contact/contracts/update.contact';
@@ -15,22 +15,17 @@ import {
   CreateBulkContactRequest,
   CreateBulkContactResponse,
 } from '../api/api-interfaces/contact/contracts/create.bulkContacts';
-
-
-
+import {DeleteContactRequest, DeleteContactResponse} from "../api/api-interfaces/contact/contracts/delete.contact";
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContactService {
-  constructor(private apiService: ApiService) {
-  }
+  constructor(private apiService: ApiService) {}
 
-
-  // TODO - Error handling
-  getContacts(): Observable<FindAllContactResponse>  {
-    return this.apiService.get<FindAllContactResponse>('/api/contacts', {});
+  getContacts(): Observable<ContactModel[]>  {
+    return this.apiService.get<ContactModel[]>('/api/contacts', {});
   }
 
   getContact(contact: FindOneContactRequest): Observable<FindOneContactResponse>{
@@ -47,12 +42,11 @@ export class ContactService {
 
   updateContact(contact: UpdateContactRequest): Observable<UpdateContactResponse> {
     const url = '/api/contacts/' + contact.id;
-    return this.apiService.put<UpdateContactResponse>(url, contact.data, {});
+    return this.apiService.patch<UpdateContactResponse>(url, contact, {});
   }
 
-  deleteContact(id: string): Observable<any> {
+  deleteContact({id}: DeleteContactRequest): Observable<DeleteContactResponse> {
     const url = '/api/contacts/' + id;
     return this.apiService.delete(url, {});
-    // TODO - implement interface
   }
 }
