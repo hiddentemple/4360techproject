@@ -27,4 +27,3 @@ export class EmailEntity implements EmailModel {
     @JoinColumn()
     contact: ContactEntity
 }
-git
