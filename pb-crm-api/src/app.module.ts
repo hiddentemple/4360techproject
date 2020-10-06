@@ -8,19 +8,19 @@ import { UsersModule } from './authn/users/users.module';
     imports: [
         TypeOrmModule.forRoot({
             "type": "postgres",
-            "host": "db-4360-techproject-do-user-7683203-0.b.db.ondigitalocean.com",
-            "port": 25060,
-            "username": "4360user",
-            "password": "ogedeqbnk5m7i4pj",
-            "database": "crmDB",
-            "ssl": true,
+            "host": "localhost",
+            "port": 5432,
+            "username": "postgres",
+            "password": "localpassword",
+            // "database": "crmDB",
+            // "ssl": false,
             "entities": ["dist/db/entities/**/*.entity{.js, .ts}"],
-            "extra": {
-                "ssl": {
-                    "rejectUnauthorized": false
-                }
-            },
-            "synchronize": false,
+            // "extra": {
+            //     "ssl": {
+            //         "rejectUnauthorized": false
+            //     }
+            // },
+            "synchronize": true,
             "logging": true,
             "migrations": ["dist/db/migrations/*{.js,.ts}"],
             // "seeds": ["dist/db/seeders/**/*.js"],
