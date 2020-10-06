@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {AbstractControl, FormControl, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 
 export interface LoginForm {
   email: string;
@@ -64,9 +64,9 @@ export class LoginComponentComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      this.submit.emit(this.loginForm.value)
+      this.submit.emit(this.loginForm.value);
     } else {
-      console.warn("Attempted to submit form when it was invalid", this.loginForm)
+      console.warn('Attempted to submit form when it was invalid', this.loginForm);
     }
   }
 }

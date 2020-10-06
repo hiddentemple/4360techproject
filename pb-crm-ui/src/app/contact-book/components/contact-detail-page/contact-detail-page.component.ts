@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ContactModel} from '../../../api/api-interfaces/contact/models/contact.model';
+import {ContactModel} from 'api-interfaces';
 
 @Component({
   selector: 'app-contact-detail-page',
-  template:`
+  template: `
     <p>Contact Detail Page Works</p>
   `,
   styles: []

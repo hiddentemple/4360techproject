@@ -1,6 +1,6 @@
 import {ContactEntity} from "./contact.entity";
 import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
-import {EmailModel} from "../../api-interfaces/contact/models/email.model";
+import {EmailModel} from 'api-interfaces';
 import { IsEmail, IsOptional, MaxLength} from 'class-validator';
 
 
