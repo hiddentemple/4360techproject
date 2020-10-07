@@ -34,6 +34,7 @@ export class ContactService {
 
   updateContact(contact: UpdateContactRequest): Observable<UpdateContactResponse>{
       const url = '/api/contacts/' + contact.id;
+      console.log('URL ' + url);
       return this.apiService.patch<UpdateContactResponse>(url, contact, {});
   }
 

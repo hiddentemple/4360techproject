@@ -45,12 +45,19 @@ export class ApiService {
   patch<T>(url: string, object: any, options: {}, handleError = ApiService.handleError): Observable<T> {
     if (object.hasOwnProperty('id')) {
       // Dont allow the update of an id with a PUT
-      const { id, ...model } = object
-      object = model
+      const { id, ...model } = object;
+      console.log('MODEL: ', model);
+      object = model;
     }
 
     return this.http.patch<T>(url, object, options).pipe(
       retry(1),
+      catchError(handleError)
+    );
+  }
+
+  put<T>(url: string, object: any, options: {}, handleError = ApiService.handleError): Observable<T>{
+    return this.http.put<T>(url, object, options).pipe(
       catchError(handleError)
     );
   }

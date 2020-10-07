@@ -44,12 +44,11 @@ export class ContactCacheService {
 
   updateContact(updated: ContactModel): Observable<ContactModel> {
     // Object construction with the spread operator
-    const {id, ...req} = updated;
-    return this.contactService.updateContact(req).pipe(map((contact: ContactModel) => {
-      const filtered = this.remove(id);
+    return this.contactService.updateContact(updated).pipe(map((contact: ContactModel) => {
+      console.log('UPDATED CONTACT: ', updated);
+      const filtered = this.remove(updated.id);
       filtered.push(contact);
       this._contacts$.next(filtered);
-
       return contact;
     }));
   }
