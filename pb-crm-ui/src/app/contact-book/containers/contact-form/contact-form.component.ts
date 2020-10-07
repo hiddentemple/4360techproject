@@ -23,31 +23,24 @@ export const PhoneValidator = Validators.pattern(PhoneRegex); // TODO validate l
   styles: []
 })
 export class ContactFormComponent implements OnInit, OnChanges {
-  // private contactID: string;
   contactForm: FormGroup;
   isHandset = false;
 
-  @Input() contact;
+  @Input() contact: ContactModel;
   @Output() submitContact = new EventEmitter<ContactModel>();
 
-  get emailFormArray(): FormArray { return this.contactForm?.controls.emails as FormArray; }
-  get phoneFormArray(): FormArray { return this.contactForm?.controls.phones as FormArray; }
-  get firstNameFormControl(): FormControl { return this.contactForm?.controls.firstName as FormControl; }
-  get lastNameFormControl(): FormControl { return this.contactForm?.controls.lastName as FormControl; }
-  get companyFormControl(): FormControl { return this.contactForm?.controls.company as FormControl; }
+  get emailFormArray(): FormArray { return this.contactForm.controls.emails as FormArray; }
+  get phoneFormArray(): FormArray { return this.contactForm.controls.phones as FormArray; }
+  get firstNameFormControl(): FormControl { return this.contactForm.controls.firstName as FormControl; }
+  get lastNameFormControl(): FormControl { return this.contactForm.controls.lastName as FormControl; }
+  get companyFormControl(): FormControl { return this.contactForm.controls.company as FormControl; }
 
   constructor(private fb: FormBuilder, private breakpointService: BreakpointService) {
+    this.initForm();
   }
 
   ngOnInit(): void {
     this.breakpointService.isHandset$().subscribe((matches: boolean) => this.isHandset = matches);
-    this.contactForm = new FormGroup({
-      firstName: new FormControl('', [Validators.required, Validators.maxLength(50)]),
-      lastName: new FormControl('', [Validators.required, Validators.maxLength(50)]),
-      company: new FormControl('', [Validators.maxLength(150)]),
-      emails: this.fb.array([]),
-      phones: this.fb.array([]),
-    });
     if (this.contact){
       this.setContact();
     }
@@ -56,14 +49,23 @@ export class ContactFormComponent implements OnInit, OnChanges {
   ngOnChanges({ contact }: SimpleChanges) {
     this.contact = contact.currentValue;
     this.setContact();
-    console.log('CHANGES: ', this.contact);
+  }
+
+  private initForm(): void {
+    this.contactForm = new FormGroup({
+      firstName: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+      lastName: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+      company: new FormControl('', [Validators.maxLength(150)]),
+      emails: this.fb.array([]),
+      phones: this.fb.array([]),
+    });
   }
 
 
   onSubmit(): void {
     if (this.contactForm.valid) {
       console.log('Contact Form Submit: ', this.contactForm.value);
-      const contact: ContactModel = { id: this.contact.id, ...this.contactForm.value};
+      const contact: ContactModel = this.contact ? { id: this.contact.id, ...this.contactForm.value} : this.contactForm.value;
       this.submitContact.emit(contact);
     } else {
       console.error('Try to submit when form is invalid.', this.contactForm);
@@ -72,24 +74,18 @@ export class ContactFormComponent implements OnInit, OnChanges {
 
   setContact() {
     if (!this.contact) { return; }
-
+    this.initForm();
     console.log('Setting this.contact to', this.contact);
     this.firstNameFormControl?.setValue(this.contact.firstName);
     this.lastNameFormControl?.setValue(this.contact.lastName);
     this.companyFormControl?.setValue(this.contact.company);
     console.log('CONTACT EMAILS: ', this.contact.emails);
-    //TODO this is where it's not picking up the email
-    const emailControls: FormGroup[] = Object.values(this.contact.emails).map(
-      (email: EmailModel) => this.initEmail(email.address, email.type)
+    Object.values(this.contact.emails).forEach(
+      (email: EmailModel) => this.emailFormArray.push(this.initEmail(email.address, email.type))
     );
-    console.log('YOKO ONO', emailControls);
-    this.contactForm.controls.emails = this.fb.array(emailControls);
-
-    const phoneControls: FormGroup[] = Object.values(this.contact.phones).map(
-      (phone: PhoneModel) => this.initPhone(String(phone.number), phone.type)
+    Object.values(this.contact.phones).forEach(
+      (phone: PhoneModel) => this.phoneFormArray.push(this.initPhone(String(phone.number), phone.type))
     );
-    console.log('YONO OKO', phoneControls);
-    this.contactForm.controls.phones = this.fb.array(phoneControls);
   }
 
   /** First Name **/
