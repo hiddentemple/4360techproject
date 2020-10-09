@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ContactModel} from 'api-interfaces';
+import {ContactModel} from '@hiddentemple/api-interfaces';
 
 @Component({
   selector: 'app-contact-detail-page',

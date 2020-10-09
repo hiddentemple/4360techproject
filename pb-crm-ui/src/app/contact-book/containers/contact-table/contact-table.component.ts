@@ -2,7 +2,7 @@ import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChil
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {ContactModel} from 'api-interfaces';
+import {ContactModel} from '@hiddentemple/api-interfaces';
 import { MatMenuTrigger } from '@angular/material/menu';
 
 export enum TableSize { FULL, COMPACT }

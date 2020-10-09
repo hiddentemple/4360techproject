@@ -1,10 +1,10 @@
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {ContactModel} from 'api-interfaces';
+import {ContactModel} from '@hiddentemple/api-interfaces';
 import {ContactService} from './contact.service';
 import {Injectable} from '@angular/core';
 import {map, tap} from 'rxjs/operators';
-import {CreateContactRequest, CreateContactResponse} from 'api-interfaces';
-import {DeleteContactRequest} from 'api-interfaces';
+import {CreateContactRequest, CreateContactResponse} from '@hiddentemple/api-interfaces';
+import {DeleteContactRequest} from '@hiddentemple/api-interfaces';
 
 
 // File scoped interface (no export)

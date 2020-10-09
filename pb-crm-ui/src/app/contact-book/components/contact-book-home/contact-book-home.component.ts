@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild, ViewContainerRef} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {CreateContactDialogComponent} from '../../containers/create-contact-dialog/create-contact-dialog.component';
-import {ContactModel} from 'api-interfaces';
+import {ContactModel} from '@hiddentemple/api-interfaces';
 import {ContactCacheService} from '../../contact-cache.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {TableSize} from '../../containers/contact-table/contact-table.component';

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {EmailModel} from 'api-interfaces';
+import {EmailModel} from '@hiddentemple/api-interfaces';
 
 @Component({
   selector: 'app-email-table',
