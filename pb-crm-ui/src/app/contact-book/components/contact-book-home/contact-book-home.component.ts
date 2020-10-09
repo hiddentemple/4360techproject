@@ -92,7 +92,7 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
   }
 
   deleteContact(contact: ContactModel) {
-    this.contactCache.deleteContact(contact.id).subscribe(() => {
+    this.contactCache.deleteContact(contact).subscribe(() => {
         this.snackbar.open('Contact Deleted', 'X', {duration: 1000});
         if (this.selectedContact === contact) {
           this.reset();
