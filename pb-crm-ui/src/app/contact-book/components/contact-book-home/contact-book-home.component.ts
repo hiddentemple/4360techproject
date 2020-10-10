@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild, ViewContainerRef} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {CreateContactDialogComponent} from '../../containers/create-contact-dialog/create-contact-dialog.component';
-import {ContactModel} from 'api-interfaces';
+import {ContactModel} from '@hiddentemple/api-interfaces';
 import {ContactCacheService} from '../../contact-cache.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {TableSize} from '../../containers/contact-table/contact-table.component';
@@ -92,7 +92,7 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
   }
 
   deleteContact(contact: ContactModel) {
-    this.contactCache.deleteContact(contact.id).subscribe(() => {
+    this.contactCache.deleteContact(contact).subscribe(() => {
         this.snackbar.open('Contact Deleted', 'X', {duration: 1000});
         if (this.selectedContact === contact) {
           this.reset();
@@ -102,7 +102,7 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
   }
 
   private openRightPanel() {
-    console.log("Opening right panel with active portal: " + this.portalToDescription())
+    console.log('Opening right panel with active portal: ' + this.portalToDescription());
     this.showDetail = true;
     this.tableSize = TableSize.COMPACT;
   }
@@ -115,12 +115,12 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
   }
 
   private portalToDescription(): string {
-    if (!this.selectedPortal) return 'undefined'
-    if (this.selectedPortal === this.detailPortal) return 'detail'
-    if (this.selectedPortal === this.createPortal) return 'create'
-    if (this.selectedPortal === this.editPortal) return 'edit'
+    if (!this.selectedPortal) { return 'undefined'; }
+    if (this.selectedPortal === this.detailPortal) { return 'detail'; }
+    if (this.selectedPortal === this.createPortal) { return 'create'; }
+    if (this.selectedPortal === this.editPortal) { return 'edit'; }
 
 
-    throw new Error('Invalid portalToDescription method - does not have mapping for selected portal')
+    throw new Error('Invalid portalToDescription method - does not have mapping for selected portal');
   }
 }

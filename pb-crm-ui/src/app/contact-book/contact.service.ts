@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
-import {ContactModel} from 'api-interfaces';
-import { CreateContactRequest, CreateContactResponse } from 'api-interfaces';
-import { UpdateContactRequest, UpdateContactResponse } from 'api-interfaces';
+import {ContactModel} from '@hiddentemple/api-interfaces';
+import { CreateContactRequest, CreateContactResponse } from '@hiddentemple/api-interfaces';
+import { UpdateContactRequest, UpdateContactResponse } from '@hiddentemple/api-interfaces';
 import { ApiService } from '../api/api.service';
-import { FindOneContactRequest, FindOneContactResponse, } from 'api-interfaces';
-import { CreateBulkContactRequest, CreateBulkContactResponse, } from 'api-interfaces';
-import {DeleteContactRequest, DeleteContactResponse} from 'api-interfaces';
+import { FindOneContactRequest, FindOneContactResponse, } from '@hiddentemple/api-interfaces';
+import { CreateBulkContactRequest, CreateBulkContactResponse, } from '@hiddentemple/api-interfaces';
+import {DeleteContactRequest, DeleteContactResponse} from '@hiddentemple/api-interfaces';
 
 
 @Injectable({
@@ -34,6 +34,7 @@ export class ContactService {
 
   updateContact(contact: UpdateContactRequest): Observable<UpdateContactResponse>{
       const url = '/api/contacts/' + contact.id;
+      console.log('URL ' + url);
       return this.apiService.patch<UpdateContactResponse>(url, contact, {});
   }
 
