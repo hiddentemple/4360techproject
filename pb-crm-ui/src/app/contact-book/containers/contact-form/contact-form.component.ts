@@ -10,7 +10,7 @@ import {
   OnChanges, SimpleChanges,
 } from '@angular/core';
 import {AbstractControl, Form, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import { ContactModel, EmailModel, PhoneModel } from 'api-interfaces';
+import { ContactModel, EmailModel, PhoneModel } from '@hiddentemple/api-interfaces';
 import {BreakpointService} from '../../../core/layout/breakpoint.service';
 
 
