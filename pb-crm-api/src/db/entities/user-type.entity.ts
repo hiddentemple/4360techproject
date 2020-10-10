@@ -1,5 +1,5 @@
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
-import {UserTypeModel} from 'api-interfaces';
+import {UserTypeModel} from '@hiddentemple/api-interfaces';
 import {MaxLength, IsOptional} from "class-validator";
 import {ContactEntity} from "./contact.entity";
 
