@@ -34,6 +34,7 @@ export class ContactFormComponent implements OnInit, OnChanges {
   get firstNameFormControl(): FormControl { return this.contactForm.controls.firstName as FormControl; }
   get lastNameFormControl(): FormControl { return this.contactForm.controls.lastName as FormControl; }
   get companyFormControl(): FormControl { return this.contactForm.controls.company as FormControl; }
+  get notesFormControl(): FormControl { return this.contactForm.controls.notes as FormControl; }
 
   constructor(private fb: FormBuilder, private breakpointService: BreakpointService) {
     this.initForm();
@@ -56,6 +57,7 @@ export class ContactFormComponent implements OnInit, OnChanges {
       firstName: new FormControl('', [Validators.required, Validators.maxLength(50)]),
       lastName: new FormControl('', [Validators.required, Validators.maxLength(50)]),
       company: new FormControl('', [Validators.maxLength(150)]),
+      notes: new FormControl('', [Validators.maxLength(250)]),
       emails: this.fb.array([]),
       phones: this.fb.array([]),
     });
@@ -79,7 +81,7 @@ export class ContactFormComponent implements OnInit, OnChanges {
     this.firstNameFormControl?.setValue(this.contact.firstName);
     this.lastNameFormControl?.setValue(this.contact.lastName);
     this.companyFormControl?.setValue(this.contact.company);
-    console.log('CONTACT EMAILS: ', this.contact.emails);
+    this.notesFormControl?.setValue(this.contact.notes);
     Object.values(this.contact.emails).forEach(
       (email: EmailModel) => this.emailFormArray.push(this.initEmail(email.address, email.type))
     );
@@ -106,6 +108,11 @@ export class ContactFormComponent implements OnInit, OnChanges {
     return this.lastNameFormControl?.hasError('maxLength');
   }
 
+  /** Notes **/
+  notesHasMaxLengthError(): boolean {
+    return this.lastNameFormControl?.hasError('maxLength');
+  }
+
   /** Email **/
   addEmailInput(): void { this.emailFormArray.push(this.initEmail()); }
   removeEmailInput(i: number): void { this.emailFormArray.removeAt(i); }
@@ -127,7 +134,6 @@ export class ContactFormComponent implements OnInit, OnChanges {
   }
 
   /** Phone **/
-
   addPhoneInput(): void { this.phoneFormArray.push(this.initPhone()); }
   removePhoneInput(i: number): void { this.phoneFormArray.removeAt(i); }
   hasPhones(): boolean { return this.phoneFormArray.length > 0; }
