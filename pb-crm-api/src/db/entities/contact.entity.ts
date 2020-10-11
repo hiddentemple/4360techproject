@@ -6,12 +6,24 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
-import { MinLength, MaxLength, IsOptional, IsAlpha, ValidateNested } from 'class-validator';
+import {
+    MinLength,
+    MaxLength,
+    IsOptional,
+    IsAlpha,
+    ValidateNested,
+    Length,
+    IsDefined,
+    Validate,
+    Matches
+} from 'class-validator';
 import {Type} from "class-transformer";
 import {ContactModel} from "@hiddentemple/api-interfaces";
 import {EmailEntity} from "./email.entity";
 import {PhoneEntity} from "./phone.entity";
+import {HasPrimary} from "../../core/validation/has-primary.constraint";
 
+export const NameRegex = /^[a-zA-z-]+$/
 
 @Entity("contacts")
 export class ContactEntity implements ContactModel {
@@ -19,24 +31,25 @@ export class ContactEntity implements ContactModel {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @IsAlpha()
-    @Column('varchar', { nullable: false})
-    @MinLength(1)
+    @Column({ type: "character varying", length: 50 })
+    @Matches(NameRegex, {message: "firstName must contain only alphabetic characters and '-'"})
+    @Length(2, 50)
+    @IsDefined()
     firstName: string;
 
-    @IsAlpha()
-    @Column('varchar', { nullable: false})
-    @MinLength(1)
+    @Column({ type: "character varying", length: 50 })
+    @Matches(NameRegex, {message: "lastName must contain only alphabetic characters and '-'"})
+    @Length(2, 50)
+    @IsDefined()
     lastName: string;
 
-    @Column('varchar', { nullable: true})
+    @Column({ type: "character varying", length: 50, nullable: true })
     @IsOptional()
-    @MaxLength(50)
+    @Length(2, 50)
     company: string
 
-    @Column('varchar', { nullable: true})
+    @Column({ type: "text", nullable: true })
     @IsOptional()
-    @MaxLength(250)
     notes: string
 
     @OneToMany(type => EmailEntity, email => email.contact, {
@@ -47,6 +60,7 @@ export class ContactEntity implements ContactModel {
     @IsOptional()
     @ValidateNested({ each: true })
     @Type(() => EmailEntity)
+    @Validate(HasPrimary, { message: 'Must have at least one primary email'})
     emails: EmailEntity[];
 
     @OneToMany(type => PhoneEntity, phone => phone.contact, {
@@ -57,6 +71,7 @@ export class ContactEntity implements ContactModel {
     @IsOptional()
     @ValidateNested({ each: true })
     @Type(() => PhoneEntity)
+    @Validate(HasPrimary, { message: 'Must have at least one primary phone'})
     phones: PhoneEntity[];
 
     @CreateDateColumn({name: 'createdAt', nullable: false})

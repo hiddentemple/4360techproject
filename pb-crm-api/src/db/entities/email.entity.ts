@@ -1,7 +1,7 @@
 import {ContactEntity} from "./contact.entity";
 import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 
-import { IsEmail, IsOptional, MaxLength} from 'class-validator';
+import {IsDefined, IsEmail, IsOptional, MaxLength} from 'class-validator';
 import {EmailModel} from "@hiddentemple/api-interfaces";
 import {EmailCategoryEntity} from "./email-category.entity";
 
@@ -14,14 +14,17 @@ export class EmailEntity implements EmailModel {
 
     @Column({
         type: "character varying",
-        length: 50,
         nullable: false
     })
+    @IsDefined()
     @IsEmail()
-    @MaxLength(50)
     address: string
 
-    @ManyToOne(() => EmailCategoryEntity, category => category.emails)
+    @ManyToOne(
+        () => EmailCategoryEntity,
+        category => category.emails,
+        { nullable: false })
+    @IsDefined()
     @JoinColumn()
     category: EmailCategoryEntity;
 

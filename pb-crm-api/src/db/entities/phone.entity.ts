@@ -1,6 +1,15 @@
 import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {ContactEntity} from "./contact.entity";
-import {IsOptional, MaxLength, IsPhoneNumber} from "class-validator"
+import {
+    IsOptional,
+    MaxLength,
+    IsPhoneNumber,
+    IsDefined,
+    Length,
+    IsNumber,
+    IsNumberOptions,
+    IsNumberString
+} from "class-validator"
 import {EmailCategoryEntity} from "./email-category.entity";
 import {PhoneCategoryEntity} from "./phone-category.entity";
 import {PhoneModel} from "@hiddentemple/api-interfaces";
@@ -11,13 +20,21 @@ export class PhoneEntity implements PhoneModel {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @Column('numeric', { nullable: false })
+    @Column('numeric', {nullable: false})
+    @IsDefined()
+    @IsNumberString( { no_symbols: true })
+    @Length(10, 10, {message: 'Phone number must be exactly 10 digits'})
     @IsPhoneNumber('US')
-    number: number
+    phoneNumber: string
 
-    @ManyToOne(() => PhoneCategoryEntity, category => category.phones)
+    @ManyToOne(
+        () => PhoneCategoryEntity,
+        category => category.phones,
+        {nullable: false}
+    )
+    @IsDefined()
     @JoinColumn()
-    category: EmailCategoryEntity;
+    category: PhoneCategoryEntity;
 
     @ManyToOne(type => ContactEntity, contact => contact.phones, {
         onDelete: "CASCADE",
