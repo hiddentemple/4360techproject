@@ -9,8 +9,4 @@ export class ContactsService extends TypeOrmCrudService<ContactEntity>{
   constructor(@InjectRepository(ContactEntity) repo) {
     super(repo);
   }
-
-
-
-
 }

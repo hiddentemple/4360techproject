@@ -1,8 +1,9 @@
 import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {ContactEntity} from "./contact.entity";
-import {IsDefined, IsNumberString, IsPhoneNumber, Length} from "class-validator"
+import {IsDefined, IsNumberString, IsPhoneNumber, Length, ValidateNested} from "class-validator"
 import {PhoneCategoryEntity} from "./phone-category.entity";
 import {PhoneModel} from "@hiddentemple/api-interfaces";
+import {Type} from "class-transformer";
 
 @Entity('phones')
 export class PhoneEntity implements PhoneModel {
@@ -20,10 +21,12 @@ export class PhoneEntity implements PhoneModel {
     @ManyToOne(
         () => PhoneCategoryEntity,
         category => category.phones,
-        {nullable: false}
+        {nullable: false, cascade: true}
     )
     @IsDefined()
     @JoinColumn()
+    @ValidateNested({ each: true })
+    @Type(() => PhoneCategoryEntity)
     category: PhoneCategoryEntity;
 
     @ManyToOne(type => ContactEntity, contact => contact.phones, {

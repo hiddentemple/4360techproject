@@ -17,7 +17,7 @@ describe('CategoryEntity', () => {
         return expectError(category, 'code', 'isDefined', expectedMessage);
     });
 
-    it('should accept valid codes', done => {
+    it('should accept valid codes', () => {
         category.description = "Valid Description";
         category.code = CategoryCode.PRIMARY;
 
@@ -56,4 +56,3 @@ describe('CategoryEntity', () => {
     });
 
 })
-

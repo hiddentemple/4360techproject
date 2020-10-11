@@ -23,5 +23,4 @@ export abstract class CategoryEntity implements CategoryModel {
     @IsDefined()
     @Length(4, 25)
     description: string;
-
 }

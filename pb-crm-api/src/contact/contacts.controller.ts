@@ -24,8 +24,16 @@ import {ErrorService} from '../services/error.service';
       emails: {
         eager: true,
       },
+      "emails.category": {
+        eager: true,
+        alias: 'email-category'
+      },
       phones: {
         eager: true,
+      },
+      "phones.category": {
+        eager: true,
+        alias: 'phone-category'
       },
     },
   },
@@ -61,13 +69,16 @@ export class ContactsController implements CrudController<ContactEntity> {
     };
   }
 
-
+  @Override()
+  async updateOne(@ParsedRequest() req: CrudRequest, @ParsedBody() dto: ContactEntity) {
+    return this.base.updateOneBase(req, dto).catch(error => {
+      throw this.errorService.handleError(error);
+    });
+  }
 
   //allows customization for DELETE request
   @Override()
-  async deleteOne(
-    @ParsedRequest() req: CrudRequest,
-  ) {
+  async deleteOne(@ParsedRequest() req: CrudRequest) {
     return this.base.deleteOneBase(req).catch(error => {
       error = this.errorService.handleError(error);
       throw error;
