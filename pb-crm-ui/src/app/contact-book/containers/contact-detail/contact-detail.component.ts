@@ -8,12 +8,10 @@ import {ContactModel} from '@hiddentemple/api-interfaces';
       <h2>{{contact.firstName}} {{contact.lastName}}</h2>
       <h3>Company: {{contact.company}}</h3>
       <!-- Notes Input-->
-<!--      <div class="row" *ngIf="!show">-->
-        <mat-form-field class="col-12">
-          <mat-label>Notes</mat-label>
-          <textarea matInput maxlength="250" placeholder="Ex. This is a note..." formControlName="notes"></textarea>
-        </mat-form-field>
-<!--      </div>-->
+      <mat-form-field class="col-12">
+        <mat-label>Notes</mat-label>
+        <textarea matInput disabled maxlength="250" placeholder="Ex. This is a note..." formControlName="notes"></textarea>
+      </mat-form-field>
       <app-phone-table [phones]="contact?.phones"></app-phone-table><br>
       <app-email-table [emails]="contact?.emails"></app-email-table><br>
 <!--      <button mat-raised-button (click)="show =! show" type="button" color="accent">Add Notes</button>-->
