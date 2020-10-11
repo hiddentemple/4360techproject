@@ -10,9 +10,9 @@ import {
 } from 'typeorm';
 import {UserTypeEntity} from "./user-type.entity";
 import {ContactEntity} from "./contact.entity";
-import {UserModel} from 'api-interfaces';
 import {Length, MaxLength, IsEmail} from "class-validator";
 import * as bcrypt from 'bcrypt';
+import {UserModel} from "@hiddentemple/api-interfaces/dist/user/models/user.model";
 
 
 

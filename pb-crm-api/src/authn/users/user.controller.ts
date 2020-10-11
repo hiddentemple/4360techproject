@@ -2,8 +2,8 @@ import { Controller, HttpCode } from '@nestjs/common';
 import {Crud, CrudController, CrudRequest, Override, ParsedBody, ParsedRequest} from "@nestjsx/crud";
 import {UserService} from "./user.service";
 import {UserEntity} from "../../db/entities/user.entity";
-import { CreateUserResponse } from 'api-interfaces';
 import { ErrorService } from '../../services/error.service';
+import {CreateUserResponse} from "@hiddentemple/api-interfaces/dist/user/contracts/create.user";
 
 
 @Crud({

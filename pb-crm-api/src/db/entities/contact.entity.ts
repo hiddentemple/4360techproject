@@ -6,11 +6,11 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
-import {EmailEntity} from "./email.entity";
-import {PhoneEntity} from "./phone.entity";
-import {ContactModel} from 'api-interfaces';
 import { MinLength, MaxLength, IsOptional, IsAlpha, ValidateNested } from 'class-validator';
 import {Type} from "class-transformer";
+import {ContactModel} from "@hiddentemple/api-interfaces";
+import {EmailEntity} from "./email.entity";
+import {PhoneEntity} from "./phone.entity";
 
 
 @Entity("contacts")

@@ -7,6 +7,6 @@ const MockEmailTypes = ['Personal', 'Work', 'Private', '', '', '']
 define(EmailEntity, faker => {
     const email = new EmailEntity();
     email.address = faker.internet.email();
-    email.type = faker.random.arrayElement(MockEmailTypes)
+    // email.type = faker.random.arrayElement(MockEmailTypes)
     return email
 })
