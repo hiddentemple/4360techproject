@@ -1,16 +1,6 @@
 import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {ContactEntity} from "./contact.entity";
-import {
-    IsOptional,
-    MaxLength,
-    IsPhoneNumber,
-    IsDefined,
-    Length,
-    IsNumber,
-    IsNumberOptions,
-    IsNumberString
-} from "class-validator"
-import {EmailCategoryEntity} from "./email-category.entity";
+import {IsDefined, IsNumberString, IsPhoneNumber, Length} from "class-validator"
 import {PhoneCategoryEntity} from "./phone-category.entity";
 import {PhoneModel} from "@hiddentemple/api-interfaces";
 

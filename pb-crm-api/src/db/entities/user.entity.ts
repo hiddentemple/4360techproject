@@ -1,19 +1,18 @@
 import {
-  BeforeInsert,
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
+    BeforeInsert,
+    Column,
+    CreateDateColumn,
+    Entity,
+    JoinColumn,
+    OneToOne,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
 } from 'typeorm';
 import {UserTypeEntity} from "./user-type.entity";
 import {ContactEntity} from "./contact.entity";
-import {Length, MaxLength, IsEmail} from "class-validator";
+import {IsEmail, Length, MaxLength} from "class-validator";
 import * as bcrypt from 'bcrypt';
 import {UserModel} from "@hiddentemple/api-interfaces/dist/user/models/user.model";
-
 
 
 @Entity('users')

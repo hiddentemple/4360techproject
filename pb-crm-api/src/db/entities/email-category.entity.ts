@@ -1,6 +1,4 @@
-import {Column, Entity, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn} from "typeorm";
-import {CategoryCode, CategoryModel} from "@hiddentemple/api-interfaces";
-import {Length} from "class-validator";
+import {Entity, OneToMany} from "typeorm";
 import {EmailEntity} from "./email.entity";
 import {CategoryEntity} from "./category.entity";
 

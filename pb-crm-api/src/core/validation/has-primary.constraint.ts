@@ -1,5 +1,5 @@
 import {ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface} from "class-validator";
-import {CategoryModel, containsExactlyOnePrimary, HasCategory} from "@hiddentemple/api-interfaces";
+import {containsExactlyOnePrimary, HasCategory} from "@hiddentemple/api-interfaces";
 
 
 @ValidatorConstraint({ name: 'hasPrimary', async: false })

@@ -1,6 +1,5 @@
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
-import {MaxLength, IsOptional} from "class-validator";
-import {ContactEntity} from "./contact.entity";
+import {IsOptional, MaxLength} from "class-validator";
 import {UserTypeModel} from "@hiddentemple/api-interfaces/dist/user/models/user-type.model";
 
 @Entity('user_types')
