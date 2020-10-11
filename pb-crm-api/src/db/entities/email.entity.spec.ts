@@ -48,6 +48,6 @@ describe('EmailEntity', () => {
 
 });
 
-function getEmailCategory(): EmailCategoryEntity {
-    return { code: CategoryCode.PRIMARY, description: 'Primary', id: '', emails: [] }
+export function getEmailCategory(code: CategoryCode = CategoryCode.PRIMARY): EmailCategoryEntity {
+    return { code: code, description: 'Primary', id: '', emails: [] }
 }

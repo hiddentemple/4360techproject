@@ -80,6 +80,6 @@ describe('PhoneEntity', () => {
 
 });
 
-function getPhoneCategory(): PhoneCategoryEntity {
-    return {id: '', code: CategoryCode.PRIMARY, description: 'Primary', phones: []}
+export function getPhoneCategory(code: CategoryCode = CategoryCode.PRIMARY): PhoneCategoryEntity {
+    return {id: '', code: code, description: 'Primary', phones: []}
 }

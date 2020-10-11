@@ -1,5 +1,5 @@
 import {ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface} from "class-validator";
-import {CategoryModel, containsExactlyOnePrimary} from "@hiddentemple/api-interfaces";
+import {CategoryModel, containsExactlyOnePrimary, HasCategory} from "@hiddentemple/api-interfaces";
 
 
 @ValidatorConstraint({ name: 'hasPrimary', async: false })
@@ -8,9 +8,10 @@ export class HasPrimary implements ValidatorConstraintInterface {
         return "Does not have primary category";
     }
 
-    validate(value: CategoryModel[], validationArguments?: ValidationArguments): boolean {
-        if (value === []) return true;
-        return containsExactlyOnePrimary(value);
+    validate(withCategory: HasCategory[], validationArguments?: ValidationArguments): boolean {
+        if ( (!withCategory) || withCategory.length === 0) return false;
+        const categories = withCategory.map(model => model.category)
+        return containsExactlyOnePrimary(categories);
     }
 
 }

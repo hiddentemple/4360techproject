@@ -1,13 +1,10 @@
 import {ContactEntity} from "./contact.entity";
 import {expectError, expectNoErrors} from "../../test.utils";
-import {first} from "rxjs/operators";
-
-
-function getValidContact(contact: ContactEntity, firstName: string = 'vaildFirst', lastName: string = 'validLast') {
-    contact.firstName = firstName;
-    contact.lastName = lastName;
-    return contact;
-}
+import {EmailEntity} from "./email.entity";
+import {getEmailCategory} from "./email.entity.spec";
+import {CategoryCode} from "@hiddentemple/api-interfaces";
+import {PhoneEntity} from "./phone.entity";
+import {getPhoneCategory} from "./phone.entity.spec";
 
 describe("ContactEntity", () => {
     let contact: ContactEntity;
@@ -60,19 +57,70 @@ describe("ContactEntity", () => {
         return expectNoErrors(contact)
     });
 
-    it('if phones are present, it should require a default phone', () => {
+    it('if emails are present, it should reject without a primary email', () => {
+        const userEmail: EmailEntity = getEmail(CategoryCode.USER);
+        const emails = [userEmail]
+        const expectedMessage = 'Must have at least one primary email'
+        contact = getValidContact(contact);
+        contact.emails = emails;
 
+        return expectError(contact, 'emails', 'hasPrimary', expectedMessage)
     });
 
-    it('if emails are present, it should require a default email', () => {
+    it('should accept emails which contains a default', () => {
+        const userEmail: EmailEntity = getEmail(CategoryCode.USER);
+        const primaryEmail: EmailEntity = getEmail(CategoryCode.PRIMARY);
+        const emails = [userEmail, primaryEmail]
+        contact = getValidContact(contact);
+        contact.emails = emails;
 
+        return expectNoErrors(contact)
+    });
+
+    it('if phones are present, it should reject without a primary phone', () => {
+        const userPhone: PhoneEntity = getPhone(CategoryCode.USER);
+        const phones = [userPhone]
+        const expectedMessage = 'Must have at least one primary phone'
+        contact = getValidContact(contact);
+        contact.phones = phones;
+
+        return expectError(contact, 'phones', 'hasPrimary', expectedMessage)
+    });
+
+    it('should accept phones which contains a default', () => {
+        const userPhone: PhoneEntity = getPhone(CategoryCode.USER);
+        const primaryPhone: PhoneEntity = getPhone(CategoryCode.PRIMARY);
+        const phones = [userPhone, primaryPhone]
+        contact = getValidContact(contact);
+        contact.phones = phones;
+
+        return expectNoErrors(contact)
     });
 })
 
-function getWithDefaults(current: ContactEntity, firstName: string = "first", lastName: string = "last"): ContactEntity {
-    current.firstName = firstName;
-    current.lastName = lastName;
-    return current;
+function getValidContact(contact: ContactEntity, firstName: string = 'vaildFirst', lastName: string = 'validLast') {
+    contact.firstName = firstName;
+    contact.lastName = lastName;
+    return contact;
+}
+
+
+function getEmail(category: CategoryCode): EmailEntity {
+    return {
+        id: '',
+        address: 'bob@gmail.com',
+        category: getEmailCategory(category),
+        contact: undefined
+    }
+}
+
+function getPhone(category: CategoryCode): PhoneEntity {
+    return {
+        id: '',
+        phoneNumber: '3256545585',
+        category: getPhoneCategory(category),
+        contact: undefined
+    }
 }
 
 enum NameType { FIRST, LAST}
