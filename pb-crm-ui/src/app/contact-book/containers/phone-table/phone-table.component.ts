@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {PhoneModel} from 'api-interfaces';
+import {PhoneModel} from '@hiddentemple/api-interfaces';
 
 @Component({
   selector: 'app-phone-table',
