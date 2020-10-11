@@ -1,13 +1,23 @@
-import {Module} from '@nestjs/common';
+import {  Module } from '@nestjs/common';
 import {AuthnModule} from './authn/authn.module';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {ContactModule} from "./contact/contact.module";
 import { UsersModule } from './authn/users/users.module';
 import {ConfigModule} from "@nestjs/config";
+import { UploadController } from './upload/upload.controller';
+import { UploadService } from './upload/upload.service';
+import { UploadModule } from './upload/upload.module';
+import { MulterModule } from '@nestjs/platform-express';
+
 
 @Module({
     imports: [
         ConfigModule.forRoot(),
+        MulterModule.registerAsync({
+          useFactory: () => ({
+            dest: './files'
+          }),
+        }),
         TypeOrmModule.forRoot(
             // If ENV system environment variable is 'local' connect to local postgres container
             // otherwise, defer to ormconfig.json
@@ -25,10 +35,11 @@ import {ConfigModule} from "@nestjs/config";
         // Feature Modules
         ContactModule,
         AuthnModule,
-        UsersModule
+        UsersModule,
+        UploadModule,
     ],
-    controllers: [],
-    providers: [],
+    controllers: [UploadController],
+    providers: [UploadService],
 })
-export class AppModule {
+export class AppModule{
 }
