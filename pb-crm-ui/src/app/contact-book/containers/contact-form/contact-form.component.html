@@ -27,14 +27,12 @@
   </div>
 
   <!-- Notes Input-->
-  <div class="row">
+  <div class="row" *ngIf="!show">
     <mat-form-field class="col-12" appearance="fill">
       <mat-label>Notes</mat-label>
       <textarea matInput></textarea>
     </mat-form-field>
   </div>
-
-
 
   <hr *ngIf="hasEmails()"/>
 
@@ -108,7 +106,7 @@
   <div class="mt-2">
     <button mat-raised-button (click)="addEmailInput()" type="button" class="mr-1" color="accent">Add Email</button>
     <button mat-raised-button (click)="addPhoneInput()" type="button" class="mr-1" color="accent">Add Phone</button>
-    <button mat-raised-button (click)="addNoteInput()" type="button" color="accent">Add Notes</button>
+    <button mat-raised-button (click)="show =! show" type="button" color="accent">Add Notes</button>
     <button mat-raised-button color="primary" [disabled]="!contactForm.valid" type="submit" class="float-right">Submit
     </button>
   </div>
