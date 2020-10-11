@@ -28,9 +28,12 @@
 
   <!-- Notes Input-->
   <div class="row" *ngIf="!show">
-    <mat-form-field class="col-12" appearance="fill">
+    <mat-form-field class="col-12">
       <mat-label>Notes</mat-label>
-      <textarea matInput></textarea>
+      <textarea matInput maxlength="250" placeholder="Ex. This is a note..." formControlName="notes"></textarea>
+      <mat-error *ngif="notesHasMaxLengthError()">
+        Notes cannot be any longer than 250 characters
+      </mat-error>
     </mat-form-field>
   </div>
 
