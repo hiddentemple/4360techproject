@@ -6,7 +6,7 @@ import {EmailEntity} from "./email.entity";
 import {PhoneEntity} from "./phone.entity";
 import {HasPrimary} from "../../core/validation/has-primary.constraint";
 
-export const NameRegex = /^[a-zA-z-]+$/
+export const NameRegex = /^[a-zA-z-\.]+$/
 
 @Entity("contacts")
 export class ContactEntity implements ContactModel {
@@ -29,11 +29,11 @@ export class ContactEntity implements ContactModel {
     @Column({ type: "character varying", length: 50, nullable: true })
     @IsOptional()
     @Length(2, 50)
-    company: string
+    company?: string
 
     @Column({ type: "text", nullable: true })
     @IsOptional()
-    notes: string
+    notes?: string
 
     @OneToMany(type => EmailEntity, email => email.contact, {
         cascade: true,
@@ -43,7 +43,7 @@ export class ContactEntity implements ContactModel {
     @IsOptional()
     @ValidateNested({ each: true })
     @Type(() => EmailEntity)
-    @Validate(HasPrimary, { message: 'Must have at least one primary email'})
+    // @Validate(HasPrimary, { message: 'Must have at least one primary email'})
     emails: EmailEntity[];
 
     @OneToMany(type => PhoneEntity, phone => phone.contact, {

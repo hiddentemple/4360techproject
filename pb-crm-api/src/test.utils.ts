@@ -1,5 +1,7 @@
 import {validate} from "class-validator";
 import {ValidationError} from "@nestjs/common";
+import {CategoryCode} from "@hiddentemple/api-interfaces";
+import {CategoryEntity} from "./db/entities/category.entity";
 
 export function expectError(entity: any, property: string, constraint: string, expectedMessage: string): Promise<any> {
     return validate(entity).then((errors: ValidationError[]) => {
@@ -17,4 +19,8 @@ export function expectNoErrors(entity: any): Promise<any> {
         console.log(errors)
         expect(errors.length).toEqual(0)
     });
+}
+
+export function getCategory(code: CategoryCode = CategoryCode.PRIMARY): CategoryEntity {
+    return { code, id: '', description: 'desc'}
 }

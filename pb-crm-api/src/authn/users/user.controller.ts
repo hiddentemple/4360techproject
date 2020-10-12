@@ -3,8 +3,6 @@ import {Crud, CrudController, CrudRequest, Override, ParsedBody, ParsedRequest} 
 import {UserService} from "./user.service";
 import {UserEntity} from "../../db/entities/user.entity";
 import {ErrorService} from '../../services/error.service';
-import {CreateUserResponse} from "@hiddentemple/api-interfaces/dist/user/contracts/create.user";
-
 
 @Crud({
   model: {
@@ -46,7 +44,7 @@ export class UserController implements CrudController<UserEntity> {
   @Override()
   @HttpCode(201)
   // tries to create a user in the postgresDB
-  async createOne(@ParsedRequest() req: CrudRequest, @ParsedBody() dto: UserEntity): Promise<CreateUserResponse> {
+  async createOne(@ParsedRequest() req: CrudRequest, @ParsedBody() dto: UserEntity): Promise<{id: string}> {
     const user: UserEntity = await this.base.createOneBase(req, dto).catch(error =>{
       error = this.errorService.handleError(error)
       throw error

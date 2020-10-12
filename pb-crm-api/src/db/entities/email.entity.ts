@@ -3,9 +3,9 @@ import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typ
 
 import {IsDefined, IsEmail, ValidateNested} from 'class-validator';
 import {EmailModel} from "@hiddentemple/api-interfaces";
-import {EmailCategoryEntity} from "./email-category.entity";
 import {Type} from "class-transformer";
 import {PhoneEntity} from "./phone.entity";
+import {CategoryEntity} from "./category.entity";
 
 
 @Entity('emails')
@@ -23,14 +23,14 @@ export class EmailEntity implements EmailModel {
     address: string
 
     @ManyToOne(
-        () => EmailCategoryEntity,
-        category => category.emails,
-        { nullable: false, cascade: true })
+        () => CategoryEntity,
+        // category => category.emails,
+        { nullable: false, cascade: false })
     @IsDefined()
     @JoinColumn()
     @ValidateNested({ each: true })
-    @Type(() => EmailCategoryEntity)
-    category: EmailCategoryEntity;
+    @Type(() => CategoryEntity)
+    category: CategoryEntity;
 
     @ManyToOne(() => ContactEntity, contact => contact.emails, {
         onDelete: "CASCADE",

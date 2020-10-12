@@ -1,10 +1,14 @@
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {ContactModel} from '@hiddentemple/api-interfaces';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {
+  ContactModel,
+  CreateContactRequest,
+  CreateContactResponse,
+  UpdateContactResponse,
+  DeleteContactRequest
+} from '@hiddentemple/api-interfaces';
 import {ContactService} from './contact.service';
 import {Injectable} from '@angular/core';
 import {map, tap} from 'rxjs/operators';
-import {CreateContactRequest, CreateContactResponse} from '@hiddentemple/api-interfaces';
-import {DeleteContactRequest} from '@hiddentemple/api-interfaces';
 
 
 // File scoped interface (no export)
@@ -75,20 +79,21 @@ export class ContactCacheService {
     ));
   }
 
-  updateContact(updated: ContactModel): Observable<ContactModel> {
+  updateContact(toUpdate: ContactModel): Observable<ContactModel> {
     // Object construction with the spread operator
-    return this.contactService.updateContact(updated).pipe(map((contact: ContactModel) => {
-      const filtered = this.remove(updated.id);
-      filtered.push(contact);
+    return this.contactService.updateContact(toUpdate).pipe(map((response: UpdateContactResponse) => {
+      const updatedContact = response.contact;
+      const filtered = this.remove(toUpdate.id);
+      filtered.push(updatedContact);
       const newModel: CacheUpdate = {
         contacts: filtered,
         lastChange:
         CacheOperation.UPDATE,
-        oldContact: updated,
-        updatedContact: contact
+        oldContact: toUpdate,
+        updatedContact: updatedContact
       }
       this._contacts$.next(newModel);
-      return contact;
+      return updatedContact;
     }));
   }
 

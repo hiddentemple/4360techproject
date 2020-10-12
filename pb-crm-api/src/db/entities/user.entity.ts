@@ -12,7 +12,7 @@ import {UserTypeEntity} from "./user-type.entity";
 import {ContactEntity} from "./contact.entity";
 import {IsEmail, Length, MaxLength} from "class-validator";
 import * as bcrypt from 'bcrypt';
-import {UserModel} from "@hiddentemple/api-interfaces/dist/user/models/user.model";
+import {UserModel} from "@hiddentemple/api-interfaces";
 
 
 @Entity('users')
@@ -21,7 +21,7 @@ export class UserEntity implements UserModel {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @Column('varchar', { nullable: false, unique: true})
+  @Column('varchar', { nullable: false, unique: true })
   @IsEmail()
   @MaxLength(50)
   email: string

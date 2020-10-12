@@ -1,6 +1,6 @@
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 import {IsOptional, MaxLength} from "class-validator";
-import {UserTypeModel} from "@hiddentemple/api-interfaces/dist/user/models/user-type.model";
+import {UserTypeModel} from "@hiddentemple/api-interfaces";
 
 @Entity('user_types')
 export class UserTypeEntity implements UserTypeModel {

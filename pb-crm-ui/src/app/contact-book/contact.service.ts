@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
-import {ContactModel} from '@hiddentemple/api-interfaces';
+import {ContactModel, GetOneContactRequest} from '@hiddentemple/api-interfaces';
 import { CreateContactRequest, CreateContactResponse } from '@hiddentemple/api-interfaces';
 import { UpdateContactRequest, UpdateContactResponse } from '@hiddentemple/api-interfaces';
 import { ApiService } from '../api/api.service';
-import { FindOneContactRequest, FindOneContactResponse, } from '@hiddentemple/api-interfaces';
+import { GetOneContactResponse, GetAllContactResponse, } from '@hiddentemple/api-interfaces';
 import { CreateBulkContactRequest, CreateBulkContactResponse, } from '@hiddentemple/api-interfaces';
 import {DeleteContactRequest, DeleteContactResponse} from '@hiddentemple/api-interfaces';
 
@@ -19,8 +19,8 @@ export class ContactService {
     return this.apiService.get<ContactModel[]>('/api/contacts', {});
   }
 
-  getContact(contact: FindOneContactRequest): Observable<FindOneContactResponse>{
-    return this.apiService.get<FindOneContactResponse>('/api/contacts/' + contact.id);
+  getContact(contact: GetOneContactRequest): Observable<GetOneContactResponse>{
+    return this.apiService.get<GetOneContactResponse>('/api/contacts/' + contact.id);
   }
 
   createContact(contact: CreateContactRequest): Observable<CreateContactResponse> {

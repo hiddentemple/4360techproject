@@ -1,7 +1,8 @@
 import {EmailEntity} from "./email.entity";
-import {EmailCategoryEntity} from "./email-category.entity";
 import {CategoryCode} from "@hiddentemple/api-interfaces";
 import {expectError, expectNoErrors} from "../../test.utils";
+import {CategoryEntity} from "./category.entity";
+import {getCategory} from "../../test.utils";
 
 describe('EmailEntity', () => {
     let email: EmailEntity;
@@ -12,13 +13,13 @@ describe('EmailEntity', () => {
 
     it('should require an email address', () => {
         const expectedMessage = 'address should not be null or undefined';
-        email.category = getEmailCategory();
+        email.category = getCategory();
 
         return expectError(email, 'address', 'isDefined', expectedMessage)
     });
 
     it('should accept valid emails', () => {
-        email.category = getEmailCategory();
+        email.category = getCategory();
         email.address = "bob@gmail.com";
 
         return expectNoErrors(email);
@@ -26,7 +27,7 @@ describe('EmailEntity', () => {
 
     it('should reject invalid emails', () => {
         const expectedMessage = 'address must be an email';
-        email.category = getEmailCategory();
+        email.category = getCategory();
         email.address = "I'm not an email";
 
         return expectError(email, 'address', 'isEmail', expectedMessage);
@@ -40,7 +41,7 @@ describe('EmailEntity', () => {
     })
 
     it('should accept valid categories', () => {
-        email.category = getEmailCategory();
+        email.category = getCategory();
         email.address = "bob@gmail.com";
 
         return expectNoErrors(email);
@@ -48,6 +49,3 @@ describe('EmailEntity', () => {
 
 });
 
-export function getEmailCategory(code: CategoryCode = CategoryCode.PRIMARY): EmailCategoryEntity {
-    return { code: code, description: 'Primary', id: '', emails: [] }
-}

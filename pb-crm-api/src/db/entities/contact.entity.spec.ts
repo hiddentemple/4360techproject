@@ -1,10 +1,8 @@
 import {ContactEntity} from "./contact.entity";
-import {expectError, expectNoErrors} from "../../test.utils";
+import {expectError, expectNoErrors, getCategory} from "../../test.utils";
 import {EmailEntity} from "./email.entity";
-import {getEmailCategory} from "./email.entity.spec";
 import {CategoryCode} from "@hiddentemple/api-interfaces";
 import {PhoneEntity} from "./phone.entity";
-import {getPhoneCategory} from "./phone.entity.spec";
 
 describe("ContactEntity", () => {
     let contact: ContactEntity;
@@ -109,7 +107,7 @@ function getEmail(category: CategoryCode): EmailEntity {
     return {
         id: '',
         address: 'bob@gmail.com',
-        category: getEmailCategory(category),
+        category: getCategory(category),
         contact: undefined
     }
 }
@@ -118,7 +116,7 @@ function getPhone(category: CategoryCode): PhoneEntity {
     return {
         id: '',
         phoneNumber: '3256545585',
-        category: getPhoneCategory(category),
+        category: getCategory(category),
         contact: undefined
     }
 }
@@ -167,5 +165,8 @@ async function validateName(contact: ContactEntity, name: NameType) {
     await expectNoErrors(contact);
 
     contact[target] = 'name-with-hyphens'
+    await expectNoErrors(contact)
+
+    contact[target] = 'name.with.dots'
     await expectNoErrors(contact)
 }

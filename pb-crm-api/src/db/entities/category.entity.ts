@@ -1,9 +1,9 @@
 import {CategoryCode, CategoryModel} from "@hiddentemple/api-interfaces";
-import {Column, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 import {IsDefined, Length} from "class-validator";
 
-
-export abstract class CategoryEntity implements CategoryModel {
+@Entity('category')
+export class CategoryEntity implements CategoryModel {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
