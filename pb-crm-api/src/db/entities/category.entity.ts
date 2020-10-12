@@ -1,5 +1,5 @@
 import {CategoryCode, CategoryModel} from "@hiddentemple/api-interfaces";
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {BaseEntity, Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 import {IsDefined, Length} from "class-validator";
 
 @Entity('category')
@@ -18,7 +18,8 @@ export class CategoryEntity implements CategoryModel {
     @Column({
         type: "character varying",
         length: 25,
-        nullable: false
+        nullable: false,
+        unique: true
     })
     @IsDefined()
     @Length(4, 25)

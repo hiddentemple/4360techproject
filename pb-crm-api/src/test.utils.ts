@@ -2,6 +2,7 @@ import {validate} from "class-validator";
 import {ValidationError} from "@nestjs/common";
 import {CategoryCode} from "@hiddentemple/api-interfaces";
 import {CategoryEntity} from "./db/entities/category.entity";
+import {TypeOrmModule} from "@nestjs/typeorm";
 
 export function expectError(entity: any, property: string, constraint: string, expectedMessage: string): Promise<any> {
     return validate(entity).then((errors: ValidationError[]) => {
@@ -22,5 +23,17 @@ export function expectNoErrors(entity: any): Promise<any> {
 }
 
 export function getCategory(code: CategoryCode = CategoryCode.PRIMARY): CategoryEntity {
-    return { code, id: '', description: 'desc'}
+    return {code, id: '', description: 'desc'}
 }
+
+export const TestTypeOrmModule = {
+    // "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "database": "e2e",
+    "username": "postgres",
+    "password": "localpassword",
+    "synchronize": true,
+    "logging": true,
+    "dropSchema": true
+};
