@@ -108,7 +108,7 @@
     <button mat-raised-button (click)="addEmailInput()" type="button" class="mr-1" color="accent">Add Email</button>
     <button mat-raised-button (click)="addPhoneInput()" type="button" class="mr-1" color="accent">Add Phone</button>
     <button mat-raised-button *ngIf="!showNotes" (click)="showNotes = !showNotes" type="button" color="accent">Show Notes</button>
-    <button mat-raised-button *ngIf="showNotes" (click)="showNotes = !showNotes" type="button" color="primary">Remove Notes</button>
+    <button mat-button *ngIf="showNotes" (click)="showNotes = !showNotes" type="button" color="warn">Hide Notes</button>
     <button mat-raised-button color="primary" [disabled]="!contactForm.valid" type="submit" class="float-right">Submit
     </button>
   </div>
