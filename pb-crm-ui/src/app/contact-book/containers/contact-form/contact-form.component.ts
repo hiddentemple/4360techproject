@@ -25,7 +25,7 @@ export const PhoneValidator = Validators.pattern(PhoneRegex); // TODO validate l
 export class ContactFormComponent implements OnInit, OnChanges {
   contactForm: FormGroup;
   isHandset = false;
-  show = true;
+  showNotes = true;
 
   @Input() contact: ContactModel;
   @Output() submitContact = new EventEmitter<ContactModel>();
@@ -110,9 +110,7 @@ export class ContactFormComponent implements OnInit, OnChanges {
   }
 
   /** Notes **/
-  notesHasMaxLengthError(): boolean {
-    return this.lastNameFormControl?.hasError('maxLength');
-  }
+
 
    /** Email **/
   addEmailInput(): void { this.emailFormArray.push(this.initEmail()); }
