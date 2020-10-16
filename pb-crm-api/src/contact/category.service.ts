@@ -1,15 +1,19 @@
-import {BadRequestException, Injectable, NotFoundException, ValidationError} from "@nestjs/common";
+import {
+    BadRequestException,
+    Injectable,
+    InternalServerErrorException,
+    Logger,
+    NotFoundException,
+    ValidationError
+} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {CategoryEntity} from "../db/entities/category.entity";
 import {Repository} from "typeorm";
-import {CategoryCode, CreateCategoryRequest, UpdateCategoryRequest} from "@hiddentemple/api-interfaces";
-import {ContactEntity} from "../db/entities/contact.entity";
-import {validate} from "class-validator";
-
-
+import {CategoryCode, CreateCategoryRequest} from "@hiddentemple/api-interfaces";
 
 @Injectable()
 export class CategoryService {
+    private readonly logger = new Logger(CategoryService.name)
     private _primary: CategoryEntity;
 
     constructor(@InjectRepository(CategoryEntity) private repo: Repository<CategoryEntity>) {
@@ -17,9 +21,12 @@ export class CategoryService {
     }
 
     async getOne(id: string): Promise<CategoryEntity | undefined> {
-        const contact = this.repo.findOne(id);
-        if (!contact) throw new NotFoundException();
-        return contact;
+        const category = this.repo.findOne(id);
+        if (!category) {
+            this.logger.error(`Failed to find a category with id ${id}`)
+            throw new NotFoundException(`Category with id ${id} is not found`);
+        }
+        return category;
     }
 
     async getPrimary(): Promise<CategoryEntity> {
@@ -33,50 +40,75 @@ export class CategoryService {
 
     async createOne({category}: CreateCategoryRequest): Promise<CategoryEntity> {
         if (category.description.toLowerCase().trim() === 'primary') {
-            console.warn("Tried to create primary when it already existed.")
+            this.logger.warn("Tried to create primary when it already existed.")
             return this._primary;
         }
 
         const alreadyPersisted: CategoryEntity = await this.getByDescription(category.description);
         if (alreadyPersisted) {
-            console.warn("Tried to create a category when one already existed.")
+            this.logger.warn("Tried to create a category when one already existed.")
             return alreadyPersisted;
         }
 
+        this.logger.log(`Creating a category from dto ${JSON.stringify(category)}`)
         const entity = new CategoryEntity();
         entity.description = category.description.trim();
         entity.code = CategoryCode.USER;
-        return this.repo.save(entity);
+        const savedCategory: CategoryEntity = await this.repo.save(entity);
+
+        this.logger.log(`Created new category: ${JSON.stringify(savedCategory)}`)
+        return savedCategory
     }
 
     async deleteOne(id: string): Promise<any> {
         const category = await this.getOne(id); // throws NotFound if no category with that ID
+        this.logger.log(`Attempting deletion of category: ${JSON.stringify(category)}`)
 
         if (category.code == CategoryCode.PRIMARY) {
+            this.logger.error(`Cannot delete primary, throwing error`)
             throw new BadRequestException("Cannot delete primary category");
         }
 
-        return this.repo.delete({ id });
+        const {affected} = await this.repo.delete({ id });
+        if (affected !== 1) {
+            const errMsg: string = `Failed to delete category with id ${id}`
+            this.logger.error(errMsg)
+            throw new InternalServerErrorException(errMsg)
+        }
+
+        this.logger.log(`Successfully deleted category with id ${id}`)
+    }
+
+    async verifyCategory(categoryId: string): Promise<CategoryEntity> {
+        try {
+            return this.getOne(categoryId);
+        } catch (err) {
+            const errMsg: string = `Failed to verify category: ${err.message}`
+            this.logger.error(errMsg)
+            throw new BadRequestException(errMsg)
+        }
     }
 
     private async loadPrimary() {
         if (!this._primary) {
-            console.group('Initialize Primary Category');
             const [categories, categoryCount] = await this.repo.findAndCount({ code: CategoryCode.PRIMARY });
+
             if (categoryCount > 1) {
-                throw new Error(`More than one primary category - database is invalid. Found ${categories}`);
+                const errMsg = `More than one primary category - database is invalid. Found ${JSON.stringify(categories)}`;
+                this.logger.error(errMsg);
+                throw new Error(errMsg);
             }
-            else if (categoryCount == 1) {
-                console.log('Found previous primary');
+            else if (categoryCount === 1) {
+                this.logger.warn("Found previous primary")
                 this._primary = categories[0];
             }
             else {
-                console.log('Creating new primary')
+                this.logger.log('Creating new primary')
                 this._primary = this.repo.create({code: CategoryCode.PRIMARY, description: 'primary'});
                 await this.repo.save(this._primary);
             }
-            console.log('Primary: ', this._primary);
-            console.groupEnd();
+
+            this.logger.log('Primary: ' + JSON.stringify(this._primary));
         }
     }
 

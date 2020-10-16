@@ -6,8 +6,6 @@ import {EmailEntity} from "./email.entity";
 import {PhoneEntity} from "./phone.entity";
 import {HasPrimary} from "../../core/validation/has-primary.constraint";
 
-
-
 @Entity("contacts")
 export class ContactEntity implements ContactModel {
 
@@ -37,8 +35,9 @@ export class ContactEntity implements ContactModel {
 
     @OneToMany(type => EmailEntity, email => email.contact, {
         cascade: true,
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        eager: true,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
     })
     @IsOptional()
     @ValidateNested({ each: true })
@@ -48,6 +47,7 @@ export class ContactEntity implements ContactModel {
 
     @OneToMany(type => PhoneEntity, phone => phone.contact, {
         cascade: true,
+        eager: true,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     })

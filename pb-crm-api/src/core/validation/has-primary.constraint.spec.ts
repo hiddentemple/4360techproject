@@ -35,6 +35,6 @@ describe('Has Primary Constraint', () => {
 
 });
 
-function getHasCategory({code, description}: {code: string, description: string}): Categorized {
+function getHasCategory({code, description}: {code: CategoryCode, description: string}): Categorized {
     return { category: { id: '', code, description}, }
 }
