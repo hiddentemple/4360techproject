@@ -7,11 +7,11 @@ import {ContactModel} from '@hiddentemple/api-interfaces';
     <div class="container-fluid">
       <h2>{{contact.firstName}} {{contact.lastName}}</h2>
       <h3>Company: {{contact.company}}</h3>
-      <app-phone-table *ngIf="[] ==! _contact?.phones" [phones]="contact?.phones"></app-phone-table><br>
-      <app-email-table [emails]="contact?.emails"></app-email-table><br>
+      <app-phone-table *ngIf="this._contact?.phones.length > 0" [phones]="contact?.phones"></app-phone-table><br>
+      <app-email-table *ngIf="this._contact?.emails.length > 0" [emails]="contact?.emails"></app-email-table><br>
       <mat-form-field class="col-12">
         <mat-label>Notes</mat-label>
-        <textarea [value]="contact?.notes" matInput readonly ></textarea>
+        <textarea [value]="contact?.notes" matInput readonly></textarea>
       </mat-form-field>
     </div>
   `,
@@ -21,6 +21,9 @@ export class ContactDetailComponent {
 
   _contact: ContactModel;
 
+  get hasNotes(): boolean {
+    return this._contact?.notes.length > 0;
+  }
   @Input() set contact(contact: ContactModel) {
     if (!contact) {
       console.log('Contact detail received falsy value, returning');
