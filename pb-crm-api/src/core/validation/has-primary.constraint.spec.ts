@@ -1,5 +1,5 @@
 import {HasPrimary} from "./has-primary.constraint";
-import {CategoryCode, CategoryModel, HasCategory} from "@hiddentemple/api-interfaces";
+import {Categorized, CategoryCode, CategoryModel} from "@hiddentemple/api-interfaces";
 
 describe('Has Primary Constraint', () => {
     let constraint: HasPrimary;
@@ -15,26 +15,26 @@ describe('Has Primary Constraint', () => {
     })
 
     it('should return true when a primary is found (singleton)', () => {
-        const primary: HasCategory = getHasCategory({ code: CategoryCode.PRIMARY, description: 'Primary' })
-        const categories: HasCategory[] = [primary];
+        const primary: Categorized = getHasCategory({ code: CategoryCode.PRIMARY, description: 'Primary' })
+        const categories: Categorized[] = [primary];
         expect(constraint.validate(categories)).toBeTruthy()
     })
 
     it('should return true when a primary is found (multiple)', () => {
-        const primary: HasCategory = getHasCategory({ code: CategoryCode.PRIMARY, description: 'Primary' })
-        const user: HasCategory = getHasCategory({ code: CategoryCode.USER, description: 'user' })
-        const categories: HasCategory[] = [primary, user];
+        const primary: Categorized= getHasCategory({ code: CategoryCode.PRIMARY, description: 'Primary' })
+        const user: Categorized= getHasCategory({ code: CategoryCode.USER, description: 'user' })
+        const categories: Categorized[] = [primary, user];
         expect(constraint.validate(categories)).toBeTruthy()
     })
 
     it('should return false when a primary is not found', () => {
-        const user: HasCategory = getHasCategory({ code: CategoryCode.USER, description: 'user' })
-        const categories: HasCategory[] = [user];
+        const user: Categorized= getHasCategory({ code: CategoryCode.USER, description: 'user' })
+        const categories: Categorized[] = [user];
         expect(constraint.validate(categories)).toBeFalsy()
     })
 
 });
 
-function getHasCategory(category: CategoryModel): HasCategory {
-    return { category }
+function getHasCategory({code, description}: {code: string, description: string}): Categorized {
+    return { category: { id: '', code, description}, }
 }

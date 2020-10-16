@@ -1,12 +1,12 @@
 import {Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn,} from 'typeorm';
 import {IsDefined, IsOptional, Length, Matches, Validate, ValidateNested} from 'class-validator';
 import {Type} from "class-transformer";
-import {ContactModel} from "@hiddentemple/api-interfaces";
+import {ContactModel, NameRegex} from "@hiddentemple/api-interfaces";
 import {EmailEntity} from "./email.entity";
 import {PhoneEntity} from "./phone.entity";
 import {HasPrimary} from "../../core/validation/has-primary.constraint";
 
-export const NameRegex = /^[a-zA-z-\.]+$/
+
 
 @Entity("contacts")
 export class ContactEntity implements ContactModel {
@@ -42,8 +42,8 @@ export class ContactEntity implements ContactModel {
     })
     @IsOptional()
     @ValidateNested({ each: true })
-    @Type(() => EmailEntity)
-    // @Validate(HasPrimary, { message: 'Must have at least one primary email'})
+    // @Type(() => EmailEntity)
+    @Validate(HasPrimary, { message: 'Must have at least one primary email'})
     emails: EmailEntity[];
 
     @OneToMany(type => PhoneEntity, phone => phone.contact, {
@@ -53,7 +53,7 @@ export class ContactEntity implements ContactModel {
     })
     @IsOptional()
     @ValidateNested({ each: true })
-    @Type(() => PhoneEntity)
+    // @Type(() => PhoneEntity)
     @Validate(HasPrimary, { message: 'Must have at least one primary phone'})
     phones: PhoneEntity[];
 
