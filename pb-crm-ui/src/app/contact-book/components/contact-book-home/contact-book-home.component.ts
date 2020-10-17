@@ -6,6 +6,7 @@ import {ContactCacheService} from '../../contact-cache.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {TableSize} from '../../containers/contact-table/contact-table.component';
 import {Portal, TemplatePortal} from '@angular/cdk/portal';
+import {DeleteConfirmationComponent} from "../../containers/delete-confirmation/delete-confirmation.component";
 
 
 
@@ -92,23 +93,19 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     );
   }
 
-  openDialog() {
-    const dialogRef = this.dialog.open(DeleteConfirmation);
+  deleteContact(contact: ContactModel) {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-      this.deleteContact(this.contact);
-    });
-  }
-
-  deleteContact(contact: ContactModel) {
-    this.contactCache.deleteContact(contact).subscribe(() => {
-        this.snackbar.open('Contact Deleted', 'X', {duration: 1000});
-        if (this.selectedContact === contact) {
-          this.reset();
-        }
+      if (result) {
+        this.contactCache.deleteContact(contact).subscribe(() => {
+          this.snackbar.open('Contact Deleted', 'X', {duration: 1000});
+          if (this.selectedContact === contact) {
+            this.reset();
+          }
+        });
       }
-    );
+    });
   }
 
   private openRightPanel() {
@@ -134,9 +131,3 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     throw new Error('Invalid portalToDescription method - does not have mapping for selected portal');
   }
 }
-
-@Component({
-  selector: 'app-delete-confirmation',
-  templateUrl: 'delete-confirmation.html',
-})
-export class DeleteConfirmation {}
