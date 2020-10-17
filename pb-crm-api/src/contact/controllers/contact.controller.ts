@@ -5,9 +5,9 @@ import {
     GetCategoryResponse, GetContactResponse,
     GetPrimaryCategoryResponse
 } from "@hiddentemple/api-interfaces";
-import {CategoryEntity} from "../db/entities/category.entity";
-import {ContactService} from "./contact.service";
-import {ContactEntity} from "../db/entities/contact.entity";
+import {CategoryEntity} from "../../db/entities/category.entity";
+import {ContactService} from "../services/contact.service";
+import {ContactEntity} from "../../db/entities/contact.entity";
 
 
 @Controller('contact')

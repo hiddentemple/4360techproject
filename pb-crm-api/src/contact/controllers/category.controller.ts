@@ -1,5 +1,5 @@
 import {Body, Controller, Delete, Get, Param, Post, ValidationPipe} from "@nestjs/common";
-import {CategoryService} from "./category.service";
+import {CategoryService} from "../services/category.service";
 import {
     CreateCategoryRequest,
     CreateCategoryResponse,
@@ -7,7 +7,7 @@ import {
     GetCategoryResponse,
     GetPrimaryCategoryResponse
 } from "@hiddentemple/api-interfaces";
-import {CategoryEntity} from "../db/entities/category.entity";
+import {CategoryEntity} from "../../db/entities/category.entity";
 import {IsUUID} from "class-validator";
 
 

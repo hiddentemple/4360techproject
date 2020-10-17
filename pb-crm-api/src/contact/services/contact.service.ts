@@ -1,6 +1,6 @@
 import {Injectable, InternalServerErrorException, Logger, NotFoundException} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
-import {ContactEntity} from "../db/entities/contact.entity";
+import {ContactEntity} from "../../db/entities/contact.entity";
 import {DeleteResult, Repository, UpdateResult} from "typeorm";
 import {EmailService} from "./email.service";
 import {CreateContactRequest, UpdateContactRequest} from "@hiddentemple/api-interfaces";

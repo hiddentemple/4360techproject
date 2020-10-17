@@ -7,7 +7,7 @@ import {
     ValidationError
 } from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
-import {CategoryEntity} from "../db/entities/category.entity";
+import {CategoryEntity} from "../../db/entities/category.entity";
 import {Repository} from "typeorm";
 import {CategoryCode, CreateCategoryRequest} from "@hiddentemple/api-interfaces";
 

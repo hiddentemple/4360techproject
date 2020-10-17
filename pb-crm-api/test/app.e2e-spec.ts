@@ -3,7 +3,7 @@ import {INestApplication} from '@nestjs/common';
 import request from 'supertest';
 import {AppModule} from './../src/app.module';
 import {TypeOrmModule} from "@nestjs/typeorm";
-import {CategoryController} from "../src/contact/category.controller";
+import {CategoryController} from "../src/contact/controllers/category.controller";
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;

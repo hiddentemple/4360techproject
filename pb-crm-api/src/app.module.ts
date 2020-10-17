@@ -4,6 +4,7 @@ import {TypeOrmModule} from "@nestjs/typeorm";
 import {ContactModule} from "./contact/contact.module";
 import {UsersModule} from './authn/users/users.module';
 import {ConfigModule} from "@nestjs/config";
+import {ErrorService} from "./core/services/error.service";
 
 @Module({
     imports: [
@@ -28,7 +29,7 @@ import {ConfigModule} from "@nestjs/config";
         UsersModule
     ],
     controllers: [],
-    providers: [],
+    providers: [ErrorService],
 })
 export class AppModule {
 }

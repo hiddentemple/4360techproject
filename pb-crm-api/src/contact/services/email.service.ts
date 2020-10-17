@@ -1,11 +1,11 @@
 import {BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
-import {EmailEntity} from "../db/entities/email.entity";
+import {EmailEntity} from "../../db/entities/email.entity";
 import {Repository} from "typeorm";
 import {CategoryService} from "./category.service";
 import {containsExactlyOnePrimary, CreateEmailDTO, UpdateEmailDTO} from "@hiddentemple/api-interfaces";
-import {CategoryEntity} from "../db/entities/category.entity";
-import {ContactEntity} from "../db/entities/contact.entity";
+import {CategoryEntity} from "../../db/entities/category.entity";
+import {ContactEntity} from "../../db/entities/contact.entity";
 
 
 @Injectable()

@@ -3,7 +3,7 @@ import {TypeOrmModule} from '@nestjs/typeorm';
 import {UserEntity} from '../../db/entities/user.entity';
 import {UserController} from './user.controller';
 import {UserService} from './user.service';
-import {ErrorService} from '../../services/error.service';
+import {ErrorService} from "../../core/services/error.service";
 
 @Module({
   imports: [
@@ -11,8 +11,7 @@ import {ErrorService} from '../../services/error.service';
   ],
   controllers: [UserController],
   providers: [
-    UserService,
-    ErrorService
+    UserService, ErrorService
   ],
   exports: [],
 })
