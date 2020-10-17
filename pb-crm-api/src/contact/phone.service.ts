@@ -43,6 +43,8 @@ export class PhoneService {
         if (!phoneDTOS || phoneDTOS === []) return [];
 
         this.logger.log(`Creating ${phoneDTOS.length} phone(s): ${JSON.stringify(phoneDTOS)}`)
+        await this.categoryService.requireExactlyOnePrimary('phone', phoneDTOS.map(phone => phone.categoryId));
+
         const newPhones: PhoneEntity[] = [];
         for (const phoneDTO of phoneDTOS) {
             const newPhone: PhoneEntity = await this.create(contact, phoneDTO);

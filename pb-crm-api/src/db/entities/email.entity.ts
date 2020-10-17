@@ -25,16 +25,12 @@ export class EmailEntity implements EmailModel {
     @ManyToOne(
         () => CategoryEntity,
         // category => category.emails,
-        { nullable: false, cascade: false })
+        { nullable: false, cascade: false, eager: true })
     @IsDefined()
     @JoinColumn({name: 'categoryId'})
     @ValidateNested({ each: true })
     @Type(() => CategoryEntity)
     category: CategoryEntity;
-
-    @IsOptional()
-    @IsUUID()
-    categoryId?: string;
 
     @ManyToOne(() => ContactEntity, contact => contact.emails, {
         onDelete: "CASCADE",

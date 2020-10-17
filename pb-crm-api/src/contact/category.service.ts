@@ -89,6 +89,25 @@ export class CategoryService {
         }
     }
 
+    async containsExactlyOnePrimary(categoryIds: string[]): Promise<boolean> {
+        if (!categoryIds || categoryIds.length === 0) return false;
+
+        const primary: CategoryEntity = await this.getPrimary()
+        const primaryId = primary.id;
+        const filtered: string[] = categoryIds.filter(id => id === primaryId);
+        return filtered.length === 1;
+    }
+
+    async requireExactlyOnePrimary(entityName: string, categoryIds: string[]): Promise<boolean> {
+        const valid: boolean = await this.containsExactlyOnePrimary(categoryIds);
+        if (!valid) {
+            const errMsg = `${entityName} did not contain exactly one primary`
+            this.logger.error(errMsg)
+            throw new BadRequestException(errMsg)
+        }
+        return true;
+    }
+
     private async loadPrimary() {
         if (!this._primary) {
             const [categories, categoryCount] = await this.repo.findAndCount({ code: CategoryCode.PRIMARY });

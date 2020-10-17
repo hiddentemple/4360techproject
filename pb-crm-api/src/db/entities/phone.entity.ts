@@ -18,7 +18,7 @@ export class PhoneEntity implements PhoneModel {
     @IsPhoneNumber('US')
     phoneNumber: string
 
-    @ManyToOne(() => CategoryEntity, {nullable: false, cascade: false})
+    @ManyToOne(() => CategoryEntity, {nullable: false, cascade: false, eager: true})
     @IsDefined()
     @JoinColumn()
     @ValidateNested({ each: true })

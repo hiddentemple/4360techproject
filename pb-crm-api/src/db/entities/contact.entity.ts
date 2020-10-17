@@ -4,7 +4,6 @@ import {Type} from "class-transformer";
 import {ContactModel, NameRegex} from "@hiddentemple/api-interfaces";
 import {EmailEntity} from "./email.entity";
 import {PhoneEntity} from "./phone.entity";
-import {HasPrimary} from "../../core/validation/has-primary.constraint";
 
 @Entity("contacts")
 export class ContactEntity implements ContactModel {
@@ -42,7 +41,6 @@ export class ContactEntity implements ContactModel {
     @IsOptional()
     @ValidateNested({ each: true })
     // @Type(() => EmailEntity)
-    @Validate(HasPrimary, { message: 'Must have at least one primary email'})
     emails: EmailEntity[];
 
     @OneToMany(type => PhoneEntity, phone => phone.contact, {
@@ -54,7 +52,6 @@ export class ContactEntity implements ContactModel {
     @IsOptional()
     @ValidateNested({ each: true })
     // @Type(() => PhoneEntity)
-    @Validate(HasPrimary, { message: 'Must have at least one primary phone'})
     phones: PhoneEntity[];
 
     @CreateDateColumn({name: 'createdAt', nullable: false})

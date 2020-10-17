@@ -23,7 +23,7 @@ export class EmailService {
         return email;
     }
 
-    async create(contact: ContactEntity, dto: CreateEmailDTO): Promise<EmailEntity> {
+    private async create(contact: ContactEntity, dto: CreateEmailDTO): Promise<EmailEntity> {
         this.logger.log(`Creating a new email for contact with id ${contact.id} from DTO: ${JSON.stringify(dto)}`)
         const category: CategoryEntity = await this.categoryService.verifyCategory(dto.categoryId);
         const newEmail: EmailEntity = await this.repo.create({...dto, category, contact});
@@ -36,15 +36,19 @@ export class EmailService {
         if (!emailDTOS || emailDTOS === []) return [];
 
         this.logger.log(`Creating ${emailDTOS.length} email(s): ${JSON.stringify(emailDTOS)}`)
+        const categoryIds = emailDTOS.map(email => email.categoryId);
+        await this.categoryService.requireExactlyOnePrimary('email', categoryIds)
+
         const newEmails: EmailEntity[] = [];
         for (const emailDTO of emailDTOS) {
             const newEmail: EmailEntity = await this.create(contact, emailDTO);
             newEmails.push(newEmail);
         }
+
         return newEmails;
     }
 
-    async update(dto: UpdateEmailDTO): Promise<EmailEntity> {
+    private async update(dto: UpdateEmailDTO): Promise<EmailEntity> {
         this.logger.log(`Updating email from dto ${JSON.stringify(dto)}`)
 
         const {id, ...simpleProperties} = dto;
