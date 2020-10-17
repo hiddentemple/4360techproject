@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import {UserTypeEntity} from "./user-type.entity";
 import {ContactEntity} from "./contact.entity";
-import {UserModel} from 'api-interfaces';
+import {UserModel} from '@hiddentemple/api-interfaces';
 import {Length, MaxLength, IsEmail} from "class-validator";
 import * as bcrypt from 'bcrypt';
 

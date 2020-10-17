@@ -9,6 +9,7 @@ import {Portal, TemplatePortal} from '@angular/cdk/portal';
 
 
 
+
 @Component({
   selector: 'app-contact-book-home',
   templateUrl: './contact-book-home.component.html',
@@ -91,6 +92,15 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     );
   }
 
+  openDialog() {
+    const dialogRef = this.dialog.open(DeleteConfirmation);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      this.deleteContact(this.contact);
+    });
+  }
+
   deleteContact(contact: ContactModel) {
     this.contactCache.deleteContact(contact).subscribe(() => {
         this.snackbar.open('Contact Deleted', 'X', {duration: 1000});
@@ -124,3 +134,9 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     throw new Error('Invalid portalToDescription method - does not have mapping for selected portal');
   }
 }
+
+@Component({
+  selector: 'app-delete-confirmation',
+  templateUrl: 'delete-confirmation.html',
+})
+export class DeleteConfirmation {}

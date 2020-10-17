@@ -6,7 +6,7 @@ import {ContactFormComponent} from './containers/contact-form/contact-form.compo
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
-import {ContactBookHomeComponent} from './components/contact-book-home/contact-book-home.component';
+import {ContactBookHomeComponent, DeleteConfirmation} from './components/contact-book-home/contact-book-home.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
@@ -38,7 +38,8 @@ import {PortalModule} from '@angular/cdk/portal';
     ContactDetailPageComponent,
     ContactDetailComponent,
     EmailTableComponent,
-    PhoneTableComponent
+    PhoneTableComponent,
+    DeleteConfirmation
   ],
   exports: [
     ContactFormComponent
@@ -68,7 +69,8 @@ import {PortalModule} from '@angular/cdk/portal';
   ],
   entryComponents: [
     ContactFormComponent,
-    ContactDetailComponent
+    ContactDetailComponent,
+    DeleteConfirmation
   ]
 })
 export class ContactBookModule {
