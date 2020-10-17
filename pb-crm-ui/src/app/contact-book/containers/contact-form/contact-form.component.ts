@@ -150,7 +150,4 @@ export class ContactFormComponent implements OnInit, OnChanges {
   phoneHasPatternError(phoneControl: AbstractControl): boolean {
     return phoneControl.get('number').hasError('pattern');
   }
-
-  /** Notes **/
-
 }
