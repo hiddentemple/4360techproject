@@ -5,47 +5,14 @@ import { ContactEntity } from '../db/entities/contact.entity';
 import { Connection, getConnection } from 'typeorm';
 import { EmailEntity } from '../db/entities/email.entity';
 import { PhoneEntity } from '../db/entities/phone.entity';
+const { Parser, transforms: { unwind } } = require('json2csv');
+import { ContactModel } from '@hiddentemple/api-interfaces';
 
 
 @Injectable()
 export class csvParserService{
   private static fileDir = './files/'
-  private static contacts: ContactEntity[] = [];
-
-
-  // static async parse(filename: string){
-  //   fs.readFile(this.fileDir + filename, 'utf-8', ((err, data) => {
-  //     csv(data, {columns: true}, (err1, records, info) => {
-  //       records.forEach(record => {
-  //         let phoneNum: number = record.phone.replace(/-/g, '')
-  //         let contact: ContactEntity = new ContactEntity;
-  //         let phone: PhoneEntity = new PhoneEntity;
-  //         let email: EmailEntity = new EmailEntity;
-  //         contact.firstName = record.first_name
-  //         contact.lastName = record.last_name
-  //         contact.company = record.company_name
-  //         // contact.notes = record.notes
-  //         // contact.address = record.address
-  //         //TODO better handling for multiple emails and phones
-  //         phone.number = phoneNum
-  //         phone.type = 'test'
-  //         email.address = record.email
-  //         email.type = 'test'
-  //         contact.phones = [
-  //           phone
-  //         ]
-  //         contact.emails = [
-  //           email
-  //         ]
-  //
-  //         this.contacts.push(contact)
-  //       })
-  //       this.createManyContacts(this.contacts)
-  //     })
-  //     //removes file from local storage after import
-  //     fs.unlinkSync(this.fileDir + filename)
-  //   }))
-  // }
+  private static contact: ContactModel;
 
   static async contactParse(filename: string){
     const results = []
@@ -79,6 +46,7 @@ export class csvParserService{
           contact.company = record.company
           contact.phones = []
           contact.emails = []
+          //fina all emails and phones, add to array
           const keys = Object.keys(record)
           keys.forEach(key => {
             if(key.includes('phone')){
@@ -99,8 +67,48 @@ export class csvParserService{
           contacts.push(contact)
         })
         this.createManyContacts(contacts)
+        this.parseJson2Csv(contacts)
       })
     fs.unlinkSync(this.fileDir + filename)
+  }
+
+  static async parseJson2Csv(jsonData: any){
+    const fields = [
+      {
+        label: 'firstName',
+        value: 'firstName'
+      },
+      {
+        label: 'lastName',
+        value: 'lastName'
+      },
+      {
+        label: 'company',
+        value: 'company'
+      },
+      {
+        label: 'phone',
+        value: 'phones.number'
+      },
+      {
+        label: 'phoneType',
+        value: 'phones.type'
+      },
+      {
+        label: 'email',
+        value: 'emails.address'
+      },
+      {
+        label: 'emailType',
+        value: 'emails.type'
+      },
+    ]
+    const transforms = [unwind({paths: ['phones', 'emails'], blankOut:true})]
+    const json2csvParser = new Parser({fields, transforms})
+    const csv = json2csvParser.parse(jsonData)
+
+    console.log(csv)
+    return csv
   }
 
   static async createManyContacts(contacts: ContactEntity[]){
