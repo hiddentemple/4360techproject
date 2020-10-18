@@ -6,7 +6,7 @@ import {ContactCacheService} from '../../contact-cache.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {TableSize} from '../../containers/contact-table/contact-table.component';
 import {Portal, TemplatePortal} from '@angular/cdk/portal';
-import {DeleteConfirmationComponent} from "../../containers/delete-confirmation/delete-confirmation.component";
+import {DeleteConfirmationComponent} from '../../containers/delete-confirmation/delete-confirmation.component';
 
 
 
@@ -95,7 +95,6 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
 
   deleteContact(contact: ContactModel) {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent);
-
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.contactCache.deleteContact(contact).subscribe(() => {

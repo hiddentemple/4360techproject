@@ -12,6 +12,8 @@ import {
 import {AbstractControl, Form, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { ContactModel, EmailModel, PhoneModel } from '@hiddentemple/api-interfaces';
 import {BreakpointService} from '../../../core/layout/breakpoint.service';
+import {DeleteConfirmationComponent} from '../delete-confirmation/delete-confirmation.component';
+import {MatDialog} from '@angular/material/dialog';
 
 
 export const PhoneRegex = /[0-9]{10}/;
@@ -35,7 +37,7 @@ export class ContactFormComponent implements OnInit, OnChanges {
   get lastNameFormControl(): FormControl { return this.contactForm.controls.lastName as FormControl; }
   get companyFormControl(): FormControl { return this.contactForm.controls.company as FormControl; }
 
-  constructor(private fb: FormBuilder, private breakpointService: BreakpointService) {
+  constructor(private fb: FormBuilder, private breakpointService: BreakpointService, private dialog: MatDialog ) {
     this.initForm();
   }
 
@@ -108,7 +110,14 @@ export class ContactFormComponent implements OnInit, OnChanges {
 
   /** Email **/
   addEmailInput(): void { this.emailFormArray.push(this.initEmail()); }
-  removeEmailInput(i: number): void { this.emailFormArray.removeAt(i); }
+  removeEmailInput(i: number): void {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.emailFormArray.removeAt(i);
+      }
+    });
+  }
   hasEmails(): boolean { return this.emailFormArray.length > 0; }
 
   initEmail(address: string = '', type: string = ''): FormGroup {
@@ -129,7 +138,14 @@ export class ContactFormComponent implements OnInit, OnChanges {
   /** Phone **/
 
   addPhoneInput(): void { this.phoneFormArray.push(this.initPhone()); }
-  removePhoneInput(i: number): void { this.phoneFormArray.removeAt(i); }
+  removePhoneInput(i: number): void {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.phoneFormArray.removeAt(i);
+      }
+    });
+  }
   hasPhones(): boolean { return this.phoneFormArray.length > 0; }
   initPhone(number: string = '', type: string = ''): FormGroup {
     return this.fb.group({
