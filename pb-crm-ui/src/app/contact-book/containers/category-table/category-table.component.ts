@@ -25,6 +25,9 @@ import {MatSort} from "@angular/material/sort";
           <td mat-cell *matCellDef="let category"> {{category.description}}</td>
         </ng-container>
 
+        <!-- Actions Column -->
+
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
