@@ -35,14 +35,14 @@ export class ApiService {
     );
   }
 
-  post<T>(url: string, object: any, options: {}, handleError = ApiService.handleError): Observable<T> {
+  post<T>(url: string, object: any, options?: {}, handleError = ApiService.handleError): Observable<T> {
     return this.http.post<T>(url, object, options).pipe(
       retry(1),
       catchError(handleError)
     );
   }
 
-  patch<T>(url: string, object: any, options: {}, handleError = ApiService.handleError): Observable<T> {
+  patch<T>(url: string, object: any, options?: {}, handleError = ApiService.handleError): Observable<T> {
     if (object.hasOwnProperty('id')) {
       // Dont allow the update of an id with a PUT
       const { id, ...model } = object;
@@ -56,13 +56,13 @@ export class ApiService {
     );
   }
 
-  put<T>(url: string, object: any, options: {}, handleError = ApiService.handleError): Observable<T>{
+  put<T>(url: string, object: any, options?: {}, handleError = ApiService.handleError): Observable<T>{
     return this.http.put<T>(url, object, options).pipe(
       catchError(handleError)
     );
   }
 
-  delete<T>(url: string, options: {}, handleError = ApiService.handleError): Observable<T> {
+  delete<T>(url: string, options?: {}, handleError = ApiService.handleError): Observable<T> {
     return this.http.delete<T>(url, options).pipe(
       retry(1),
       catchError(handleError)

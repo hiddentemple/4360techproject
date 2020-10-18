@@ -25,6 +25,7 @@ import {AngularSplitModule} from 'angular-split';
 import {EmailTableComponent} from './containers/email-table/email-table.component';
 import {PhoneTableComponent} from './containers/phone-table/phone-table.component';
 import {PortalModule} from '@angular/cdk/portal';
+import { CategoryTableComponent } from './containers/category-table/category-table.component';
 
 
 
@@ -38,10 +39,12 @@ import {PortalModule} from '@angular/cdk/portal';
     ContactDetailPageComponent,
     ContactDetailComponent,
     EmailTableComponent,
-    PhoneTableComponent
+    PhoneTableComponent,
+    CategoryTableComponent
   ],
   exports: [
-    ContactFormComponent
+    ContactFormComponent,
+    CategoryTableComponent
   ],
   imports: [
     CommonModule,

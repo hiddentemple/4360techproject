@@ -80,12 +80,12 @@ export class ContactFormComponent implements OnInit, OnChanges {
     this.lastNameFormControl?.setValue(this.contact.lastName);
     this.companyFormControl?.setValue(this.contact.company);
     console.log('CONTACT EMAILS: ', this.contact.emails);
-    Object.values(this.contact.emails).forEach(
-      (email: EmailModel) => this.emailFormArray.push(this.initEmail(email.address, email.type))
-    );
-    Object.values(this.contact.phones).forEach(
-      (phone: PhoneModel) => this.phoneFormArray.push(this.initPhone(String(phone.number), phone.type))
-    );
+    // Object.values(this.contact.emails).forEach(
+    //   (email: EmailModel) => this.emailFormArray.push(this.initEmail(email.address, email.type))
+    // );
+    // Object.values(this.contact.phones).forEach(
+    //   (phone: PhoneModel) => this.phoneFormArray.push(this.initPhone(String(phone.phoneNumber), phone.type))
+    // );
   }
 
   /** First Name **/

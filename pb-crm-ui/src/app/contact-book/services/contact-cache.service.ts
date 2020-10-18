@@ -1,10 +1,8 @@
 import {BehaviorSubject, Observable} from 'rxjs';
 import {
   ContactModel,
-  CreateContactRequest,
   CreateContactResponse,
   UpdateContactResponse,
-  DeleteContactRequest
 } from '@hiddentemple/api-interfaces';
 import {ContactService} from './contact.service';
 import {Injectable} from '@angular/core';
@@ -59,8 +57,7 @@ export class ContactCacheService {
   }
 
   addContact(contactToAdd: ContactModel): Observable<ContactModel> {
-    const req: CreateContactRequest = contactToAdd;
-    return this.contactService.createContact(req).pipe(
+    return this.contactService.createContact(contactToAdd).pipe(
       map(({contact}: CreateContactResponse) => {
           const {contacts} = this._contacts$.getValue();
           contacts.push(contact);
@@ -87,8 +84,7 @@ export class ContactCacheService {
       filtered.push(updatedContact);
       const newModel: CacheUpdate = {
         contacts: filtered,
-        lastChange:
-        CacheOperation.UPDATE,
+        lastChange: CacheOperation.UPDATE,
         oldContact: toUpdate,
         updatedContact: updatedContact
       }
@@ -98,8 +94,7 @@ export class ContactCacheService {
   }
 
   deleteContact(contact: ContactModel): Observable<boolean> {
-    const req: DeleteContactRequest = {id: contact.id};
-    return this.contactService.deleteContact(req).pipe(
+    return this.contactService.deleteContact(contact.id).pipe(
       // https://www.learnrxjs.io/learn-rxjs/operators/utility/do
       // TODO what happens if delete fails? does this do what we expect it to?
       map(() => {
