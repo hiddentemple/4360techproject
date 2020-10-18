@@ -12,41 +12,6 @@ export class csvParserService{
   private static fileDir = './files/'
   private static contacts: ContactEntity[] = [];
 
-
-  // static async parse(filename: string){
-  //   fs.readFile(this.fileDir + filename, 'utf-8', ((err, data) => {
-  //     csv(data, {columns: true}, (err1, records, info) => {
-  //       records.forEach(record => {
-  //         let phoneNum: number = record.phone.replace(/-/g, '')
-  //         let contact: ContactEntity = new ContactEntity;
-  //         let phone: PhoneEntity = new PhoneEntity;
-  //         let email: EmailEntity = new EmailEntity;
-  //         contact.firstName = record.first_name
-  //         contact.lastName = record.last_name
-  //         contact.company = record.company_name
-  //         // contact.notes = record.notes
-  //         // contact.address = record.address
-  //         //TODO better handling for multiple emails and phones
-  //         phone.number = phoneNum
-  //         phone.type = 'test'
-  //         email.address = record.email
-  //         email.type = 'test'
-  //         contact.phones = [
-  //           phone
-  //         ]
-  //         contact.emails = [
-  //           email
-  //         ]
-  //
-  //         this.contacts.push(contact)
-  //       })
-  //       this.createManyContacts(this.contacts)
-  //     })
-  //     //removes file from local storage after import
-  //     fs.unlinkSync(this.fileDir + filename)
-  //   }))
-  // }
-
   static async contactParse(filename: string){
     const results = []
     fs.createReadStream(this.fileDir + filename)
@@ -64,13 +29,11 @@ export class csvParserService{
           'email'
         ]}))
       .on('data', (data) => {
-        console.log(data)
         if (data.firstname != 'first_name'){
           results.push(data)
         }
       })
       .on('end', () => {
-        console.log(results)
         const contacts: ContactEntity[] = [];
         results.forEach( (record) => {
           const contact: ContactEntity = new ContactEntity()
@@ -100,7 +63,7 @@ export class csvParserService{
         })
         this.createManyContacts(contacts)
       })
-    fs.unlinkSync(this.fileDir + filename)
+    //fs.unlinkSync(this.fileDir + filename)
   }
 
   static async createManyContacts(contacts: ContactEntity[]){

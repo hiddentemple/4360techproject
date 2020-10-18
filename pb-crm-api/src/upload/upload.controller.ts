@@ -1,7 +1,6 @@
 import { Controller, Post, UploadedFile, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import {  csvParserService } from '../csv_parser/csv.parser';
-
+import { csvParserService } from '../services/csv-parser.service';
 
 
 @Controller()
