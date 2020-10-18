@@ -5,7 +5,7 @@ import {
   Categorized,
   ContactModel,
   CreateContactRequest,
-  CreateContactResponse, EmailDTO,
+  CreateContactResponse, EmailDTO, GetAllContactsResponse,
   GetContactResponse, PhoneDTO
 } from '@hiddentemple/api-interfaces';
 import { UpdateContactRequest, UpdateContactResponse } from '@hiddentemple/api-interfaces';
@@ -18,12 +18,12 @@ import { ApiService } from '../../api/api.service';
 export class ContactService {
   constructor(private apiService: ApiService) {}
 
-  getContacts(): Observable<ContactModel[]>  {
-    return this.apiService.get<ContactModel[]>('/api/contacts', {});
+  getContacts(): Observable<GetAllContactsResponse>  {
+    return this.apiService.get<GetAllContactsResponse>('/api/contact', {});
   }
 
   getContact(id: string): Observable<GetContactResponse>{
-    return this.apiService.get<GetContactResponse>('/api/contacts/' + id);
+    return this.apiService.get<GetContactResponse>('/api/contact/' + id);
   }
 
   toDto(contact: ContactModel): AbstractContactRequest {
@@ -44,16 +44,16 @@ export class ContactService {
 
   createContact(contact: ContactModel): Observable<CreateContactResponse> {
     const req: CreateContactRequest = this.toDto(contact);
-    return this.apiService.post<CreateContactResponse>('/api/contacts', req, {});
+    return this.apiService.post<CreateContactResponse>('/api/contact', req, {});
   }
 
   updateContact(contact: ContactModel): Observable<UpdateContactResponse>{
       const req: UpdateContactRequest = this.toDto(contact);
-      return this.apiService.patch<UpdateContactResponse>('/api/contacts/' + contact.id, req, {});
+      return this.apiService.patch<UpdateContactResponse>('/api/contact/' + contact.id, req, {});
   }
 
   deleteContact(id: string): Observable<any> {
-    const url = '/api/contacts/' + id;
+    const url = '/api/contact/' + id;
     return this.apiService.delete(url, {});
   }
 }

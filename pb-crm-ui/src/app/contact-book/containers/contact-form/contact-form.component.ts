@@ -10,8 +10,18 @@ import {
   OnChanges, SimpleChanges,
 } from '@angular/core';
 import {AbstractControl, Form, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import { ContactModel, EmailModel, PhoneModel } from '@hiddentemple/api-interfaces';
+import {
+  CategoryModel,
+  ContactModel,
+  EmailModel,
+  GetAllCategoriesResponse,
+  PhoneModel
+} from '@hiddentemple/api-interfaces';
 import {BreakpointService} from '../../../core/layout/breakpoint.service';
+import {CategoryService} from "../../services/category.service";
+import {BehaviorSubject, Observable} from "rxjs";
+import {debounceTime, filter, map, tap} from "rxjs/operators";
+import {CategoryCacheService} from "../../services/category-cache.service";
 
 
 export const PhoneRegex = /[0-9]{10}/;
@@ -23,11 +33,14 @@ export const PhoneValidator = Validators.pattern(PhoneRegex); // TODO validate l
   styles: []
 })
 export class ContactFormComponent implements OnInit, OnChanges {
+  private _filteredCategories$ = new BehaviorSubject<CategoryModel[]>([]);
   contactForm: FormGroup;
   isHandset = false;
 
   @Input() contact: ContactModel;
   @Output() submitContact = new EventEmitter<ContactModel>();
+
+  get filteredCategories$(): Observable<CategoryModel[]> { return this._filteredCategories$.asObservable(); };
 
   get emailFormArray(): FormArray { return this.contactForm.controls.emails as FormArray; }
   get phoneFormArray(): FormArray { return this.contactForm.controls.phones as FormArray; }
@@ -35,8 +48,13 @@ export class ContactFormComponent implements OnInit, OnChanges {
   get lastNameFormControl(): FormControl { return this.contactForm.controls.lastName as FormControl; }
   get companyFormControl(): FormControl { return this.contactForm.controls.company as FormControl; }
 
-  constructor(private fb: FormBuilder, private breakpointService: BreakpointService) {
+  constructor(
+    private fb: FormBuilder,
+    private breakpointService: BreakpointService,
+    private categoryCache: CategoryCacheService
+  ) {
     this.initForm();
+    this.categoryCache.categories$.subscribe(categories => this._filteredCategories$.next(categories))
   }
 
   ngOnInit(): void {
@@ -79,13 +97,12 @@ export class ContactFormComponent implements OnInit, OnChanges {
     this.firstNameFormControl?.setValue(this.contact.firstName);
     this.lastNameFormControl?.setValue(this.contact.lastName);
     this.companyFormControl?.setValue(this.contact.company);
-    console.log('CONTACT EMAILS: ', this.contact.emails);
-    // Object.values(this.contact.emails).forEach(
-    //   (email: EmailModel) => this.emailFormArray.push(this.initEmail(email.address, email.type))
-    // );
-    // Object.values(this.contact.phones).forEach(
-    //   (phone: PhoneModel) => this.phoneFormArray.push(this.initPhone(String(phone.phoneNumber), phone.type))
-    // );
+    Object.values(this.contact.emails).forEach(
+      (email: EmailModel) => this.emailFormArray.push(this.initEmail(email.address, email.category))
+    );
+    Object.values(this.contact.phones).forEach(
+      (phone: PhoneModel) => this.phoneFormArray.push(this.initPhone(String(phone.phoneNumber), phone.category))
+    );
   }
 
   /** First Name **/
@@ -111,7 +128,7 @@ export class ContactFormComponent implements OnInit, OnChanges {
   removeEmailInput(i: number): void { this.emailFormArray.removeAt(i); }
   hasEmails(): boolean { return this.emailFormArray.length > 0; }
 
-  initEmail(address: string = '', type: string = ''): FormGroup {
+  initEmail(address: string = '', type: CategoryModel | string = ''): FormGroup {
     return this.fb.group({
       address: [address, [Validators.email, Validators.required]],
       type: [type]
@@ -131,7 +148,7 @@ export class ContactFormComponent implements OnInit, OnChanges {
   addPhoneInput(): void { this.phoneFormArray.push(this.initPhone()); }
   removePhoneInput(i: number): void { this.phoneFormArray.removeAt(i); }
   hasPhones(): boolean { return this.phoneFormArray.length > 0; }
-  initPhone(number: string = '', type: string = ''): FormGroup {
+  initPhone(number: string = '', type: CategoryModel | string = ''): FormGroup {
     return this.fb.group({
       number: [number, [Validators.required, PhoneValidator]],
       type: [type]
@@ -146,7 +163,36 @@ export class ContactFormComponent implements OnInit, OnChanges {
     return phoneControl.get('number').hasError('pattern');
   }
 
+  onFocusCategory(type: 'email' | 'phone', formIndex: number) {
+    let rootControl: FormGroup;
+    if (type === 'email') {
+      console.log('Focus on email index ' + formIndex)
+      rootControl = this.emailFormArray.controls[formIndex] as FormGroup;
+    }
+    else {
+      console.log('Focus on phone index ' + formIndex)
+      rootControl = this.phoneFormArray.controls[formIndex] as FormGroup;
+    }
 
+    const typeControl: AbstractControl = rootControl.controls.type;
 
+    typeControl.valueChanges
+      .pipe(
+        debounceTime(250), // only search every 1/2 second
+        filter(value => typeof value === 'string'),
+        tap(change => console.log('value change', change)))
+      .subscribe(value => {
+        this.categoryCache.categories$
+          .pipe(
+            map(categories => categories.filter(category => category.description.includes(value))))
+          .subscribe(filteredCategories => this._filteredCategories$.next(filteredCategories))
+      })
+  }
 
+  onBlurCategory(index: number) {
+    console.log('Blur on index ' + index)
+    this.categoryCache.categories$.subscribe(categories => this._filteredCategories$.next(categories))
+  }
+
+  displayCategory({description}: CategoryModel): string { return description; }
 }

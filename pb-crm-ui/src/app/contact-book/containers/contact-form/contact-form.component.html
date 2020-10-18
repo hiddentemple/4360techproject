@@ -52,7 +52,18 @@
             </mat-form-field>
             <mat-form-field class="col-sm-12 col-md-4">
               <mat-label>Type</mat-label>
-              <input matInput type="text" placeholder="Ex. Personal" formControlName="type">
+              <input matInput
+                     type="text"
+                     placeholder="Ex. Personal"
+                     formControlName="type"
+                     [matAutocomplete]="auto"
+                     (focus)="onFocusCategory('email', i)"
+                     (blur)="onBlurCategory(i)">
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCategory">
+                <mat-option *ngFor="let option of filteredCategories$ | async" [value]="option">
+                  {{option.description}}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
           </div>
         </div>
@@ -86,7 +97,18 @@
             </mat-form-field>
             <mat-form-field class="col-sm-12 col-md-4">
               <mat-label>Type</mat-label>
-              <input matInput type="text" placeholder="Ex. Personal" formControlName="type">
+              <input matInput
+                     type="text"
+                     placeholder="Ex. Personal"
+                     formControlName="type"
+                     [matAutocomplete]="auto"
+                     (focus)="onFocusCategory('phone', i)"
+                     (blur)="onBlurCategory(i)">
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCategory">
+                <mat-option *ngFor="let option of filteredCategories$ | async" [value]="option">
+                  {{option.description}}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
           </div>
         </div>

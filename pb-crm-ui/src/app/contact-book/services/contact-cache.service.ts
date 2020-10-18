@@ -1,7 +1,7 @@
 import {BehaviorSubject, Observable} from 'rxjs';
 import {
   ContactModel,
-  CreateContactResponse,
+  CreateContactResponse, GetAllContactsResponse,
   UpdateContactResponse,
 } from '@hiddentemple/api-interfaces';
 import {ContactService} from './contact.service';
@@ -109,7 +109,7 @@ export class ContactCacheService {
   refresh(): Observable<any> {
     return this.contactService.getContacts()
       .pipe(
-        tap((contacts: ContactModel[]) => {
+        tap(({contacts}: GetAllContactsResponse) => {
           const newModel: CacheModel = { lastChange: CacheOperation.LOAD, contacts: contacts };
           this._contacts$.next(newModel);
         })
