@@ -38,8 +38,8 @@ import { MulterModule } from '@nestjs/platform-express';
         UsersModule,
         UploadModule,
     ],
-    controllers: [],
-    providers: [],
+    controllers: [UploadController],
+    providers: [UploadService],
 })
 export class AppModule{
 }

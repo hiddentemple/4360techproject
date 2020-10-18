@@ -7,9 +7,9 @@ import { ErrorService } from '../services/error.service';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([ ContactEntity ] ),
+        TypeOrmModule.forFeature([ ContactEntity ] )
     ],
     controllers: [ContactsController],
-    providers: [ContactsService, ErrorService]
+    providers: [ContactsService, ErrorService],
 })
 export class ContactModule {}
