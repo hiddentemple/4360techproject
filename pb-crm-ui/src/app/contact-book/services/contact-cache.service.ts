@@ -29,7 +29,7 @@ interface CacheDelete extends CacheModel {
 }
 
 // file Scoped
-enum CacheOperation { INIT, LOAD, ADD, UPDATE, DELETE}
+enum CacheOperation { INIT="INIT", LOAD="LOAD", ADD="ADD", UPDATE="UPDATE", DELETE="DELETE"}
 
 @Injectable({
   providedIn: 'root'
@@ -56,16 +56,16 @@ export class ContactCacheService {
       );
   }
 
-  addContact(contactToAdd: ContactModel): Observable<ContactModel> {
-    return this.contactService.createContact(contactToAdd).pipe(
-      map(({contact}: CreateContactResponse) => {
+  async addContact(contactToAdd: ContactModel): Promise<ContactModel> {
+    return this.contactService.createContact(contactToAdd).then(
+      ({contact}: CreateContactResponse) => {
           const {contacts} = this._contacts$.getValue();
           contacts.push(contact);
           const newModel: CacheAdd = { contacts, lastChange: CacheOperation.ADD, newContact: contact }
           this._contacts$.next(newModel);
           return contact;
         }
-      ));
+      );
   }
 
   getContact(idKey: string): Observable<ContactModel | undefined> {
@@ -76,9 +76,9 @@ export class ContactCacheService {
     ));
   }
 
-  updateContact(toUpdate: ContactModel): Observable<ContactModel> {
+  async updateContact(toUpdate: ContactModel): Promise<ContactModel> {
     // Object construction with the spread operator
-    return this.contactService.updateContact(toUpdate).pipe(map((response: UpdateContactResponse) => {
+    return await this.contactService.updateContact(toUpdate).then((response: UpdateContactResponse) => {
       const updatedContact = response.contact;
       const filtered = this.remove(toUpdate.id);
       filtered.push(updatedContact);
@@ -90,7 +90,7 @@ export class ContactCacheService {
       }
       this._contacts$.next(newModel);
       return updatedContact;
-    }));
+    });
   }
 
   deleteContact(contact: ContactModel): Observable<boolean> {

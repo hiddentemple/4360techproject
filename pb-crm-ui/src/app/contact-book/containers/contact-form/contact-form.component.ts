@@ -128,10 +128,10 @@ export class ContactFormComponent implements OnInit, OnChanges {
   removeEmailInput(i: number): void { this.emailFormArray.removeAt(i); }
   hasEmails(): boolean { return this.emailFormArray.length > 0; }
 
-  initEmail(address: string = '', type: CategoryModel | string = ''): FormGroup {
+  initEmail(address: string = '', category: CategoryModel | string = ''): FormGroup {
     return this.fb.group({
       address: [address, [Validators.email, Validators.required]],
-      type: [type]
+      category: [category]
     });
   }
 
@@ -148,24 +148,24 @@ export class ContactFormComponent implements OnInit, OnChanges {
   addPhoneInput(): void { this.phoneFormArray.push(this.initPhone()); }
   removePhoneInput(i: number): void { this.phoneFormArray.removeAt(i); }
   hasPhones(): boolean { return this.phoneFormArray.length > 0; }
-  initPhone(number: string = '', type: CategoryModel | string = ''): FormGroup {
+  initPhone(number: string = '', category: CategoryModel | string = ''): FormGroup {
     return this.fb.group({
-      number: [number, [Validators.required, PhoneValidator]],
-      type: [type]
+      phoneNumber: [number, [Validators.required, PhoneValidator]],
+      category: [category]
     });
   }
 
   phoneHasRequiredError(phoneControl: AbstractControl): boolean {
-    return phoneControl.get('number').hasError('required');
+    return phoneControl.get('phoneNumber').hasError('required');
   }
 
   phoneHasPatternError(phoneControl: AbstractControl): boolean {
-    return phoneControl.get('number').hasError('pattern');
+    return phoneControl.get('phoneNumber').hasError('pattern');
   }
 
-  onFocusCategory(type: 'email' | 'phone', formIndex: number) {
+  onFocusCategory(category: 'email' | 'phone', formIndex: number) {
     let rootControl: FormGroup;
-    if (type === 'email') {
+    if (category === 'email') {
       console.log('Focus on email index ' + formIndex)
       rootControl = this.emailFormArray.controls[formIndex] as FormGroup;
     }
@@ -174,9 +174,9 @@ export class ContactFormComponent implements OnInit, OnChanges {
       rootControl = this.phoneFormArray.controls[formIndex] as FormGroup;
     }
 
-    const typeControl: AbstractControl = rootControl.controls.type;
+    const categoryControl: AbstractControl = rootControl.controls.category;
 
-    typeControl.valueChanges
+    categoryControl.valueChanges
       .pipe(
         debounceTime(250), // only search every 1/2 second
         filter(value => typeof value === 'string'),
