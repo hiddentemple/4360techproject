@@ -21,6 +21,7 @@ import {ErrorService} from "./core/services/error.service";
                 "entities": ["dist/db/entities/**/*.entity{.js, .ts}"],
                 "synchronize": true,
                 "logging": true,
+                "dropSchema": true
             } : {}
         ),
         // Feature Modules

@@ -66,14 +66,13 @@ export class ContactService {
     Object.assign(contact, filtered);
     this.logger.log(`Updated contact with simple properties: ${JSON.stringify(contact)}`)
 
-    await this.emailService.updateMany(dto.contact.emails)
-    await this.phoneService.updateMany(dto.contact.phones)
+    await this.emailService.updateMany(contact, dto.contact.emails)
+    await this.phoneService.updateMany(contact, dto.contact.phones)
 
-    const {affected}: UpdateResult = await this.repo.update({id}, filtered);
+    const {affected}: UpdateResult = await this.repo.update(id, filtered);
     if (affected === 0) {
       throw new InternalServerErrorException("Failed to update contact")
     }
-    // TODO what if only the email/phones are updated? wont this be 0?
 
     return this.getById(id);
   }

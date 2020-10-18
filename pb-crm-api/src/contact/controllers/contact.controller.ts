@@ -1,9 +1,9 @@
-import {Body, Controller, Delete, Get, Param, Post, UsePipes, ValidationPipe} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Param, Post, Put, UsePipes, ValidationPipe} from "@nestjs/common";
 import {
     CreateCategoryRequest, CreateCategoryResponse, CreateContactRequest, CreateContactResponse,
     GetAllCategoriesResponse, GetAllContactsResponse,
     GetCategoryResponse, GetContactResponse,
-    GetPrimaryCategoryResponse
+    GetPrimaryCategoryResponse, UpdateContactRequest, UpdateContactResponse
 } from "@hiddentemple/api-interfaces";
 import {CategoryEntity} from "../../db/entities/category.entity";
 import {ContactService} from "../services/contact.service";
@@ -30,6 +30,16 @@ export class ContactController {
     @Post()
     async createOne(@Body() dto: CreateContactRequest): Promise<CreateContactResponse> {
         const contact: ContactEntity = await this.contactService.create(dto);
+        return {contact}
+    }
+
+    /**
+     * This method **overwrites** a contact. The service will delete all prior emails/phones and then replace them with
+     * those found in this request.
+     */
+    @Put(':id')
+    async updateOne(@Param() id: string, @Body() dto: UpdateContactRequest): Promise<UpdateContactResponse> {
+        const contact: ContactEntity = await this.contactService.update(id, dto);
         return {contact}
     }
 

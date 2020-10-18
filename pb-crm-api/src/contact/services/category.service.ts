@@ -9,7 +9,8 @@ import {
 import {InjectRepository} from "@nestjs/typeorm";
 import {CategoryEntity} from "../../db/entities/category.entity";
 import {Repository} from "typeorm";
-import {CategoryCode, CreateCategoryRequest} from "@hiddentemple/api-interfaces";
+import {CategoryCode, CreateCategoryRequest, CreateCategoryResponse} from "@hiddentemple/api-interfaces";
+
 
 @Injectable()
 export class CategoryService {
@@ -21,11 +22,13 @@ export class CategoryService {
     }
 
     async getOne(id: string): Promise<CategoryEntity | undefined> {
-        const category = this.repo.findOne(id);
+        const category = await this.repo.findOne(id);
         if (!category) {
-            this.logger.error(`Failed to find a category with id ${id}`)
-            throw new NotFoundException(`Category with id ${id} is not found`);
+            const errMsg = `Failed to find a category`
+            this.logger.error(errMsg)
+            throw new NotFoundException(errMsg);
         }
+        this.logger.log(`Found category: ${JSON.stringify(category)}`)
         return category;
     }
 
@@ -38,16 +41,16 @@ export class CategoryService {
         return this.repo.find();
     }
 
-    async createOne({category}: CreateCategoryRequest): Promise<CategoryEntity> {
+    async createOne({category}: CreateCategoryRequest): Promise<CreateCategoryResponse> {
         if (category.description.toLowerCase().trim() === 'primary') {
             this.logger.warn("Tried to create primary when it already existed.")
-            return this._primary;
+            return {category: this._primary, wasCreated: false};
         }
 
         const alreadyPersisted: CategoryEntity = await this.getByDescription(category.description);
         if (alreadyPersisted) {
             this.logger.warn("Tried to create a category when one already existed.")
-            return alreadyPersisted;
+            return {category: alreadyPersisted, wasCreated: false};
         }
 
         this.logger.log(`Creating a category from dto ${JSON.stringify(category)}`)
@@ -57,7 +60,7 @@ export class CategoryService {
         const savedCategory: CategoryEntity = await this.repo.save(entity);
 
         this.logger.log(`Created new category: ${JSON.stringify(savedCategory)}`)
-        return savedCategory
+        return {category: savedCategory, wasCreated: true}
     }
 
     async deleteOne(id: string): Promise<any> {
@@ -69,7 +72,7 @@ export class CategoryService {
             throw new BadRequestException("Cannot delete primary category");
         }
 
-        const {affected} = await this.repo.delete({ id });
+        const {affected} = await this.repo.delete(category);
         if (affected !== 1) {
             const errMsg: string = `Failed to delete category with id ${id}`
             this.logger.error(errMsg)

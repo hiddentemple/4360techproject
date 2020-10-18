@@ -3,7 +3,7 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {EmailEntity} from "../../db/entities/email.entity";
 import {Repository} from "typeorm";
 import {CategoryService} from "./category.service";
-import {containsExactlyOnePrimary, CreateEmailDTO, UpdateEmailDTO} from "@hiddentemple/api-interfaces";
+import {containsExactlyOnePrimary, EmailDTO} from "@hiddentemple/api-interfaces";
 import {CategoryEntity} from "../../db/entities/category.entity";
 import {ContactEntity} from "../../db/entities/contact.entity";
 
@@ -23,7 +23,7 @@ export class EmailService {
         return email;
     }
 
-    private async create(contact: ContactEntity, dto: CreateEmailDTO): Promise<EmailEntity> {
+    private async create(contact: ContactEntity, dto: EmailDTO): Promise<EmailEntity> {
         this.logger.log(`Creating a new email for contact with id ${contact.id} from DTO: ${JSON.stringify(dto)}`)
         const category: CategoryEntity = await this.categoryService.verifyCategory(dto.categoryId);
         const newEmail: EmailEntity = await this.repo.create({...dto, category, contact});
@@ -32,7 +32,7 @@ export class EmailService {
         return savedEmail;
     }
 
-    async createMany(contact: ContactEntity, emailDTOS: CreateEmailDTO[]): Promise<EmailEntity[]> {
+    async createMany(contact: ContactEntity, emailDTOS: EmailDTO[]): Promise<EmailEntity[]> {
         if (!emailDTOS || emailDTOS === []) return [];
 
         this.logger.log(`Creating ${emailDTOS.length} email(s): ${JSON.stringify(emailDTOS)}`)
@@ -44,38 +44,16 @@ export class EmailService {
             const newEmail: EmailEntity = await this.create(contact, emailDTO);
             newEmails.push(newEmail);
         }
-
+        this.logger.log(`Created ${newEmails.length} email(s): ${JSON.stringify(newEmails)}`)
         return newEmails;
     }
 
-    private async update(dto: UpdateEmailDTO): Promise<EmailEntity> {
-        this.logger.log(`Updating email from dto ${JSON.stringify(dto)}`)
-
-        const {id, ...simpleProperties} = dto;
-        const email: EmailEntity = await this.getById(id);
-        const category: CategoryEntity = await this.categoryService.verifyCategory(dto.categoryId);
-
-        Object.assign(email, simpleProperties);
-
-        const {affected, generatedMaps} = await this.repo.update(id, {...email, category});
-        if (affected !== 1) {
-            const errMsg = `Failed to update email with id ${id}`
-            this.logger.error(errMsg)
-            throw new InternalServerErrorException(errMsg)
-        }
-
-        this.logger.log(`Updated emails: ${JSON.stringify(generatedMaps)}`)
-        return email; // does the update call automatically update this reference?
-    }
-
-    async updateMany(emailDTOS: UpdateEmailDTO[]): Promise<EmailEntity[]> {
+    async updateMany(contact: ContactEntity, emailDTOS: EmailDTO[]): Promise<EmailEntity[]> {
         if (!emailDTOS || emailDTOS.length === 0) return;
-        this.logger.log(`Updating many emails from DTO: ${JSON.stringify(emailDTOS)}`)
-        const updatedEmails: EmailEntity[] = [];
-        for (const emailDTO of emailDTOS) {
-            const updatedEmail: EmailEntity = await this.update(emailDTO);
-            updatedEmails.push(updatedEmail);
-        }
+        this.logger.log(`Updating ${emailDTOS.length} email(s) from DTO: ${JSON.stringify(emailDTOS)}`)
+        await this.deleteMany(contact.emails);
+        const updatedEmails: EmailEntity[] = await this.createMany(contact, emailDTOS);
+        this.logger.log(`Finished ${emailDTOS.length} email(s)`);
         return updatedEmails;
     }
 
@@ -92,7 +70,7 @@ export class EmailService {
 
     async deleteMany(emails: EmailEntity[]): Promise<any> {
         if (!emails || emails.length == 0) return
-        this.logger.log(`Attempting to delete many emails with DTO: ${JSON.stringify(emails)}`)
+        this.logger.log(`Attempting to delete ${emails.length} email(s) with entities: ${JSON.stringify(emails)}`)
         if (!emails || emails.length === 0) return;
         for (const email of emails) { await this.delete(email.id) }
     }

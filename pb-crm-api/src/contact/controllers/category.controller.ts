@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Param, Post, ValidationPipe} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Param, Post, Res,ValidationPipe} from "@nestjs/common";
 import {CategoryService} from "../services/category.service";
 import {
     CreateCategoryRequest,
@@ -8,7 +8,8 @@ import {
     GetPrimaryCategoryResponse
 } from "@hiddentemple/api-interfaces";
 import {CategoryEntity} from "../../db/entities/category.entity";
-import {IsUUID} from "class-validator";
+import {IsUUID} from "class-validator"
+import { Response } from 'express';;
 
 
 @Controller('category')
@@ -36,9 +37,10 @@ export class CategoryController {
     }
 
     @Post()
-    async createOne(@Body() dto: CreateCategoryRequest): Promise<CreateCategoryResponse> {
-        const category: CategoryEntity = await this.categoryService.createOne(dto);
-        return {category}
+    async createOne(@Res() res: Response, @Body() dto: CreateCategoryRequest): Promise<any> {
+        const responseObject: CreateCategoryResponse = await this.categoryService.createOne(dto);
+        const responseCode = responseObject.wasCreated ? 201 : 200;
+        return res.status(responseCode).json(responseObject)
     }
 
     @Delete(':id')
