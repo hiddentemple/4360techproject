@@ -6,19 +6,23 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {RouterModule} from '@angular/router';
 import {LayoutModule} from '@angular/cdk/layout';
+import { DialogComponent } from './dialog/dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 
 @NgModule({
-  declarations: [NavBarComponent],
+  declarations: [NavBarComponent, DialogComponent],
   imports: [
     CommonModule,
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
     RouterModule,
-    LayoutModule
+    LayoutModule,
+    MatDialogModule,
   ],
-  exports: [NavBarComponent]
+  exports: [NavBarComponent, DialogComponent],
+  entryComponents: [DialogComponent]
 })
 export class CoreModule { }

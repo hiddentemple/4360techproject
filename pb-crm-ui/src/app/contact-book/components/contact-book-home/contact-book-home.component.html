@@ -15,6 +15,13 @@
             <mat-icon color="primary">add_circle_outline</mat-icon>
           </button>
           <button mat-icon-button
+                  aria-label="Import Contacts"
+                  matTooltip="Import contacts from file."
+                  matTooltipPosition="left"
+                  (click)="openImportDialog()">
+            <mat-icon color="primary">import_export</mat-icon>
+          </button>
+          <button mat-icon-button
                   matTooltip="Refresh"
                   matTooltipPosition="left"
                   (click)="refresh()">
@@ -23,7 +30,7 @@
         </span>
   </div>
 
-  <hr class="mt-0"/>
+  <hr class="mt-0" />
 
   <!-- Split View --->
   <div>

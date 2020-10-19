@@ -1,21 +1,22 @@
-import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild, ViewContainerRef} from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
-import {CreateContactDialogComponent} from '../../containers/create-contact-dialog/create-contact-dialog.component';
-import {ContactModel} from '@hiddentemple/api-interfaces';
-import {ContactCacheService} from '../../contact-cache.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {TableSize} from '../../containers/contact-table/contact-table.component';
-import {Portal, TemplatePortal} from '@angular/cdk/portal';
-
+import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ContactModel } from '@hiddentemple/api-interfaces';
+import { ContactCacheService } from '../../contact-cache.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { TableSize } from '../../containers/contact-table/contact-table.component';
+import { Portal, TemplatePortal } from '@angular/cdk/portal';
+import { DialogInterface } from '../../../core/dialog/temp-dialog.interface';
+import { DialogService } from '../../../core/dialog/dialog.service';
+import { ImportFileComponent } from '../../containers/import-file/import-file.component';
 
 
 @Component({
   selector: 'app-contact-book-home',
   templateUrl: './contact-book-home.component.html',
   styles: [
-    `.add-spacer {
+      `.add-spacer {
       flex: 1 1 auto;
-    }`
+    }`,
   ],
 })
 export class ContactBookHomeComponent implements OnInit, AfterViewInit {
@@ -38,8 +39,32 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog,
     private contactCache: ContactCacheService,
     private snackbar: MatSnackBar,
-    private viewContainerRef: ViewContainerRef
+    private viewContainerRef: ViewContainerRef,
+    private dialogService: DialogService,
   ) {
+  }
+
+  openImportDialog(): void {
+    const importDialogData: DialogInterface = {
+      title: 'Import Contact File',
+      showSubmitBtn: false,
+      showOkBtn: true,
+      showCancelBtn: true,
+      component: ImportFileComponent
+    };
+
+    const dialogRef = this.dialogService.openDialog(
+      importDialogData, {  });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // do something with ok/submit
+        console.log('User clicked OK');
+      } else {
+        // cancel / close dialog
+        console.log('User clicked cancel');
+      }
+    });
   }
 
   ngOnInit() {
@@ -80,24 +105,24 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
 
   createContract(contact: ContactModel) {
     this.contactCache.addContact(contact).subscribe(contact => {
-      this.snackbar.open('Contact Created', 'Close', {duration: 1000});
+      this.snackbar.open('Contact Created', 'Close', { duration: 1000 });
       this.setViewContact(contact);
     });
   }
 
   editContact(contact: ContactModel) {
     this.contactCache.updateContact(contact).subscribe(updatedContact =>
-      this.setViewContact(updatedContact)
+      this.setViewContact(updatedContact),
     );
   }
 
   deleteContact(contact: ContactModel) {
     this.contactCache.deleteContact(contact).subscribe(() => {
-        this.snackbar.open('Contact Deleted', 'X', {duration: 1000});
+        this.snackbar.open('Contact Deleted', 'X', { duration: 1000 });
         if (this.selectedContact === contact) {
           this.reset();
         }
-      }
+      },
     );
   }
 
@@ -115,10 +140,18 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
   }
 
   private portalToDescription(): string {
-    if (!this.selectedPortal) { return 'undefined'; }
-    if (this.selectedPortal === this.detailPortal) { return 'detail'; }
-    if (this.selectedPortal === this.createPortal) { return 'create'; }
-    if (this.selectedPortal === this.editPortal) { return 'edit'; }
+    if (!this.selectedPortal) {
+      return 'undefined';
+    }
+    if (this.selectedPortal === this.detailPortal) {
+      return 'detail';
+    }
+    if (this.selectedPortal === this.createPortal) {
+      return 'create';
+    }
+    if (this.selectedPortal === this.editPortal) {
+      return 'edit';
+    }
 
 
     throw new Error('Invalid portalToDescription method - does not have mapping for selected portal');
