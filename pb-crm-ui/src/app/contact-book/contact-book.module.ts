@@ -27,7 +27,7 @@ import {PhoneTableComponent} from './containers/phone-table/phone-table.componen
 import {PortalModule} from '@angular/cdk/portal';
 import { CategoryTableComponent } from './containers/category-table/category-table.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
-
+import { DeleteConfirmationComponent } from './containers/delete-confirmation/delete-confirmation.component';
 
 
 
@@ -43,6 +43,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     EmailTableComponent,
     PhoneTableComponent,
     CategoryTableComponent
+    PhoneTableComponent,
+    DeleteConfirmationComponent
   ],
   exports: [
     ContactFormComponent,
@@ -75,7 +77,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     ],
   entryComponents: [
     ContactFormComponent,
-    ContactDetailComponent
+    ContactDetailComponent,
+    DeleteConfirmationComponent
   ]
 })
 export class ContactBookModule {

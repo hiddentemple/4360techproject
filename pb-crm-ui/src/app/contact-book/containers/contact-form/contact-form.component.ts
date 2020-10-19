@@ -22,6 +22,8 @@ import {CategoryService} from "../../services/category.service";
 import {BehaviorSubject, Observable} from "rxjs";
 import {debounceTime, filter, map, tap} from "rxjs/operators";
 import {CategoryCacheService} from "../../services/category-cache.service";
+import {DeleteConfirmationComponent} from '../delete-confirmation/delete-confirmation.component';
+import {MatDialog} from '@angular/material/dialog';
 
 
 export const PhoneRegex = /[0-9]{10}/;
@@ -53,7 +55,8 @@ export class ContactFormComponent implements OnInit, OnChanges {
   constructor(
     private fb: FormBuilder,
     private breakpointService: BreakpointService,
-    private categoryCache: CategoryCacheService
+    private categoryCache: CategoryCacheService,
+    private dialog: MatDialog
   ) {
     this.initForm();
     this.categoryCache.categories$.subscribe(categories => this._filteredCategories$.next(categories))
@@ -137,7 +140,14 @@ export class ContactFormComponent implements OnInit, OnChanges {
 
    /** Email **/
   addEmailInput(): void { this.emailFormArray.push(this.initEmail()); }
-  removeEmailInput(i: number): void { this.emailFormArray.removeAt(i); }
+  removeEmailInput(i: number): void {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.emailFormArray.removeAt(i);
+      }
+    });
+  }
   hasEmails(): boolean { return this.emailFormArray.length > 0; }
 
   initEmail(address: string = '', category: CategoryModel | string = ''): FormGroup {
@@ -157,7 +167,14 @@ export class ContactFormComponent implements OnInit, OnChanges {
 
   /** Phone **/
   addPhoneInput(): void { this.phoneFormArray.push(this.initPhone()); }
-  removePhoneInput(i: number): void { this.phoneFormArray.removeAt(i); }
+  removePhoneInput(i: number): void {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.phoneFormArray.removeAt(i);
+      }
+    });
+  }
   hasPhones(): boolean { return this.phoneFormArray.length > 0; }
   initPhone(number: string = '', category: CategoryModel | string = ''): FormGroup {
     return this.fb.group({

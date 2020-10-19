@@ -15,6 +15,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {TableSize} from '../../containers/contact-table/contact-table.component';
 import {Portal, TemplatePortal} from '@angular/cdk/portal';
 import {tap} from "rxjs/operators";
+import {DeleteConfirmationComponent} from '../../containers/delete-confirmation/delete-confirmation.component';
+
 
 
 
@@ -47,16 +49,12 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog,
     private contactCache: ContactCacheService,
     private snackbar: MatSnackBar,
-    private viewContainerRef: ViewContainerRef,
-    private changeDetector: ChangeDetectorRef
-  ) {}
+    private viewContainerRef: ViewContainerRef
+  ) {
+  }
 
   ngOnInit() {
-    this.contactCache.contacts$.subscribe(contacts => {
-      console.log("contact home found new emission: ", contacts)
-      this.contacts = contacts
-      this.changeDetector.detectChanges();
-    });
+    this.contactCache.contacts$.subscribe(contacts => this.contacts = contacts);
   }
 
   ngAfterViewInit(): void {
@@ -105,13 +103,17 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
   }
 
   deleteContact(contact: ContactModel) {
-    this.contactCache.deleteContact(contact).subscribe(() => {
-        this.snackbar.open('Contact Deleted', 'Close', {duration: 2000});
-        if (this.selectedContact === contact) {
-          this.reset();
-        }
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.contactCache.deleteContact(contact).subscribe(() => {
+          this.snackbar.open('Contact Deleted', 'Close', {duration: 1000});
+          if (this.selectedContact === contact) {
+            this.reset();
+          }
+        });
       }
-    );
+    });
   }
 
   private openRightPanel() {
