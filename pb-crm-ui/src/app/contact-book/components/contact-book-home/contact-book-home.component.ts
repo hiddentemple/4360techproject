@@ -59,7 +59,6 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // do something with ok/submit
-        console.log('User clicked OK');
       } else {
         // cancel / close dialog
         console.log('User clicked cancel');

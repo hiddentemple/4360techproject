@@ -1,6 +1,9 @@
-import { Controller, Post, UploadedFile, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post, UploadedFile, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { csvParserService } from '../services/csv-parser.service';
+import { createQueryBuilder } from 'typeorm';
+import { ContactEntity } from '../db/entities/contact.entity';
+import * as fs from 'fs';
 
 
 @Controller()
@@ -36,6 +39,17 @@ export class UploadController {
       response.push(fileResponse);
     }
     return response;
+  }
+
+  @Get('csv')
+  async getAll(){
+    const contacts = await createQueryBuilder(ContactEntity)
+      .leftJoinAndSelect('ContactEntity.phones', 'phones' )
+      .leftJoinAndSelect('ContactEntity.emails', 'emails')
+      .getMany()
+    const data =  await csvParserService.parseJson2Csv(contacts)
+    fs.writeFile('./files/test.csv', data, 'utf8', test => {})
+    return contacts
   }
 
 }

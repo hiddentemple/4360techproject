@@ -5,6 +5,7 @@ import { ContactEntity } from '../db/entities/contact.entity';
 import { Connection, getConnection } from 'typeorm';
 import { EmailEntity } from '../db/entities/email.entity';
 import { PhoneEntity } from '../db/entities/phone.entity';
+const { Parser, transforms: { unwind } } = require('json2csv');
 
 
 @Injectable()
@@ -64,6 +65,45 @@ export class csvParserService{
         this.createManyContacts(contacts)
       })
     //fs.unlinkSync(this.fileDir + filename)
+  }
+
+  static async parseJson2Csv(jsonData: any){
+    const fields = [
+      {
+        label: 'firstName',
+        value: 'firstName'
+      },
+      {
+        label: 'lastName',
+        value: 'lastName'
+      },
+      {
+        label: 'company',
+        value: 'company'
+      },
+      {
+        label: 'phone',
+        value: 'phones.number'
+      },
+      {
+        label: 'phoneType',
+        value: 'phones.type'
+      },
+      {
+        label: 'email',
+        value: 'emails.address'
+      },
+      {
+        label: 'emailType',
+        value: 'emails.type'
+      },
+    ]
+    const transforms = [unwind({paths: ['phones', 'emails'], blankOut:true})]
+    const json2csvParser = new Parser({fields, transforms})
+    const csv = json2csvParser.parse(jsonData)
+
+    console.log(csv)
+    return csv
   }
 
   static async createManyContacts(contacts: ContactEntity[]){

@@ -21,6 +21,7 @@ export class ImportFileComponent {
   onFileSelected(event): any {
     if (event.target.files.length > 0) {
       this.filename = event.target.files[0].name;
+      return this.filename;
     } else {
       this.filename = 'Choose File...';
     }
