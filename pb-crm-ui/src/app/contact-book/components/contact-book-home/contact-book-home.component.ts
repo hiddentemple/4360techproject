@@ -13,10 +13,7 @@ import { ImportFileComponent } from '../../containers/import-file/import-file.co
 @Component({
   selector: 'app-contact-book-home',
   templateUrl: './contact-book-home.component.html',
-  styles: [
-      `.add-spacer {
-      flex: 1 1 auto;
-    }`,
+  styles: [ `.add-spacer { flex: 1 1 auto; }`,
   ],
 })
 export class ContactBookHomeComponent implements OnInit, AfterViewInit {
@@ -41,8 +38,7 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     private snackbar: MatSnackBar,
     private viewContainerRef: ViewContainerRef,
     private dialogService: DialogService,
-  ) {
-  }
+  ) {}
 
   openImportDialog(): void {
     const importDialogData: DialogInterface = {
@@ -111,7 +107,7 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
 
   editContact(contact: ContactModel) {
     this.contactCache.updateContact(contact).subscribe(updatedContact =>
-      this.setViewContact(updatedContact),
+      this.setViewContact(updatedContact);
     );
   }
 
@@ -121,8 +117,7 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
         if (this.selectedContact === contact) {
           this.reset();
         }
-      },
-    );
+      });
   }
 
   private openRightPanel() {
@@ -139,19 +134,10 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
   }
 
   private portalToDescription(): string {
-    if (!this.selectedPortal) {
-      return 'undefined';
-    }
-    if (this.selectedPortal === this.detailPortal) {
-      return 'detail';
-    }
-    if (this.selectedPortal === this.createPortal) {
-      return 'create';
-    }
-    if (this.selectedPortal === this.editPortal) {
-      return 'edit';
-    }
-
+    if (!this.selectedPortal) { return 'undefined'; }
+    if (this.selectedPortal === this.detailPortal) { return 'detail'; }
+    if (this.selectedPortal === this.createPortal) { return 'create'; }
+    if (this.selectedPortal === this.editPortal) { return 'edit'; }
 
     throw new Error('Invalid portalToDescription method - does not have mapping for selected portal');
   }
