@@ -1,4 +1,12 @@
-import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild, ViewContainerRef} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {CreateContactDialogComponent} from '../../containers/create-contact-dialog/create-contact-dialog.component';
 import {ContactModel} from '@hiddentemple/api-interfaces';
@@ -6,6 +14,7 @@ import {ContactCacheService} from '../../services/contact-cache.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {TableSize} from '../../containers/contact-table/contact-table.component';
 import {Portal, TemplatePortal} from '@angular/cdk/portal';
+import {tap} from "rxjs/operators";
 
 
 
@@ -38,12 +47,16 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog,
     private contactCache: ContactCacheService,
     private snackbar: MatSnackBar,
-    private viewContainerRef: ViewContainerRef
-  ) {
-  }
+    private viewContainerRef: ViewContainerRef,
+    private changeDetector: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
-    this.contactCache.contacts$.subscribe(contacts => this.contacts = contacts);
+    this.contactCache.contacts$.subscribe(contacts => {
+      console.log("contact home found new emission: ", contacts)
+      this.contacts = contacts
+      this.changeDetector.detectChanges();
+    });
   }
 
   ngAfterViewInit(): void {
@@ -80,7 +93,7 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
 
   async createContract(contact: ContactModel) {
     await this.contactCache.addContact(contact).then(contact => {
-      this.snackbar.open('Contact Created', 'Close', {duration: 1000});
+      this.snackbar.open('Contact Created', 'Close', {duration: 2000});
       this.setViewContact(contact);
     });
   }
@@ -93,7 +106,7 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
 
   deleteContact(contact: ContactModel) {
     this.contactCache.deleteContact(contact).subscribe(() => {
-        this.snackbar.open('Contact Deleted', 'X', {duration: 1000});
+        this.snackbar.open('Contact Deleted', 'Close', {duration: 2000});
         if (this.selectedContact === contact) {
           this.reset();
         }

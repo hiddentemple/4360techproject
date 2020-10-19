@@ -28,6 +28,7 @@
   <!-- Split View --->
   <div>
     <as-split>
+      <!-- Left Side -->
       <as-split-area *ngIf="showTable" [order]="0">
         <app-contact-table [contacts]="contacts"
                            [size]="tableSize"
@@ -36,6 +37,8 @@
                            (view)="setViewContact($event)">
         </app-contact-table>
       </as-split-area>
+
+      <!-- Right Side -->
       <as-split-area *ngIf="showDetail" [order]="1">
         <button mat-icon-button
                 matTooltip="Close Detail"

@@ -36,7 +36,7 @@ export class ContactFormComponent implements OnInit, OnChanges {
   private _filteredCategories$ = new BehaviorSubject<CategoryModel[]>([]);
   contactForm: FormGroup;
   isHandset = false;
-  show = true;
+  showNotes = false;
 
   @Input() contact: ContactModel;
   @Output() submitContact = new EventEmitter<ContactModel>();
@@ -101,6 +101,9 @@ export class ContactFormComponent implements OnInit, OnChanges {
     this.lastNameFormControl?.setValue(this.contact.lastName);
     this.companyFormControl?.setValue(this.contact.company);
     this.notesFormControl?.setValue(this.contact.notes);
+    if (this.contact.notes){
+      this.showNotes = true;
+    }
     Object.values(this.contact.emails).forEach(
       (email: EmailModel) => this.emailFormArray.push(this.initEmail(email.address, email.category))
     );

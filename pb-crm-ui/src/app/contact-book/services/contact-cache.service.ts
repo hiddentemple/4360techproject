@@ -60,8 +60,8 @@ export class ContactCacheService {
     return this.contactService.createContact(contactToAdd).then(
       ({contact}: CreateContactResponse) => {
           const {contacts} = this._contacts$.getValue();
-          contacts.push(contact);
-          const newModel: CacheAdd = { contacts, lastChange: CacheOperation.ADD, newContact: contact }
+          const newContacts: ContactModel[] = [...contacts, contact];
+          const newModel: CacheAdd = { contacts: newContacts, lastChange: CacheOperation.ADD, newContact: contact }
           this._contacts$.next(newModel);
           return contact;
         }
