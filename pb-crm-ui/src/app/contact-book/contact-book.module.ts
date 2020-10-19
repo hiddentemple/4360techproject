@@ -42,7 +42,7 @@ import { DeleteConfirmationComponent } from './containers/delete-confirmation/de
     ContactDetailComponent,
     EmailTableComponent,
     PhoneTableComponent,
-    CategoryTableComponent
+    CategoryTableComponent,
     PhoneTableComponent,
     DeleteConfirmationComponent
   ],
