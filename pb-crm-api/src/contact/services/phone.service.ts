@@ -1,7 +1,7 @@
 
 import {BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
-import {Repository} from "typeorm";
+import {EntityManager, Repository} from "typeorm";
 import {CategoryService} from "./category.service";
 import {
     containsExactlyOnePrimary,
@@ -28,16 +28,16 @@ export class PhoneService {
         return phone;
     }
 
-    async create(contact: ContactEntity, dto: PhoneDTO): Promise<PhoneEntity> {
+    async create(contact: ContactEntity, dto: PhoneDTO, entityManager: EntityManager): Promise<PhoneEntity> {
         this.logger.log(`Creating a new phone for contact with id ${contact.id} from DTO: ${JSON.stringify(dto)}`)
         const category: CategoryEntity = await this.categoryService.verifyCategory(dto.categoryId);
-        const newPhone: PhoneEntity = await this.repo.create({...dto, category, contact});
-        const savedPhone: PhoneEntity = await this.repo.save(newPhone);
+        const newPhone: PhoneEntity = await entityManager.create<PhoneEntity>(PhoneEntity, {...dto, category, contact});
+        const savedPhone: PhoneEntity = await entityManager.save(newPhone);
         this.logger.log(`Saved phone: ${JSON.stringify(savedPhone)}`);
         return savedPhone;
     }
 
-    async createMany(contact: ContactEntity, phoneDTOS: PhoneDTO[]): Promise<PhoneEntity[]> {
+    async createMany(contact: ContactEntity, phoneDTOS: PhoneDTO[], entityManger: EntityManager): Promise<PhoneEntity[]> {
         if (!phoneDTOS || phoneDTOS === []) return [];
 
         this.logger.log(`Creating ${phoneDTOS.length} phone(s): ${JSON.stringify(phoneDTOS)}`)
@@ -45,25 +45,25 @@ export class PhoneService {
 
         const newPhones: PhoneEntity[] = [];
         for (const phoneDTO of phoneDTOS) {
-            const newPhone: PhoneEntity = await this.create(contact, phoneDTO);
+            const newPhone: PhoneEntity = await this.create(contact, phoneDTO, entityManger);
             newPhones.push(newPhone);
         }
         return newPhones;
     }
 
-    async updateMany(contact: ContactEntity, phoneDTOs: PhoneDTO[]): Promise<PhoneEntity[]> {
+    async updateMany(contact: ContactEntity, phoneDTOs: PhoneDTO[], entityManger: EntityManager): Promise<PhoneEntity[]> {
         if (!phoneDTOs || phoneDTOs.length === 0) return;
         this.logger.log(`Updating ${phoneDTOs.length} phone(s) from DTO: ${JSON.stringify(phoneDTOs)}`)
-        await this.deleteMany(contact.phones);
-        const updatedPhones: PhoneEntity[] = await this.createMany(contact, phoneDTOs);
+        await this.deleteMany(contact.phones, entityManger);
+        const updatedPhones: PhoneEntity[] = await this.createMany(contact, phoneDTOs, entityManger);
         this.logger.log(`Finished ${phoneDTOs.length} phone(s)`);
         return updatedPhones;
     }
 
-    async delete(id: string): Promise<any> {
+    async delete(id: string, entityManager: EntityManager): Promise<any> {
         this.logger.log(`Attempting delete phone with id ${id}`)
         const phone: PhoneEntity = await this.getById(id);
-        const {affected} = await this.repo.delete(phone);
+        const {affected} = await entityManager.delete<PhoneEntity>(PhoneEntity, phone);
         if (affected !== 1) {
             const errMsg = `Failed to delete phone with id ${id}`
             this.logger.error(errMsg)
@@ -72,10 +72,10 @@ export class PhoneService {
         this.logger.log(`Delete phone success. ID: ${id}`)
     }
 
-    async deleteMany(phones: PhoneEntity[]): Promise<any> {
+    async deleteMany(phones: PhoneEntity[], entityManager: EntityManager): Promise<any> {
         if (!phones || phones.length === 0) return
         this.logger.log(`Attempting to delete ${phones.length} phone(s) with DTO: ${JSON.stringify(phones)}`)
-        for (const phone of phones) { await this.delete(phone.id) }
+        for (const phone of phones) { await this.delete(phone.id, entityManager) }
         this.logger.log(`Successfully deleted ${phones.length} phone(s)`)
     }
 
