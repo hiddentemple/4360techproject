@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import {Controller, Get} from '@nestjs/common';
 
 export interface HealthResponse {
   health: "200 OK" // type is the literal string "okay", not a value definition

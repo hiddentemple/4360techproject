@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {ContactBookHomeComponent} from './components/contact-book-home/contact-book-home.component';
 
 export const ContactBookRoutes = {

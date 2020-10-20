@@ -1,19 +1,18 @@
 import {
-  BeforeInsert,
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
+    BeforeInsert,
+    Column,
+    CreateDateColumn,
+    Entity,
+    JoinColumn,
+    OneToOne,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
 } from 'typeorm';
 import {UserTypeEntity} from "./user-type.entity";
 import {ContactEntity} from "./contact.entity";
-import {UserModel} from '@hiddentemple/api-interfaces';
-import {Length, MaxLength, IsEmail} from "class-validator";
+import {IsEmail, Length, MaxLength} from "class-validator";
 import * as bcrypt from 'bcrypt';
-
+import {UserModel} from "@hiddentemple/api-interfaces";
 
 
 @Entity('users')
@@ -22,7 +21,7 @@ export class UserEntity implements UserModel {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @Column('varchar', { nullable: false, unique: true})
+  @Column('varchar', { nullable: false, unique: true })
   @IsEmail()
   @MaxLength(50)
   email: string

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 import {ContactBookRoutes} from '../../contact-book/contact-book-routing.module';
 
 @Component({

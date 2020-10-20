@@ -1,7 +1,9 @@
 import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {ContactEntity} from "./contact.entity";
-import {PhoneModel} from '@hiddentemple/api-interfaces';
-import {IsOptional, MaxLength, IsPhoneNumber} from "class-validator"
+import {IsDefined, IsNumberString, IsPhoneNumber, Length, ValidateNested} from "class-validator"
+import {PhoneModel} from "@hiddentemple/api-interfaces";
+import {Type} from "class-transformer";
+import {CategoryEntity} from "./category.entity";
 
 @Entity('phones')
 export class PhoneEntity implements PhoneModel {
@@ -9,14 +11,19 @@ export class PhoneEntity implements PhoneModel {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @Column('numeric', { nullable: false })
+    @Column('numeric', {nullable: false})
+    @IsDefined()
+    @IsNumberString( { no_symbols: true })
+    @Length(10, 10, {message: 'Phone number must be exactly 10 digits'})
     @IsPhoneNumber('US')
-    number: number
+    phoneNumber: string
 
-    @Column('varchar', { nullable: false })
-    @IsOptional()
-    @MaxLength(50)
-    type: string
+    @ManyToOne(() => CategoryEntity, {nullable: false, cascade: false, eager: true})
+    @IsDefined()
+    @JoinColumn()
+    @ValidateNested({ each: true })
+    @Type(() => CategoryEntity)
+    category: CategoryEntity;
 
     @ManyToOne(type => ContactEntity, contact => contact.phones, {
         onDelete: "CASCADE",

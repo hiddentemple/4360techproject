@@ -1,10 +1,8 @@
-import { Controller, HttpCode } from '@nestjs/common';
+import {Controller, HttpCode} from '@nestjs/common';
 import {Crud, CrudController, CrudRequest, Override, ParsedBody, ParsedRequest} from "@nestjsx/crud";
 import {UserService} from "./user.service";
 import {UserEntity} from "../../db/entities/user.entity";
-import { CreateUserResponse } from '@hiddentemple/api-interfaces';
-import { ErrorService } from '../../services/error.service';
-
+import {ErrorService} from "../../core/services/error.service";
 
 @Crud({
   model: {
@@ -46,7 +44,7 @@ export class UserController implements CrudController<UserEntity> {
   @Override()
   @HttpCode(201)
   // tries to create a user in the postgresDB
-  async createOne(@ParsedRequest() req: CrudRequest, @ParsedBody() dto: UserEntity): Promise<CreateUserResponse> {
+  async createOne(@ParsedRequest() req: CrudRequest, @ParsedBody() dto: UserEntity): Promise<{id: string}> {
     const user: UserEntity = await this.base.createOneBase(req, dto).catch(error =>{
       error = this.errorService.handleError(error)
       throw error

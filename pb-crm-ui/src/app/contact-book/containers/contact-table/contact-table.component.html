@@ -23,11 +23,19 @@
       <td mat-cell *matCellDef="let contact" (click)="onView(contact)"> {{contact.company}} </td>
     </ng-container>
 
-    <!-- Updated At Column -->
-    <ng-container matColumnDef="updatedAt">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Updated </th>
+    <!-- Primary Phone Column -->
+    <ng-container matColumnDef="phone">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Primary Phone </th>
       <td mat-cell *matCellDef="let contact" (click)="onView(contact)">
-        {{contact.updatedAt | date: 'MM/dd/yyyy, hh:mm a'}}
+        {{getPrimaryPhone(contact)}}
+      </td>
+    </ng-container>
+
+    <!-- Primary Email Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Primary Email </th>
+      <td mat-cell *matCellDef="let contact" (click)="onView(contact)">
+        {{getPrimaryEmail(contact)}}
       </td>
     </ng-container>
 

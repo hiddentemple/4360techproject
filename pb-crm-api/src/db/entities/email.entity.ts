@@ -1,7 +1,10 @@
 import {ContactEntity} from "./contact.entity";
 import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
-import {EmailModel} from '@hiddentemple/api-interfaces';
-import { IsEmail, IsOptional, MaxLength} from 'class-validator';
+
+import {IsDefined, IsEmail, ValidateNested} from 'class-validator';
+import {EmailModel} from "@hiddentemple/api-interfaces";
+import {Type} from "class-transformer";
+import {CategoryEntity} from "./category.entity";
 
 
 @Entity('emails')
@@ -10,17 +13,25 @@ export class EmailEntity implements EmailModel {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @Column('varchar', { nullable: false })
+    @Column({
+        type: "character varying",
+        nullable: false
+    })
+    @IsDefined()
     @IsEmail()
-    @MaxLength(50)
     address: string
 
-    @Column('varchar', {  nullable: true })
-    @IsOptional()
-    @MaxLength(50)
-    type: string
+    @ManyToOne(
+        () => CategoryEntity,
+        // category => category.emails,
+        { nullable: false, cascade: false, eager: true })
+    @IsDefined()
+    @JoinColumn({name: 'categoryId'})
+    @ValidateNested({ each: true })
+    @Type(() => CategoryEntity)
+    category: CategoryEntity;
 
-    @ManyToOne(type => ContactEntity, contact => contact.emails, {
+    @ManyToOne(() => ContactEntity, contact => contact.emails, {
         onDelete: "CASCADE",
         onUpdate: "CASCADE"
     })
