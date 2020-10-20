@@ -32,23 +32,23 @@ export class ContactService {
     this.logger.log(`Creating contact from request ${JSON.stringify(req)}`)
 
     const {contact} = req;
-    let newContact: ContactEntity;
+    let savedContact: ContactEntity;
     await getConnection().transaction(async (entityManager: EntityManager) => {
-       newContact = await entityManager.create<ContactEntity>( ContactEntity, {
+       const newContact = await entityManager.create<ContactEntity>( ContactEntity, {
         firstName: contact.firstName,
         lastName: contact.lastName,
         company: contact.company,
         notes: contact.notes,
       });
 
-      await entityManager.save(newContact); // Populates ID
+      savedContact = await entityManager.save(newContact); // Populates ID
       await this.emailService.createMany(newContact, contact.emails, entityManager)
       await this.phoneService.createMany(newContact, contact.phones, entityManager)
     })
 
-    const savedContact = this.getById(newContact.id)
-    this.logger.log(`Saved new contact as ${JSON.stringify(savedContact)}`)
-    return savedContact;
+    const createdContact = await this.getById(savedContact.id)
+    this.logger.log(`Saved new contact as ${JSON.stringify(createdContact)}`)
+    return createdContact;
   }
 
   async update(id: string, dto: UpdateContactRequest): Promise<ContactEntity> {

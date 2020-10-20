@@ -1046,7 +1046,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"contact\": {\r\n        \"firstName\": \"Test\",\r\n        \"lastName\": \"User\",\r\n        \"company\": \"Test company\",\r\n        \"notes\": \"Test User\",\r\n        \"emails\": [\r\n            {\r\n                \"address\": \"testUser@personal.com\",\r\n                \"categoryId\": \"{{category.primary.id}}\"\r\n            }\r\n        ],\r\n        \"phones\": [\r\n            {\r\n                \"phoneNumber\": 3038675309,\r\n                \"categoryId\": \"{{category.primary.id}}\"\r\n            }\r\n        ]\r\n    }\r\n}",
+							"raw": "{\r\n    \"contact\": {\r\n        \"firstName\": \"Test\",\r\n        \"lastName\": \"User\",\r\n        \"company\": \"Test company\",\r\n        \"notes\": \"Test User\",\r\n        \"emails\": [\r\n            {\r\n                \"address\": \"testUser@personal.com\",\r\n                \"categoryId\": \"{{category.primary.id}}\"\r\n            }\r\n        ],\r\n        \"phones\": [\r\n            {\r\n                \"phoneNumber\": \"3038675309\",\r\n                \"categoryId\": \"{{category.primary.id}}\"\r\n            }\r\n        ]\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
