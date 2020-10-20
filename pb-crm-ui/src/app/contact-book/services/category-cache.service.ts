@@ -3,7 +3,8 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {
   AbstractInnerCategoryRequest,
   CategoryCode,
-  CategoryModel, CreateCategoryResponse,
+  CategoryModel,
+  CreateCategoryResponse,
   GetAllCategoriesResponse
 } from "@hiddentemple/api-interfaces";
 import {map} from "rxjs/operators";

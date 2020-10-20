@@ -1,24 +1,7 @@
-import {
-  Component,
-  OnInit,
-  Output,
-  EventEmitter,
-  Input,
-  InjectionToken,
-  Inject,
-  OnDestroy,
-  OnChanges, SimpleChanges,
-} from '@angular/core';
-import {AbstractControl, Form, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {
-  CategoryModel,
-  ContactModel,
-  EmailModel,
-  GetAllCategoriesResponse,
-  PhoneModel
-} from '@hiddentemple/api-interfaces';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges,} from '@angular/core';
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {CategoryModel, ContactModel, EmailModel, PhoneModel} from '@hiddentemple/api-interfaces';
 import {BreakpointService} from '../../../core/layout/breakpoint.service';
-import {CategoryService} from "../../services/category.service";
 import {BehaviorSubject, Observable} from "rxjs";
 import {debounceTime, filter, map, tap} from "rxjs/operators";
 import {CategoryCacheService} from "../../services/category-cache.service";

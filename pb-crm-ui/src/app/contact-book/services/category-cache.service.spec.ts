@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { CategoryCacheService } from './category-cache.service';
+import {CategoryCacheService} from './category-cache.service';
 
 describe('CategoryCacheService', () => {
   let service: CategoryCacheService;

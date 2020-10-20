@@ -1,7 +1,6 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
-import {CategoryModel, ContactModel, isPrimary} from "@hiddentemple/api-interfaces";
+import {Component, Input} from '@angular/core';
+import {CategoryModel, isPrimary} from "@hiddentemple/api-interfaces";
 import {MatTableDataSource} from "@angular/material/table";
-import {MatSort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-category-table',

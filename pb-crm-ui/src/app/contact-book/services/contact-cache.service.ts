@@ -1,7 +1,8 @@
 import {BehaviorSubject, Observable} from 'rxjs';
 import {
   ContactModel,
-  CreateContactResponse, GetAllContactsResponse,
+  CreateContactResponse,
+  GetAllContactsResponse,
   UpdateContactResponse,
 } from '@hiddentemple/api-interfaces';
 import {ContactService} from './contact.service';

@@ -1,6 +1,6 @@
 import {CategoryCode, CategoryModel} from "@hiddentemple/api-interfaces";
-import {BaseEntity, Column, Entity, PrimaryGeneratedColumn} from "typeorm";
-import {IsDefined, Length, MaxLength} from "class-validator";
+import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {IsDefined, MaxLength} from "class-validator";
 
 @Entity('category')
 export class CategoryEntity implements CategoryModel {

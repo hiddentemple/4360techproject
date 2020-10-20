@@ -1,5 +1,4 @@
 import {PhoneEntity} from "./phone.entity";
-import {CategoryCode} from "@hiddentemple/api-interfaces";
 import {expectError, expectNoErrors, getCategory} from "../../test.utils";
 
 describe('PhoneEntity', () => {

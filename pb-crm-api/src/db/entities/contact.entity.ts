@@ -1,6 +1,5 @@
 import {Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn,} from 'typeorm';
-import {IsDefined, IsOptional, Length, Matches, Validate, ValidateNested} from 'class-validator';
-import {Type} from "class-transformer";
+import {IsDefined, IsOptional, Length, Matches, ValidateNested} from 'class-validator';
 import {ContactModel, NameRegex} from "@hiddentemple/api-interfaces";
 import {EmailEntity} from "./email.entity";
 import {PhoneEntity} from "./phone.entity";

@@ -1,11 +1,12 @@
-import {Body, Controller, Delete, Get, Param, Post, Put, UsePipes, ValidationPipe} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Param, Post, Put} from "@nestjs/common";
 import {
-    CreateCategoryRequest, CreateCategoryResponse, CreateContactRequest, CreateContactResponse,
-    GetAllCategoriesResponse, GetAllContactsResponse,
-    GetCategoryResponse, GetContactResponse,
-    GetPrimaryCategoryResponse, UpdateContactRequest, UpdateContactResponse
+    CreateContactRequest,
+    CreateContactResponse,
+    GetAllContactsResponse,
+    GetContactResponse,
+    UpdateContactRequest,
+    UpdateContactResponse
 } from "@hiddentemple/api-interfaces";
-import {CategoryEntity} from "../../db/entities/category.entity";
 import {ContactService} from "../services/contact.service";
 import {ContactEntity} from "../../db/entities/contact.entity";
 

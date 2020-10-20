@@ -2,7 +2,6 @@ import {validate} from "class-validator";
 import {ValidationError} from "@nestjs/common";
 import {CategoryCode} from "@hiddentemple/api-interfaces";
 import {CategoryEntity} from "./db/entities/category.entity";
-import {TypeOrmModule} from "@nestjs/typeorm";
 
 export function expectError(entity: any, property: string, constraint: string, expectedMessage: string): Promise<any> {
     return validate(entity).then((errors: ValidationError[]) => {

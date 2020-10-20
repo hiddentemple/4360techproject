@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Param, Post, Res,ValidationPipe} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Param, Post, Res} from "@nestjs/common";
 import {CategoryService} from "../services/category.service";
 import {
     CreateCategoryRequest,
@@ -8,8 +8,9 @@ import {
     GetPrimaryCategoryResponse
 } from "@hiddentemple/api-interfaces";
 import {CategoryEntity} from "../../db/entities/category.entity";
-import {IsUUID} from "class-validator"
-import { Response } from 'express';;
+import {Response} from 'express';
+
+;
 
 
 @Controller('category')

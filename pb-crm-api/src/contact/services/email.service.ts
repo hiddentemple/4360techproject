@@ -1,4 +1,4 @@
-import {BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException} from "@nestjs/common";
+import {Injectable, InternalServerErrorException, Logger, NotFoundException} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {EmailEntity} from "../../db/entities/email.entity";
 import {EntityManager, Repository} from "typeorm";

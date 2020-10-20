@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CategoryModel} from "@hiddentemple/api-interfaces";
 import {CategoryCacheService} from "../contact-book/services/category-cache.service";
 import {FormArray, FormControl, FormGroup} from "@angular/forms";

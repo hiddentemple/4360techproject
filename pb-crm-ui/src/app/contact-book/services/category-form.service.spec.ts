@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { CategoryFormService } from './category-form.service';
+import {CategoryFormService} from './category-form.service';
 
 describe('CategoryFormService', () => {
   let service: CategoryFormService;

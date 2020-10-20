@@ -1,8 +1,5 @@
 import {EmailEntity} from "./email.entity";
-import {CategoryCode} from "@hiddentemple/api-interfaces";
-import {expectError, expectNoErrors} from "../../test.utils";
-import {CategoryEntity} from "./category.entity";
-import {getCategory} from "../../test.utils";
+import {expectError, expectNoErrors, getCategory} from "../../test.utils";
 
 describe('EmailEntity', () => {
     let email: EmailEntity;

@@ -1,23 +1,11 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-  ViewContainerRef
-} from '@angular/core';
+import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild, ViewContainerRef} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {CreateContactDialogComponent} from '../../containers/create-contact-dialog/create-contact-dialog.component';
 import {ContactModel} from '@hiddentemple/api-interfaces';
 import {ContactCacheService} from '../../services/contact-cache.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {TableSize} from '../../containers/contact-table/contact-table.component';
 import {Portal, TemplatePortal} from '@angular/cdk/portal';
-import {tap} from "rxjs/operators";
 import {DeleteConfirmationComponent} from '../../containers/delete-confirmation/delete-confirmation.component';
-
-
 
 
 @Component({

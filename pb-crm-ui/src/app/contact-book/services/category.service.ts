@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ApiService} from "../../api/api.service";
 import {
   AbstractInnerCategoryRequest,
-  CategoryModel, CreateCategoryRequest,
-  CreateCategoryResponse, GetAllCategoriesResponse,
-  GetCategoryResponse,
-  GetPrimaryCategoryResponse
+  CreateCategoryRequest,
+  CreateCategoryResponse,
+  GetAllCategoriesResponse,
+  GetCategoryResponse
 } from "@hiddentemple/api-interfaces";
 import {Observable} from "rxjs";
 

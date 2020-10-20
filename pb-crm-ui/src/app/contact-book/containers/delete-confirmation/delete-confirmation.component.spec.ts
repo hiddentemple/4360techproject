@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { DeleteConfirmationComponent } from './delete-confirmation.component';
+import {DeleteConfirmationComponent} from './delete-confirmation.component';
 
 describe('DeleteConfirmationComponent', () => {
   let component: DeleteConfirmationComponent;
