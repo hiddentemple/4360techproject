@@ -6,6 +6,8 @@ import {ContactModel, isPrimary} from '@hiddentemple/api-interfaces';
 
 export enum TableSize { FULL, COMPACT }
 
+
+
 @Component({
   selector: 'app-contact-table',
   templateUrl: './contact-table.component.html',
@@ -36,11 +38,13 @@ export class ContactTableComponent implements AfterViewInit {
   @Input() size: TableSize;
   @Input() set contacts(contacts: ContactModel[]) { this.setContacts(contacts); }
 
-  get displayedColumns(): string[] { return this.getColumns(); }
+  get displayedColumns(): string[] { return this.getColumns();
+  }
 
   constructor() {
     this.dataSource = new MatTableDataSource([]);
   }
+
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
