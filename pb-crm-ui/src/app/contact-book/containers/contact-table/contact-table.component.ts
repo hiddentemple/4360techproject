@@ -6,6 +6,8 @@ import {ContactModel, isPrimary} from '@hiddentemple/api-interfaces';
 
 export enum TableSize { FULL, COMPACT }
 
+
+
 @Component({
   selector: 'app-contact-table',
   templateUrl: './contact-table.component.html',
