@@ -38,13 +38,11 @@ export class ContactTableComponent implements AfterViewInit {
   @Input() size: TableSize;
   @Input() set contacts(contacts: ContactModel[]) { this.setContacts(contacts); }
 
-  get displayedColumns(): string[] { return this.getColumns();
-  }
+  get displayedColumns(): string[] { return this.getColumns(); }
 
   constructor() {
     this.dataSource = new MatTableDataSource([]);
   }
-
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
