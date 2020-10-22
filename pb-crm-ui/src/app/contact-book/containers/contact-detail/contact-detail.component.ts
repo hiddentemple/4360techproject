@@ -1,11 +1,5 @@
-import {Component, EventEmitter, Input, Output, TemplateRef, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ContactModel} from '@hiddentemple/api-interfaces';
-import {DeleteConfirmationComponent} from "../delete-confirmation/delete-confirmation.component";
-import {MatDialog} from "@angular/material/dialog";
-import {ContactCacheService} from "../../services/contact-cache.service";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {TableSize} from "../contact-table/contact-table.component";
-import {Portal, TemplatePortal} from "@angular/cdk/portal";
 
 @Component({
   selector: 'app-contact-detail',
@@ -18,7 +12,7 @@ import {Portal, TemplatePortal} from "@angular/cdk/portal";
 
         <button mat-icon-button
                 matTooltip="Edit"
-                matTooltipPosition=""
+                matTooltipPosition="right"
                 (click)="onEdit(contact)">
           <mat-icon>edit</mat-icon>
         </button>
