@@ -5,12 +5,12 @@ import {ContactDetailPageComponent} from './components/contact-detail-page/conta
 
 export const ContactBookRoutes = {
   home: 'contacts',
-  id: 'contacts'
+  id: 'contacts/:id'
 };
 
 const routes: Routes = [
   { path: ContactBookRoutes.home, component: ContactBookHomeComponent },
-  { path: 'contacts/:id', component: ContactDetailPageComponent}
+  { path: ContactBookRoutes.id, component: ContactDetailPageComponent}
 ];
 
 @NgModule({
