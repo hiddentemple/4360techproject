@@ -14,11 +14,10 @@ import {ContactActionCallback} from "../../services/contact-actions.service";
                           (edit)="onEdit()"
                           (delete)="onDelete($event)">
       </app-contact-detail>
+      <ng-template #form>
+        <app-contact-form [contact]="contact" (submitContact)="onUpdate($event)"></app-contact-form>
+      </ng-template>
     </div>
-
-    <ng-container #form>
-      <app-contact-form [contact]="contact" (submitContact)="onUpdate($event)"></app-contact-form>
-    </ng-container>
   `,
   styles: []
 })
@@ -37,19 +36,19 @@ export class ContactDetailPageComponent implements OnInit {
     this.cache.getContact(id).subscribe(contact => this.contact = contact);
   }
 
-  onEdit() { this.showDetail = false; }
-
   onDelete(contact: ContactModel) {
     // callback function returns to contact book hom
     // this.router.navigate(...)
-    this.router.navigate([ContactBookRoutes.home])
+    this.router.navigate([ContactBookRoutes.home]);
   }
 
   onUpdate(contact: ContactModel) {
     // callback sets this.contact to the contact that was returned form the cache
-    const callback : ContactActionCallback = async (contact) => {
+    const callback: ContactActionCallback = async (contact) => {
       this.contact = contact;
-      this.showDetail = true;
-    }
+      this.showDetail = false;
+    };
   }
+
+  onEdit() { this.showDetail = false; }
 }
