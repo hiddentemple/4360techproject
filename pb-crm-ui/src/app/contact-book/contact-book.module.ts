@@ -28,8 +28,9 @@ import {PortalModule} from '@angular/cdk/portal';
 import { CoreModule } from '../core/core.module';
 import { DialogComponent } from '../core/dialog/dialog.component';
 import { ImportFileComponent } from './containers/import-file/import-file.component';
-
-
+import {CategoryTableComponent} from './containers/category-table/category-table.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {DeleteConfirmationComponent} from './containers/delete-confirmation/delete-confirmation.component';
 
 
 @NgModule({
@@ -42,10 +43,14 @@ import { ImportFileComponent } from './containers/import-file/import-file.compon
     ContactDetailComponent,
     EmailTableComponent,
     PhoneTableComponent,
-    ImportFileComponent
+    ImportFileComponent,
+    CategoryTableComponent,
+    PhoneTableComponent,
+    DeleteConfirmationComponent
   ],
   exports: [
-    ContactFormComponent
+    ContactFormComponent,
+    CategoryTableComponent
   ],
   imports: [
     CommonModule,
@@ -70,11 +75,14 @@ import { ImportFileComponent } from './containers/import-file/import-file.compon
     AngularSplitModule.forRoot(),
     PortalModule,
     CoreModule,
+    MatOptionModule,
+    MatAutocompleteModule
   ],
   entryComponents: [
     DialogComponent,
     ContactFormComponent,
     ContactDetailComponent,
+    DeleteConfirmationComponent,
     ImportFileComponent
   ]
 })

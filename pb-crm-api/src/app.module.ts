@@ -1,4 +1,4 @@
-import {  Module } from '@nestjs/common';
+import {Module} from '@nestjs/common';
 import {AuthnModule} from './authn/authn.module';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {ContactModule} from "./contact/contact.module";
@@ -9,6 +9,7 @@ import { UploadService } from './upload/upload.service';
 import { UploadModule } from './upload/upload.module';
 import { MulterModule } from '@nestjs/platform-express';
 
+import {ErrorService} from "./core/services/error.service";
 
 @Module({
     imports: [
@@ -30,6 +31,7 @@ import { MulterModule } from '@nestjs/platform-express';
                 "entities": ["dist/db/entities/**/*.entity{.js, .ts}"],
                 "synchronize": true,
                 "logging": true,
+                "dropSchema": true
             } : {}
         ),
         // Feature Modules
@@ -39,7 +41,7 @@ import { MulterModule } from '@nestjs/platform-express';
         UploadModule,
     ],
     controllers: [],
-    providers: [],
+    providers: [ErrorService],
 })
-export class AppModule{
+export class AppModule {
 }

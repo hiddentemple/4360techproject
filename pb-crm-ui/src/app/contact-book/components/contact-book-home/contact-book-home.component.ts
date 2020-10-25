@@ -1,19 +1,23 @@
 import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ContactModel } from '@hiddentemple/api-interfaces';
-import { ContactCacheService } from '../../contact-cache.service';
+import {ContactCacheService} from '../../services/contact-cache.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TableSize } from '../../containers/contact-table/contact-table.component';
 import { Portal, TemplatePortal } from '@angular/cdk/portal';
 import { DialogInterface } from '../../../core/dialog/temp-dialog.interface';
 import { DialogService } from '../../../core/dialog/dialog.service';
 import { ImportFileComponent } from '../../containers/import-file/import-file.component';
+import {DeleteConfirmationComponent} from '../../containers/delete-confirmation/delete-confirmation.component';
 
 
 @Component({
   selector: 'app-contact-book-home',
   templateUrl: './contact-book-home.component.html',
-  styles: [ `.add-spacer { flex: 1 1 auto; }`,
+  styles: [
+    `.add-spacer {
+      flex: 1 1 auto;
+    }`
   ],
 })
 export class ContactBookHomeComponent implements OnInit, AfterViewInit {
@@ -98,26 +102,31 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     this.openRightPanel();
   }
 
-  createContract(contact: ContactModel) {
-    this.contactCache.addContact(contact).subscribe(contact => {
-      this.snackbar.open('Contact Created', 'Close', { duration: 1000 });
+  async createContract(contact: ContactModel) {
+    await this.contactCache.addContact(contact).then(contact => {
+      this.snackbar.open('Contact Created', 'Close', {duration: 2000});
       this.setViewContact(contact);
     });
   }
 
-  editContact(contact: ContactModel) {
-    this.contactCache.updateContact(contact).subscribe(updatedContact =>
-      this.setViewContact(updatedContact);
+  async editContact(contact: ContactModel) {
+    await this.contactCache.updateContact(contact).then(updatedContact =>
+      this.setViewContact(updatedContact)
     );
   }
 
   deleteContact(contact: ContactModel) {
-    this.contactCache.deleteContact(contact).subscribe(() => {
-        this.snackbar.open('Contact Deleted', 'X', { duration: 1000 });
-        if (this.selectedContact === contact) {
-          this.reset();
-        }
-      });
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.contactCache.deleteContact(contact).subscribe(() => {
+          this.snackbar.open('Contact Deleted', 'Close', {duration: 1000});
+          if (this.selectedContact === contact) {
+            this.reset();
+          }
+        });
+      }
+    });
   }
 
   private openRightPanel() {
@@ -138,6 +147,7 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     if (this.selectedPortal === this.detailPortal) { return 'detail'; }
     if (this.selectedPortal === this.createPortal) { return 'create'; }
     if (this.selectedPortal === this.editPortal) { return 'edit'; }
+
 
     throw new Error('Invalid portalToDescription method - does not have mapping for selected portal');
   }

@@ -8,11 +8,13 @@ import {RouterModule} from '@angular/router';
 import {LayoutModule} from '@angular/cdk/layout';
 import { DialogComponent } from './dialog/dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
-
+import {ErrorDialogComponent} from './errors/error-dialog.component';
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
-  declarations: [NavBarComponent, DialogComponent],
+  declarations: [NavBarComponent, DialogComponent, ErrorDialogComponent],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -21,8 +23,10 @@ import { MatDialogModule } from '@angular/material/dialog';
     RouterModule,
     LayoutModule,
     MatDialogModule,
+    MatFormFieldModule,
+    FormsModule
   ],
   exports: [NavBarComponent, DialogComponent],
-  entryComponents: [DialogComponent]
+  entryComponents: [DialogComponent, ErrorDialogComponent]
 })
 export class CoreModule { }

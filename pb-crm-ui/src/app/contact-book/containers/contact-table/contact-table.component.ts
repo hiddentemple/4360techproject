@@ -1,9 +1,8 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import {AfterViewInit, Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {MatTable, MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {ContactModel} from '@hiddentemple/api-interfaces';
-import { MatMenuTrigger } from '@angular/material/menu';
+import {ContactModel, isPrimary} from '@hiddentemple/api-interfaces';
 
 export enum TableSize { FULL, COMPACT }
 
@@ -57,6 +56,18 @@ export class ContactTableComponent implements AfterViewInit {
     this.setFilter(filterValue)
   }
 
+  getPrimaryPhone(contact: ContactModel): string {
+    if (!contact.phones || contact.phones.length === 0) return '';
+    // else
+    return contact.phones.find(phone => isPrimary(phone.category)).phoneNumber
+  }
+
+  getPrimaryEmail(contact: ContactModel): string {
+    if (!contact.emails || contact.emails.length === 0) return '';
+    // else
+    return contact.emails.find(email => isPrimary(email.category)).address
+  }
+
   private setFilter(filterStr: string) {
     this.dataSource.filter = filterStr.trim().toLowerCase();
     this.dataSource.paginator.firstPage();
@@ -79,9 +90,9 @@ export class ContactTableComponent implements AfterViewInit {
   private getColumns(): string[] {
     switch (this.size){
       case TableSize.COMPACT:
-        return ['firstName', 'lastName', 'company', 'actions'];
+        return ['firstName', 'lastName', 'actions'];
       case TableSize.FULL:
-        return ['firstName', 'lastName', 'company', 'updatedAt', 'actions'];
+        return ['firstName', 'lastName', 'company', 'email', 'phone', 'actions'];
     }
   }
 }

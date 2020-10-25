@@ -26,6 +26,17 @@
     </mat-form-field>
   </div>
 
+  <!-- Notes Input-->
+  <div class="row" *ngIf="showNotes">
+    <mat-form-field class="col-12">
+      <mat-label>Notes</mat-label>
+      <textarea matInput maxlength="250" placeholder="Ex. This is a note..." formControlName="notes"></textarea>
+      <mat-error *ngIf="notesHasMaxLengthError()">
+        Notes cannot be any longer than 250 characters
+      </mat-error>
+    </mat-form-field>
+  </div>
+
   <hr *ngIf="hasEmails()"/>
 
   <!-- Mobile Email Input -->
@@ -52,7 +63,18 @@
             </mat-form-field>
             <mat-form-field class="col-sm-12 col-md-4">
               <mat-label>Type</mat-label>
-              <input matInput type="text" placeholder="Ex. Personal" formControlName="type">
+              <input matInput
+                     type="text"
+                     placeholder="Ex. Personal"
+                     formControlName="category"
+                     [matAutocomplete]="auto"
+                     (focus)="onFocusCategory('email', i)"
+                     (blur)="onBlurCategory(i)">
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCategory">
+                <mat-option *ngFor="let option of filteredCategories$ | async" [value]="option">
+                  {{option.description}}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
           </div>
         </div>
@@ -76,7 +98,7 @@
           <div class="row">
             <mat-form-field class="col-sm-12 col-md-8">
               <mat-label>Phone Number</mat-label>
-              <input matInput type="text" placeholder="Ex. 303 867 5309" formControlName="number">
+              <input matInput type="text" placeholder="Ex. 303 867 5309" formControlName="phoneNumber">
               <mat-error *ngIf="phoneHasRequiredError(phone)">
                 A phone is required
               </mat-error>
@@ -86,7 +108,18 @@
             </mat-form-field>
             <mat-form-field class="col-sm-12 col-md-4">
               <mat-label>Type</mat-label>
-              <input matInput type="text" placeholder="Ex. Personal" formControlName="type">
+              <input matInput
+                     type="text"
+                     placeholder="Ex. Personal"
+                     formControlName="category"
+                     [matAutocomplete]="auto"
+                     (focus)="onFocusCategory('phone', i)"
+                     (blur)="onBlurCategory(i)">
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayCategory">
+                <mat-option *ngFor="let option of filteredCategories$ | async" [value]="option">
+                  {{option.description}}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
           </div>
         </div>
@@ -97,9 +130,10 @@
   <!--Bottom Buttons -->
   <div class="mt-2">
     <button mat-raised-button (click)="addEmailInput()" type="button" class="mr-1" color="accent">Add Email</button>
-    <button mat-raised-button (click)="addPhoneInput()" type="button" color="accent">Add Phone</button>
-    <button mat-raised-button color="primary" [disabled]="!contactForm.valid" type="submit" class="float-right">Submit
-    </button>
+    <button mat-raised-button (click)="addPhoneInput()" type="button" class="mr-1" color="accent">Add Phone</button>
+    <button mat-raised-button *ngIf="!showNotes" (click)="showNotes = !showNotes" type="button" color="accent">Show Notes</button>
+    <button mat-button *ngIf="showNotes" (click)="showNotes = !showNotes" type="button" color="warn">Hide Notes</button>
+    <button mat-raised-button color="primary" [disabled]="!contactForm.valid" type="submit" class="float-right">Submit</button>
   </div>
 
 </form>

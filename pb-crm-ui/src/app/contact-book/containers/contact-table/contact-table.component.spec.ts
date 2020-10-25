@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ContactTableComponent } from './contact-table.component';
+import {ContactTableComponent} from './contact-table.component';
 
 describe('ContactTableComponent', () => {
   let component: ContactTableComponent;

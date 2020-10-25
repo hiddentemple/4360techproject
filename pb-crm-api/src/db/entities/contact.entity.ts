@@ -1,17 +1,8 @@
-import {
-    Column,
-    CreateDateColumn,
-    Entity,
-    OneToMany,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn,
-} from 'typeorm';
+import {Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn,} from 'typeorm';
+import {IsDefined, IsOptional, Length, Matches, ValidateNested} from 'class-validator';
+import {ContactModel, NameRegex} from "@hiddentemple/api-interfaces";
 import {EmailEntity} from "./email.entity";
 import {PhoneEntity} from "./phone.entity";
-import {ContactModel} from '@hiddentemple/api-interfaces';
-import { MinLength, MaxLength, IsOptional, IsAlpha, ValidateNested } from 'class-validator';
-import {Type} from "class-transformer";
-
 
 @Entity("contacts")
 export class ContactEntity implements ContactModel {
@@ -19,44 +10,47 @@ export class ContactEntity implements ContactModel {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @IsAlpha()
-    @Column('varchar', { nullable: false})
-    @MinLength(1)
+    @Column({ type: "character varying", length: 50 })
+    @Matches(NameRegex, {message: "firstName must contain only alphabetic characters and '-'"})
+    @Length(2, 50)
+    @IsDefined()
     firstName: string;
 
-    @IsAlpha()
-    @Column('varchar', { nullable: false})
-    @MinLength(1)
+    @Column({ type: "character varying", length: 50 })
+    @Matches(NameRegex, {message: "lastName must contain only alphabetic characters and '-'"})
+    @Length(2, 50)
+    @IsDefined()
     lastName: string;
 
-    @Column('varchar', { nullable: true})
+    @Column({ type: "character varying", length: 50, nullable: true })
     @IsOptional()
-    @MaxLength(50)
+    @Length(2, 50)
     company: string
 
-    @Column('varchar', { nullable: true})
+    @Column({ type: "text", nullable: true })
     @IsOptional()
-    @MaxLength(250)
     notes: string
 
     @OneToMany(type => EmailEntity, email => email.contact, {
         cascade: true,
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
-    })
-    @IsOptional()
-    @ValidateNested({ each: true })
-    @Type(() => EmailEntity)
-    emails: EmailEntity[];
-
-    @OneToMany(type => PhoneEntity, phone => phone.contact, {
-        cascade: true,
+        eager: true,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     })
     @IsOptional()
     @ValidateNested({ each: true })
-    @Type(() => PhoneEntity)
+    // @Type(() => EmailEntity)
+    emails: EmailEntity[];
+
+    @OneToMany(type => PhoneEntity, phone => phone.contact, {
+        cascade: true,
+        eager: true,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    @IsOptional()
+    @ValidateNested({ each: true })
+    // @Type(() => PhoneEntity)
     phones: PhoneEntity[];
 
     @CreateDateColumn({name: 'createdAt', nullable: false})

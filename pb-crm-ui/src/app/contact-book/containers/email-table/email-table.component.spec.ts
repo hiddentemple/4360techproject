@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { EmailTableComponent } from './email-table.component';
+import {EmailTableComponent} from './email-table.component';
 
 describe('EmailTableComponent', () => {
   let component: EmailTableComponent;

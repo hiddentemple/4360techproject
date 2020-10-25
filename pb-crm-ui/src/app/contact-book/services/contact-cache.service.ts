@@ -1,10 +1,13 @@
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {ContactModel} from '@hiddentemple/api-interfaces';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {
+  ContactModel,
+  CreateContactResponse,
+  GetAllContactsResponse,
+  UpdateContactResponse,
+} from '@hiddentemple/api-interfaces';
 import {ContactService} from './contact.service';
 import {Injectable} from '@angular/core';
 import {map, tap} from 'rxjs/operators';
-import {CreateContactRequest, CreateContactResponse} from '@hiddentemple/api-interfaces';
-import {DeleteContactRequest} from '@hiddentemple/api-interfaces';
 
 
 // File scoped interface (no export)
@@ -27,7 +30,7 @@ interface CacheDelete extends CacheModel {
 }
 
 // file Scoped
-enum CacheOperation { INIT, LOAD, ADD, UPDATE, DELETE}
+enum CacheOperation { INIT="INIT", LOAD="LOAD", ADD="ADD", UPDATE="UPDATE", DELETE="DELETE"}
 
 @Injectable({
   providedIn: 'root'
@@ -54,17 +57,16 @@ export class ContactCacheService {
       );
   }
 
-  addContact(contactToAdd: ContactModel): Observable<ContactModel> {
-    const req: CreateContactRequest = contactToAdd;
-    return this.contactService.createContact(req).pipe(
-      map(({contact}: CreateContactResponse) => {
+  async addContact(contactToAdd: ContactModel): Promise<ContactModel> {
+    return this.contactService.createContact(contactToAdd).then(
+      ({contact}: CreateContactResponse) => {
           const {contacts} = this._contacts$.getValue();
-          contacts.push(contact);
-          const newModel: CacheAdd = { contacts, lastChange: CacheOperation.ADD, newContact: contact }
+          const newContacts: ContactModel[] = [...contacts, contact];
+          const newModel: CacheAdd = { contacts: newContacts, lastChange: CacheOperation.ADD, newContact: contact }
           this._contacts$.next(newModel);
           return contact;
         }
-      ));
+      );
   }
 
   getContact(idKey: string): Observable<ContactModel | undefined> {
@@ -75,26 +77,25 @@ export class ContactCacheService {
     ));
   }
 
-  updateContact(updated: ContactModel): Observable<ContactModel> {
+  async updateContact(toUpdate: ContactModel): Promise<ContactModel> {
     // Object construction with the spread operator
-    return this.contactService.updateContact(updated).pipe(map((contact: ContactModel) => {
-      const filtered = this.remove(updated.id);
-      filtered.push(contact);
+    return await this.contactService.updateContact(toUpdate).then((response: UpdateContactResponse) => {
+      const updatedContact = response.contact;
+      const filtered = this.remove(toUpdate.id);
+      filtered.push(updatedContact);
       const newModel: CacheUpdate = {
         contacts: filtered,
-        lastChange:
-        CacheOperation.UPDATE,
-        oldContact: updated,
-        updatedContact: contact
+        lastChange: CacheOperation.UPDATE,
+        oldContact: toUpdate,
+        updatedContact: updatedContact
       }
       this._contacts$.next(newModel);
-      return contact;
-    }));
+      return updatedContact;
+    });
   }
 
   deleteContact(contact: ContactModel): Observable<boolean> {
-    const req: DeleteContactRequest = {id: contact.id};
-    return this.contactService.deleteContact(req).pipe(
+    return this.contactService.deleteContact(contact.id).pipe(
       // https://www.learnrxjs.io/learn-rxjs/operators/utility/do
       // TODO what happens if delete fails? does this do what we expect it to?
       map(() => {
@@ -109,7 +110,7 @@ export class ContactCacheService {
   refresh(): Observable<any> {
     return this.contactService.getContacts()
       .pipe(
-        tap((contacts: ContactModel[]) => {
+        tap(({contacts}: GetAllContactsResponse) => {
           const newModel: CacheModel = { lastChange: CacheOperation.LOAD, contacts: contacts };
           this._contacts$.next(newModel);
         })
