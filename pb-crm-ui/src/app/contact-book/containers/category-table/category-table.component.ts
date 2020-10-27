@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {CategoryModel, isPrimary} from "@hiddentemple/api-interfaces";
-import {MatTableDataSource} from "@angular/material/table";
+import {CategoryModel, isPrimary} from '@hiddentemple/api-interfaces';
+import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
   selector: 'app-category-table',

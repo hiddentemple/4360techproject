@@ -9,13 +9,15 @@ import * as fs from 'fs';
 @Controller()
 export class UploadController {
   constructor() {
-
   }
 
 
   @Post('upload')
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('file', {
+    dest: './files'
+  }))
   async uploadFile(@UploadedFile() file) {
+    console.log(file.filename)
     if(file.originalname.includes('.csv')){
       await csvParserService.contactParse(file.filename)
     }
@@ -27,7 +29,7 @@ export class UploadController {
   }
 
   @Post('multiUpload')
-  @UseInterceptors(FilesInterceptor('files', 20, {}))
+  @UseInterceptors(FilesInterceptor('files', 20, {dest: './files'}))
   async uploadFiles(@UploadedFiles() files) {
     const response = [];
     for (const file of files) {

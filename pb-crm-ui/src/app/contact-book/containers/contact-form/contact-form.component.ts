@@ -1,10 +1,10 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges,} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, } from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {CategoryModel, ContactModel, EmailModel, PhoneModel} from '@hiddentemple/api-interfaces';
 import {BreakpointService} from '../../../core/layout/breakpoint.service';
-import {BehaviorSubject, Observable} from "rxjs";
-import {debounceTime, filter, map, tap} from "rxjs/operators";
-import {CategoryCacheService} from "../../services/category-cache.service";
+import {BehaviorSubject, Observable} from 'rxjs';
+import {debounceTime, filter, map, tap} from 'rxjs/operators';
+import {CategoryCacheService} from '../../services/category-cache.service';
 import {DeleteConfirmationComponent} from '../delete-confirmation/delete-confirmation.component';
 import {MatDialog} from '@angular/material/dialog';
 
@@ -26,7 +26,7 @@ export class ContactFormComponent implements OnInit, OnChanges {
   @Input() contact: ContactModel;
   @Output() submitContact = new EventEmitter<ContactModel>();
 
-  get filteredCategories$(): Observable<CategoryModel[]> { return this._filteredCategories$.asObservable(); };
+  get filteredCategories$(): Observable<CategoryModel[]> { return this._filteredCategories$.asObservable(); }
 
   get emailFormArray(): FormArray { return this.contactForm.controls.emails as FormArray; }
   get phoneFormArray(): FormArray { return this.contactForm.controls.phones as FormArray; }
@@ -42,7 +42,7 @@ export class ContactFormComponent implements OnInit, OnChanges {
     private dialog: MatDialog
   ) {
     this.initForm();
-    this.categoryCache.categories$.subscribe(categories => this._filteredCategories$.next(categories))
+    this.categoryCache.categories$.subscribe(categories => this._filteredCategories$.next(categories));
   }
 
   ngOnInit(): void {
@@ -116,12 +116,12 @@ export class ContactFormComponent implements OnInit, OnChanges {
     return this.lastNameFormControl?.hasError('maxLength');
   }
 
-  /** Notes **/
+  /* Notes */
   notesHasMaxLengthError(): boolean {
     return this.lastNameFormControl?.hasError('maxLength');
   }
 
-   /** Email **/
+   /* Email */
   addEmailInput(): void { this.emailFormArray.push(this.initEmail()); }
   removeEmailInput(i: number): void {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent);
@@ -148,7 +148,7 @@ export class ContactFormComponent implements OnInit, OnChanges {
     return emailControl.get('address').hasError('email');
   }
 
-  /** Phone **/
+  /* Phone */
   addPhoneInput(): void { this.phoneFormArray.push(this.initPhone()); }
   removePhoneInput(i: number): void {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent);
@@ -177,11 +177,11 @@ export class ContactFormComponent implements OnInit, OnChanges {
   onFocusCategory(category: 'email' | 'phone', formIndex: number) {
     let rootControl: FormGroup;
     if (category === 'email') {
-      console.log('Focus on email index ' + formIndex)
+      console.log('Focus on email index ' + formIndex);
       rootControl = this.emailFormArray.controls[formIndex] as FormGroup;
     }
     else {
-      console.log('Focus on phone index ' + formIndex)
+      console.log('Focus on phone index ' + formIndex);
       rootControl = this.phoneFormArray.controls[formIndex] as FormGroup;
     }
 
@@ -196,13 +196,13 @@ export class ContactFormComponent implements OnInit, OnChanges {
         this.categoryCache.categories$
           .pipe(
             map(categories => categories.filter(category => category.description.includes(value))))
-          .subscribe(filteredCategories => this._filteredCategories$.next(filteredCategories))
-      })
+          .subscribe(filteredCategories => this._filteredCategories$.next(filteredCategories));
+      });
   }
 
   onBlurCategory(index: number) {
-    console.log('Blur on index ' + index)
-    this.categoryCache.categories$.subscribe(categories => this._filteredCategories$.next(categories))
+    console.log('Blur on index ' + index);
+    this.categoryCache.categories$.subscribe(categories => this._filteredCategories$.next(categories));
   }
 
   displayCategory({description}: CategoryModel): string { return description; }

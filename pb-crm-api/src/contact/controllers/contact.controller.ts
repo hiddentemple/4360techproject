@@ -6,7 +6,7 @@ import {
     GetContactResponse,
     UpdateContactRequest,
     UpdateContactResponse
-} from "@hiddentemple/api-interfaces";
+} from '@hiddentemple/api-interfaces';
 import {ContactService} from "../services/contact.service";
 import {ContactEntity} from "../../db/entities/contact.entity";
 
