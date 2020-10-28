@@ -1,7 +1,8 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { addressEnum, AddressModel } from '@hiddentemple/api-interfaces';
+import { AddressModel, AddressType } from '@hiddentemple/api-interfaces';
 import { ContactEntity } from './contact.entity';
 import { IsDefined, IsEnum, IsOptional } from 'class-validator';
+
 
 @Entity('addresses')
 export class AddressEntity implements AddressModel {
@@ -33,10 +34,9 @@ export class AddressEntity implements AddressModel {
   @IsOptional()
   country: string;
 
-  @Column({type: 'enum', nullable: false, enum: addressEnum})
-  type: addressEnum;
-
-
+  @Column( 'varchar', {})
+  @IsEnum(AddressType)
+  type: AddressType;
 
   @ManyToOne(type => ContactEntity, contact => contact.addresses, {
     onDelete: 'CASCADE',
@@ -44,10 +44,5 @@ export class AddressEntity implements AddressModel {
   })
   @JoinColumn()
   contact: ContactEntity;
-
-
-
-
-
 
 }

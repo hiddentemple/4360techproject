@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {
   AbstractContactRequest,
-  AbstractInnerCategoryRequest,
+  AbstractInnerCategoryRequest, AddressDTO,
   ContactModel,
   CreateCategoryResponse,
   CreateContactRequest,
@@ -14,10 +14,10 @@ import {
   PhoneDTO,
   PhoneModel,
   UpdateContactRequest,
-  UpdateContactResponse
+  UpdateContactResponse, WebpageDTO,
 } from '@hiddentemple/api-interfaces';
 import {ApiService} from '../../api/api.service';
-import {CategoryService} from "./category.service";
+import {CategoryService} from './category.service';
 
 
 @Injectable({
@@ -35,22 +35,34 @@ export class ContactService {
   }
 
   async toDto(req: ContactModel): Promise<AbstractContactRequest> {
-    console.group("To DTO from req", req)
-    const {phones, emails, ...other} = req;
+    console.group('To DTO from req', req);
+    const {phones, emails, addresses, webpages, ...other} = req;
 
     const phoneDTOs: PhoneDTO[] = await this.categorizedToDTO(phones) as PhoneDTO[];
-    console.log('phone DTOS', phoneDTOs)
+    console.log('phone DTOs', phoneDTOs);
     const emailDTOs: EmailDTO[] = await this.categorizedToDTO(emails) as EmailDTO[];
-    console.log('email DTOs', emailDTOs)
+    console.log('email DTOs', emailDTOs);
+    const addressDTOs: AddressDTO[] = addresses as AddressDTO[];
+    console.log('address DTOs', addressDTOs);
+    const webpageDTOs: WebpageDTO[] = webpages as WebpageDTO[];
+    console.log('webpage DTOs', webpageDTOs);
 
-    const dto: AbstractContactRequest = {contact: {...other, emails: emailDTOs, phones: phoneDTOs}};
+
+    const dto: AbstractContactRequest = {contact: {
+      ...other,
+        emails: emailDTOs,
+        phones: phoneDTOs,
+        addresses: addressDTOs,
+        webpages: webpageDTOs
+      }
+    };
     console.log('generated dto', dto);
     console.groupEnd();
     return dto;
   }
 
   private async categorizedToDTO(raws: PhoneModel[] | EmailModel[]): Promise<PhoneDTO[] | EmailDTO[]>{
-    if (!raws || raws.length === 0) { return undefined;}
+    if (!raws || raws.length === 0) { return undefined; }
 
     const DTOs = [];
     for (const raw of raws) {
@@ -58,33 +70,34 @@ export class ContactService {
       let categoryId: string;
 
       if (typeof category === 'string') {
-        const req: AbstractInnerCategoryRequest = {description: category}
-        const res: CreateCategoryResponse = await this.categoryService.createCategory(req).toPromise()
+        const req: AbstractInnerCategoryRequest = {description: category};
+        const res: CreateCategoryResponse = await this.categoryService.createCategory(req).toPromise();
         categoryId = res.category.id;
       }
       else {
         categoryId = category.id;
       }
 
-      DTOs.push({...otherPhoneProperties, categoryId: category.id})
+      DTOs.push({...otherPhoneProperties, categoryId: category.id});
     }
     return DTOs;
   }
 
   emptyReducer<T>(acc: T, [key, value]): T {
-    if (Array.isArray(value) && value.length === 0) { return acc;}
+    if (Array.isArray(value) && value.length === 0) { return acc; }
     else if (typeof value === 'string' && value.length === 0) { return acc; }
-    else if (value == {}) {return acc;}
-    else return {...acc, [key]: value}
+    else if (value === {}) {return acc; }
+    else { return {...acc, [key]: value}; }
   }
 
   reduceToDefined<T>(model: T): Partial<T> {
-    const acc: Partial<T> = {}
+    const acc: Partial<T> = {};
     return Object.entries(model).reduce(this.emptyReducer, acc);
   }
 
   async createContact(contact: ContactModel): Promise<CreateContactResponse> {
-    const req: CreateContactRequest = await this.toDto(this.reduceToDefined(contact) as ContactModel); // cast will fail if invalid model passed
+    // cast will fail if invalid model passed
+    const req: CreateContactRequest = await this.toDto(this.reduceToDefined(contact) as ContactModel);
     return this.apiService.post<CreateContactResponse>('/api/contact', req, {}).toPromise();
   }
 

@@ -1,6 +1,6 @@
 import { Controller, Get, Post, UploadedFile, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import { csvParserService } from '../services/csv-parser.service';
+import { CSVParserService } from './services/csv-parser.service';
 import { createQueryBuilder } from 'typeorm';
 import { ContactEntity } from '../db/entities/contact.entity';
 import * as fs from 'fs';
@@ -19,7 +19,7 @@ export class UploadController {
   async uploadFile(@UploadedFile() file) {
     console.log(file.filename)
     if(file.originalname.includes('.csv')){
-      await csvParserService.contactParse(file.filename)
+      await CSVParserService.contactParse(file.filename)
     }
     return {
       // TODO replace with upload file response interface
@@ -33,7 +33,7 @@ export class UploadController {
   async uploadFiles(@UploadedFiles() files) {
     const response = [];
     for (const file of files) {
-      await csvParserService.contactParse(file.filename)
+      await CSVParserService.contactParse(file.filename)
       const fileResponse = {
         originalName: file.originalname,
         filename: file.filename
@@ -49,7 +49,7 @@ export class UploadController {
       .leftJoinAndSelect('ContactEntity.phones', 'phones' )
       .leftJoinAndSelect('ContactEntity.emails', 'emails')
       .getMany()
-    const data =  await csvParserService.parseJson2Csv(contacts)
+    const data =  await CSVParserService.parseJson2Csv(contacts)
     fs.writeFile('./files/test.csv', data, 'utf8', test => {})
     return contacts
   }
