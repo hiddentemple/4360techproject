@@ -26,11 +26,11 @@ import {ContactModel} from '@hiddentemple/api-interfaces';
 
 
 
-      <h3 *ngIf="_contact.company">Company: {{contact.company}}</h3>
-      <app-phone-table *ngIf="this._contact?.phones.length > 0" [phones]="contact?.phones"></app-phone-table><br>
-      <app-email-table *ngIf="this._contact?.emails.length > 0" [emails]="contact?.emails"></app-email-table><br>
+      <h3 *ngIf="contact.company">Company: {{contact.company}}</h3>
+      <app-phone-table *ngIf="this.contact?.phones.length > 0" [phones]="contact?.phones"></app-phone-table><br>
+      <app-email-table *ngIf="this.contact?.emails.length > 0" [emails]="contact?.emails"></app-email-table><br>
 
-      <div *ngIf="this._contact?.notes != null">
+      <div *ngIf="this.contact?.notes != null">
         <mat-form-field class="col-12">
           <mat-label>Notes</mat-label>
           <textarea matInput [value]="contact?.notes" readonly></textarea>
