@@ -1,10 +1,9 @@
 import {ContactEntity} from "./contact.entity";
 import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 
-import {IsDefined, IsEmail, ValidateNested} from 'class-validator';
-import {EmailModel} from "@hiddentemple/api-interfaces";
+import {IsBoolean, IsDefined, IsEmail, IsEnum, ValidateNested} from 'class-validator';
+import {EmailModel, PhoneEmailCategory} from "@hiddentemple/api-interfaces";
 import {Type} from "class-transformer";
-import {CategoryEntity} from "./category.entity";
 
 
 @Entity('emails')
@@ -21,15 +20,10 @@ export class EmailEntity implements EmailModel {
     @IsEmail()
     address: string
 
-    @ManyToOne(
-        () => CategoryEntity,
-        // category => category.emails,
-        { nullable: false, cascade: false, eager: true })
+    @Column('enum', {enum: PhoneEmailCategory, nullable: false})
     @IsDefined()
-    @JoinColumn({name: 'categoryId'})
-    @ValidateNested({ each: true })
-    @Type(() => CategoryEntity)
-    category: CategoryEntity;
+    @IsEnum(PhoneEmailCategory)
+    category: PhoneEmailCategory;
 
     @ManyToOne(() => ContactEntity, contact => contact.emails, {
         onDelete: "CASCADE",

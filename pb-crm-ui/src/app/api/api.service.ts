@@ -18,10 +18,10 @@ export class ApiService {
     );
   }
 
-  post<T>(url: string, object: any, options?: {}, handleError = this.handleError): Observable<T> {
+  post<T>(url: string, object: any, options?: {}): Observable<T> {
     return this.http.post<T>(url, object, options).pipe(
       retry(1),
-      catchError(handleError)
+      catchError(this.handleError)
     );
   }
 
@@ -52,7 +52,7 @@ export class ApiService {
     );
   }
 
-  public handleError(error: HttpErrorResponse): Observable<any>{
+  handleError(error: HttpErrorResponse): Observable<any> {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('A client-side or network error occurred:', error);
