@@ -29,7 +29,6 @@ export class ContactEntity implements ContactModel {
 
     @Column({ type: "text", nullable: true })
     @IsOptional()
-    @Length(2, 50)
     notes: string
 
     @Column({ type: "varchar", length: 50, nullable: true})
