@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ContactModel} from '@hiddentemple/api-interfaces';
 import {ContactCacheService} from '../../services/contact-cache.service';
 import {ContactBookRoutes} from "../../contact-book-routing.module";
-import {ContactActionCallback} from "../../services/contact-actions.service";
+import {ContactActionCallback, ContactActionsService} from "../../services/contact-actions.service";
 
 @Component({
   selector: 'app-contact-detail-page',
@@ -11,11 +11,11 @@ import {ContactActionCallback} from "../../services/contact-actions.service";
     <div class="container">
       <app-contact-detail *ngIf="showDetail; else form"
                           [contact]="contact"
-                          (edit)="onEdit()"
+                          (edit)="onEditEvent()"
                           (delete)="onDelete($event)">
       </app-contact-detail>
       <ng-template #form>
-        <app-contact-form [contact]="contact" (submitContact)="onUpdate($event)"></app-contact-form>
+        <app-contact-form [contact]="contact" (submitContact)="onUpdateSubmit($event)"></app-contact-form>
       </ng-template>
     </div>
   `,
@@ -28,7 +28,8 @@ export class ContactDetailPageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private cache: ContactCacheService,
-    private router: Router
+    private router: Router,
+    private contactActions: ContactActionsService
   ) { }
 
   ngOnInit(): void {
@@ -37,18 +38,22 @@ export class ContactDetailPageComponent implements OnInit {
   }
 
   onDelete(contact: ContactModel) {
-    // callback function returns to contact book hom
+    // callback function returns to contact book home
     // this.router.navigate(...)
-    this.router.navigate([ContactBookRoutes.home]);
+    const callback: () => any = async () => {
+      this.router.navigate([ContactBookRoutes.home]);
+    };
+    this.contactActions.deleteContact(contact, callback);
   }
 
-  onUpdate(contact: ContactModel) {
+  onUpdateSubmit(contact: ContactModel) {
     // callback sets this.contact to the contact that was returned form the cache
     const callback: ContactActionCallback = async (contact) => {
       this.contact = contact;
-      this.showDetail = false;
+      this.showDetail = true;
     };
+    this.contactActions.updateContact(contact, callback);
   }
 
-  onEdit() { this.showDetail = false; }
+  onEditEvent() { this.showDetail = false; }
 }

@@ -10,7 +10,7 @@ export const ContactBookRoutes = {
 
 const routes: Routes = [
   { path: ContactBookRoutes.home, component: ContactBookHomeComponent },
-  { path: ContactBookRoutes.id, component: ContactDetailPageComponent}
+  { path: ContactBookRoutes.id, component: ContactDetailPageComponent }
 ];
 
 @NgModule({
