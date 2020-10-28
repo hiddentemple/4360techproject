@@ -94,6 +94,10 @@ export class ContactFormComponent implements OnInit, OnChanges {
     this.firstNameFormControl?.setValue(this.contact.firstName);
     this.lastNameFormControl?.setValue(this.contact.lastName);
     this.companyFormControl?.setValue(this.contact.company);
+    this.jobTitleFormControl?.setValue(this.contact.jobTitle);
+    this.departmentFormControl?.setValue(this.contact.department);
+    this.organizationFormControl?.setValue(this.contact.organization);
+    this.genderFormControl?.setValue(this.contact.gender);
     this.notesFormControl?.setValue(this.contact.notes);
     if (this.contact.notes){
       this.showNotes = true;

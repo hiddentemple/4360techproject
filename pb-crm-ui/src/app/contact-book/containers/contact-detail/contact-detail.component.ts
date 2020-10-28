@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, Output, TemplateRef, ViewChild, ViewContainerRef} from '@angular/core';
 import {ContactModel} from '@hiddentemple/api-interfaces';
-import {DeleteConfirmationComponent} from "../delete-confirmation/delete-confirmation.component";
-import {MatDialog} from "@angular/material/dialog";
-import {ContactCacheService} from "../../services/contact-cache.service";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {TableSize} from "../contact-table/contact-table.component";
-import {Portal, TemplatePortal} from "@angular/cdk/portal";
+import {DeleteConfirmationComponent} from '../delete-confirmation/delete-confirmation.component';
+import {MatDialog} from '@angular/material/dialog';
+import {ContactCacheService} from '../../services/contact-cache.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {TableSize} from '../contact-table/contact-table.component';
+import {Portal, TemplatePortal} from '@angular/cdk/portal';
 
 @Component({
   selector: 'app-contact-detail',
@@ -30,19 +30,26 @@ import {Portal, TemplatePortal} from "@angular/cdk/portal";
         </button>
       </div>
 
+      <h3 *ngIf="contact.company"><b>Company: </b>{{contact.company}}</h3>
+
+      <h3 *ngIf="contact.jobTitle"><b>Job Title: </b>{{contact.jobTitle}}</h3>
+
+      <h3 *ngIf="contact.department"><b>Department: </b>{{contact.department}}</h3>
+
+      <h3 *ngIf="contact.organization"><b>Organization: </b>{{contact.organization}}</h3>
+
+      <h3 *ngIf="contact.gender"><b>Gender: </b>{{contact.gender}}</h3>
+
+      <app-phone-table *ngIf="contact?.phones.length > 0" [phones]="contact?.phones"></app-phone-table><br>
+      <app-email-table *ngIf="contact?.emails.length > 0" [emails]="contact?.emails"></app-email-table><br>
 
 
-      <h3 *ngIf="_contact.company">Company: {{contact.company}}</h3>
-      <app-phone-table *ngIf="this._contact?.phones.length > 0" [phones]="contact?.phones"></app-phone-table><br>
-      <app-email-table *ngIf="this._contact?.emails.length > 0" [emails]="contact?.emails"></app-email-table><br>
-
-      <div *ngIf="this._contact?.notes != null">
+      <div *ngIf="contact?.notes != null">
         <mat-form-field class="col-12">
           <mat-label>Notes</mat-label>
           <textarea matInput [value]="contact?.notes" readonly></textarea>
         </mat-form-field>
       </div>
-    </div>
 
   `,
   styles: [
@@ -52,7 +59,7 @@ import {Portal, TemplatePortal} from "@angular/cdk/portal";
   ]
 })
 export class ContactDetailComponent {
-  _contact: ContactModel;
+  private _contact: ContactModel;
 
   @Output() delete = new EventEmitter<ContactModel>();
   @Output() edit = new EventEmitter<ContactModel>();
