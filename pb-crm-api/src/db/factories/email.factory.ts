@@ -7,8 +7,5 @@ define(EmailEntity, (faker, context: any) => {
     email.address = faker.internet.email();
     email.category = faker.random.arrayElement(Object.values(PhoneEmailCategory));
 
-    if (context?.isPrimary) email.isPrimary = true;
-    else email.isPrimary = false;
-
     return email
 })

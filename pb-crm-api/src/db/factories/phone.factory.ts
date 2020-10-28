@@ -12,8 +12,6 @@ define(PhoneEntity, (faker, context: any) => {
 
     phone.category = faker.random.arrayElement(Object.values(PhoneEmailCategory));
 
-    if (context?.isPrimary) phone.isPrimary = true;
-    else phone.isPrimary = false;
     return phone;
 })
 

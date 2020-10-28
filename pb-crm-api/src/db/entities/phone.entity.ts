@@ -17,11 +17,6 @@ export class PhoneEntity implements PhoneModel {
     @IsPhoneNumber('US')
     phoneNumber: string
 
-    @Column({type: "boolean", nullable: false})
-    @IsDefined()
-    @IsBoolean()
-    isPrimary: boolean;
-
     @Column('enum', {enum: PhoneEmailCategory, nullable: false})
     @IsDefined()
     @IsEnum(PhoneEmailCategory)

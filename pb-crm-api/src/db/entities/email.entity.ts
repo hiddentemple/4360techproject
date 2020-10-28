@@ -20,11 +20,6 @@ export class EmailEntity implements EmailModel {
     @IsEmail()
     address: string
 
-    @Column({type: "boolean", nullable: false})
-    @IsDefined()
-    @IsBoolean()
-    isPrimary: boolean;
-
     @Column('enum', {enum: PhoneEmailCategory, nullable: false})
     @IsDefined()
     @IsEnum(PhoneEmailCategory)
