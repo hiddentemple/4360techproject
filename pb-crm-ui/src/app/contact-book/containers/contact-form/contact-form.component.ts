@@ -1,10 +1,9 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges,} from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {CategoryModel, ContactModel, EmailModel, PhoneModel} from '@hiddentemple/api-interfaces';
+import {ContactModel, EmailModel, PhoneEmailCategory, PhoneModel} from '@hiddentemple/api-interfaces';
 import {BreakpointService} from '../../../core/layout/breakpoint.service';
 import {BehaviorSubject, Observable} from "rxjs";
 import {debounceTime, filter, map, tap} from "rxjs/operators";
-import {CategoryCacheService} from "../../services/category-cache.service";
 import {DeleteConfirmationComponent} from '../delete-confirmation/delete-confirmation.component';
 import {MatDialog} from '@angular/material/dialog';
 
@@ -18,7 +17,6 @@ export const PhoneValidator = Validators.pattern(PhoneRegex); // TODO validate l
   styles: []
 })
 export class ContactFormComponent implements OnInit, OnChanges {
-  private _filteredCategories$ = new BehaviorSubject<CategoryModel[]>([]);
   contactForm: FormGroup;
   isHandset = false;
   showNotes = false;
@@ -26,7 +24,10 @@ export class ContactFormComponent implements OnInit, OnChanges {
   @Input() contact: ContactModel;
   @Output() submitContact = new EventEmitter<ContactModel>();
 
-  get filteredCategories$(): Observable<CategoryModel[]> { return this._filteredCategories$.asObservable(); };
+  get phoneCategories(): PhoneEmailCategory[] { return Object.values(PhoneEmailCategory); }
+  get emailCategories(): PhoneEmailCategory[] {
+    return Object.values(PhoneEmailCategory).filter(category => category !== PhoneEmailCategory.FAX);
+  }
 
   get emailFormArray(): FormArray { return this.contactForm.controls.emails as FormArray; }
   get phoneFormArray(): FormArray { return this.contactForm.controls.phones as FormArray; }
@@ -42,11 +43,9 @@ export class ContactFormComponent implements OnInit, OnChanges {
   constructor(
     private fb: FormBuilder,
     private breakpointService: BreakpointService,
-    private categoryCache: CategoryCacheService,
     private dialog: MatDialog
   ) {
     this.initForm();
-    this.categoryCache.categories$.subscribe(categories => this._filteredCategories$.next(categories))
   }
 
   ngOnInit(): void {
@@ -106,7 +105,7 @@ export class ContactFormComponent implements OnInit, OnChanges {
       (email: EmailModel) => this.emailFormArray.push(this.initEmail(email.address, email.category))
     );
     Object.values(this.contact.phones).forEach(
-      (phone: PhoneModel) => this.phoneFormArray.push(this.initPhone(String(phone.phoneNumber), phone.category))
+      (phone: PhoneModel) => this.phoneFormArray.push(this.initPhone(phone.phoneNumber, phone.category))
     );
   }
 
@@ -145,10 +144,11 @@ export class ContactFormComponent implements OnInit, OnChanges {
   }
   hasEmails(): boolean { return this.emailFormArray.length > 0; }
 
-  initEmail(address: string = '', category: CategoryModel | string = ''): FormGroup {
+  initEmail(address: string = '', category: PhoneEmailCategory | string = '', isPrimary: boolean = false): FormGroup {
     return this.fb.group({
       address: [address, [Validators.email, Validators.required]],
-      category: [category]
+      category: [category, [Validators.required]],
+      isPrimary: [isPrimary]
     });
   }
 
@@ -171,10 +171,10 @@ export class ContactFormComponent implements OnInit, OnChanges {
     });
   }
   hasPhones(): boolean { return this.phoneFormArray.length > 0; }
-  initPhone(number: string = '', category: CategoryModel | string = ''): FormGroup {
+  initPhone(number: string = '', category: PhoneEmailCategory | string = ''): FormGroup {
     return this.fb.group({
       phoneNumber: [number, [Validators.required, PhoneValidator]],
-      category: [category]
+      category: [category, [Validators.required]]
     });
   }
 
@@ -186,36 +186,7 @@ export class ContactFormComponent implements OnInit, OnChanges {
     return phoneControl.get('phoneNumber').hasError('pattern');
   }
 
-  onFocusCategory(category: 'email' | 'phone', formIndex: number) {
-    let rootControl: FormGroup;
-    if (category === 'email') {
-      console.log('Focus on email index ' + formIndex)
-      rootControl = this.emailFormArray.controls[formIndex] as FormGroup;
-    }
-    else {
-      console.log('Focus on phone index ' + formIndex)
-      rootControl = this.phoneFormArray.controls[formIndex] as FormGroup;
-    }
-
-    const categoryControl: AbstractControl = rootControl.controls.category;
-
-    categoryControl.valueChanges
-      .pipe(
-        debounceTime(250), // only search every 1/2 second
-        filter(value => typeof value === 'string'),
-        tap(change => console.log('value change', change)))
-      .subscribe(value => {
-        this.categoryCache.categories$
-          .pipe(
-            map(categories => categories.filter(category => category.description.includes(value))))
-          .subscribe(filteredCategories => this._filteredCategories$.next(filteredCategories))
-      })
+  getEmailCategory(i: number): FormControl {
+    return this.emailFormArray[i].controls.category as FormControl;
   }
-
-  onBlurCategory(index: number) {
-    console.log('Blur on index ' + index)
-    this.categoryCache.categories$.subscribe(categories => this._filteredCategories$.next(categories))
-  }
-
-  displayCategory({description}: CategoryModel): string { return description; }
 }

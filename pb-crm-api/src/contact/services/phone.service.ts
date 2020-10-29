@@ -1,9 +1,8 @@
-import {Injectable, InternalServerErrorException, Logger, NotFoundException} from "@nestjs/common";
+import {BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {EntityManager, Repository} from "typeorm";
 import {CategoryService} from "./category.service";
-import {containsExactlyOnePrimary, PhoneDTO} from "@hiddentemple/api-interfaces";
-import {CategoryEntity} from "../../db/entities/category.entity";
+import {PhoneDTO, PhoneEmailCategory} from "@hiddentemple/api-interfaces";
 import {ContactEntity} from "../../db/entities/contact.entity";
 import {PhoneEntity} from "../../db/entities/phone.entity";
 
@@ -25,8 +24,7 @@ export class PhoneService {
 
     async create(contact: ContactEntity, dto: PhoneDTO, entityManager: EntityManager): Promise<PhoneEntity> {
         this.logger.log(`Creating a new phone for contact with id ${contact.id} from DTO: ${JSON.stringify(dto)}`)
-        const category: CategoryEntity = await this.categoryService.verifyCategory(dto.categoryId);
-        const newPhone: PhoneEntity = await entityManager.create<PhoneEntity>(PhoneEntity, {...dto, category, contact});
+        const newPhone: PhoneEntity = await entityManager.create<PhoneEntity>(PhoneEntity, {...dto, contact});
         const savedPhone: PhoneEntity = await entityManager.save(newPhone);
         this.logger.log(`Saved phone: ${JSON.stringify(savedPhone)}`);
         return savedPhone;
@@ -36,7 +34,11 @@ export class PhoneService {
         if (!phoneDTOS || phoneDTOS === []) return [];
 
         this.logger.log(`Creating ${phoneDTOS.length} phone(s): ${JSON.stringify(phoneDTOS)}`)
-        await this.categoryService.requireExactlyOnePrimary('phone', phoneDTOS.map(phone => phone.categoryId));
+        if (!this.containsNoMoreThanOnePrimary(phoneDTOS)) {
+            const errMsg: string = "Phones contained more than 1 primary.";
+            this.logger.error(`${errMsg}  Phones: ${JSON.stringify(phoneDTOS)}`);
+            throw new BadRequestException(errMsg)
+        }
 
         const newPhones: PhoneEntity[] = [];
         for (const phoneDTO of phoneDTOS) {
@@ -74,7 +76,8 @@ export class PhoneService {
         this.logger.log(`Successfully deleted ${phones.length} phone(s)`)
     }
 
-    containsPrimary(phones: PhoneEntity[]): boolean {
-        return containsExactlyOnePrimary(phones.map(phone => phone.category));
+    containsNoMoreThanOnePrimary(phones: PhoneDTO[]): boolean {
+        const primaries: PhoneDTO[] = phones.filter(phone => phone.category === PhoneEmailCategory.PRIMARY);
+        return primaries.length <= 1;
     }
 }

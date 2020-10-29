@@ -6,307 +6,70 @@
 	},
 	"item": [
 		{
-			"name": "category",
+			"name": "contact",
 			"item": [
 				{
-					"name": "Get Primary",
+					"name": "Create Contact",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "3b23ebe5-dec7-40b1-9db0-cdf347a30f9b",
+								"id": "72c7eee1-8a64-4198-8eed-d21cb7978070",
 								"exec": [
 									"const schema = {",
 									"    \"type\": \"object\",",
 									"    \"properties\": {",
-									"        \"category\": {",
+									"        \"contact\": {",
 									"            \"type\": \"object\",",
+									"            \"required\": [\"id\", \"firstName\", \"lastName\", \"emails\"],",
 									"            \"properties\": {",
 									"                \"id\": {type: \"string\"},",
-									"                \"description\": {type: \"string\"},",
-									"                \"code\": { ",
-									"                    type: \"string\",",
-									"                    pattern: \"^USER|PRMY$\"",
-									"                }",
-									"            },",
-									"            \"required\": [\"id\", \"description\", \"code\"]",
-									"        },",
-									"    }",
-									"}",
-									"",
-									"pm.test(\"200 OK\",  () => pm.response.to.have.status(200));",
-									"pm.test(\"Response has body\",  () => pm.response.to.be.withBody);",
-									"pm.test(\"Body is  JSON\",  () => pm.response.to.be.json);",
-									"pm.test(\"Response object has valid schema\", () => pm.response.to.have.jsonSchema(schema));",
-									"",
-									"jsonData = pm.response.json();",
-									"pm.environment.set(\"category.primary.id\", jsonData.category.id);",
-									"",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api-route}}/category/primary",
-							"host": [
-								"{{api-route}}"
-							],
-							"path": [
-								"category",
-								"primary"
-							]
-						},
-						"description": "Given\n    Primary A exists\nWhen\n    GET primary\nThen \n    Return primary A"
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Categories",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "5f13fbbd-c715-41cc-914f-36d7b1b0eddf",
-								"exec": [
-									"const schema = {",
-									"    \"type\": \"object\",",
-									"    \"properties\": {",
-									"        \"categories\": {",
-									"            \"type\": \"array\",",
-									"            \"minItems\": 1,",
-									"            \"maxItems\": 1,",
-									"            \"uniqueItems\": true,",
-									"            \"items\": {",
-									"                \"type\": \"object\",",
-									"                \"required\": [\"id\", \"description\", \"code\"],",
-									"                \"properties\": {",
-									"                    \"id\": {type: \"string\"},",
-									"                    \"description\": {type: \"string\"},",
-									"                    \"code\": { ",
-									"                        type: \"string\",",
-									"                        pattern: \"^USER|PRMY$\"",
+									"                \"firstName\": {type: \"string\"},",
+									"                \"lastName\": {type: \"string\"},",
+									"                \"company\": {type: \"string\"},",
+									"                \"notes\": {type: \"string\"},",
+									"                \"emails\": {",
+									"                    type: \"array\",",
+									"                    \"minItems\": 2,",
+									"                    \"maxItems\": 2,",
+									"                    items: {",
+									"                        type: \"object\",",
+									"                        required: [\"id\", \"address\", \"isPrimary\", \"category\"],",
+									"                        properties: {",
+									"                            id: {type: \"string\"},",
+									"                            address: {type: \"string\"},",
+									"                            isPrimary: {type: \"boolean\"},",
+									"                            category: {type: \"string\"}",
+									"                        }",
 									"                    }",
-									"                }",
-									"            }   ",
+									"                },",
+									"                \"phones\": {",
+									"                    type: \"array\",",
+									"                    \"minItems\": 2,",
+									"                    \"maxItems\": 2,",
+									"                    items: {",
+									"                        type: \"object\",",
+									"                        required: [\"id\", \"phoneNumber\", \"isPrimary\", \"category\"],",
+									"                        properties: {",
+									"                            id: {type: \"string\"},",
+									"                            phoneNumber: {type: \"string\"},",
+									"                            isPrimary: {type: \"boolean\"},",
+									"                            category: {type: \"string\"}",
+									"                        }",
+									"                    }",
+									"                },",
+									"            }",
 									"        },",
-									"    }",
-									"}",
-									"",
-									"pm.test(\"200 OK\",  () => pm.response.to.have.status(200));",
-									"pm.test(\"Response has body\",  () => pm.response.to.be.withBody);",
-									"pm.test(\"Body is  JSON\",  () => pm.response.to.be.json);",
-									"pm.test(\"Response object has valid schema\", () => pm.response.to.have.jsonSchema(schema));",
-									"",
-									"",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api-route}}/category",
-							"host": [
-								"{{api-route}}"
-							],
-							"path": [
-								"category"
-							]
-						},
-						"description": "Given\n    Primary A is the only category\nWhen\n    GET all primaries\nThen \n    Return list containing primary A\n\nThis test is also a prerequisite for the Create User Category test"
-					},
-					"response": []
-				},
-				{
-					"name": "Primary Uniqeness",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "f4c9c6ba-2d9e-455f-9854-582f9c9d4352",
-								"exec": [
-									"const schema = {",
-									"    \"type\": \"object\",",
-									"    \"required\": [\"category\", \"wasCreated\"],",
-									"    \"properties\": {",
-									"        \"category\": {",
-									"            \"type\": \"object\",",
-									"            \"properties\": {",
-									"                \"id\": {type: \"string\"},",
-									"                \"description\": {type: \"string\"},",
-									"                \"code\": { ",
-									"                    type: \"string\",",
-									"                    pattern: \"^PRMY$\"",
-									"                }",
-									"            },",
-									"            \"required\": [\"id\", \"description\", \"code\"]",
-									"        },",
-									"        \"wasCreated\": {",
-									"            type: \"boolean\"",
-									"        }",
-									"    }",
-									"}",
-									"",
-									"",
-									"pm.test(\"200 OK\",  () => pm.response.to.have.status(200));",
-									"pm.test(\"Response has body\",  () => pm.response.to.be.withBody);",
-									"pm.test(\"Body is  JSON\",  () => pm.response.to.be.json);",
-									"pm.test(\"Response object has valid schema\", () => pm.response.to.have.jsonSchema(schema));",
-									"",
-									"pm.test(\"Primary Uniqueness\", () => {",
-									"    const expectedId = pm.environment.get(\"category.primary.id\");",
-									"    const {category, wasCreated} = pm.response.json();",
-									"",
-									"    pm.expect(wasCreated).to.equal(false);",
-									"    pm.expect(category.id).to.equal(expectedId);",
-									"})",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"category\": {\n        \"description\": \"primary\"\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{api-route}}/category",
-							"host": [
-								"{{api-route}}"
-							],
-							"path": [
-								"category"
-							]
-						},
-						"description": "Ensure that a post cannot overwrite the primary category"
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Primary",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "b321192d-5a4a-46be-a7f9-d586cfbe3175",
-								"exec": [
-									"const schema = {",
-									"    \"type\": \"object\",",
-									"    \"required\": [\"message\", \"statusCode\", \"error\"],",
-									"    \"properties\": {",
-									"        \"message\": {",
-									"            \"type\": \"string\",",
-									"            \"pattern\": \"^Cannot delete primary category$\"",
-									"        },",
-									"        \"error\": {",
-									"            \"type\": \"string\",",
-									"            \"pattern\": \"^Bad Request$\"",
-									"        },",
-									"        \"statusCode\": {",
-									"            \"type:\": \"number\",",
-									"            \"minimum\": 400,",
-									"            \"exclusiveMaximum\": 401",
-									"        }",
-									"    }",
-									"}",
-									"",
-									"",
-									"pm.test(\"400 Bad Request\",  () => pm.response.to.have.status(400));",
-									"pm.test(\"Response has body\",  () => pm.response.to.be.withBody);",
-									"pm.test(\"Body is  JSON\",  () => pm.response.to.be.json);",
-									"pm.test(\"Response object has valid schema\", () => pm.response.to.have.jsonSchema(schema));"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "7a40fd94-6e44-4f7a-821f-242fc1c6afc2",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{api-route}}/category/{{category.primary.id}}",
-							"host": [
-								"{{api-route}}"
-							],
-							"path": [
-								"category",
-								"{{category.primary.id}}"
-							]
-						},
-						"description": "Given\n    Primary category A\nWhen\n    Delete A\nThen\n    400 Bad Request"
-					},
-					"response": []
-				},
-				{
-					"name": "Create User Category",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "5e73665a-1ea5-428c-adab-fc04e1a739e5",
-								"exec": [
-									"const schema = {",
-									"    \"type\": \"object\",",
-									"    \"required\": [\"category\", \"wasCreated\"],",
-									"    \"properties\": {",
-									"        \"category\": {",
-									"            \"type\": \"object\",",
-									"            \"properties\": {",
-									"                \"id\": {type: \"string\"},",
-									"                \"description\": {type: \"string\"},",
-									"                \"code\": { ",
-									"                    type: \"string\",",
-									"                    pattern: \"^USER$\"",
-									"                }",
-									"            },",
-									"            \"required\": [\"id\", \"description\", \"code\"]",
-									"        },",
-									"        \"wasCreated\": {",
-									"            type: \"boolean\"",
-									"        }",
 									"    }",
 									"}",
 									"",
 									"pm.test(\"201 Created\",  () => pm.response.to.have.status(201));",
 									"pm.test(\"Response has body\",  () => pm.response.to.be.withBody);",
 									"pm.test(\"Body is  JSON\",  () => pm.response.to.be.json);",
-									"pm.test(\"Response object has valid schema\", () => pm.response.to.have.jsonSchema(schema));",
-									"pm.test(\"wasCreated is true\", () => {",
-									"    const category = pm.response.json()",
-									"    pm.expect(category.wasCreated).to.be.true;",
-									"})",
+									"pm.test(\"Response object has valid schema\", () => pm.response.to.be.jsonSchema(schema));",
 									"",
 									"jsonData = pm.response.json();",
-									"pm.environment.set(\"category.personal.id\", jsonData.category.id);",
-									"",
-									""
+									"pm.environment.set(\"contact.id\", jsonData.contact.id);"
 								],
 								"type": "text/javascript"
 							}
@@ -317,7 +80,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"category\": {\n        \"description\": \"personal\"\n    }\n}",
+							"raw": "{\n    \"contact\": {\n        \"firstName\": \"michael\",\n        \"lastName\": \"newman\",\n        \"company\": \"Charles Schwab\",\n        \"notes\": \"Really swell buckaro\",\n        \"gender\": \"non-binary\",\n        \"emails\": [\n            {\n                \"address\": \"test@gmail.com\",\n                \"category\": \"Personal\",\n                \"isPrimary\": true\n            },\n            {\n                \"address\": \"test@work.com\",\n                \"category\": \"Work\",\n                \"isPrimary\": false\n            }\n        ],\n        \"phones\": [\n            {\n                \"phoneNumber\": \"2545898875\",\n                \"category\": \"Personal\",\n                \"isPrimary\": true\n            },\n            {\n                \"phoneNumber\": \"2545898875\",\n                \"category\": \"Work\",\n                \"isPrimary\": false\n            }\n        ]\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -325,44 +88,158 @@
 							}
 						},
 						"url": {
-							"raw": "{{api-route}}/category",
+							"raw": "{{api-route}}/contact",
 							"host": [
 								"{{api-route}}"
 							],
 							"path": [
-								"category"
+								"contact"
 							]
 						},
-						"description": "Given\n    Description X does not exist in the db\nWhen\n    POST category A with description X\nThen\n    Category A is returned"
+						"description": "Given\n    Valid contact A\nWhen\n    Post contact A\nThen\n    Contact A is created"
 					},
 					"response": []
 				},
 				{
-					"name": "Category Uniquness",
+					"name": "Get Single Contact",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "1d78ce89-4ea2-4a5d-be26-e8273f867e0a",
+								"id": "86d8f945-4a13-4551-a40b-b66bfcf0f7f8",
 								"exec": [
 									"const schema = {",
 									"    \"type\": \"object\",",
-									"    \"required\": [\"category\", \"wasCreated\"],",
 									"    \"properties\": {",
-									"        \"category\": {",
+									"        \"contact\": {",
 									"            \"type\": \"object\",",
+									"            \"required\": [\"id\", \"firstName\", \"lastName\", \"emails\"],",
 									"            \"properties\": {",
 									"                \"id\": {type: \"string\"},",
-									"                \"description\": {type: \"string\"},",
-									"                \"code\": { ",
-									"                    type: \"string\",",
-									"                    pattern: \"^USER$\"",
-									"                }",
-									"            },",
-									"            \"required\": [\"id\", \"description\", \"code\"]",
+									"                \"firstName\": {type: \"string\"},",
+									"                \"lastName\": {type: \"string\"},",
+									"                \"company\": {type: \"string\"},",
+									"                \"notes\": {type: \"string\"},",
+									"                \"emails\": {",
+									"                    type: \"array\",",
+									"                    \"minItems\": 2,",
+									"                    \"maxItems\": 2,",
+									"                    items: {",
+									"                        type: \"object\",",
+									"                        required: [\"id\", \"address\", \"isPrimary\", \"category\"],",
+									"                        properties: {",
+									"                            id: {type: \"string\"},",
+									"                            address: {type: \"string\"},",
+									"                            isPrimary: {type: \"boolean\"},",
+									"                            category: {type: \"string\"}",
+									"                        }",
+									"                    }",
+									"                },",
+									"                \"phones\": {",
+									"                    type: \"array\",",
+									"                    \"minItems\": 2,",
+									"                    \"maxItems\": 2,",
+									"                    items: {",
+									"                        type: \"object\",",
+									"                        required: [\"id\", \"phoneNumber\", \"isPrimary\", \"category\"],",
+									"                        properties: {",
+									"                            id: {type: \"string\"},",
+									"                            phoneNumber: {type: \"string\"},",
+									"                            isPrimary: {type: \"boolean\"},",
+									"                            category: {type: \"string\"}",
+									"                        }",
+									"                    }",
+									"                },",
+									"            }",
 									"        },",
-									"        \"wasCreated\": {",
-									"            type: \"boolean\"",
+									"    }",
+									"}",
+									"",
+									"pm.test(\"200 OK\",  () => pm.response.to.have.status(200));",
+									"pm.test(\"Response has body\",  () => pm.response.to.be.withBody);",
+									"pm.test(\"Body is  JSON\",  () => pm.response.to.be.json);",
+									"pm.test(\"Response object has valid schema\", () => pm.response.to.be.jsonSchema(schema));",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-route}}/contact/{{contact.id}}",
+							"host": [
+								"{{api-route}}"
+							],
+							"path": [
+								"contact",
+								"{{contact.id}}"
+							]
+						},
+						"description": "Given\n    Contact A exists with ID X\nWhen\n    GET ID X\nThen\n    Contact A is returned"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Contacts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "274b44ab-a8b3-4061-b13e-bd86fbf96a43",
+								"exec": [
+									"const schema = ",
+									"{",
+									"    type: \"object\",",
+									"    required: [\"contacts\"],",
+									"    properties: {",
+									"        contacts: {",
+									"            type: \"array\",",
+									"            minItems: 1,",
+									"            items: {",
+									"                \"type\": \"object\",",
+									"                \"properties\": {",
+									"                     \"contact\": {",
+									"                        \"type\": \"object\",",
+									"                        \"required\": [\"id\", \"firstName\", \"lastName\", \"emails\"],",
+									"                        \"properties\": {",
+									"                            \"id\": {type: \"string\"},",
+									"                            \"firstName\": {type: \"string\"},",
+									"                            \"lastName\": {type: \"string\"},",
+									"                            \"company\": {type: \"string\"},",
+									"                            \"notes\": {type: \"string\"},",
+									"                            \"emails\": {",
+									"                                type: \"array\",",
+									"                                items: {",
+									"                                    type: \"object\",",
+									"                                    required: [\"id\", \"address\", \"isPrimary\", \"category\"],",
+									"                                    properties: {",
+									"                                        id: {type: \"string\"},",
+									"                                        address: {type: \"string\"},",
+									"                                        isPrimary: {type: \"boolean\"},",
+									"                                        category: {type: \"string\"}",
+									"                                    }",
+									"                                }",
+									"                            },",
+									"                            \"phones\": {",
+									"                                type: \"array\",",
+									"                                items: {",
+									"                                    type: \"object\",",
+									"                                    required: [\"id\", \"phoneNumber\", \"isPrimary\", \"category\"],",
+									"                                    properties: {",
+									"                                        id: {type: \"string\"},",
+									"                                        phoneNumber: {type: \"string\"},",
+									"                                        isPrimary: {type: \"boolean\"},",
+									"                                        category: {type: \"string\"}",
+									"                                    }",
+									"                                }",
+									"                            }",
+									"                        }",
+									"                    }",
+									"                }",
+									"            }",
 									"        }",
 									"    }",
 									"}",
@@ -370,17 +247,104 @@
 									"pm.test(\"200 OK\",  () => pm.response.to.have.status(200));",
 									"pm.test(\"Response has body\",  () => pm.response.to.be.withBody);",
 									"pm.test(\"Body is  JSON\",  () => pm.response.to.be.json);",
-									"pm.test(\"Response object has valid schema\", () => pm.response.to.have.jsonSchema(schema));",
-									"pm.test(\"wasCreated is flase\", () => {",
-									"    const category = pm.response.json()",
-									"    pm.expect(category.wasCreated).to.be.false;",
-									"})",
-									"pm.test(\"Category A was returned\", () => {",
-									"    const expectedId = pm.environment.get(\"category.personal.id\");",
-									"    const {category, wasCreated} = pm.response.json();",
+									"pm.test(\"Response object has valid schema\", () => pm.response.to.be.jsonSchema(schema));",
 									"",
-									"    pm.expect(wasCreated).to.equal(false);",
-									"    pm.expect(category.id).to.equal(expectedId);",
+									"pm.test(\"List contains created contact\", () => {",
+									"    const createdContactId = pm.environment.get(\"contact.id\");",
+									"    const body = pm.response.json();",
+									"    const ids = body.contacts.map(contact => contact.id);",
+									"    pm.expect(ids.includes(createdContactId)).to.be.true;",
+									"})",
+									"",
+									"jsonData = pm.response.json();",
+									"pm.environment.set(\"contacts.count\", jsonData.contacts.length);",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-route}}/contact",
+							"host": [
+								"{{api-route}}"
+							],
+							"path": [
+								"contact"
+							]
+						},
+						"description": "Given\n    Contact A exists\nWhen\n    Get all contacts\nThen\n    Contact A is returned"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Contact",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3432eee8-7193-4efa-ad34-f956160290cd",
+								"exec": [
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"contact\": {\r",
+									"            \"type\": \"object\",\r",
+									"            \"required\": [\"id\", \"firstName\", \"lastName\", \"emails\"],\r",
+									"            \"properties\": {\r",
+									"                \"id\": {type: \"string\"},\r",
+									"                \"firstName\": {type: \"string\"},\r",
+									"                \"lastName\": {type: \"string\"},\r",
+									"                \"company\": {type: \"string\"},\r",
+									"                \"notes\": {type: \"string\"},\r",
+									"                \"emails\": {\r",
+									"                    type: \"array\",\r",
+									"                    \"minItems\": 1,\r",
+									"                    \"maxItems\": 1,\r",
+									"                    items: {\r",
+									"                        type: \"object\",\r",
+									"                        required: [\"id\", \"address\", \"isPrimary\", \"category\"],\r",
+									"                        properties: {\r",
+									"                            id: {type: \"string\"},\r",
+									"                            address: {type: \"string\"},\r",
+									"                            isPrimary: {type: \"boolean\"},\r",
+									"                            category: {type: \"string\"}\r",
+									"                        }\r",
+									"                    }\r",
+									"                },\r",
+									"                \"phones\": {\r",
+									"                    type: \"array\",\r",
+									"                    \"minItems\": 1,\r",
+									"                    \"maxItems\": 1,\r",
+									"                    items: {\r",
+									"                        type: \"object\",\r",
+									"                        required: [\"id\", \"phoneNumber\", \"isPrimary\", \"category\"],\r",
+									"                        properties: {\r",
+									"                            id: {type: \"string\"},\r",
+									"                            phoneNumber: {type: \"string\"},\r",
+									"                            isPrimary: {type: \"boolean\"},\r",
+									"                            category: {type: \"string\"}\r",
+									"                        }\r",
+									"                    }\r",
+									"                },\r",
+									"            }\r",
+									"        },\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.test(\"200 OK\",  () => pm.response.to.have.status(200));\r",
+									"pm.test(\"Response has body\",  () => pm.response.to.be.withBody);\r",
+									"pm.test(\"Body is  JSON\",  () => pm.response.to.be.json);\r",
+									"pm.test(\"Response object has valid schema\", () => pm.response.to.be.jsonSchema(schema));\r",
+									"\r",
+									"pm.test(\"Contact ID remains the same\", () => {\r",
+									"    const updatedContactId = pm.environment.get(\"contact.id\");\r",
+									"    const body = pm.response.json();\r",
+									"    pm.expect(body.contact.id).to.equal(updatedContactId)\r",
 									"})"
 								],
 								"type": "text/javascript"
@@ -388,11 +352,11 @@
 						}
 					],
 					"request": {
-						"method": "POST",
+						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"category\": {\n        \"description\": \"personal\"\n    }\n}",
+							"raw": "{\r\n    \"contact\": {\r\n        \"firstName\": \"Test\",\r\n        \"lastName\": \"User\",\r\n        \"company\": \"Test company\",\r\n        \"notes\": \"Test User\",\r\n        \"emails\": [\r\n            {\r\n                \"address\": \"testUser@personal.com\",\r\n                \"category\": \"Personal\",\r\n                \"isPrimary\": true\r\n            }\r\n        ],\r\n        \"phones\": [\r\n            {\r\n                \"phoneNumber\": \"3038675309\",\r\n                \"category\": \"Personal\",\r\n                \"isPrimary\": true\r\n            }\r\n        ]\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -400,27 +364,29 @@
 							}
 						},
 						"url": {
-							"raw": "{{api-route}}/category",
+							"raw": "{{api-route}}/contact/{{contact.id}}",
 							"host": [
 								"{{api-route}}"
 							],
 							"path": [
-								"category"
+								"contact",
+								"{{contact.id}}"
 							]
 						},
-						"description": "Given\n    Category A exists with description X\nWhen\n    POST category B with description X\nThen\n    Category A is returned"
+						"description": "Given\n    Contact A exists in the DB with emails E1, phones P1, and id X\n\nWhen\n    PUT Contact to id X with emails E2 and phones P2\nThen\n    Emails E1 and phones P1 are deleted\n    Emails E2 and phones P2 are created\n    Contact A is returned"
 					},
 					"response": []
 				},
 				{
-					"name": "Delete Category",
+					"name": "Delete Contact",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "7a3efe39-22ad-4fe5-b530-434becef4326",
+								"id": "1f50f282-2ea9-406d-8a86-eee49a597d5f",
 								"exec": [
-									"pm.test(\"200 OK\",  () => pm.response.to.have.status(200));"
+									"pm.test(\"200 OK\",  () => pm.response.to.have.status(200));",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -430,292 +396,19 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{api-route}}/category/{{category.personal.id}}",
+							"raw": "{{api-route}}/contact/{{contact.id}}",
 							"host": [
 								"{{api-route}}"
 							],
 							"path": [
-								"category",
-								"{{category.personal.id}}"
+								"contact",
+								"{{contact.id}}"
 							]
 						},
-						"description": "Given\n    Category A exists\nWhen\n    Delete Category A\nThen\n    Category A is deleted"
+						"description": "Given\n    Contact A exists with id X\nWhen\n    DELETE id X\nThen\n    200 OK\n"
 					},
 					"response": []
 				},
-				{
-					"name": "Get Non-Existent",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "9133549b-54fd-49cf-a763-6ecf7b5e4b06",
-								"exec": [
-									"const schema = {",
-									"    \"type\": \"object\",",
-									"    \"required\": [\"message\", \"statusCode\", \"error\"],",
-									"    \"properties\": {",
-									"        \"message\": {",
-									"            \"type\": \"string\",",
-									"            \"pattern\": \"^Failed to find a category$\"",
-									"        },",
-									"        \"error\": {",
-									"            \"type\": \"string\",",
-									"            \"pattern\": \"^Not Found$\"",
-									"        },",
-									"        \"statusCode\": {",
-									"            \"type:\": \"number\",",
-									"            \"minimum\": 404,",
-									"            \"exclusiveMaximum\": 405",
-									"        }",
-									"    }",
-									"}",
-									"",
-									"",
-									"pm.test(\"404 Not Found\",  () => pm.response.to.have.status(404));",
-									"pm.test(\"Response has body\",  () => pm.response.to.be.withBody);",
-									"pm.test(\"Body is  JSON\",  () => pm.response.to.be.json);",
-									"pm.test(\"Response object has valid schema\", () => pm.response.to.be.jsonSchema(schema));",
-									"",
-									"",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api-route}}/category/{{category.personal.id}}",
-							"host": [
-								"{{api-route}}"
-							],
-							"path": [
-								"category",
-								"{{category.personal.id}}"
-							]
-						},
-						"description": "Given\n    Category with id X does not exist\nWhen\n    GET category X\nThen \n    404 not found"
-					},
-					"response": []
-				},
-				{
-					"name": "Class Validator Works",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "d5342f8e-97ab-44d6-ab81-522299f9688c",
-								"exec": [
-									"const schema = {",
-									"    \"type\": \"object\",",
-									"    \"required\": [\"message\", \"statusCode\", \"error\"],",
-									"    \"properties\": {",
-									"        \"message\": {",
-									"            \"type\": \"array\",",
-									"            \"minItems\": 1,",
-									"            \"maxItems\": 1,",
-									"        },",
-									"        \"error\": {",
-									"            \"type\": \"string\",",
-									"            \"pattern\": \"^Bad Request$\"",
-									"        },",
-									"        \"statusCode\": {",
-									"            \"type:\": \"number\",",
-									"            \"minimum\": 400,",
-									"            \"exclusiveMaximum\": 401",
-									"        }",
-									"    }",
-									"}",
-									"",
-									"",
-									"pm.test(\"400 Bad Request\",  () => pm.response.to.have.status(400));",
-									"pm.test(\"Response has body\",  () => pm.response.to.be.withBody);",
-									"pm.test(\"Body is  JSON\",  () => pm.response.to.be.json);",
-									"pm.test(\"Response object has valid schema\", () => pm.response.to.have.jsonSchema(schema));"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"category\": {\n        \"description\": \"\"\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{api-route}}/category",
-							"host": [
-								"{{api-route}}"
-							],
-							"path": [
-								"category"
-							]
-						},
-						"description": "Given\n    Category A with too short of a description\nWhen\n    Create category A\nThen\n    400 Bad Request"
-					},
-					"response": []
-				},
-				{
-					"name": "Create Personal Category",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "2c8ee2a6-5f26-4486-b92f-6bfa7645864a",
-								"exec": [
-									"const schema = {",
-									"    \"type\": \"object\",",
-									"    \"required\": [\"category\", \"wasCreated\"],",
-									"    \"properties\": {",
-									"        \"category\": {",
-									"            \"type\": \"object\",",
-									"            \"properties\": {",
-									"                \"id\": {type: \"string\"},",
-									"                \"description\": {type: \"string\"},",
-									"                \"code\": { ",
-									"                    type: \"string\",",
-									"                    pattern: \"^USER$\"",
-									"                }",
-									"            },",
-									"            \"required\": [\"id\", \"description\", \"code\"]",
-									"        },",
-									"        \"wasCreated\": {",
-									"            type: \"boolean\"",
-									"        }",
-									"    }",
-									"}",
-									"",
-									"pm.test(\"201 Created\",  () => pm.response.to.have.status(201));",
-									"pm.test(\"Response has body\",  () => pm.response.to.be.withBody);",
-									"pm.test(\"Body is  JSON\",  () => pm.response.to.be.json);",
-									"pm.test(\"Response object has valid schema\", () => pm.response.to.have.jsonSchema(schema));",
-									"pm.test(\"wasCreated is true\", () => {",
-									"    const category = pm.response.json()",
-									"    pm.expect(category.wasCreated).to.be.true;",
-									"})",
-									"",
-									"jsonData = pm.response.json();",
-									"pm.environment.set(\"category.personal.id\", jsonData.category.id);",
-									"",
-									"",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"category\": {\n        \"description\": \"personal\"\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{api-route}}/category",
-							"host": [
-								"{{api-route}}"
-							],
-							"path": [
-								"category"
-							]
-						},
-						"description": "Given\n    Description X does not exist in the db\nWhen\n    POST category A with description \"personal\"\nThen\n    Category A is returned"
-					},
-					"response": []
-				},
-				{
-					"name": "Create Work Category",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "ce642c5c-9cef-4bd5-8a8d-1172de4184f5",
-								"exec": [
-									"const schema = {",
-									"    \"type\": \"object\",",
-									"    \"required\": [\"category\", \"wasCreated\"],",
-									"    \"properties\": {",
-									"        \"category\": {",
-									"            \"type\": \"object\",",
-									"            \"properties\": {",
-									"                \"id\": {type: \"string\"},",
-									"                \"description\": {type: \"string\"},",
-									"                \"code\": { ",
-									"                    type: \"string\",",
-									"                    pattern: \"^USER$\"",
-									"                }",
-									"            },",
-									"            \"required\": [\"id\", \"description\", \"code\"]",
-									"        },",
-									"        \"wasCreated\": {",
-									"            type: \"boolean\"",
-									"        }",
-									"    }",
-									"}",
-									"",
-									"pm.test(\"201 Created\",  () => pm.response.to.have.status(201));",
-									"pm.test(\"Response has body\",  () => pm.response.to.be.withBody);",
-									"pm.test(\"Body is  JSON\",  () => pm.response.to.be.json);",
-									"pm.test(\"Response object has valid schema\", () => pm.response.to.have.jsonSchema(schema));",
-									"pm.test(\"wasCreated is true\", () => {",
-									"    const category = pm.response.json()",
-									"    pm.expect(category.wasCreated).to.be.true;",
-									"})",
-									"",
-									"jsonData = pm.response.json();",
-									"pm.environment.set(\"category.work.id\", jsonData.category.id);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"category\": {\n        \"description\": \"work\"\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{api-route}}/category",
-							"host": [
-								"{{api-route}}"
-							],
-							"path": [
-								"category"
-							]
-						},
-						"description": "Given\n    Description X does not exist in the db\nWhen\n    POST category A with description \"work\"\nThen\n    Category A is returned"
-					},
-					"response": []
-				}
-			],
-			"protocolProfileBehavior": {}
-		},
-		{
-			"name": "contact",
-			"item": [
 				{
 					"name": "Validation ",
 					"event": [
@@ -790,339 +483,20 @@
 					"response": []
 				},
 				{
-					"name": "Create Contact",
+					"name": "Only Accept Valid Categories",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "72c7eee1-8a64-4198-8eed-d21cb7978070",
-								"exec": [
-									"const schema = {",
-									"    \"type\": \"object\",",
-									"    \"properties\": {",
-									"        \"contact\": {",
-									"            \"type\": \"object\",",
-									"            \"required\": [\"id\", \"firstName\", \"lastName\", \"emails\"],",
-									"            \"properties\": {",
-									"                \"id\": {type: \"string\"},",
-									"                \"firstName\": {type: \"string\"},",
-									"                \"lastName\": {type: \"string\"},",
-									"                \"company\": {type: \"string\"},",
-									"                \"notes\": {type: \"string\"},",
-									"                \"emails\": {",
-									"                    type: \"array\",",
-									"                    \"minItems\": 2,",
-									"                    \"maxItems\": 2",
-									"                },",
-									"                \"phones\": {",
-									"                    type: \"array\",",
-									"                    \"minItems\": 2,",
-									"                    \"maxItems\": 2",
-									"                },",
-									"            }",
-									"        },",
-									"    }",
-									"}",
-									"",
-									"pm.test(\"201 Created\",  () => pm.response.to.have.status(201));",
-									"pm.test(\"Response has body\",  () => pm.response.to.be.withBody);",
-									"pm.test(\"Body is  JSON\",  () => pm.response.to.be.json);",
-									"pm.test(\"Response object has valid schema\", () => pm.response.to.be.jsonSchema(schema));",
-									"",
-									"jsonData = pm.response.json();",
-									"pm.environment.set(\"contact.id\", jsonData.contact.id);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"contact\": {\n        \"firstName\": \"michael\",\n        \"lastName\": \"newman\",\n        \"company\": \"Charles Schwab\",\n        \"notes\": \"Really swell buckaro\",\n        \"emails\": [\n            {\n                \"address\": \"test@gmail.com\",\n                \"categoryId\": \"{{category.primary.id}}\"\n            },\n            {\n                \"address\": \"test@work.com\",\n                \"categoryId\": \"{{category.work.id}}\"\n            }\n        ],\n        \"phones\": [\n            {\n                \"phoneNumber\": \"2545898875\",\n                \"categoryId\": \"{{category.primary.id}}\"\n            },\n            {\n                \"phoneNumber\": \"2545898875\",\n                \"categoryId\": \"{{category.personal.id}}\"\n            }\n        ]\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{api-route}}/contact",
-							"host": [
-								"{{api-route}}"
-							],
-							"path": [
-								"contact"
-							]
-						},
-						"description": "Given\n    Valid contact A\nWhen\n    Post contact A\nThen\n    Contact A is created"
-					},
-					"response": []
-				},
-				{
-					"name": "Get Single Contact",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "86d8f945-4a13-4551-a40b-b66bfcf0f7f8",
-								"exec": [
-									"const schema = {",
-									"    \"type\": \"object\",",
-									"    \"properties\": {",
-									"        \"contact\": {",
-									"            \"type\": \"object\",",
-									"            \"required\": [\"id\", \"firstName\", \"lastName\", \"emails\"],",
-									"            \"properties\": {",
-									"                \"id\": {type: \"string\"},",
-									"                \"firstName\": {type: \"string\"},",
-									"                \"lastName\": {type: \"string\"},",
-									"                \"company\": {type: \"string\"},",
-									"                \"notes\": {type: \"string\"},",
-									"                \"emails\": {",
-									"                    type: \"array\",",
-									"                    \"minItems\": 2,",
-									"                    \"maxItems\": 2",
-									"                },",
-									"                \"phones\": {",
-									"                    type: \"array\",",
-									"                    \"minItems\": 2,",
-									"                    \"maxItems\": 2",
-									"                },",
-									"            }",
-									"        },",
-									"    }",
-									"}",
-									"",
-									"pm.test(\"200 OK\",  () => pm.response.to.have.status(200));",
-									"pm.test(\"Response has body\",  () => pm.response.to.be.withBody);",
-									"pm.test(\"Body is  JSON\",  () => pm.response.to.be.json);",
-									"pm.test(\"Response object has valid schema\", () => pm.response.to.be.jsonSchema(schema));",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api-route}}/contact/{{contact.id}}",
-							"host": [
-								"{{api-route}}"
-							],
-							"path": [
-								"contact",
-								"{{contact.id}}"
-							]
-						},
-						"description": "Given\n    Contact A exists with ID X\nWhen\n    GET ID X\nThen\n    Contact A is returned"
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Contacts",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "274b44ab-a8b3-4061-b13e-bd86fbf96a43",
-								"exec": [
-									"const schema = ",
-									"{",
-									"    type: \"object\",",
-									"    required: [\"contacts\"],",
-									"    properties: {",
-									"        contacts: {",
-									"            type: \"array\",",
-									"            minItems: 1,",
-									"            maxItems: 1,",
-									"            items: {",
-									"                \"type\": \"object\",",
-									"                \"properties\": {",
-									"                    \"contact\": {",
-									"                        \"type\": \"object\",",
-									"                        \"required\": [\"id\", \"firstName\", \"lastName\", \"emails\"],",
-									"                        \"properties\": {",
-									"                            \"id\": {type: \"string\"},",
-									"                            \"firstName\": {type: \"string\"},",
-									"                            \"lastName\": {type: \"string\"},",
-									"                            \"company\": {type: \"string\"},",
-									"                            \"notes\": {type: \"string\"},",
-									"                            \"emails\": {",
-									"                                type: \"array\",",
-									"                                \"minItems\": 2,",
-									"                                \"maxItems\": 2",
-									"                            },",
-									"                            \"phones\": {",
-									"                                type: \"array\",",
-									"                                \"minItems\": 2,",
-									"                                \"maxItems\": 2",
-									"                            },",
-									"                        }",
-									"                    },",
-									"                }",
-									"            }",
-									"        }",
-									"    }",
-									"}",
-									"",
-									"pm.test(\"200 OK\",  () => pm.response.to.have.status(200));",
-									"pm.test(\"Response has body\",  () => pm.response.to.be.withBody);",
-									"pm.test(\"Body is  JSON\",  () => pm.response.to.be.json);",
-									"pm.test(\"Response object has valid schema\", () => pm.response.to.be.jsonSchema(schema));",
-									"",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api-route}}/contact",
-							"host": [
-								"{{api-route}}"
-							],
-							"path": [
-								"contact"
-							]
-						},
-						"description": "Given\n    Contact A exists\nWhen\n    Get all contacts\nThen\n    Contact A is returned"
-					},
-					"response": []
-				},
-				{
-					"name": "Update Contact",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "3432eee8-7193-4efa-ad34-f956160290cd",
-								"exec": [
-									"const schema = {\r",
-									"    \"type\": \"object\",\r",
-									"    \"properties\": {\r",
-									"        \"contact\": {\r",
-									"            \"type\": \"object\",\r",
-									"            \"required\": [\"id\", \"firstName\", \"lastName\", \"emails\"],\r",
-									"            \"properties\": {\r",
-									"                \"id\": {type: \"string\"},\r",
-									"                \"firstName\": {type: \"string\"},\r",
-									"                \"lastName\": {type: \"string\"},\r",
-									"                \"company\": {type: \"string\"},\r",
-									"                \"notes\": {type: \"string\"},\r",
-									"                \"emails\": {\r",
-									"                    type: \"array\",\r",
-									"                    \"minItems\": 1,\r",
-									"                    \"maxItems\": 1\r",
-									"                },\r",
-									"                \"phones\": {\r",
-									"                    type: \"array\",\r",
-									"                    \"minItems\": 1,\r",
-									"                    \"maxItems\": 1\r",
-									"                },\r",
-									"            }\r",
-									"        },\r",
-									"    }\r",
-									"}\r",
-									"\r",
-									"pm.test(\"200 OK\",  () => pm.response.to.have.status(200));\r",
-									"pm.test(\"Response has body\",  () => pm.response.to.be.withBody);\r",
-									"pm.test(\"Body is  JSON\",  () => pm.response.to.be.json);\r",
-									"pm.test(\"Response object has valid schema\", () => pm.response.to.be.jsonSchema(schema));"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"contact\": {\r\n        \"firstName\": \"Test\",\r\n        \"lastName\": \"User\",\r\n        \"company\": \"Test company\",\r\n        \"notes\": \"Test User\",\r\n        \"emails\": [\r\n            {\r\n                \"address\": \"testUser@personal.com\",\r\n                \"categoryId\": \"{{category.primary.id}}\"\r\n            }\r\n        ],\r\n        \"phones\": [\r\n            {\r\n                \"phoneNumber\": \"3038675309\",\r\n                \"categoryId\": \"{{category.primary.id}}\"\r\n            }\r\n        ]\r\n    }\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{api-route}}/contact/{{contact.id}}",
-							"host": [
-								"{{api-route}}"
-							],
-							"path": [
-								"contact",
-								"{{contact.id}}"
-							]
-						},
-						"description": "Given\n    Contact A exists in the DB with emails E1, phones P1, and id X\n\nWhen\n    PUT Contact to id X with emails E2 and phones P2\nThen\n    Emails E1 and phones P1 are deleted\n    Emails E2 and phones P2 are created\n    Contact A is returned"
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Contact",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "1f50f282-2ea9-406d-8a86-eee49a597d5f",
-								"exec": [
-									"pm.test(\"200 OK\",  () => pm.response.to.have.status(200));"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{api-route}}/contact/{{contact.id}}",
-							"host": [
-								"{{api-route}}"
-							],
-							"path": [
-								"contact",
-								"{{contact.id}}"
-							]
-						},
-						"description": "Given\n    Contact A exists with id X\nWhen\n    DELETE id X\nThen\n    200 OK\n"
-					},
-					"response": []
-				},
-				{
-					"name": "Phones Require Default",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "21a56a03-d4b1-4ce7-80bd-fd69b1497a04",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"id": "3a8c93d5-1222-4c18-a37c-f7a4457b6d8a",
+								"id": "c4b8958b-69d3-4cfb-94d5-7306a5cb5e7a",
 								"exec": [
 									"const schema = {",
 									"    \"type\": \"object\",",
 									"    \"required\": [\"message\", \"statusCode\", \"error\"],",
 									"    \"properties\": {",
 									"        \"message\": {",
-									"            \"type\": \"string\",",
-									"            \"pattern\": \"^phone did not contain exactly one primary$\",",
+									"            \"type\": \"array\",",
+									"            \"minItems\": 1,",
 									"        },",
 									"        \"error\": {",
 									"            \"type\": \"string\",",
@@ -1151,7 +525,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"contact\": {\n        \"firstName\": \"michael\",\n        \"lastName\": \"newman\",\n        \"phones\": [\n            {\n                \"phoneNumber\": \"2545898875\",\n                \"categoryId\": \"{{category.personal.id}}\"\n            }\n        ]\n    }\n}",
+							"raw": "{\n    \"contact\": {\n        \"firstName\": \"michael\",\n        \"lastName\": \"newman\",\n        \"company\": \"Charles Schwab\",\n        \"notes\": \"Really swell buckaro\",\n        \"gender\": \"non-binary\",\n        \"emails\": [\n            {\n                \"address\": \"test@gmail.com\",\n                \"category\": \"I Dont Exist\",\n                \"isPrimary\": true\n            },\n            {\n                \"address\": \"test@work.com\",\n                \"category\": \"Work\",\n                \"isPrimary\": false\n            }\n        ],\n        \"phones\": [\n            {\n                \"phoneNumber\": \"2545898875\",\n                \"category\": \"Personal\",\n                \"isPrimary\": true\n            },\n            {\n                \"phoneNumber\": \"2545898875\",\n                \"category\": \"Work\",\n                \"isPrimary\": false\n            }\n        ]\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1167,17 +541,17 @@
 								"contact"
 							]
 						},
-						"description": "Given\n    Contact A with phones P1\n    P1 does not contain a primary\nWhen\n    POST contact A\nThen\n    400 bad request"
+						"description": "Given\n    Category A does not exist\nWhen\n    Post contact C with email with category A\nThen\n    Contact A is not created"
 					},
 					"response": []
 				},
 				{
-					"name": "Emails Require Defualt",
+					"name": "Only One Primary Allowed",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "b6b54920-8548-4ee7-b374-7828224a9767",
+								"id": "de81b141-a07a-4b10-98eb-77e8ee03a7e3",
 								"exec": [
 									"const schema = {",
 									"    \"type\": \"object\",",
@@ -1185,7 +559,7 @@
 									"    \"properties\": {",
 									"        \"message\": {",
 									"            \"type\": \"string\",",
-									"            \"pattern\": \"^email did not contain exactly one primary$\",",
+									"            pattern: \"^Emails contained more than 1 primary.$\"",
 									"        },",
 									"        \"error\": {",
 									"            \"type\": \"string\",",
@@ -1214,7 +588,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"contact\": {\n        \"firstName\": \"michael\",\n        \"lastName\": \"newman\",\n        \"emails\": [\n            {\n                \"address\": \"bob@gmail.com\",\n                \"categoryId\": \"{{category.personal.id}}\"\n            }\n        ]\n    }\n}",
+							"raw": "{\n    \"contact\": {\n        \"firstName\": \"michael\",\n        \"lastName\": \"newman\",\n        \"company\": \"Charles Schwab\",\n        \"notes\": \"Really swell buckaro\",\n        \"gender\": \"non-binary\",\n        \"emails\": [\n            {\n                \"address\": \"test@gmail.com\",\n                \"category\": \"Personal\",\n                \"isPrimary\": true\n            },\n            {\n                \"address\": \"test@work.com\",\n                \"category\": \"Work\",\n                \"isPrimary\": true\n            }\n        ],\n        \"phones\": [\n            {\n                \"phoneNumber\": \"2545898875\",\n                \"category\": \"Personal\",\n                \"isPrimary\": true\n            },\n            {\n                \"phoneNumber\": \"2545898875\",\n                \"category\": \"Work\",\n                \"isPrimary\": false\n            }\n        ]\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1230,7 +604,7 @@
 								"contact"
 							]
 						},
-						"description": "Given\n    Contact A with emails E1\n    E1 does not contain a primary\nWhen\n    POST contact A\nThen\n    400 bad request"
+						"description": "Given\n    Contact A has more than one primary email\nWhen\n    Post contact A\nThen\n    Contact A is not created"
 					},
 					"response": []
 				},
@@ -1259,15 +633,40 @@
 									"pm.test(\"Response has body\",  () => pm.response.to.be.withBody);",
 									"pm.test(\"Body is  JSON\",  () => pm.response.to.be.json);",
 									"pm.test(\"Response object has valid schema\", () => pm.response.to.be.jsonSchema(schema));",
+									"",
+									"pm.test(\"No new contacts should have been created\", () => {",
+									"    // This test will only be valid when all tests are ran in order. \"Get All Contacts\" sets the count, \"Delete Contact\" deletes one contact.",
+									"    // Thus, the expected count is the count from \"Get All Contacts\" - 1",
+									"",
+									"    const apiRoute = pm.globals.get(\"api-route\");",
+									"    pm.sendRequest(apiRoute + \"/contact\", (error, response) => {",
+									"        if (error) {",
+									"            console.log(error);",
+									"            throw new Error(\"FAILED\")",
+									"        } else {",
+									"            const expectedCount = Number(pm.environment.get(\"contacts.count\")) - 1;",
+									"            const body = pm.response.json();",
+									"            console.log(body);",
+									"            pm.expect(body.contacts.length).to.equal(expectedCount)",
+									"        }",
+									"    });",
+									"})",
 									""
 								],
 								"type": "text/javascript"
 							}
 						}
 					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "{{api-route}}/contact",
 							"host": [
