@@ -1,11 +1,5 @@
-import {Component, EventEmitter, Input, Output, TemplateRef, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ContactModel} from '@hiddentemple/api-interfaces';
-import {DeleteConfirmationComponent} from '../delete-confirmation/delete-confirmation.component';
-import {MatDialog} from '@angular/material/dialog';
-import {ContactCacheService} from '../../services/contact-cache.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {TableSize} from '../contact-table/contact-table.component';
-import {Portal, TemplatePortal} from '@angular/cdk/portal';
 
 @Component({
   selector: 'app-contact-detail',
@@ -18,7 +12,7 @@ import {Portal, TemplatePortal} from '@angular/cdk/portal';
 
         <button mat-icon-button
                 matTooltip="Edit"
-                matTooltipPosition=""
+                matTooltipPosition="right"
                 (click)="onEdit(contact)">
           <mat-icon>edit</mat-icon>
         </button>
@@ -34,6 +28,7 @@ import {Portal, TemplatePortal} from '@angular/cdk/portal';
 
       <h3 *ngIf="contact.jobTitle"><b>Job Title: </b>{{contact.jobTitle}}</h3>
 
+
       <h3 *ngIf="contact.department"><b>Department: </b>{{contact.department}}</h3>
 
       <h3 *ngIf="contact.organization"><b>Organization: </b>{{contact.organization}}</h3>
@@ -45,6 +40,7 @@ import {Portal, TemplatePortal} from '@angular/cdk/portal';
 
 
       <div *ngIf="contact?.notes != null">
+
         <mat-form-field class="col-12">
           <mat-label>Notes</mat-label>
           <textarea matInput [value]="contact?.notes" readonly></textarea>

@@ -6,6 +6,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {TableSize} from '../../containers/contact-table/contact-table.component';
 import {Portal, TemplatePortal} from '@angular/cdk/portal';
 import {DeleteConfirmationComponent} from '../../containers/delete-confirmation/delete-confirmation.component';
+import {ContactActionCallback, ContactActionsService} from "../../services/contact-actions.service";
 
 
 @Component({
@@ -37,9 +38,9 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog,
     private contactCache: ContactCacheService,
     private snackbar: MatSnackBar,
-    private viewContainerRef: ViewContainerRef
-  ) {
-  }
+    private viewContainerRef: ViewContainerRef,
+    private contactActions: ContactActionsService
+  ) {}
 
   ngOnInit() {
     this.contactCache.contacts$.subscribe(contacts => this.contacts = contacts);
@@ -66,6 +67,7 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
   }
 
   setViewContact(contact: ContactModel) {
+    // if (mobile) this.showTable = false;
     this.selectedContact = contact;
     this.selectedPortal = this.detailPortal;
     this.openRightPanel();
@@ -78,30 +80,22 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
   }
 
   async createContract(contact: ContactModel) {
-    await this.contactCache.addContact(contact).then(contact => {
-      this.snackbar.open('Contact Created', 'Close', {duration: 2000});
-      this.setViewContact(contact);
-    });
+    const callback: ContactActionCallback = async (contact) => this.setViewContact(contact);
+    return this.contactActions.createContact(contact, callback);
   }
 
   async editContact(contact: ContactModel) {
-    await this.contactCache.updateContact(contact).then(updatedContact =>
-      this.setViewContact(updatedContact)
-    );
+    const callback: ContactActionCallback = async (contact) => this.setViewContact(contact);
+    return this.contactActions.updateContact(contact, callback);
   }
 
   deleteContact(contact: ContactModel) {
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent);
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.contactCache.deleteContact(contact).subscribe(() => {
-          this.snackbar.open('Contact Deleted', 'Close', {duration: 1000});
-          if (this.selectedContact === contact) {
-            this.reset();
-          }
-        });
+    const callback: () => Promise<any> = async () => {
+      if (this.selectedContact === contact) {
+        this.reset();
       }
-    });
+    }
+    return this.contactActions.deleteContact(contact, callback);
   }
 
   private openRightPanel() {

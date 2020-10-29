@@ -7,7 +7,7 @@ import {
 } from '@hiddentemple/api-interfaces';
 import {ContactService} from './contact.service';
 import {Injectable} from '@angular/core';
-import {map, tap} from 'rxjs/operators';
+import {map, take, tap} from 'rxjs/operators';
 
 
 // File scoped interface (no export)
@@ -48,10 +48,10 @@ export class ContactCacheService {
     return this._contacts$.asObservable()
       .pipe(
         tap((cacheModel: CacheModel) => {
-          console.group("New Contacts")
-          console.log("Operation: ", cacheModel.lastChange)
-          console.log("Model", cacheModel)
-          console.groupEnd()
+          console.group("Cache Value Change");
+          console.log("Operation: ", cacheModel.lastChange);
+          console.log("Model", cacheModel);
+          console.groupEnd();
         }),
         map((cacheModel: CacheModel) => cacheModel.contacts)
       );
@@ -98,9 +98,10 @@ export class ContactCacheService {
     return this.contactService.deleteContact(contact.id).pipe(
       // https://www.learnrxjs.io/learn-rxjs/operators/utility/do
       // TODO what happens if delete fails? does this do what we expect it to?
+      take(1),
       map(() => {
         const filtered = this.remove(contact.id);
-        const newModel: CacheDelete = { deletedContact: contact, lastChange: CacheOperation.DELETE, contacts: filtered}
+        const newModel: CacheDelete = { deletedContact: contact, lastChange: CacheOperation.DELETE, contacts: filtered};
         this._contacts$.next(newModel);
         return true;
       })
