@@ -1,10 +1,8 @@
-import {Injectable, InternalServerErrorException, Logger, NotFoundException} from "@nestjs/common";
+import {BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {EmailEntity} from "../../db/entities/email.entity";
 import {EntityManager, Repository} from "typeorm";
-import {CategoryService} from "./category.service";
-import {containsExactlyOnePrimary, EmailDTO} from "@hiddentemple/api-interfaces";
-import {CategoryEntity} from "../../db/entities/category.entity";
+import {EmailDTO, PhoneEmailCategory} from "@hiddentemple/api-interfaces";
 import {ContactEntity} from "../../db/entities/contact.entity";
 
 
@@ -13,8 +11,7 @@ export class EmailService {
     private readonly logger = new Logger(EmailService.name)
 
     constructor(
-        @InjectRepository(EmailEntity) private repo: Repository<EmailEntity>,
-        private categoryService: CategoryService,
+        @InjectRepository(EmailEntity) private repo: Repository<EmailEntity>
     ) {}
 
     async getById(id: string): Promise<EmailEntity> {
@@ -25,8 +22,7 @@ export class EmailService {
 
     private async create(contact: ContactEntity, dto: EmailDTO, entityManager: EntityManager): Promise<EmailEntity> {
         this.logger.log(`Creating a new email for contact with id ${contact.id} from DTO: ${JSON.stringify(dto)}`)
-        const category: CategoryEntity = await this.categoryService.verifyCategory(dto.categoryId);
-        const newEmail: EmailEntity = entityManager.create<EmailEntity>(EmailEntity, {...dto, category, contact});
+        const newEmail: EmailEntity = entityManager.create<EmailEntity>(EmailEntity, {...dto, contact});
         const savedEmail: EmailEntity = await entityManager.save(newEmail);
         this.logger.log(`Saved email: ${JSON.stringify(savedEmail)}`);
         return newEmail;
@@ -36,8 +32,11 @@ export class EmailService {
         if (!emailDTOS || emailDTOS === []) return [];
 
         this.logger.log(`Creating ${emailDTOS.length} email(s): ${JSON.stringify(emailDTOS)}`)
-        const categoryIds = emailDTOS.map(email => email.categoryId);
-        await this.categoryService.requireExactlyOnePrimary('email', categoryIds)
+        if (!this.containsNoMoreThanOnePrimary(emailDTOS)) {
+            const errMsg: string = "Emails contained more than 1 primary.";
+            this.logger.error(`${errMsg} Emails: ${JSON.stringify(emailDTOS)}`);
+            throw new BadRequestException(errMsg)
+        }
 
         const newEmails: EmailEntity[] = [];
         for (const emailDTO of emailDTOS) {
@@ -76,7 +75,8 @@ export class EmailService {
         for (const email of emails) { await this.delete(email.id, entityManger) }
     }
 
-    containsPrimary(emails: EmailEntity[]): boolean {
-        return containsExactlyOnePrimary(emails.map(email => email.category));
+    containsNoMoreThanOnePrimary(emails: EmailDTO[]): boolean {
+        const primaries: EmailDTO[] = emails.filter(email => email.category === PhoneEmailCategory.PRIMARY);
+        return primaries.length <= 1;
     }
 }

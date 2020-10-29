@@ -10,27 +10,29 @@ import {ContactBookHomeComponent} from './components/contact-book-home/contact-b
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import { CreateContactDialogComponent } from './containers/create-contact-dialog/create-contact-dialog.component';
-import { MatDialogModule} from '@angular/material/dialog';
-import { ContactTableComponent } from './containers/contact-table/contact-table.component';
+import {CreateContactDialogComponent} from './containers/create-contact-dialog/create-contact-dialog.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {ContactTableComponent} from './containers/contact-table/contact-table.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {ContactDetailPageComponent} from './components/contact-detail-page/contact-detail-page.component';
 import {ContactDetailComponent} from './containers/contact-detail/contact-detail.component';
-import { MatMenuModule } from '@angular/material/menu';
+import {MatMenuModule} from '@angular/material/menu';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-import { MatOptionModule, MatRippleModule } from '@angular/material/core';
+import {MatOptionModule, MatRippleModule} from '@angular/material/core';
 import {AngularSplitModule} from 'angular-split';
 import {EmailTableComponent} from './containers/email-table/email-table.component';
 import {PhoneTableComponent} from './containers/phone-table/phone-table.component';
 import {PortalModule} from '@angular/cdk/portal';
-import { CoreModule } from '../core/core.module';
-import { DialogComponent } from '../core/dialog/dialog.component';
-import { ImportFileComponent } from './containers/import-file/import-file.component';
-import {CategoryTableComponent} from './containers/category-table/category-table.component';
+import {CoreModule} from '../core/core.module';
+import {DialogComponent} from '../core/dialog/dialog.component';
+import {ImportFileComponent} from './containers/import-file/import-file.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {DeleteConfirmationComponent} from './containers/delete-confirmation/delete-confirmation.component';
+import {MatSelectModule} from "@angular/material/select";
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 
 
 @NgModule({
@@ -44,40 +46,40 @@ import {DeleteConfirmationComponent} from './containers/delete-confirmation/dele
     EmailTableComponent,
     PhoneTableComponent,
     ImportFileComponent,
-    CategoryTableComponent,
     PhoneTableComponent,
     DeleteConfirmationComponent
   ],
   exports: [
     ContactFormComponent,
-    CategoryTableComponent
   ],
-  imports: [
-    CommonModule,
-    ContactBookRoutingModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTooltipModule,
-    MatDialogModule,
-    MatTableModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatMenuModule,
-    MatSnackBarModule,
-    MatRippleModule,
-    AngularSplitModule.forRoot(),
-    PortalModule,
-    CoreModule,
-    MatOptionModule,
-    MatAutocompleteModule
-  ],
+    imports: [
+        CommonModule,
+        ContactBookRoutingModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatDialogModule,
+        MatTableModule,
+        MatSortModule,
+        MatPaginatorModule,
+        MatMenuModule,
+        MatSnackBarModule,
+        MatRippleModule,
+        AngularSplitModule.forRoot(),
+        PortalModule,
+        MatOptionModule,
+        MatAutocompleteModule,
+        CoreModule,
+        MatSelectModule,
+        MatCheckboxModule
+    ],
   entryComponents: [
     DialogComponent,
     ContactFormComponent,

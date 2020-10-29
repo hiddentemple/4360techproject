@@ -10,7 +10,7 @@ import { WebpageService } from './webpage.service';
 
 @Injectable()
 export class ContactService {
-  private readonly logger = new Logger(ContactService.name);
+  private readonly logger = new Logger(ContactService.name)
 
   constructor(
     @InjectRepository(ContactEntity) private contactRepo: Repository<ContactEntity>,
@@ -34,12 +34,12 @@ export class ContactService {
   }
 
   async create(req: CreateContactRequest): Promise<ContactEntity> {
-    this.logger.log(`Creating contact from request ${JSON.stringify(req)}`);
+    this.logger.log(`Creating contact from request ${JSON.stringify(req)}`)
 
-    const { contact } = req;
+    const {contact} = req;
     let savedContact: ContactEntity;
     await getConnection().transaction(async (entityManager: EntityManager) => {
-      const newContact = await entityManager.create<ContactEntity>(ContactEntity, {
+       const newContact = await entityManager.create<ContactEntity>( ContactEntity, {
         firstName: contact.firstName,
         lastName: contact.lastName,
         nickName: contact.nickName,
@@ -53,6 +53,8 @@ export class ContactService {
         anniversary: contact.anniversary,
         gender: contact.gender,
         tags: contact.tags
+        
+
       });
 
       savedContact = await entityManager.save(newContact); // Populates ID
@@ -62,28 +64,28 @@ export class ContactService {
       await this.webpageService.createMany(newContact, contact.webpages, entityManager)
     });
 
-    const createdContact = await this.getById(savedContact.id);
-    this.logger.log(`Saved new contact as ${JSON.stringify(createdContact)}`);
+    const createdContact = await this.getById(savedContact.id)
+    this.logger.log(`Saved new contact as ${JSON.stringify(createdContact)}`)
     return createdContact;
   }
 
   async update(id: string, dto: UpdateContactRequest): Promise<ContactEntity> {
-    this.logger.log(`Attempting to update contact with id ${id} with DTO ${JSON.stringify(dto)}`);
+    this.logger.log(`Attempting to update contact with id ${id} with DTO ${JSON.stringify(dto)}`)
     const contact: ContactEntity = await this.getById(id);
 
     const acc: Partial<ContactEntity> = {};
     const reducer = (acc, [key, value]) => {
       if (value && value !== '' && key !== 'emails' && key !== 'phones') {
-        return { ...acc, [key]: value };
+        return {...acc, [key]: value};
       } else {
         return acc;
       }
     };
     const filtered: Partial<ContactEntity> = Object.entries(dto.contact).reduce(reducer, acc);
-    this.logger.log(`Reduced DTO to simple properties: ${JSON.stringify(filtered)}`);
+    this.logger.log(`Reduced DTO to simple properties: ${JSON.stringify(filtered)}`)
 
     Object.assign(contact, filtered);
-    this.logger.log(`Updated contact with simple properties: ${JSON.stringify(contact)}`);
+    this.logger.log(`Updated contact with simple properties: ${JSON.stringify(contact)}`)
 
     await getConnection().transaction(async entityManger => {
       await this.emailService.updateMany(contact, dto.contact.emails, entityManger);
@@ -92,7 +94,7 @@ export class ContactService {
       await this.webpageService.updateMany(contact, dto.contact.webpages, entityManger)
       const { affected }: UpdateResult = await entityManger.update<ContactEntity>(ContactEntity, id, filtered);
       if (affected === 0) {
-        throw new InternalServerErrorException('Failed to update contact');
+        throw new InternalServerErrorException("Failed to update contact")
       }
     });
 
@@ -100,9 +102,9 @@ export class ContactService {
   }
 
   async delete(id: string): Promise<any> {
-    this.logger.log(`Attempting delete of contact with id ${JSON.stringify(id)}`);
+    this.logger.log(`Attempting delete of contact with id ${JSON.stringify(id)}`)
     const contact: ContactEntity = await this.getById(id);
-    this.logger.log(`Found contact to delete: ${JSON.stringify(contact)}`);
+    this.logger.log(`Found contact to delete: ${JSON.stringify(contact)}`)
 
     await getConnection().transaction(async entityManger => {
       await this.emailService.deleteMany(contact.emails, entityManger);

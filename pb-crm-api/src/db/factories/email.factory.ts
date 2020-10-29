@@ -1,19 +1,11 @@
 import {EmailEntity} from "../entities/email.entity";
 import {define} from "typeorm-seeding";
-import {CategoryEntity} from "../entities/category.entity";
+import {PhoneEmailCategory} from "@hiddentemple/api-interfaces";
 
-// An empty type is just as likely as a filled one
-const MockEmailTypes = ['Personal', 'Work', 'Private', '', '', '']
-
-define(EmailEntity, (faker, context: {primary?: CategoryEntity, user: CategoryEntity[]}) => {
+define(EmailEntity, (faker, context: any) => {
     const email = new EmailEntity();
     email.address = faker.internet.email();
-
-    if (context.primary) {
-        email.category = context.primary
-    } else {
-        email.category = faker.random.arrayElement(context.user)
-    }
+    email.category = faker.random.arrayElement(Object.values(PhoneEmailCategory));
 
     return email
 })

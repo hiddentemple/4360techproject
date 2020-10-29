@@ -2,7 +2,7 @@ import {AfterViewInit, Component, EventEmitter, Input, Output, ViewChild} from '
 import {MatTable, MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {ContactModel, isPrimary} from '@hiddentemple/api-interfaces';
+import {ContactModel, PhoneEmailCategory} from '@hiddentemple/api-interfaces';
 
 export enum TableSize { FULL, COMPACT }
 
@@ -59,13 +59,13 @@ export class ContactTableComponent implements AfterViewInit {
   getPrimaryPhone(contact: ContactModel): string {
     if (!contact.phones || contact.phones.length === 0) return '';
     // else
-    return contact.phones.find(phone => isPrimary(phone.category)).phoneNumber
+    return contact.phones.find(phone => phone.category === PhoneEmailCategory.PRIMARY)?.phoneNumber
   }
 
   getPrimaryEmail(contact: ContactModel): string {
     if (!contact.emails || contact.emails.length === 0) return '';
     // else
-    return contact.emails.find(email => isPrimary(email.category)).address
+    return contact.emails.find(email => email.category === PhoneEmailCategory.PRIMARY)?.address
   }
 
   private setFilter(filterStr: string) {

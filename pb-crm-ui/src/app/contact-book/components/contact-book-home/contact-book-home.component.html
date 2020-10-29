@@ -62,7 +62,10 @@
 </div>
 
 <ng-template #contactDetail>
-  <app-contact-detail [contact]="selectedContact"></app-contact-detail>
+  <app-contact-detail [contact]="selectedContact"
+                      (delete)="deleteContact($event)"
+                      (edit)="setEditContact($event)" >
+  </app-contact-detail>
 </ng-template>
 
 <ng-template #createContactForm>
