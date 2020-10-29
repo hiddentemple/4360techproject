@@ -35,6 +35,10 @@ export class ContactFormComponent implements OnInit, OnChanges {
   get lastNameFormControl(): FormControl { return this.contactForm.controls.lastName as FormControl; }
   get companyFormControl(): FormControl { return this.contactForm.controls.company as FormControl; }
   get notesFormControl(): FormControl { return this.contactForm.controls.notes as FormControl; }
+  get jobTitleFormControl(): FormControl { return this.contactForm.controls.jobTitle as FormControl; }
+  get departmentFormControl(): FormControl { return this.contactForm.controls.department as FormControl; }
+  get organizationFormControl(): FormControl { return this.contactForm.controls.organization as FormControl; }
+  get genderFormControl(): FormControl { return this.contactForm.controls.gender as FormControl; }
 
   constructor(
     private fb: FormBuilder,
@@ -61,9 +65,13 @@ export class ContactFormComponent implements OnInit, OnChanges {
       firstName: new FormControl('', [Validators.required, Validators.maxLength(50)]),
       lastName: new FormControl('', [Validators.required, Validators.maxLength(50)]),
       company: new FormControl('', [Validators.maxLength(150)]),
+      jobTitle: new FormControl('', [Validators.maxLength(50)]),
+      department: new FormControl('', [Validators.maxLength(50)]),
+      organization: new FormControl('', [Validators.maxLength(50)]),
+      gender: new FormControl('', [Validators.maxLength(50)]),
       notes: new FormControl('', [Validators.maxLength(250)]),
       emails: this.fb.array([]),
-      phones: this.fb.array([]),
+      phones: this.fb.array([])
     });
   }
 
@@ -85,6 +93,10 @@ export class ContactFormComponent implements OnInit, OnChanges {
     this.firstNameFormControl?.setValue(this.contact.firstName);
     this.lastNameFormControl?.setValue(this.contact.lastName);
     this.companyFormControl?.setValue(this.contact.company);
+    this.jobTitleFormControl?.setValue(this.contact.jobTitle);
+    this.departmentFormControl?.setValue(this.contact.department);
+    this.organizationFormControl?.setValue(this.contact.organization);
+    this.genderFormControl?.setValue(this.contact.gender);
     this.notesFormControl?.setValue(this.contact.notes);
     if (this.contact.notes){
       this.showNotes = true;
