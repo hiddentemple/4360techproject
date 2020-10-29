@@ -1,4 +1,4 @@
-/.vagrant/*
+/local-db/.vagrant/*
 *.log
 /.idea/
 /.DS_Store

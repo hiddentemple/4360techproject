@@ -31,6 +31,26 @@ export class ContactEntity implements ContactModel {
     @IsOptional()
     notes: string
 
+    @Column({ type: "varchar", length: 50, nullable: true})
+    @IsOptional()
+    @Length(2, 50)
+    jobTitle: string;
+
+    @Column({ type: "varchar", length: 50, nullable: true})
+    @IsOptional()
+    @Length(2, 50)
+    department: string;
+
+    @Column({ type: "varchar", length: 50, nullable: true})
+    @IsOptional()
+    @Length(2, 50)
+    organization: string;
+
+    @Column({ type: "varchar", length: 50, nullable: true})
+    @IsOptional()
+    @Length(2, 50)
+    gender: string;
+
     @OneToMany(type => EmailEntity, email => email.contact, {
         cascade: true,
         eager: true,

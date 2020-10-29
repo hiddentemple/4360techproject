@@ -39,6 +39,10 @@ export class ContactService {
         lastName: contact.lastName,
         company: contact.company,
         notes: contact.notes,
+        jobTitle: contact.jobTitle,
+        department: contact.department,
+        organization: contact.organization,
+        gender: contact.gender
       });
 
       savedContact = await entityManager.save(newContact); // Populates ID
