@@ -1,6 +1,6 @@
 import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {ContactEntity} from "./contact.entity";
-import { IsDefined, IsEnum, IsNumberString, IsPhoneNumber, Length} from "class-validator"
+import {IsDefined, IsEnum, Matches} from "class-validator"
 import {PhoneEmailCategory, PhoneModel} from "@hiddentemple/api-interfaces";
 
 
@@ -10,11 +10,9 @@ export class PhoneEntity implements PhoneModel {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @Column('numeric', {nullable: false})
+    @Column('character varying', {nullable: false})
     @IsDefined()
-    @IsNumberString( { no_symbols: true })
-    @Length(10, 10, {message: 'Phone number must be exactly 10 digits'})
-    @IsPhoneNumber('US')
+    @Matches(/^\+\d{5,15}$/, {message: "phone number needs to be in international format"})
     phoneNumber: string
 
     @Column('enum', {enum: PhoneEmailCategory, nullable: false})
