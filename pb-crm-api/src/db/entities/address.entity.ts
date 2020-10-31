@@ -30,7 +30,7 @@ export class AddressEntity implements AddressModel {
   @IsDefined()
   postalCode: string;
 
-  @Column('varchar', {})
+  @Column('varchar', {nullable: true})
   @IsOptional()
   country: string;
 

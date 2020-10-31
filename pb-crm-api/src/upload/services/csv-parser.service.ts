@@ -3,9 +3,11 @@ import * as fs from 'fs';
 import csv from 'csv-parse';
 import { ContactEntity } from '../../db/entities/contact.entity';
 import { Connection, getConnection } from 'typeorm';
-import { CSVColumns, CSVExportModel, PhoneEmailCategory } from '@hiddentemple/api-interfaces';
+import { AddressType, CSVColumns, CSVExportModel, PhoneEmailCategory, urlType } from '@hiddentemple/api-interfaces';
 import { PhoneEntity } from '../../db/entities/phone.entity';
 import { EmailEntity } from '../../db/entities/email.entity';
+import { WebpageEntity } from '../../db/entities/webpage.entity';
+import { AddressEntity } from '../../db/entities/address.entity';
 
 
 const { Parser, transforms: { unwind } } = require('json2csv');
@@ -69,7 +71,7 @@ export class CSVParserService {
   static setContacts(contactList: ContactEntity[], results: any[]): ContactEntity[] {
     results.forEach((record) => {
       console.log(record)
-      const contact: ContactEntity = new ContactEntity();
+      let contact: ContactEntity = new ContactEntity();
       contact.firstName = record.FirstName
       contact.lastName = record.LastName;
       contact.nickName = record.Nickname;
@@ -82,65 +84,118 @@ export class CSVParserService {
       contact.birthday = record.Birthday;
       contact.anniversary = record.Anniversary;
       contact.gender = record.Gender;
-      let tags = record.Categories.split(',')
-      contact.tags = []
-      tags.forEach(tag =>{
-        contact.tags.push(tag)
-      })
+      contact.tags = record.Categories.split(',')
       contact.phones = [];
       contact.emails = [];
-      contact.addresses = [];
+      contact.addresses = this.parseAddress(record);
       contact.webpages = [];
+      contact = this.parsePhoneEmailWebpage(record, contact)
       console.log(contact)
-      const keys = Object.keys(record);
-      keys.forEach(key => {
-        if (key.includes('Phone')) {
-          console.log(record[key])
-          if(record[key]) {
-            const phone: PhoneEntity = new PhoneEntity();
-            phone.phoneNumber = record[key].replace(/-/g, '');
-            switch (key) {
-              case 'HomePhone': {
-                console.log(phone)
-                phone.category = PhoneEmailCategory.PERSONAL
-                break;
-              }
-              case 'BusinessPhone': {
-                console.log(phone)
-                phone.category = PhoneEmailCategory.WORK
-                break;
-              }
-              case 'MobilePhone': {
-                phone.category = PhoneEmailCategory.PRIMARY
-                break;
-              }
-              case 'BusinessFax':
-              case 'HomeFax': {
-                phone.category = PhoneEmailCategory.FAX
-                break;
-              }
-            }
-            contact.phones.push(phone);
-          }
-        } else if (key.includes('Email')) {
-          const email: EmailEntity = new EmailEntity();
-          if (record[key]) {
-            email.address = record[key];
-            if (key.valueOf() === 'EmailAddress') {
-              email.category = PhoneEmailCategory.PRIMARY;
-            } else if (key.includes('2')) {
-              email.category = PhoneEmailCategory.OTHER
-            } else if (key.includes('3')) {
-              email.category = PhoneEmailCategory.OTHER
-            }
-            contact.emails.push(email);
-          }
-        }
-      });
+      
       contactList.push(contact);
       console.log(contact)
     });
     return contactList;
+  }
+  
+  
+  
+  static parsePhoneEmailWebpage(record: any, contact: ContactEntity): ContactEntity{
+    const keys = Object.keys(record);
+    keys.forEach(key => {
+      if (key.includes('Phone')) {
+        console.log(record[key])
+        if(record[key]) {
+          const phone: PhoneEntity = new PhoneEntity();
+          phone.phoneNumber = record[key].replace(/-/g, '');
+          switch (key) {
+            case 'HomePhone': {
+              console.log(phone)
+              phone.category = PhoneEmailCategory.PERSONAL
+              break;
+            }
+            case 'BusinessPhone': {
+              console.log(phone)
+              phone.category = PhoneEmailCategory.WORK
+              break;
+            }
+            case 'MobilePhone': {
+              phone.category = PhoneEmailCategory.PRIMARY
+              break;
+            }
+            case 'BusinessFax':
+            case 'HomeFax': {
+              phone.category = PhoneEmailCategory.FAX
+              break;
+            }
+          }
+          contact.phones.push(phone);
+        }
+      } else if (key.includes('Email')) {
+        const email: EmailEntity = new EmailEntity();
+        if (record[key]) {
+          email.address = record[key];
+          if (key.valueOf() === 'EmailAddress') {
+            email.category = PhoneEmailCategory.PRIMARY;
+          } else if (key.includes('2')) {
+            email.category = PhoneEmailCategory.OTHER
+          } else if (key.includes('3')) {
+            email.category = PhoneEmailCategory.OTHER
+          }
+          contact.emails.push(email);
+        }
+      }else if(key.includes('WebPage')){
+        const webpage: WebpageEntity = new WebpageEntity();
+        if(record[key]){
+          webpage.url = record[key];
+          if(key.valueOf() === 'WebPage') {
+            webpage.type = urlType.PERSONAL;
+          }
+          if(key.valueOf() === 'WebPage2') {
+            webpage.type = urlType.BUSINESS;
+          }
+        }
+        contact.webpages.push(webpage);
+      }
+      
+    });
+    return contact;
+  }
+  
+  static parseAddress(record: any): AddressEntity[]{
+    const homeAddress: AddressEntity = new AddressEntity();
+    const businessAddress: AddressEntity = new AddressEntity();
+    const addresses: AddressEntity[] = [];
+    
+    if(record.HomeAddress) {
+      homeAddress.street = record.HomeAddress;
+      if (record.HomeAddress2) {
+        homeAddress.street2 = record.HomeAddress2;
+      }
+      homeAddress.city = record.HomeCity;
+      homeAddress.state = record.HomeState;
+      homeAddress.postalCode = record.HomePostalCode;
+      if (record.HomeCountry) {
+        homeAddress.country = record.HomeCountry
+      }
+      homeAddress.type = AddressType.HOME;
+      addresses.push(homeAddress)
+    }
+    if(record.BusinessAddress) {
+      businessAddress.street = record.BusinessAddress;
+      if(record.BusinessAddress2){
+        businessAddress.street2 = record.BusinessAddress2;
+      }
+      businessAddress.city  = record.BusinessCity;
+      businessAddress.state = record.BusinessState;
+      businessAddress.postalCode = record.BusinessPostalCode;
+      if(record.BusinessCountry){
+        businessAddress.country = record.BusinessCountry;
+      }
+      businessAddress.type = AddressType.BUSINESS;
+      addresses.push(businessAddress)
+    }
+    return addresses;
   }
 }
 
