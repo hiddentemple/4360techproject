@@ -12,7 +12,7 @@ export class PhoneEntity implements PhoneModel {
 
     @Column('character varying', {nullable: false})
     @IsDefined()
-    @Matches(/^\+\d{5,15}$/)
+    @Matches(/^\+\d{5,15}$/, {message: "phone number needs to be in international format"})
     phoneNumber: string
 
     @Column('enum', {enum: PhoneEmailCategory, nullable: false})

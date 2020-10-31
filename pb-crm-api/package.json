@@ -23,7 +23,7 @@
     "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed"
   },
   "dependencies": {
-    "@hiddentemple/api-interfaces": "^1.1.1-a8",
+    "@hiddentemple/api-interfaces": "^1.1.6-a2",
     "@nestjs/common": "^7.0.0",
     "@nestjs/config": "^0.5.0",
     "@nestjs/core": "^7.0.0",
