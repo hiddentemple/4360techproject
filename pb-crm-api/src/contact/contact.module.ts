@@ -1,8 +1,6 @@
 import {Module} from '@nestjs/common';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {ContactEntity} from "../db/entities/contact.entity";
-import {CategoryService} from "./services/category.service";
-
 import {ContactService} from "./services/contact.service";
 import {EmailService} from "./services/email.service";
 import {EmailEntity} from "../db/entities/email.entity";
@@ -16,9 +14,9 @@ import { WebpageService } from './services/webpage.service';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([ ContactEntity, EmailEntity, PhoneEntity,AddressEntity, WebpageEntity ] )
+        TypeOrmModule.forFeature([ ContactEntity, EmailEntity, PhoneEntity, AddressEntity, WebpageEntity ] )
     ],
     controllers: [ContactController],
-    providers: [ContactService, CategoryService, EmailService, PhoneService,AddressEntity, WebpageEntity],
+    providers: [ContactService, EmailService, PhoneService, AddressService, WebpageService],
 })
 export class ContactModule {}

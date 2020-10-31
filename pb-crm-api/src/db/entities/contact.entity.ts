@@ -6,6 +6,7 @@ import {PhoneEntity} from "./phone.entity";
 import { AddressEntity } from './address.entity';
 import { WebpageEntity } from './webpage.entity';
 
+
 @Entity("contacts")
 export class ContactEntity implements ContactModel {
 
@@ -28,27 +29,12 @@ export class ContactEntity implements ContactModel {
     @IsOptional()
     @Length(2, 50)
     nickName: string;
-
-    @Column({ type: "varchar", length: 50, nullable: true})
-    @IsOptional()
-    @Length(2, 50)
-    jobTitle: string;
-
-    @Column({ type: "varchar", length: 50, nullable: true})
-    @IsOptional()
-    @Length(2, 50)
-    department: string;
-
+    
     @Column({ type: "varchar", length: 50, nullable: true})
     @IsOptional()
     @Length(2, 50)
     organization: string;
-
-    @Column({ type: "varchar", length: 50, nullable: true})
-    @IsOptional()
-    @Length(2, 50)
-    gender: string;
-
+    
     @OneToMany(type => EmailEntity, email => email.contact, {
         cascade: true,
         eager: true,

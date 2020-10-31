@@ -8,8 +8,7 @@ import {Portal, TemplatePortal} from '@angular/cdk/portal';
 import {DialogInterface} from '../../../core/dialog/temp-dialog.interface';
 import {DialogService} from '../../../core/dialog/dialog.service';
 import {ImportFileComponent} from '../../containers/import-file/import-file.component';
-import {DeleteConfirmationComponent} from '../../containers/delete-confirmation/delete-confirmation.component';
-import {ContactActionCallback, ContactActionsService} from "../../services/contact-actions.service";
+import {ContactActionCallback, ContactActionsService} from '../../services/contact-actions.service';
 
 
 @Component({
@@ -42,7 +41,7 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     private contactCache: ContactCacheService,
     private snackbar: MatSnackBar,
     private viewContainerRef: ViewContainerRef,
-    private contactActions: ContactActionsService
+    private contactActions: ContactActionsService,
     private dialogService: DialogService,
   ) {}
 
@@ -120,7 +119,7 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
       if (this.selectedContact === contact) {
         this.reset();
       }
-    }
+    };
     return this.contactActions.deleteContact(contact, callback);
   }
 

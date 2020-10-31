@@ -3,10 +3,10 @@ import * as fs from 'fs';
 import csv from 'csv-parse';
 import { ContactEntity } from '../../db/entities/contact.entity';
 import { Connection, getConnection } from 'typeorm';
-import { CategoryCode, CSVColumns, CSVExportModel } from '@hiddentemple/api-interfaces';
+import { CSVColumns, CSVExportModel, PhoneEmailCategory } from '@hiddentemple/api-interfaces';
 import { PhoneEntity } from '../../db/entities/phone.entity';
 import { EmailEntity } from '../../db/entities/email.entity';
-import { CategoryEntity } from '../../db/entities/category.entity';
+
 
 const { Parser, transforms: { unwind } } = require('json2csv');
 
@@ -82,7 +82,11 @@ export class CSVParserService {
       contact.birthday = record.Birthday;
       contact.anniversary = record.Anniversary;
       contact.gender = record.Gender;
-      contact.tags = record.Categories;
+      let tags = record.Categories.split(',')
+      contact.tags = []
+      tags.forEach(tag =>{
+        contact.tags.push(tag)
+      })
       contact.phones = [];
       contact.emails = [];
       contact.addresses = [];
@@ -92,44 +96,49 @@ export class CSVParserService {
       keys.forEach(key => {
         if (key.includes('Phone')) {
           console.log(record[key])
-          const phone: PhoneEntity = new PhoneEntity();
-          phone.phoneNumber = record[key].replace(/-/g, '');
-          switch (key) {
-            case 'HomePhone': {
-              console.log(phone)
-              break;
+          if(record[key]) {
+            const phone: PhoneEntity = new PhoneEntity();
+            phone.phoneNumber = record[key].replace(/-/g, '');
+            switch (key) {
+              case 'HomePhone': {
+                console.log(phone)
+                phone.category = PhoneEmailCategory.PERSONAL
+                break;
+              }
+              case 'BusinessPhone': {
+                console.log(phone)
+                phone.category = PhoneEmailCategory.WORK
+                break;
+              }
+              case 'MobilePhone': {
+                phone.category = PhoneEmailCategory.PRIMARY
+                break;
+              }
+              case 'BusinessFax':
+              case 'HomeFax': {
+                phone.category = PhoneEmailCategory.FAX
+                break;
+              }
             }
-            case 'BusinessPhone': {
-              console.log(phone)
-              //phone.type = 'Business';
-              break;
-            }
-            case 'HomeFax':{
-              break;
-            }
-            case 'BusinessFax': {
-              break;
-            }
+            contact.phones.push(phone);
           }
-          contact.phones.push(phone);
         } else if (key.includes('Email')) {
           const email: EmailEntity = new EmailEntity();
-          if(key.includes('1')) {
+          if (record[key]) {
             email.address = record[key];
-            //email.type = primary
+            if (key.valueOf() === 'EmailAddress') {
+              email.category = PhoneEmailCategory.PRIMARY;
+            } else if (key.includes('2')) {
+              email.category = PhoneEmailCategory.OTHER
+            } else if (key.includes('3')) {
+              email.category = PhoneEmailCategory.OTHER
+            }
+            contact.emails.push(email);
           }
-          else if(key.includes('2')){
-            email.address = record[key];
-            //email.type = other
-          }
-          else if(key.includes('3')){
-            email.address = record[key];
-            //email.type = other
-          }
-          contact.emails.push(email);
         }
       });
       contactList.push(contact);
+      console.log(contact)
     });
     return contactList;
   }
