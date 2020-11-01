@@ -7,6 +7,8 @@ import {TableSize} from '../../containers/contact-table/contact-table.component'
 import {Portal, TemplatePortal} from '@angular/cdk/portal';
 import {DeleteConfirmationComponent} from '../../containers/delete-confirmation/delete-confirmation.component';
 import {ContactActionCallback, ContactActionsService} from "../../services/contact-actions.service";
+import {BreakpointService} from "../../../core/layout/breakpoint.service";
+import {BehaviorSubject, Observable} from "rxjs";
 
 
 @Component({
@@ -19,10 +21,15 @@ import {ContactActionCallback, ContactActionsService} from "../../services/conta
   ],
 })
 export class ContactBookHomeComponent implements OnInit, AfterViewInit {
+  private _showDeck = true;
+  private searchSubject = new BehaviorSubject<string>("");
+
   contacts: ContactModel[];
   selectedContact: ContactModel;
-  showTable = true;
-  showDetail = false;
+  showLeft = true;
+  showRight = false;
+  searchActive = false;
+  isHandset: boolean;
   tableSize: TableSize = TableSize.FULL;
 
   selectedPortal: Portal<any>;
@@ -34,16 +41,31 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
   @ViewChild('createContactForm') createContactForm: TemplateRef<unknown>;
   @ViewChild('editContactForm') editContactForm: TemplateRef<unknown>;
 
+  get deckOrTableTooltip(): string { return this._showDeck ? "Toggle table" : "Toggle deck"; }
+  get deckOrTableIcon(): string { return this._showDeck ? "table_view": "dashboard"; }
+  get showDeck(): boolean { return this.isHandset || this.searchActive || this._showDeck; }
+  set showDeck(showDeck: boolean) { this._showDeck = showDeck; }
+
+  get filterStr$(): Observable<string> { return this.searchSubject.asObservable(); }
+
+  get filterStr(): string { return this.searchSubject.getValue(); }
+  set filterStr(filterStr: string) {
+    console.log("Set filter string to: ", filterStr)
+    this.searchSubject.next(filterStr);
+  }
+
   constructor(
     private dialog: MatDialog,
     private contactCache: ContactCacheService,
     private snackbar: MatSnackBar,
     private viewContainerRef: ViewContainerRef,
-    private contactActions: ContactActionsService
+    private contactActions: ContactActionsService,
+    private breakpointService: BreakpointService
   ) {}
 
   ngOnInit() {
     this.contactCache.contacts$.subscribe(contacts => this.contacts = contacts);
+    this.breakpointService.isHandset$().subscribe(isHandset => this.isHandset = isHandset);
   }
 
   ngAfterViewInit(): void {
@@ -57,6 +79,7 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
   }
 
   openCreateContactForm() {
+    this.filterStr = undefined;
     this.selectedPortal = this.createPortal;
     this.selectedContact = undefined;
     this.openRightPanel();
@@ -67,7 +90,7 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
   }
 
   setViewContact(contact: ContactModel) {
-    // if (mobile) this.showTable = false;
+    // if (mobile) this.showLeft = false;
     this.selectedContact = contact;
     this.selectedPortal = this.detailPortal;
     this.openRightPanel();
@@ -100,12 +123,12 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
 
   private openRightPanel() {
     console.log('Opening right panel with active portal: ' + this.portalToDescription());
-    this.showDetail = true;
+    this.showRight = true;
     this.tableSize = TableSize.COMPACT;
   }
 
   private reset() {
-    this.showDetail = false;
+    this.showRight = false;
     this.tableSize = TableSize.FULL;
     this.selectedContact = undefined;
     this.selectedPortal = undefined;
@@ -117,7 +140,18 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     if (this.selectedPortal === this.createPortal) { return 'create'; }
     if (this.selectedPortal === this.editPortal) { return 'edit'; }
 
-
     throw new Error('Invalid portalToDescription method - does not have mapping for selected portal');
   }
+
+  onFilterFocus() {
+    console.log("Filter focus")
+    if (this.filterStr && this.filterStr !== "") { this.searchActive = true; }
+  }
+
+  onFilterBlur() {
+    console.log("Filter blur")
+    if (!this.filterStr || this.filterStr === "") { this.searchActive = false; }
+  }
+
+  toggleDeckOrTable() { this.showDeck = !this.showDeck; }
 }

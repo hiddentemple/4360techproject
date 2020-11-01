@@ -10,10 +10,13 @@ import {ErrorDialogComponent} from './errors/error-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {FormsModule} from "@angular/forms";
+import { LoadingBarComponent } from './loading/loading-bar.component';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+
 
 
 @NgModule({
-  declarations: [NavBarComponent, ErrorDialogComponent],
+  declarations: [NavBarComponent, ErrorDialogComponent, LoadingBarComponent],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -23,9 +26,10 @@ import {FormsModule} from "@angular/forms";
     LayoutModule,
     MatDialogModule,
     MatFormFieldModule,
-    FormsModule
+    FormsModule,
+    MatProgressBarModule
   ],
-  exports: [NavBarComponent],
+  exports: [NavBarComponent, LoadingBarComponent],
   entryComponents: [ErrorDialogComponent]
 })
 export class CoreModule { }
