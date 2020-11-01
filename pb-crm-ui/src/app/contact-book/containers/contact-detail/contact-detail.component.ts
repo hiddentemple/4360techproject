@@ -28,7 +28,6 @@ import {ContactModel} from '@hiddentemple/api-interfaces';
 
       <h3 *ngIf="contact.jobTitle"><b>Job Title: </b>{{contact.jobTitle}}</h3>
 
-
       <h3 *ngIf="contact.department"><b>Department: </b>{{contact.department}}</h3>
 
       <h3 *ngIf="contact.organization"><b>Organization: </b>{{contact.organization}}</h3>

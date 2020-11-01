@@ -46,6 +46,7 @@ export class ContactService {
         countryCode: contact.countryCode,
         relatedName: contact.relatedName,
         jobTitle: contact.jobTitle,
+        organization: contact.organization,
         department: contact.department,
         company: contact.company,
         notes: contact.notes,
