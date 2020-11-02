@@ -11,6 +11,7 @@ import {CoreModule} from './core/core.module';
 import {DevComponent} from './dev/dev.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthModule} from './auth/auth.module';
+import { DialogComponent } from './core/dialog/dialog.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";

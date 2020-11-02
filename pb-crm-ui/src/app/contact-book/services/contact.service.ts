@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {
   AbstractContactRequest,
+  AddressDTO,
   ContactModel,
   CreateContactRequest,
   CreateContactResponse,
@@ -12,7 +13,8 @@ import {
   PhoneDTO,
   PhoneModel,
   UpdateContactRequest,
-  UpdateContactResponse
+  UpdateContactResponse,
+  WebpageDTO,
 } from '@hiddentemple/api-interfaces';
 import {ApiService} from '../../api/api.service';
 
@@ -75,7 +77,7 @@ export class ContactService {
   }
 
   reduceToDefined<T>(model: T): Partial<T> {
-    const acc: Partial<T> = {}
+    const acc: Partial<T> = {};
     return Object.entries(model).reduce(this.emptyReducer, acc);
   }
 

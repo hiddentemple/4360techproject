@@ -1,4 +1,4 @@
-import {BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException} from "@nestjs/common";
+import {Injectable, InternalServerErrorException, Logger, NotFoundException} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {EmailEntity} from "../../db/entities/email.entity";
 import {EntityManager, Repository} from "typeorm";
@@ -32,11 +32,11 @@ export class EmailService {
         if (!emailDTOS || emailDTOS === []) return [];
 
         this.logger.log(`Creating ${emailDTOS.length} email(s): ${JSON.stringify(emailDTOS)}`)
-        if (!this.containsNoMoreThanOnePrimary(emailDTOS)) {
-            const errMsg: string = "Emails contained more than 1 primary.";
-            this.logger.error(`${errMsg} Emails: ${JSON.stringify(emailDTOS)}`);
-            throw new BadRequestException(errMsg)
-        }
+        // if (!this.containsNoMoreThanOnePrimary(emailDTOS)) {
+        //     const errMsg: string = "Emails contained more than 1 primary.";
+        //     this.logger.error(`${errMsg} Emails: ${JSON.stringify(emailDTOS)}`);
+        //     throw new BadRequestException(errMsg)
+        // }
 
         const newEmails: EmailEntity[] = [];
         for (const emailDTO of emailDTOS) {

@@ -1,9 +1,8 @@
 import {ContactEntity} from "./contact.entity";
 import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
-
-import {IsBoolean, IsDefined, IsEmail, IsEnum, ValidateNested} from 'class-validator';
+import {IsDefined, IsEmail, IsEnum} from 'class-validator';
 import {EmailModel, PhoneEmailCategory} from "@hiddentemple/api-interfaces";
-import {Type} from "class-transformer";
+
 
 
 @Entity('emails')

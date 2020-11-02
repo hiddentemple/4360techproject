@@ -3,6 +3,9 @@ import {IsDefined, IsOptional, Length, Matches, ValidateNested} from 'class-vali
 import {ContactModel, NameRegex} from "@hiddentemple/api-interfaces";
 import {EmailEntity} from "./email.entity";
 import {PhoneEntity} from "./phone.entity";
+import { AddressEntity } from './address.entity';
+import { WebpageEntity } from './webpage.entity';
+
 
 @Entity("contacts")
 export class ContactEntity implements ContactModel {
@@ -22,35 +25,16 @@ export class ContactEntity implements ContactModel {
     @IsDefined()
     lastName: string;
 
-    @Column({ type: "character varying", length: 50, nullable: true })
+    @Column({ type: 'varchar', length: 50, nullable: true})
     @IsOptional()
     @Length(2, 50)
-    company: string
-
-    @Column({ type: "text", nullable: true })
-    @IsOptional()
-    notes: string
-
-    @Column({ type: "varchar", length: 50, nullable: true})
-    @IsOptional()
-    @Length(2, 50)
-    jobTitle: string;
-
-    @Column({ type: "varchar", length: 50, nullable: true})
-    @IsOptional()
-    @Length(2, 50)
-    department: string;
-
+    nickName: string;
+    
     @Column({ type: "varchar", length: 50, nullable: true})
     @IsOptional()
     @Length(2, 50)
     organization: string;
-
-    @Column({ type: "varchar", length: 50, nullable: true})
-    @IsOptional()
-    @Length(2, 50)
-    gender: string;
-
+    
     @OneToMany(type => EmailEntity, email => email.contact, {
         cascade: true,
         eager: true,
@@ -59,7 +43,7 @@ export class ContactEntity implements ContactModel {
     })
     @IsOptional()
     @ValidateNested({ each: true })
-    // @Type(() => EmailEntity)
+      // @Type(() => EmailEntity)
     emails: EmailEntity[];
 
     @OneToMany(type => PhoneEntity, phone => phone.contact, {
@@ -70,8 +54,77 @@ export class ContactEntity implements ContactModel {
     })
     @IsOptional()
     @ValidateNested({ each: true })
-    // @Type(() => PhoneEntity)
+      // @Type(() => PhoneEntity)
     phones: PhoneEntity[];
+
+    @OneToMany(type => AddressEntity, address => address.contact, {
+        cascade: true,
+        eager: true,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    @IsOptional()
+    @ValidateNested({ each: true })
+    addresses: AddressEntity[];
+
+    @Column({type: 'varchar', length: 25, nullable: true})
+    @IsOptional()
+    @Length(2, 25)
+    countryCode: string;
+
+    @Column({type: 'varchar', length: 50, nullable: true})
+    @IsOptional()
+    @Length(2,50)
+    relatedName: string;
+
+    @Column({type: 'varchar', length: 50, nullable: true})
+    @IsOptional()
+    @Length(2, 50)
+    jobTitle: string;
+
+    @Column({type: 'varchar', length: 50, nullable: true})
+    @IsOptional()
+    @Length(2, 50)
+    department: string;
+
+    @Column({type: 'varchar', length: 50, nullable: true})
+    @IsOptional()
+    @Length(2, 50)
+    company: string;
+
+    @Column({ type: "text", nullable: true})
+    @IsOptional()
+    notes: string
+
+    @Column({type: 'varchar', length: 50, nullable: true})
+    @IsOptional()
+    @Length(2, 50)
+    birthday: string;
+
+    @Column({type: 'varchar', length: 50, nullable: true})
+    @IsOptional()
+    @Length(2, 50)
+    anniversary: string;
+
+    @Column({type: 'varchar', length: 50, nullable: true})
+    @IsOptional()
+    @Length(2, 50)
+    gender: string;
+
+    @OneToMany(type => WebpageEntity, webpage => webpage.contact, {
+        cascade: true,
+        eager: true,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    @IsOptional()
+    @ValidateNested({ each: true })
+    webpages: WebpageEntity[];
+
+    @Column({type: 'varchar', length: 50, nullable:true, array: true})
+    @IsOptional()
+    @Length(2, 50)
+    tags: string[];
 
     @CreateDateColumn({name: 'createdAt', nullable: false})
     createdAt: Date;
