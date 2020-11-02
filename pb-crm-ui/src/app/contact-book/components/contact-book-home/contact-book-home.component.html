@@ -7,46 +7,64 @@
 
     <!-- Right Buttons -->
     <span>
-          <button mat-icon-button
-                  aria-label="Add Contact"
-                  matTooltip="Add a new contact"
-                  matTooltipPosition="left"
-                  (click)="openCreateContactForm()">
-            <mat-icon color="primary">add_circle_outline</mat-icon>
-          </button>
-          <button mat-icon-button
-                  aria-label="Import Contacts"
-                  matTooltip="Import contacts from file."
-                  matTooltipPosition="left"
-                  (click)="openImportDialog()">
+      <button mat-icon-button
+              aria-label="Add Contact"
+              matTooltip="Add a new contact"
+              matTooltipPosition="left"
+              (click)="openCreateContactForm()">
+        <mat-icon color="primary">add_circle_outline</mat-icon>
+      </button>
+      <button mat-icon-button
+              matTooltip="Refresh"
+              matTooltipPosition="left"
+              (click)="refresh()">
+        <mat-icon color="primary">refresh</mat-icon>
+      </button>
+      <button mat-icon-button
+              aria-label="Import Contacts"
+              matTooltip="Import contacts from file."
+              matTooltipPosition="left"
+              (click)="openImportDialog()">
             <mat-icon color="primary">import_export</mat-icon>
           </button>
-          <button mat-icon-button
-                  matTooltip="Refresh"
-                  matTooltipPosition="left"
-                  (click)="refresh()">
-            <mat-icon color="primary">refresh</mat-icon>
-          </button>
-        </span>
+      <button *ngIf="!isHandset"
+              mat-icon-button
+              aria-label="Toggle deck or table"
+              matTooltip="{{deckOrTableTooltip}}"
+              matTooltipPosition="left"
+              (click)="toggleDeckOrTable()">
+        <mat-icon color="primary">{{deckOrTableIcon}}</mat-icon>
+      </button>
+    </span>
   </div>
 
-  <hr class="mt-0" />
+  <hr class="mt-0"/>
+
+  <!-- Search Bar --->
+  <mat-form-field style="width: 100%">
+    <mat-label>Filter</mat-label>
+    <input #searchBar matInput
+           [(ngModel)]="filterStr"
+           (blur)="onFilterBlur()"
+           (keyup)="onSearchKeyUp()"
+           placeholder="Ex. Mia">
+  </mat-form-field>
 
   <!-- Split View --->
   <div>
     <as-split>
       <!-- Left Side -->
-      <as-split-area *ngIf="showTable" [order]="0">
-        <app-contact-table [contacts]="contacts"
-                           [size]="tableSize"
-                           (delete)="deleteContact($event)"
-                           (edit)="setEditContact($event)"
-                           (view)="setViewContact($event)">
-        </app-contact-table>
+      <as-split-area *ngIf="showLeft" [order]="0">
+        <!-- Search View --->
+        <app-contact-card-deck *ngIf="showDeck; else tableView"
+                               [filterStr$]="filterStr$"
+                               (delete)="deleteContact($event)"
+                               (edit)="setEditContact($event)">
+        </app-contact-card-deck>
       </as-split-area>
 
       <!-- Right Side -->
-      <as-split-area *ngIf="showDetail" [order]="1">
+      <as-split-area *ngIf="showRight" [order]="1">
         <button mat-icon-button
                 matTooltip="Close Detail"
                 matTooltipPosition="left"
@@ -61,10 +79,19 @@
   </div>
 </div>
 
+<ng-template #tableView>
+  <app-contact-table [contacts]="contacts"
+                     [size]="tableSize"
+                     (delete)="deleteContact($event)"
+                     (edit)="setEditContact($event)"
+                     (view)="setViewContact($event)">
+  </app-contact-table>
+</ng-template>
+
 <ng-template #contactDetail>
   <app-contact-detail [contact]="selectedContact"
                       (delete)="deleteContact($event)"
-                      (edit)="setEditContact($event)" >
+                      (edit)="setEditContact($event)">
   </app-contact-detail>
 </ng-template>
 
