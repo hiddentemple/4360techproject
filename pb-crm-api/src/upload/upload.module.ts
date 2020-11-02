@@ -5,9 +5,8 @@ import { UploadController } from './upload.controller';
 import { UploadService } from './upload.service';
 
 
-
 @Module({
-  imports: [TypeOrmModule.forFeature([ContactEntity])],
+  imports: [TypeOrmModule.forFeature([ContactEntity])], 
   providers: [UploadService],
   controllers: [UploadController]
 

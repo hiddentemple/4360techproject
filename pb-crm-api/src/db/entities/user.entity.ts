@@ -1,18 +1,19 @@
 import {
-    BeforeInsert,
-    Column,
-    CreateDateColumn,
-    Entity,
-    JoinColumn,
-    OneToOne,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn,
+  BeforeInsert, BeforeUpdate,
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import {UserTypeEntity} from "./user-type.entity";
 import {ContactEntity} from "./contact.entity";
-import {IsEmail, Length, MaxLength} from "class-validator";
+import { IsEmail, Length, MaxLength, validateOrReject } from 'class-validator';
 import * as bcrypt from 'bcrypt';
 import {UserModel} from "@hiddentemple/api-interfaces";
+import { HttpException } from '@nestjs/common';
 
 
 @Entity('users')
@@ -51,5 +52,17 @@ export class UserEntity implements UserModel {
 
   async comparePassword(attempt: string): Promise<boolean> {
     return await bcrypt.compare(attempt, this.password)
+  }
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  async validate(){ await validateOrReject(this).then(
+    onFulfilled => {
+      return onFulfilled
+    },
+    onRejected => {
+      throw new HttpException( {'statusCode': 400, 'message': onRejected[0].constraints}, 400)
+    }
+  )
   }
 }
