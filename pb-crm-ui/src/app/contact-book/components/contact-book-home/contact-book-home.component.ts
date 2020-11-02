@@ -3,7 +3,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {ContactModel} from '@hiddentemple/api-interfaces';
 import {ContactCacheService} from '../../services/contact-cache.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {TableSize} from '../../containers/contact-table/contact-table.component';
+import { ContactTableComponent, TableSize } from '../../containers/contact-table/contact-table.component';
 import {Portal, TemplatePortal} from '@angular/cdk/portal';
 import {DeleteConfirmationComponent} from '../../containers/delete-confirmation/delete-confirmation.component';
 import {ContactActionCallback, ContactActionsService} from "../../services/contact-actions.service";
@@ -12,6 +12,7 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {ContactCardDeckComponent} from "../../containers/contact-card-deck/contact-card-deck.component";
 import {DialogInterface} from '../../../core/dialog/temp-dialog.interface';
 import {DialogService} from '../../../core/dialog/dialog.service';
+import {ImportFileService} from '../../containers/import-file/import-file.service';
 import {ImportFileComponent} from '../../containers/import-file/import-file.component';
 
 
@@ -66,24 +67,25 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     private viewContainerRef: ViewContainerRef,
     private contactActions: ContactActionsService,
     private dialogService: DialogService,
+    private importFileService: ImportFileService,
     private breakpointService: BreakpointService
   ) {}
 
   openImportDialog(): void {
     const importDialogData: DialogInterface = {
       title: 'Import Contact File',
-      showSubmitBtn: false,
-      showOkBtn: true,
+      showSubmitBtn: true,
+      showOkBtn: false,
       showCancelBtn: true,
       component: ImportFileComponent
     };
 
-    const dialogRef = this.dialogService.openDialog(
-      importDialogData, {  });
-
-    dialogRef.afterClosed().subscribe(result => {
+    const dialogRef = this.dialogService.openDialog(importDialogData, {  });
+    dialogRef.afterClosed().subscribe(async result => {
       if (result) {
-        // do something with ok/submit
+        // TODO better handling of file import
+        await this.importFileService.onSubmit().then(r => console.log(r));
+        this.snackbar.open('Contacts Imported', 'Close', {duration: 2000});
       } else {
         // cancel / close dialog
         console.log('User clicked cancel');

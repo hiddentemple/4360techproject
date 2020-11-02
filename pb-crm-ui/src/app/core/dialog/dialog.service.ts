@@ -22,7 +22,9 @@ export class DialogService {
     });
 
     this.dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+      if (result){
+        console.log(result);
+      }
     });
 
     return this.dialogRef;
