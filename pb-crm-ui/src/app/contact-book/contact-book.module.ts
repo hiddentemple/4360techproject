@@ -35,10 +35,6 @@ import { ContactCardDeckComponent } from './containers/contact-card-deck/contact
 import {NgxMasonryModule} from "ngx-masonry";
 import {MatRadioModule} from '@angular/material/radio';
 import {OverlayModule} from '@angular/cdk/overlay';
-import {CoreModule} from "../core/core.module";
-
-
-
 
 @NgModule({
   declarations: [
