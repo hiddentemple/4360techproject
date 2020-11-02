@@ -48,7 +48,7 @@ export class UploadService {
           relatedName: record.RelatedName,
           jobTitle: record.JobTitle,
           department: record.Department,
-          company: record.Organization,
+          organization: record.Organization,
           notes: record.Notes,
           birthday:  record.Birthday,
           anniversary:  record.Anniversary,
@@ -92,6 +92,7 @@ export class UploadService {
               break;
             }
           }
+          phones.push(phone)
         }
       }
     }
