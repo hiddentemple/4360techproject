@@ -4,13 +4,12 @@ import {CommonModule} from '@angular/common';
 import {ContactBookRoutingModule} from './contact-book-routing.module';
 import {ContactFormComponent} from './containers/contact-form/contact-form.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {ContactBookHomeComponent} from './components/contact-book-home/contact-book-home.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {CreateContactDialogComponent} from './containers/create-contact-dialog/create-contact-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {ContactTableComponent} from './containers/contact-table/contact-table.component';
 import {MatTableModule} from '@angular/material/table';
@@ -32,14 +31,15 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {DeleteConfirmationComponent} from './containers/delete-confirmation/delete-confirmation.component';
 import {MatSelectModule} from "@angular/material/select";
 import {MatCheckboxModule} from '@angular/material/checkbox';
-
-
+import { ContactCardDeckComponent } from './containers/contact-card-deck/contact-card-deck.component';
+import {NgxMasonryModule} from "ngx-masonry";
+import {MatRadioModule} from '@angular/material/radio';
+import {OverlayModule} from '@angular/cdk/overlay';
 
 @NgModule({
   declarations: [
     ContactFormComponent,
     ContactBookHomeComponent,
-    CreateContactDialogComponent,
     ContactTableComponent,
     ContactDetailPageComponent,
     ContactDetailComponent,
@@ -47,39 +47,44 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     PhoneTableComponent,
     ImportFileComponent,
     PhoneTableComponent,
-    DeleteConfirmationComponent
+    DeleteConfirmationComponent,
+    ContactCardDeckComponent,
   ],
   exports: [
     ContactFormComponent,
   ],
-    imports: [
-        CommonModule,
-        ContactBookRoutingModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatFormFieldModule,
-        ReactiveFormsModule,
-        MatInputModule,
-        MatInputModule,
-        MatFormFieldModule,
-        MatButtonModule,
-        MatIconModule,
-        MatTooltipModule,
-        MatDialogModule,
-        MatTableModule,
-        MatSortModule,
-        MatPaginatorModule,
-        MatMenuModule,
-        MatSnackBarModule,
-        MatRippleModule,
-        AngularSplitModule.forRoot(),
-        PortalModule,
-        MatOptionModule,
-        MatAutocompleteModule,
-        CoreModule,
-        MatSelectModule,
-        MatCheckboxModule
-    ],
+  imports: [
+    CommonModule,
+    CoreModule,
+    ContactBookRoutingModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatDialogModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatMenuModule,
+    MatSnackBarModule,
+    MatRippleModule,
+    AngularSplitModule.forRoot(),
+    PortalModule,
+    MatOptionModule,
+    MatAutocompleteModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    NgxMasonryModule,
+    FormsModule,
+    MatRadioModule,
+    OverlayModule
+  ],
   entryComponents: [
     DialogComponent,
     ContactFormComponent,
