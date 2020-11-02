@@ -1,14 +1,14 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, } from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ContactModel, EmailModel, PhoneEmailCategory, PhoneModel} from '@hiddentemple/api-interfaces';
 import {BreakpointService} from '../../../core/layout/breakpoint.service';
-import {BehaviorSubject, Observable} from "rxjs";
-import {debounceTime, filter, map, tap} from "rxjs/operators";
+import {BehaviorSubject, Observable} from 'rxjs';
+import {debounceTime, filter, map, tap} from 'rxjs/operators';
 import {DeleteConfirmationComponent} from '../delete-confirmation/delete-confirmation.component';
 import {MatDialog} from '@angular/material/dialog';
 
 
-export const PhoneRegex = /[0-9]{10}/;
+export const PhoneRegex = /^\+\d{5,15}$/;
 export const PhoneValidator = Validators.pattern(PhoneRegex); // TODO validate length and numeric
 
 @Component({
