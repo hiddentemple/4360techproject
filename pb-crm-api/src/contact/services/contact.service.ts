@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
+import { Body, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ContactEntity } from '../../db/entities/contact.entity';
 import { DeleteResult, EntityManager, getConnection, Repository, UpdateResult } from 'typeorm';
@@ -7,6 +7,8 @@ import { CreateContactRequest, UpdateContactRequest } from '@hiddentemple/api-in
 import { PhoneService } from './phone.service';
 import { AddressService } from './address.service';
 import { WebpageService } from './webpage.service';
+import { UploadService } from '../../upload/upload.service';
+import { validate } from 'class-validator';
 
 @Injectable()
 export class ContactService {
@@ -17,7 +19,8 @@ export class ContactService {
     private emailService: EmailService,
     private phoneService: PhoneService,
     private addressService: AddressService,
-    private webpageService: WebpageService
+    private webpageService: WebpageService,
+    private uploadService: UploadService
   ) {
   }
 
@@ -35,7 +38,6 @@ export class ContactService {
 
   async create(req: CreateContactRequest): Promise<ContactEntity> {
     this.logger.log(`Creating contact from request ${JSON.stringify(req)}`)
-
     const {contact} = req;
     let savedContact: ContactEntity;
     await getConnection().transaction(async (entityManager: EntityManager) => {
@@ -45,6 +47,7 @@ export class ContactService {
         nickName: contact.nickName,
         countryCode: contact.countryCode,
         relatedName: contact.relatedName,
+        organization: contact.organization, 
         jobTitle: contact.jobTitle,
         department: contact.department,
         company: contact.company,
@@ -53,20 +56,31 @@ export class ContactService {
         anniversary: contact.anniversary,
         gender: contact.gender,
         tags: contact.tags
-        
-
       });
-
       savedContact = await entityManager.save(newContact); // Populates ID
       await this.emailService.createMany(newContact, contact.emails, entityManager);
       await this.phoneService.createMany(newContact, contact.phones, entityManager);
       await this.addressService.createMany(newContact, contact.addresses, entityManager)
       await this.webpageService.createMany(newContact, contact.webpages, entityManager)
     });
-
+    
     const createdContact = await this.getById(savedContact.id)
     this.logger.log(`Saved new contact as ${JSON.stringify(createdContact)}`)
     return createdContact;
+  }
+  
+  async getRequestFromFile(filename: string): Promise<ContactEntity[]>{
+    let requests: CreateContactRequest[] = await this.uploadService.contactParse(filename)
+    return await this.createMany(requests)
+  }
+  
+  async createMany(requests: CreateContactRequest[]): Promise<ContactEntity[]>{
+    let contacts: ContactEntity[] = []
+    for(let req of requests){
+      let contact: ContactEntity = await this.create(req)
+      contacts.push(contact)
+    }
+    return contacts;
   }
 
   async update(id: string, dto: UpdateContactRequest): Promise<ContactEntity> {

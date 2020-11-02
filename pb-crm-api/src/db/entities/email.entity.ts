@@ -1,7 +1,8 @@
 import {ContactEntity} from "./contact.entity";
-import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
-import {IsDefined, IsEmail, IsEnum} from 'class-validator';
+import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { IsDefined, IsEmail, IsEnum, validateOrReject } from 'class-validator';
 import {EmailModel, PhoneEmailCategory} from "@hiddentemple/api-interfaces";
+import { HttpException } from '@nestjs/common';
 
 
 
@@ -30,4 +31,16 @@ export class EmailEntity implements EmailModel {
     })
     @JoinColumn()
     contact: ContactEntity
+
+    @BeforeInsert()
+    @BeforeUpdate()
+    async validate(){ await validateOrReject(this).then(
+      onFulfilled => {
+          return onFulfilled
+      },
+      onRejected => {
+          throw new HttpException( {'statusCode': 400, 'message': onRejected[0].constraints}, 400)
+      }
+    )
+    }
 }
