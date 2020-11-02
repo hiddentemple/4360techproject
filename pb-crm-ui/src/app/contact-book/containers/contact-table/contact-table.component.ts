@@ -51,11 +51,6 @@ export class ContactTableComponent implements AfterViewInit {
   onDelete(contact: ContactModel) { this.delete.emit(contact); }
   onView(contact: ContactModel) { this.view.emit(contact); }
 
-  applyFilter(event: Event) {
-    const filterValue: string = (event.target as HTMLInputElement).value;
-    this.setFilter(filterValue)
-  }
-
   getPrimaryPhone(contact: ContactModel): string {
     if (!contact.phones || contact.phones.length === 0) return '';
     // else
@@ -66,11 +61,6 @@ export class ContactTableComponent implements AfterViewInit {
     if (!contact.emails || contact.emails.length === 0) return '';
     // else
     return contact.emails.find(email => email.category === PhoneEmailCategory.PRIMARY)?.address
-  }
-
-  private setFilter(filterStr: string) {
-    this.dataSource.filter = filterStr.trim().toLowerCase();
-    this.dataSource.paginator.firstPage();
   }
 
   private setContacts(contacts: ContactModel[]) {

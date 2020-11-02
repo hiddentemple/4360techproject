@@ -8,7 +8,7 @@ define(PhoneEntity, (faker, context: any) => {
     const phoneStr: string = faker.phone.phoneNumberFormat(3)
     const oneDot: string = phoneStr.replace(".", "")
     const noDots: string = oneDot.replace(".", "")
-    phone.phoneNumber = noDots;
+    phone.phoneNumber = "+1303" + noDots.slice(3, 10);
 
     phone.category = faker.random.arrayElement(Object.values(PhoneEmailCategory));
 

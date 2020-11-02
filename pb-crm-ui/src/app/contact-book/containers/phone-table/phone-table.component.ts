@@ -8,7 +8,7 @@ import {PhoneModel} from '@hiddentemple/api-interfaces';
       <!-- Phone Column -->
       <ng-container matColumnDef="number">
         <th mat-header-cell *matHeaderCellDef>Phone Number</th>
-        <td mat-cell *matCellDef="let phone"> {{phone.phoneNumber}}</td>
+        <td mat-cell *matCellDef="let phone"> {{phone.phoneNumber | phone}}</td>
       </ng-container>
 
       <!-- Type Column -->
