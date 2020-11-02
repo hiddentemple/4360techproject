@@ -32,6 +32,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {DeleteConfirmationComponent} from './containers/delete-confirmation/delete-confirmation.component';
 import {MatSelectModule} from "@angular/material/select";
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { WebpageTableComponent } from './containers/website-table/webpage-table.component';
 
 
 
@@ -47,7 +48,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     PhoneTableComponent,
     ImportFileComponent,
     PhoneTableComponent,
-    DeleteConfirmationComponent
+    DeleteConfirmationComponent,
+    WebpageTableComponent,
   ],
   exports: [
     ContactFormComponent,

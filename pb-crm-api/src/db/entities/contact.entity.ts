@@ -121,7 +121,7 @@ export class ContactEntity implements ContactModel {
     @ValidateNested({ each: true })
     webpages: WebpageEntity[];
 
-    @Column({type: 'varchar', length: 50, nullable:true, array: true})
+    @Column({type: 'varchar', length: 50, nullable: true, array: true})
     @IsOptional()
     @Length(2, 50)
     tags: string[];
