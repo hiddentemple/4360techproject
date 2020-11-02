@@ -24,6 +24,9 @@ import {AngularSplitModule} from 'angular-split';
 import {EmailTableComponent} from './containers/email-table/email-table.component';
 import {PhoneTableComponent} from './containers/phone-table/phone-table.component';
 import {PortalModule} from '@angular/cdk/portal';
+import {CoreModule} from '../core/core.module';
+import {DialogComponent} from '../core/dialog/dialog.component';
+import {ImportFileComponent} from './containers/import-file/import-file.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {DeleteConfirmationComponent} from './containers/delete-confirmation/delete-confirmation.component';
 import {MatSelectModule} from "@angular/material/select";
@@ -46,6 +49,7 @@ import {CoreModule} from "../core/core.module";
     ContactDetailComponent,
     EmailTableComponent,
     PhoneTableComponent,
+    ImportFileComponent,
     PhoneTableComponent,
     DeleteConfirmationComponent,
     ContactCardDeckComponent,
@@ -86,9 +90,11 @@ import {CoreModule} from "../core/core.module";
     OverlayModule
   ],
   entryComponents: [
+    DialogComponent,
     ContactFormComponent,
     ContactDetailComponent,
-    DeleteConfirmationComponent
+    DeleteConfirmationComponent,
+    ImportFileComponent
   ]
 })
 export class ContactBookModule {

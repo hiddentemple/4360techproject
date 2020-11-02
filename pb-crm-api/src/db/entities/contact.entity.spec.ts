@@ -1,7 +1,6 @@
 import {ContactEntity} from "./contact.entity";
-import {expectError, expectNoErrors, getCategory} from "../../test.utils";
+import {expectError, expectNoErrors} from "../../test.utils";
 import {EmailEntity} from "./email.entity";
-import {CategoryCode} from "@hiddentemple/api-interfaces";
 import {PhoneEntity} from "./phone.entity";
 
 describe("ContactEntity", () => {
@@ -55,45 +54,45 @@ describe("ContactEntity", () => {
         return expectNoErrors(contact)
     });
 
-    it('if emails are present, it should reject without a primary email', () => {
-        const userEmail: EmailEntity = getEmail(CategoryCode.USER);
-        const emails = [userEmail]
-        const expectedMessage = 'Must have at least one primary email'
-        contact = getValidContact(contact);
-        contact.emails = emails;
+    // it('if emails are present, it should reject without a primary email', () => {
+    //     const userEmail: EmailEntity = getEmail(CategoryCode.USER);
+    //     const emails = [userEmail]
+    //     const expectedMessage = 'Must have at least one primary email'
+    //     contact = getValidContact(contact);
+    //     contact.emails = emails;
+    //
+    //     return expectError(contact, 'emails', 'hasPrimary', expectedMessage)
+    // });
 
-        return expectError(contact, 'emails', 'hasPrimary', expectedMessage)
-    });
+    // it('should accept emails which contains a default', () => {
+    //     const userEmail: EmailEntity = getEmail(CategoryCode.USER);
+    //     const primaryEmail: EmailEntity = getEmail(CategoryCode.PRIMARY);
+    //     const emails = [userEmail, primaryEmail]
+    //     contact = getValidContact(contact);
+    //     contact.emails = emails;
+    //
+    //     return expectNoErrors(contact)
+    // });
 
-    it('should accept emails which contains a default', () => {
-        const userEmail: EmailEntity = getEmail(CategoryCode.USER);
-        const primaryEmail: EmailEntity = getEmail(CategoryCode.PRIMARY);
-        const emails = [userEmail, primaryEmail]
-        contact = getValidContact(contact);
-        contact.emails = emails;
-
-        return expectNoErrors(contact)
-    });
-
-    it('if phones are present, it should reject without a primary phone', () => {
-        const userPhone: PhoneEntity = getPhone(CategoryCode.USER);
-        const phones = [userPhone]
-        const expectedMessage = 'Must have at least one primary phone'
-        contact = getValidContact(contact);
-        contact.phones = phones;
-
-        return expectError(contact, 'phones', 'hasPrimary', expectedMessage)
-    });
-
-    it('should accept phones which contains a default', () => {
-        const userPhone: PhoneEntity = getPhone(CategoryCode.USER);
-        const primaryPhone: PhoneEntity = getPhone(CategoryCode.PRIMARY);
-        const phones = [userPhone, primaryPhone]
-        contact = getValidContact(contact);
-        contact.phones = phones;
-
-        return expectNoErrors(contact)
-    });
+    // it('if phones are present, it should reject without a primary phone', () => {
+    //     const userPhone: PhoneEntity = getPhone(CategoryCode.USER);
+    //     const phones = [userPhone]
+    //     const expectedMessage = 'Must have at least one primary phone'
+    //     contact = getValidContact(contact);
+    //     contact.phones = phones;
+    //
+    //     return expectError(contact, 'phones', 'hasPrimary', expectedMessage)
+    // });
+    //
+    // it('should accept phones which contains a default', () => {
+    //     const userPhone: PhoneEntity = getPhone(CategoryCode.USER);
+    //     const primaryPhone: PhoneEntity = getPhone(CategoryCode.PRIMARY);
+    //     const phones = [userPhone, primaryPhone]
+    //     contact = getValidContact(contact);
+    //     contact.phones = phones;
+    //
+    //     return expectNoErrors(contact)
+    // });
 })
 
 function getValidContact(contact: ContactEntity, firstName: string = 'vaildFirst', lastName: string = 'validLast') {
@@ -103,23 +102,23 @@ function getValidContact(contact: ContactEntity, firstName: string = 'vaildFirst
 }
 
 
-function getEmail(category: CategoryCode): EmailEntity {
-    return {
-        id: '',
-        address: 'bob@gmail.com',
-        category: getCategory(category),
-        contact: undefined
-    }
-}
-
-function getPhone(category: CategoryCode): PhoneEntity {
-    return {
-        id: '',
-        phoneNumber: '3256545585',
-        category: getCategory(category),
-        contact: undefined
-    }
-}
+// function getEmail(category: CategoryCode): EmailEntity {
+//     return {
+//         id: '',
+//         address: 'bob@gmail.com',
+//         category: getCategory(category),
+//         contact: undefined
+//     }
+// }
+//
+// function getPhone(category: CategoryCode): PhoneEntity {
+//     return {
+//         id: '',
+//         phoneNumber: '3256545585',
+//         category: getCategory(category),
+//         contact: undefined
+//     }
+// }
 
 enum NameType { FIRST, LAST}
 

@@ -1,20 +1,25 @@
-import {Injectable, InternalServerErrorException, Logger, NotFoundException} from '@nestjs/common';
-import {InjectRepository} from "@nestjs/typeorm";
-import {ContactEntity} from "../../db/entities/contact.entity";
-import {DeleteResult, EntityManager, getConnection, Repository, UpdateResult} from "typeorm";
-import {EmailService} from "./email.service";
-import {CreateContactRequest, UpdateContactRequest} from "@hiddentemple/api-interfaces";
-import {PhoneService} from "./phone.service";
+import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ContactEntity } from '../../db/entities/contact.entity';
+import { DeleteResult, EntityManager, getConnection, Repository, UpdateResult } from 'typeorm';
+import { EmailService } from './email.service';
+import { CreateContactRequest, UpdateContactRequest } from '@hiddentemple/api-interfaces';
+import { PhoneService } from './phone.service';
+import { AddressService } from './address.service';
+import { WebpageService } from './webpage.service';
 
 @Injectable()
 export class ContactService {
   private readonly logger = new Logger(ContactService.name)
 
   constructor(
-      @InjectRepository(ContactEntity) private contactRepo: Repository<ContactEntity>,
-      private emailService: EmailService,
-      private phoneService: PhoneService
-  ) {}
+    @InjectRepository(ContactEntity) private contactRepo: Repository<ContactEntity>,
+    private emailService: EmailService,
+    private phoneService: PhoneService,
+    private addressService: AddressService,
+    private webpageService: WebpageService
+  ) {
+  }
 
   async getAll(): Promise<ContactEntity[]> {
     return this.contactRepo.find();
@@ -37,18 +42,27 @@ export class ContactService {
        const newContact = await entityManager.create<ContactEntity>( ContactEntity, {
         firstName: contact.firstName,
         lastName: contact.lastName,
-        company: contact.company,
-        notes: contact.notes,
+        nickName: contact.nickName,
+        countryCode: contact.countryCode,
+        relatedName: contact.relatedName,
         jobTitle: contact.jobTitle,
         department: contact.department,
-        organization: contact.organization,
-        gender: contact.gender
+        company: contact.company,
+        notes: contact.notes,
+        birthday: contact.birthday,
+        anniversary: contact.anniversary,
+        gender: contact.gender,
+        tags: contact.tags
+        
+
       });
 
       savedContact = await entityManager.save(newContact); // Populates ID
-      await this.emailService.createMany(newContact, contact.emails, entityManager)
-      await this.phoneService.createMany(newContact, contact.phones, entityManager)
-    })
+      await this.emailService.createMany(newContact, contact.emails, entityManager);
+      await this.phoneService.createMany(newContact, contact.phones, entityManager);
+      await this.addressService.createMany(newContact, contact.addresses, entityManager)
+      await this.webpageService.createMany(newContact, contact.webpages, entityManager)
+    });
 
     const createdContact = await this.getById(savedContact.id)
     this.logger.log(`Saved new contact as ${JSON.stringify(createdContact)}`)
@@ -74,13 +88,15 @@ export class ContactService {
     this.logger.log(`Updated contact with simple properties: ${JSON.stringify(contact)}`)
 
     await getConnection().transaction(async entityManger => {
-      await this.emailService.updateMany(contact, dto.contact.emails, entityManger)
-      await this.phoneService.updateMany(contact, dto.contact.phones, entityManger)
-      const {affected}: UpdateResult = await entityManger.update<ContactEntity>(ContactEntity, id, filtered);
+      await this.emailService.updateMany(contact, dto.contact.emails, entityManger);
+      await this.phoneService.updateMany(contact, dto.contact.phones, entityManger);
+      await this.addressService.updateMany(contact, dto.contact.addresses, entityManger)
+      await this.webpageService.updateMany(contact, dto.contact.webpages, entityManger)
+      const { affected }: UpdateResult = await entityManger.update<ContactEntity>(ContactEntity, id, filtered);
       if (affected === 0) {
         throw new InternalServerErrorException("Failed to update contact")
       }
-    })
+    });
 
     return this.getById(id);
   }
@@ -93,15 +109,16 @@ export class ContactService {
     await getConnection().transaction(async entityManger => {
       await this.emailService.deleteMany(contact.emails, entityManger);
       await this.phoneService.deleteMany(contact.phones, entityManger);
-
-      const {affected}: DeleteResult = await entityManger.delete<ContactEntity>(ContactEntity, id);
+      await this.addressService.deleteMany(contact.addresses, entityManger)
+      await this.webpageService.deleteMany(contact.webpages, entityManger)
+      const { affected }: DeleteResult = await entityManger.delete<ContactEntity>(ContactEntity, id);
       if (affected === 0) {
         const errMsg = `Could not delete contact: ${JSON.stringify(contact)}`;
         this.logger.error(errMsg);
         throw new InternalServerErrorException(errMsg);
       }
-    })
+    });
 
-    this.logger.log(`Deleted contact with id ${JSON.stringify(id)}`)
+    this.logger.log(`Deleted contact with id ${JSON.stringify(id)}`);
   }
 }

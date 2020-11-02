@@ -20,6 +20,13 @@
               (click)="refresh()">
         <mat-icon color="primary">refresh</mat-icon>
       </button>
+      <button mat-icon-button
+              aria-label="Import Contacts"
+              matTooltip="Import contacts from file."
+              matTooltipPosition="left"
+              (click)="openImportDialog()">
+            <mat-icon color="primary">import_export</mat-icon>
+          </button>
       <button *ngIf="!isHandset"
               mat-icon-button
               aria-label="Toggle deck or table"

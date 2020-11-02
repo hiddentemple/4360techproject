@@ -10,6 +10,9 @@ import {ContactActionCallback, ContactActionsService} from "../../services/conta
 import {BreakpointService} from "../../../core/layout/breakpoint.service";
 import {BehaviorSubject, Observable} from "rxjs";
 import {ContactCardDeckComponent} from "../../containers/contact-card-deck/contact-card-deck.component";
+import {DialogInterface} from '../../../core/dialog/temp-dialog.interface';
+import {DialogService} from '../../../core/dialog/dialog.service';
+import {ImportFileComponent} from '../../containers/import-file/import-file.component';
 
 
 @Component({
@@ -62,8 +65,31 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     private snackbar: MatSnackBar,
     private viewContainerRef: ViewContainerRef,
     private contactActions: ContactActionsService,
+    private dialogService: DialogService,
     private breakpointService: BreakpointService
   ) {}
+
+  openImportDialog(): void {
+    const importDialogData: DialogInterface = {
+      title: 'Import Contact File',
+      showSubmitBtn: false,
+      showOkBtn: true,
+      showCancelBtn: true,
+      component: ImportFileComponent
+    };
+
+    const dialogRef = this.dialogService.openDialog(
+      importDialogData, {  });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // do something with ok/submit
+      } else {
+        // cancel / close dialog
+        console.log('User clicked cancel');
+      }
+    });
+  }
 
   ngOnInit() {
     this.contactCache.contacts$.subscribe(contacts => this.contacts = contacts);
@@ -120,7 +146,7 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
       if (this.selectedContact === contact) {
         this.reset();
       }
-    }
+    };
     return this.contactActions.deleteContact(contact, callback);
   }
 

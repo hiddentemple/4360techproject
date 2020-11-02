@@ -1,7 +1,6 @@
 import {BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {EntityManager, Repository} from "typeorm";
-import {CategoryService} from "./category.service";
 import {PhoneDTO, PhoneEmailCategory} from "@hiddentemple/api-interfaces";
 import {ContactEntity} from "../../db/entities/contact.entity";
 import {PhoneEntity} from "../../db/entities/phone.entity";
@@ -13,7 +12,7 @@ export class PhoneService {
 
     constructor(
         @InjectRepository(PhoneEntity) private repo: Repository<PhoneEntity>,
-        private categoryService: CategoryService,
+  
     ) {}
 
     async getById(id: string): Promise<PhoneEntity> {

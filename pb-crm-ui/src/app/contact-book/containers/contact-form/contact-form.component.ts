@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges,} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, } from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ContactModel, EmailModel, PhoneEmailCategory, PhoneModel} from '@hiddentemple/api-interfaces';
 import {BreakpointService} from '../../../core/layout/breakpoint.service';
