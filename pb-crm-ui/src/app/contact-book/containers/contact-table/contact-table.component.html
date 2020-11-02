@@ -21,7 +21,7 @@
   <ng-container matColumnDef="phone">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Primary Phone </th>
     <td mat-cell *matCellDef="let contact" (click)="onView(contact)">
-      {{getPrimaryPhone(contact)}}
+      {{getPrimaryPhone(contact) | phone}}
     </td>
   </ng-container>
 

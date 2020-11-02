@@ -13,11 +13,12 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {FormsModule} from "@angular/forms";
 import { LoadingBarComponent } from './loading/loading-bar.component';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { PhonePipe } from './pipes/phone.pipe';
 
 
 
 @NgModule({
-  declarations: [NavBarComponent, DialogComponent, ErrorDialogComponent, LoadingBarComponent],
+  declarations: [NavBarComponent, DialogComponent, ErrorDialogComponent, LoadingBarComponent, PhonePipe],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -30,7 +31,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     FormsModule,
     MatProgressBarModule
   ],
-  exports: [NavBarComponent, DialogComponent, LoadingBarComponent],
+  exports: [NavBarComponent, DialogComponent, LoadingBarComponent, PhonePipe],
   entryComponents: [DialogComponent, ErrorDialogComponent]
 })
 export class CoreModule { }
