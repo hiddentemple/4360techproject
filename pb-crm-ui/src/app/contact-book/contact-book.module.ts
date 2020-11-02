@@ -30,7 +30,7 @@ import {DialogComponent} from '../core/dialog/dialog.component';
 import {ImportFileComponent} from './containers/import-file/import-file.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {DeleteConfirmationComponent} from './containers/delete-confirmation/delete-confirmation.component';
-import {MatSelectModule} from "@angular/material/select";
+import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 
 

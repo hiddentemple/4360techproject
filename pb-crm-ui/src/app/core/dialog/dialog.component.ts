@@ -17,4 +17,8 @@ export class DialogComponent implements OnInit {
   close(): void{
     this.dialogRef.close(true);
   }
+
+  onSubmit(event): any{
+    return event;
+  }
 }
