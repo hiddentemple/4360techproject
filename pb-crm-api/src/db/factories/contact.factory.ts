@@ -12,10 +12,11 @@ define(ContactEntity, (faker) => {
     contact.notes = faker.lorem.sentence(5);
     contact.company = faker.company.companyName();
 
-    const primaryEmail: EmailEntity = factory(EmailEntity)({isPrimary: true}).create() as any;
-    contact.emails = [primaryEmail];
-    const primaryPhone: PhoneEntity = factory(PhoneEntity)({isPrimary: true}).create() as any;
-    contact.phones = [primaryPhone];
+    const emailCount: number = faker.random.number(5);
+    contact.emails = factory(EmailEntity)().createMany(emailCount) as any;
+
+    const phoneCount: number = faker.random.number(5);
+    contact.phones = factory(PhoneEntity)().createMany(phoneCount) as any;
 
     return contact;
 })
