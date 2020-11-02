@@ -7,14 +7,6 @@
 
     <!-- Right Buttons -->
     <span>
-      <button *ngIf="!isHandset"
-              mat-icon-button
-              aria-label="Toggle deck or table"
-              matTooltip="{{deckOrTableTooltip}}"
-              matTooltipPosition="left"
-              (click)="toggleDeckOrTable()">
-        <mat-icon color="primary">{{deckOrTableIcon}}</mat-icon>
-      </button>
       <button mat-icon-button
               aria-label="Add Contact"
               matTooltip="Add a new contact"
@@ -28,6 +20,14 @@
               (click)="refresh()">
         <mat-icon color="primary">refresh</mat-icon>
       </button>
+      <button *ngIf="!isHandset"
+              mat-icon-button
+              aria-label="Toggle deck or table"
+              matTooltip="{{deckOrTableTooltip}}"
+              matTooltipPosition="left"
+              (click)="toggleDeckOrTable()">
+        <mat-icon color="primary">{{deckOrTableIcon}}</mat-icon>
+      </button>
     </span>
   </div>
 
@@ -38,10 +38,11 @@
     <mat-label>Filter</mat-label>
     <input #searchBar matInput
            [(ngModel)]="filterStr"
-           (focus)="onFilterFocus()"
            (blur)="onFilterBlur()"
+           (keyup)="onSearchKeyUp()"
            placeholder="Ex. Mia">
   </mat-form-field>
+
   <!-- Split View --->
   <div>
     <as-split>

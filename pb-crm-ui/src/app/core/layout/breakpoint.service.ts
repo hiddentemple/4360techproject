@@ -14,13 +14,13 @@ export class BreakpointService {
   isHandset$(): Observable<boolean>  {
     return this.breakPoint.observe([Breakpoints.Handset])
       .pipe(
-        filter(result => {
-          if (result.matches == this.lastMatch) return false;
-          else {
-            this.lastMatch = result.matches;
-            return true;
-          }
-        }),
+        // filter(result => {
+        //   if (result.matches == this.lastMatch) return false;
+        //   else {
+        //     this.lastMatch = result.matches;
+        //     return true;
+        //   }
+        // }),
         tap(result => console.log('Breakpoint match', result)),
         map(result => result.matches)
       );

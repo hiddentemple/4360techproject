@@ -14,14 +14,12 @@ export class LoadingService {
   }
 
   startLoad(obj: any) {
-    console.log("start load")
     const current = this.isLoadingSubject.getValue();
     current.push(obj);
     this.isLoadingSubject.next(current);
   }
 
   endLoad(obj: any) {
-    console.log("end load")
     const current = this.isLoadingSubject.getValue();
     const filtered = current.filter(inCurrent => inCurrent !== obj);
     this.isLoadingSubject.next(filtered);

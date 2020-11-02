@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {ContactCacheService} from "../../services/contact-cache.service";
 import {BehaviorSubject, Observable} from "rxjs";
 import {ContactModel} from "@hiddentemple/api-interfaces";
@@ -31,7 +31,7 @@ export class ContactCardDeckComponent implements OnInit {
   private isHandset: boolean;
   private _filterStr = "";
 
-  fillTotalWidth = false;
+  public fillTotalWidth = false;
   updateLayout = true;
   masonaryOptions: NgxMasonryOptions = { horizontalOrder: true }
 
@@ -56,18 +56,22 @@ export class ContactCardDeckComponent implements OnInit {
         console.log("Contact card deck received new contacts: ", contacts)
         this.allContacts = contacts;
         this._contacts$.next(contacts)
-      })
+      });
 
-    this.breakpointService.isHandset$().subscribe(isHandset => this.isHandset = isHandset)
+    this.breakpointService.isHandset$().subscribe(isHandset => this.isHandset = isHandset);
   }
 
   onEdit(contact: ContactModel) {
-    this.fillTotalWidth = true;
+    // this.fillTotalWidth = true;
     this.edit.emit(contact);
   }
 
   onDelete(contact: ContactModel) {
     this.delete.emit(contact);
+  }
+
+  renderLayout(): void {
+    this.updateLayout = !this.updateLayout;
   }
 
   private handleFilterString(filterString$: Observable<string>) {
@@ -103,25 +107,30 @@ export class ContactCardDeckComponent implements OnInit {
           }
 
           this.loadingService.endLoad(filterStr);
-          this.updateLayout = !this.updateLayout;
+          this.renderLayout();
         })
     }
   }
 
   private getItemStyle() {
+    // console.group("Get item style")
+    // console.log("isHandset", this.isHandset)
+    // console.log("fillTotalWidth", this.fillTotalWidth)
     if (this.isHandset || this.fillTotalWidth) {
-      console.log("Full Width")
+      // console.log("Full Width")
+      // console.groupEnd();
       return {
         "border-radius": "10px",
         "width": "98%"
       }
     } else {
-      console.log("47 Width")
+      // console.log("47 Width")
+      // console.groupEnd();
       return {
         "border-radius": "10px",
         "width": "47%"
       }
-
     }
+
   }
 }
