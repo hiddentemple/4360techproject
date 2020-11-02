@@ -86,6 +86,7 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
         // TODO better handling of file import
         await this.importFileService.onSubmit().then(r => console.log(r));
         this.snackbar.open('Contacts Imported', 'Close', {duration: 2000});
+        this.refresh();
       } else {
         // cancel / close dialog
         console.log('User clicked cancel');
