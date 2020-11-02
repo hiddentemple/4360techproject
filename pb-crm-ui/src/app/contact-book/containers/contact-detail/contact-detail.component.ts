@@ -32,6 +32,8 @@ import {ContactModel} from '@hiddentemple/api-interfaces';
 
       <h3 *ngIf="contact.organization"><b>Organization: </b>{{contact.organization}}</h3>
 
+      <h3 *ngIf="contact.webpages"><b>Website: </b>{{contact.webpages}}</h3>
+
       <h3 *ngIf="contact.gender"><b>Gender: </b>{{contact.gender}}</h3>
 
       <app-phone-table *ngIf="contact?.phones.length > 0" [phones]="contact?.phones"></app-phone-table><br>
@@ -45,7 +47,7 @@ import {ContactModel} from '@hiddentemple/api-interfaces';
           <textarea matInput [value]="contact?.notes" readonly></textarea>
         </mat-form-field>
       </div>
-
+    </div>
   `,
   styles: [
     `.add-spacer {

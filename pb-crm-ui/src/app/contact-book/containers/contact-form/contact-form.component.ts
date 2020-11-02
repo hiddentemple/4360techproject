@@ -38,6 +38,7 @@ export class ContactFormComponent implements OnInit, OnChanges {
   get jobTitleFormControl(): FormControl { return this.contactForm.controls.jobTitle as FormControl; }
   get departmentFormControl(): FormControl { return this.contactForm.controls.department as FormControl; }
   get organizationFormControl(): FormControl { return this.contactForm.controls.organization as FormControl; }
+  get websitesFormControl(): FormControl { return this.contactForm.controls.websites as FormControl; }
   get genderFormControl(): FormControl { return this.contactForm.controls.gender as FormControl; }
 
   constructor(
@@ -69,6 +70,7 @@ export class ContactFormComponent implements OnInit, OnChanges {
       department: new FormControl('', [Validators.maxLength(50)]),
       organization: new FormControl('', [Validators.maxLength(50)]),
       gender: new FormControl('', [Validators.maxLength(50)]),
+      websites: new FormControl('', [Validators.maxLength(250)]),
       notes: new FormControl('', [Validators.maxLength(250)]),
       emails: this.fb.array([]),
       phones: this.fb.array([])
@@ -96,6 +98,7 @@ export class ContactFormComponent implements OnInit, OnChanges {
     this.jobTitleFormControl?.setValue(this.contact.jobTitle);
     this.departmentFormControl?.setValue(this.contact.department);
     this.organizationFormControl?.setValue(this.contact.organization);
+    this.websitesFormControl?.setValue(this.contact.webpages);
     this.genderFormControl?.setValue(this.contact.gender);
     this.notesFormControl?.setValue(this.contact.notes);
     if (this.contact.notes){

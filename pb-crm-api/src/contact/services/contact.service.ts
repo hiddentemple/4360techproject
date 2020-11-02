@@ -50,6 +50,7 @@ export class ContactService {
         department: contact.department,
         company: contact.company,
         notes: contact.notes,
+        webpages: contact.webpages,
         birthday: contact.birthday,
         anniversary: contact.anniversary,
         gender: contact.gender,
