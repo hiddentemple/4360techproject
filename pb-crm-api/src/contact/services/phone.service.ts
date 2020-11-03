@@ -31,7 +31,6 @@ export class PhoneService {
 
     async createMany(contact: ContactEntity, phoneDTOS: PhoneDTO[], entityManger: EntityManager): Promise<PhoneEntity[]> {
         if (!phoneDTOS || phoneDTOS === []) return [];
-
         this.logger.log(`Creating ${phoneDTOS.length} phone(s): ${JSON.stringify(phoneDTOS)}`)
         if (!this.containsNoMoreThanOnePrimary(phoneDTOS)) {
             const errMsg: string = "Phones contained more than 1 primary.";

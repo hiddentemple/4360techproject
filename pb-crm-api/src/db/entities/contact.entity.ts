@@ -1,10 +1,20 @@
-import {Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn,} from 'typeorm';
-import {IsDefined, IsOptional, Length, Matches, ValidateNested} from 'class-validator';
+import {
+    BeforeInsert, BeforeUpdate,
+    Column,
+    CreateDateColumn,
+    Entity,
+    OneToMany,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
+} from 'typeorm';
+import { IsDefined, IsOptional, Length, Matches, validate, ValidateNested, validateOrReject } from 'class-validator';
 import {ContactModel, NameRegex} from "@hiddentemple/api-interfaces";
 import {EmailEntity} from "./email.entity";
 import {PhoneEntity} from "./phone.entity";
 import { AddressEntity } from './address.entity';
 import { WebpageEntity } from './webpage.entity';
+import { HttpException } from '@nestjs/common';
+import { STATUS_CODES } from 'http';
 
 
 @Entity("contacts")
@@ -123,7 +133,7 @@ export class ContactEntity implements ContactModel {
 
     @Column({type: 'varchar', length: 50, nullable: true, array: true})
     @IsOptional()
-    @Length(2, 50)
+    @Length(2, 50, {each: true})
     tags: string[];
 
     @CreateDateColumn({name: 'createdAt', nullable: false})
@@ -132,5 +142,17 @@ export class ContactEntity implements ContactModel {
     @UpdateDateColumn({name: 'updatedAt', nullable: true})
     updatedAt: Date;
 
+
+    @BeforeInsert()
+    @BeforeUpdate()
+    async validate(){ await validateOrReject(this).then(
+      onFulfilled => {
+        return onFulfilled
+      },
+      onRejected => {
+        throw new HttpException( {'statusCode': 400, 'message': onRejected[0].constraints}, 400)
+      }
+    )
+  }
 
 }

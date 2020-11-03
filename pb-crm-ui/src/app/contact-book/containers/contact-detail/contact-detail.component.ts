@@ -4,7 +4,7 @@ import {ContactModel} from '@hiddentemple/api-interfaces';
 @Component({
   selector: 'app-contact-detail',
   template: `
-    <div class="container-fluid">
+    <div class="container-fluid m-2">
       <div class="row">
         <h2>{{contact.firstName}} {{contact.lastName}}</h2>
 
@@ -49,9 +49,7 @@ import {ContactModel} from '@hiddentemple/api-interfaces';
         <br/>
       </div>
 
-
       <div *ngIf="contact?.notes != null">
-
         <mat-form-field class="col-12">
           <mat-label>Notes</mat-label>
           <textarea matInput [value]="contact?.notes" readonly></textarea>
