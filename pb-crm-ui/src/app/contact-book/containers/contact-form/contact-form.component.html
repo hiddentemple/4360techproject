@@ -1,199 +1,199 @@
-<form class="contact-form" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+<!--<form class="contact-form" [formGroup]="contactForm" (ngSubmit)="onSubmit()">-->
 
-  <!-- Name Input-->
-  <div class="row">
-    <mat-form-field class="col-6">
-      <mat-label>First Name</mat-label>
-      <input matInput maxlength="256" placeholder="Ex. John" formControlName="firstName">
-      <mat-error *ngIf="firstNameHasRequiredError">
-        First name is required
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field class="col-6">
-      <mat-label>Last Name</mat-label>
-      <input matInput maxlength="256" placeholder="Ex. Doe" formControlName="lastName">
-      <mat-error *ngIf="firstNameHasMaxLengthError">
-        Last name is required
-      </mat-error>
-    </mat-form-field>
-  </div>
+<!--  &lt;!&ndash; Name Input&ndash;&gt;-->
+<!--  <div class="row">-->
+<!--    <mat-form-field class="col-6">-->
+<!--      <mat-label>First Name</mat-label>-->
+<!--      <input matInput maxlength="256" placeholder="Ex. John" formControlName="firstName">-->
+<!--      <mat-error *ngIf="firstNameHasRequiredError">-->
+<!--        First name is required-->
+<!--      </mat-error>-->
+<!--    </mat-form-field>-->
+<!--    <mat-form-field class="col-6">-->
+<!--      <mat-label>Last Name</mat-label>-->
+<!--      <input matInput maxlength="256" placeholder="Ex. Doe" formControlName="lastName">-->
+<!--      <mat-error *ngIf="firstNameHasMaxLengthError">-->
+<!--        Last name is required-->
+<!--      </mat-error>-->
+<!--    </mat-form-field>-->
+<!--  </div>-->
 
-  <!-- Company Input -->
-  <div class="row">
-    <mat-form-field class="col-12">
-      <mat-label>Company Name</mat-label>
-      <input matInput maxlength="256" placeholder="Ex. Juan in a Million" formControlName="company">
-    </mat-form-field>
-  </div>
+<!--  &lt;!&ndash; Company Input &ndash;&gt;-->
+<!--  <div class="row">-->
+<!--    <mat-form-field class="col-12">-->
+<!--      <mat-label>Company Name</mat-label>-->
+<!--      <input matInput maxlength="256" placeholder="Ex. Juan in a Million" formControlName="company">-->
+<!--    </mat-form-field>-->
+<!--  </div>-->
 
-  <!-- Job Title -->
-  <div class="row">
-    <mat-form-field class="col-12">
-      <mat-label>Job Title</mat-label>
-      <input matInput maxlength="50" placeholder="Ex. Project Manager" formControlName="jobTitle">
-    </mat-form-field>
-  </div>
+<!--  &lt;!&ndash; Job Title &ndash;&gt;-->
+<!--  <div class="row">-->
+<!--    <mat-form-field class="col-12">-->
+<!--      <mat-label>Job Title</mat-label>-->
+<!--      <input matInput maxlength="50" placeholder="Ex. Project Manager" formControlName="jobTitle">-->
+<!--    </mat-form-field>-->
+<!--  </div>-->
 
-  <!-- Department -->
-  <div class="row">
-    <mat-form-field class="col-12">
-      <mat-label>Department</mat-label>
-      <input matInput maxlength="50" placeholder="Ex. Accounting" formControlName="department">
-    </mat-form-field>
-  </div>
+<!--  &lt;!&ndash; Department &ndash;&gt;-->
+<!--  <div class="row">-->
+<!--    <mat-form-field class="col-12">-->
+<!--      <mat-label>Department</mat-label>-->
+<!--      <input matInput maxlength="50" placeholder="Ex. Accounting" formControlName="department">-->
+<!--    </mat-form-field>-->
+<!--  </div>-->
 
-  <!-- Organization -->
-  <div class="row">
-    <mat-form-field class="col-12">
-      <mat-label>Organization</mat-label>
-      <input matInput maxlength="50" placeholder="Ex. Tesla" formControlName="organization">
-    </mat-form-field>
-  </div>
+<!--  &lt;!&ndash; Organization &ndash;&gt;-->
+<!--  <div class="row">-->
+<!--    <mat-form-field class="col-12">-->
+<!--      <mat-label>Organization</mat-label>-->
+<!--      <input matInput maxlength="50" placeholder="Ex. Tesla" formControlName="organization">-->
+<!--    </mat-form-field>-->
+<!--  </div>-->
 
-  <!-- Gender -->
-  <div class="row">
-    <mat-form-field class="col-12">
-      <mat-label>Gender</mat-label>
-      <input matInput maxlength="50" placeholder="Ex. Non-Binary" formControlName="gender">
-    </mat-form-field>
-  </div>
+<!--  &lt;!&ndash; Gender &ndash;&gt;-->
+<!--  <div class="row">-->
+<!--    <mat-form-field class="col-12">-->
+<!--      <mat-label>Gender</mat-label>-->
+<!--      <input matInput maxlength="50" placeholder="Ex. Non-Binary" formControlName="gender">-->
+<!--    </mat-form-field>-->
+<!--  </div>-->
 
-  <!-- Notes Input-->
-  <div class="row" *ngIf="showNotes">
-    <mat-form-field class="col-12">
-      <mat-label>Notes</mat-label>
-      <textarea matInput maxlength="250" placeholder="Ex. This is a note..." formControlName="notes"></textarea>
-      <mat-error *ngIf="notesHasMaxLengthError()">
-        Notes cannot be any longer than 250 characters
-      </mat-error>
-    </mat-form-field>
-  </div>
+<!--  &lt;!&ndash; Notes Input&ndash;&gt;-->
+<!--  <div class="row" *ngIf="showNotes">-->
+<!--    <mat-form-field class="col-12">-->
+<!--      <mat-label>Notes</mat-label>-->
+<!--      <textarea matInput maxlength="250" placeholder="Ex. This is a note..." formControlName="notes"></textarea>-->
+<!--      <mat-error *ngIf="notesHasMaxLengthError()">-->
+<!--        Notes cannot be any longer than 250 characters-->
+<!--      </mat-error>-->
+<!--    </mat-form-field>-->
+<!--  </div>-->
 
-  <hr *ngIf="hasEmails()"/>
+<!--  <hr *ngIf="hasEmails()"/>-->
 
-  <!-- Mobile Email Input -->
-  <div formArrayName="emails">
-    <div *ngFor="let email of emailFormArray.controls; let i=index">
-      <!-- Angular assigns array index as group name by default 0, 1, 2, ... -->
-      <div class="row" [formGroupName]="i">
-        <div class="col-1">
-          <button class="col-1" type="button" mat-icon-button (click)="removeEmailInput(i)">
-            <mat-icon color="accent">remove_circle_outline</mat-icon>
-          </button>
-        </div>
-        <div class="col-11">
-          <div class="row">
-            <!-- Address -->
-            <mat-form-field class="col-sm-11 col-md-7">
-              <mat-label>Email Address</mat-label>
-              <input matInput type="text" placeholder="Ex. example@gmail.com" formControlName="address">
-              <mat-error *ngIf="emailHasRequiredError(email)">
-                Email is required
-              </mat-error>
-              <mat-error *ngIf="emailHasEmailError(email)">
-                Not a valid email
-              </mat-error>
-            </mat-form-field>
+<!--  &lt;!&ndash; Mobile Email Input &ndash;&gt;-->
+<!--  <div formArrayName="emails">-->
+<!--    <div *ngFor="let email of emailFormArray.controls; let i=index">-->
+<!--      &lt;!&ndash; Angular assigns array index as group name by default 0, 1, 2, ... &ndash;&gt;-->
+<!--      <div class="row" [formGroupName]="i">-->
+<!--        <div class="col-1">-->
+<!--          <button class="col-1" type="button" mat-icon-button (click)="removeEmailInput(i)">-->
+<!--            <mat-icon color="accent">remove_circle_outline</mat-icon>-->
+<!--          </button>-->
+<!--        </div>-->
+<!--        <div class="col-11">-->
+<!--          <div class="row">-->
+<!--            &lt;!&ndash; Address &ndash;&gt;-->
+<!--            <mat-form-field class="col-sm-11 col-md-7">-->
+<!--              <mat-label>Email Address</mat-label>-->
+<!--              <input matInput type="text" placeholder="Ex. example@gmail.com" formControlName="address">-->
+<!--              <mat-error *ngIf="emailHasRequiredError(email)">-->
+<!--                Email is required-->
+<!--              </mat-error>-->
+<!--              <mat-error *ngIf="emailHasEmailError(email)">-->
+<!--                Not a valid email-->
+<!--              </mat-error>-->
+<!--            </mat-form-field>-->
 
-            <!-- Category -->
-            <mat-form-field class="col-sm-12 col-md-4">
-              <mat-label>Category</mat-label>
-              <mat-select formControlName="category" required>
-                <mat-option *ngFor="let category of emailCategories" value="{{category}}">
-                  {{category}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<!--            &lt;!&ndash; Category &ndash;&gt;-->
+<!--            <mat-form-field class="col-sm-12 col-md-4">-->
+<!--              <mat-label>Category</mat-label>-->
+<!--              <mat-select formControlName="category" required>-->
+<!--                <mat-option *ngFor="let category of emailCategories" value="{{category}}">-->
+<!--                  {{category}}-->
+<!--                </mat-option>-->
+<!--              </mat-select>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
 
-  <hr *ngIf="hasPhones()"/>
+<!--  <hr *ngIf="hasPhones()"/>-->
 
-  <!-- Phone Input -->
-  <div formArrayName="phones">
-    <div *ngFor="let phone of phoneFormArray.controls; let i=index">
-      <!-- Angular assigns array index as group name by default 0, 1, 2, ... -->
-      <div class="row" [formGroupName]="i">
-        <div class="col-1">
-          <button class="col-1" mat-icon-button type="button" (click)="removePhoneInput(i)">
-            <mat-icon color="accent">remove_circle_outline</mat-icon>
-          </button>
-        </div>
-        <div class="col-11">
-          <div class="row">
-            <mat-form-field class="col-sm-12 col-md-8">
-              <mat-label>Phone Number</mat-label>
-              <input matInput type="text" placeholder="Ex. 303 867 5309" formControlName="phoneNumber">
-              <mat-error *ngIf="phoneHasRequiredError(phone)">
-                A phone is required
-              </mat-error>
-              <mat-error *ngIf="phoneHasPatternError(phone)">
-                Not a valid phone number
-              </mat-error>
-            </mat-form-field>
-            <mat-form-field class="col-sm-12 col-md-4">
-              <mat-label>Category</mat-label>
-              <mat-select formControlName="category" required>
-                <mat-option *ngFor="let category of phoneCategories" value="{{category}}">
-                  {{category}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <hr *ngIf="hasWebsites()"/>
-
-  <!-- Website Input -->
-  <div formArrayName="webpages">
-    <div *ngFor="let webpage of webpagesFormArray.controls; let i=index">
-      <!-- Angular assigns array index as group name by default 0, 1, 2, ... -->
-      <div class="row" [formGroupName]="i">
-        <div class="col-1">
-          <button class="col-1" mat-icon-button type="button" (click)="removeWebpageInput(i)">
-            <mat-icon color="accent">remove_circle_outline</mat-icon>
-          </button>
-        </div>
-        <div class="col-11">
-          <div class="row">
-            <mat-form-field class="col-sm-12 col-md-8">
-              <mat-label>URL</mat-label>
-              <input matInput type="text" placeholder="Ex. www.google.com" formControlName="url">
+<!--  &lt;!&ndash; Phone Input &ndash;&gt;-->
+<!--  <div formArrayName="phones">-->
+<!--    <div *ngFor="let phone of phoneFormArray.controls; let i=index">-->
+<!--      &lt;!&ndash; Angular assigns array index as group name by default 0, 1, 2, ... &ndash;&gt;-->
+<!--      <div class="row" [formGroupName]="i">-->
+<!--        <div class="col-1">-->
+<!--          <button class="col-1" mat-icon-button type="button" (click)="removePhoneInput(i)">-->
+<!--            <mat-icon color="accent">remove_circle_outline</mat-icon>-->
+<!--          </button>-->
+<!--        </div>-->
+<!--        <div class="col-11">-->
+<!--          <div class="row">-->
+<!--            <mat-form-field class="col-sm-12 col-md-8">-->
+<!--              <mat-label>Phone Number</mat-label>-->
+<!--              <input matInput type="text" placeholder="Ex. 303 867 5309" formControlName="phoneNumber">-->
 <!--              <mat-error *ngIf="phoneHasRequiredError(phone)">-->
 <!--                A phone is required-->
 <!--              </mat-error>-->
 <!--              <mat-error *ngIf="phoneHasPatternError(phone)">-->
 <!--                Not a valid phone number-->
 <!--              </mat-error>-->
-            </mat-form-field>
-            <mat-form-field class="col-sm-12 col-md-4">
-              <mat-label>Type</mat-label>
-              <mat-select formControlName="type" required>
-                <mat-option *ngFor="let category of websiteCategories" value="{{category}}">
-                  {{category}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<!--            </mat-form-field>-->
+<!--            <mat-form-field class="col-sm-12 col-md-4">-->
+<!--              <mat-label>Category</mat-label>-->
+<!--              <mat-select formControlName="category" required>-->
+<!--                <mat-option *ngFor="let category of phoneCategories" value="{{category}}">-->
+<!--                  {{category}}-->
+<!--                </mat-option>-->
+<!--              </mat-select>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
 
-  <!--Bottom Buttons -->
-  <div class="mt-2">
-    <button mat-raised-button (click)="addEmailInput()" type="button" class="mr-1" color="accent">Add Email</button>
-    <button mat-raised-button (click)="addPhoneInput()" type="button" class="mr-1" color="accent">Add Phone</button>
-    <button mat-raised-button (click)="addWebpageInput()" type="button" class="mr-1" color="accent">Add Webpage</button>
-    <button mat-raised-button *ngIf="!showNotes" (click)="showNotes = !showNotes" type="button" color="accent">Show Notes</button>
-    <button mat-button *ngIf="showNotes" (click)="showNotes = !showNotes" type="button" color="warn">Hide Notes</button>
-    <button mat-raised-button color="primary" [disabled]="!contactForm.valid" type="submit" class="float-right">Submit</button>
-  </div>
+<!--  <hr *ngIf="hasWebsites()"/>-->
 
-</form>
+<!--  &lt;!&ndash; Website Input &ndash;&gt;-->
+<!--  <div formArrayName="webpages">-->
+<!--    <div *ngFor="let webpage of webpagesFormArray.controls; let i=index">-->
+<!--      &lt;!&ndash; Angular assigns array index as group name by default 0, 1, 2, ... &ndash;&gt;-->
+<!--      <div class="row" [formGroupName]="i">-->
+<!--        <div class="col-1">-->
+<!--          <button class="col-1" mat-icon-button type="button" (click)="removeWebpageInput(i)">-->
+<!--            <mat-icon color="accent">remove_circle_outline</mat-icon>-->
+<!--          </button>-->
+<!--        </div>-->
+<!--        <div class="col-11">-->
+<!--          <div class="row">-->
+<!--            <mat-form-field class="col-sm-12 col-md-8">-->
+<!--              <mat-label>URL</mat-label>-->
+<!--              <input matInput type="text" placeholder="Ex. www.google.com" formControlName="url">-->
+<!--&lt;!&ndash;              <mat-error *ngIf="phoneHasRequiredError(phone)">&ndash;&gt;-->
+<!--&lt;!&ndash;                A phone is required&ndash;&gt;-->
+<!--&lt;!&ndash;              </mat-error>&ndash;&gt;-->
+<!--&lt;!&ndash;              <mat-error *ngIf="phoneHasPatternError(phone)">&ndash;&gt;-->
+<!--&lt;!&ndash;                Not a valid phone number&ndash;&gt;-->
+<!--&lt;!&ndash;              </mat-error>&ndash;&gt;-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field class="col-sm-12 col-md-4">-->
+<!--              <mat-label>Type</mat-label>-->
+<!--              <mat-select formControlName="type" required>-->
+<!--                <mat-option *ngFor="let category of websiteCategories" value="{{category}}">-->
+<!--                  {{category}}-->
+<!--                </mat-option>-->
+<!--              </mat-select>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  &lt;!&ndash;Bottom Buttons &ndash;&gt;-->
+<!--  <div class="mt-2">-->
+<!--    <button mat-raised-button (click)="addEmailInput()" type="button" class="mr-1" color="accent">Add Email</button>-->
+<!--    <button mat-raised-button (click)="addPhoneInput()" type="button" class="mr-1" color="accent">Add Phone</button>-->
+<!--    <button mat-raised-button (click)="addWebpageInput()" type="button" class="mr-1" color="accent">Add Webpage</button>-->
+<!--    <button mat-raised-button *ngIf="!showNotes" (click)="showNotes = !showNotes" type="button" color="accent">Show Notes</button>-->
+<!--    <button mat-button *ngIf="showNotes" (click)="showNotes = !showNotes" type="button" color="warn">Hide Notes</button>-->
+<!--    <button mat-raised-button color="primary" [disabled]="!contactForm.valid" type="submit" class="float-right">Submit</button>-->
+<!--  </div>-->
+
+<!--</form>-->

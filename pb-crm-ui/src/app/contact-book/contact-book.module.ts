@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {ContactBookRoutingModule} from './contact-book-routing.module';
-import {ContactFormComponent} from './containers/contact-form/contact-form.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
@@ -36,12 +35,13 @@ import {NgxMasonryModule} from "ngx-masonry";
 import {MatRadioModule} from '@angular/material/radio';
 import {OverlayModule} from '@angular/cdk/overlay';
 import { WebpageTableComponent } from './containers/website-table/webpage-table.component';
+import { ContactFormComponent } from './form/contact-form.component';
+import { NameFormComponent } from './form/components/name-form/name-form.component';
 
 
 
 @NgModule({
   declarations: [
-    ContactFormComponent,
     ContactBookHomeComponent,
     ContactTableComponent,
     ContactDetailPageComponent,
@@ -53,9 +53,10 @@ import { WebpageTableComponent } from './containers/website-table/webpage-table.
     DeleteConfirmationComponent,
     ContactCardDeckComponent,
     WebpageTableComponent,
+    ContactFormComponent,
+    NameFormComponent,
   ],
   exports: [
-    ContactFormComponent,
   ],
   imports: [
     CommonModule,
