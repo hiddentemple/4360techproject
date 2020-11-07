@@ -28,15 +28,26 @@ import {ContactModel} from '@hiddentemple/api-interfaces';
 
       <h3 *ngIf="contact.jobTitle"><b>Job Title: </b>{{contact.jobTitle}}</h3>
 
-
       <h3 *ngIf="contact.department"><b>Department: </b>{{contact.department}}</h3>
 
       <h3 *ngIf="contact.organization"><b>Organization: </b>{{contact.organization}}</h3>
 
       <h3 *ngIf="contact.gender"><b>Gender: </b>{{contact.gender}}</h3>
 
-      <app-phone-table *ngIf="contact?.phones.length > 0" [phones]="contact?.phones"></app-phone-table><br>
-      <app-email-table *ngIf="contact?.emails.length > 0" [emails]="contact?.emails"></app-email-table><br>
+      <div *ngIf="contact?.phones.length > 0">
+        <app-phone-table [phones]="contact?.phones"></app-phone-table>
+        <br>
+      </div>
+
+      <div *ngIf="contact?.emails.length > 0">
+        <app-email-table [emails]="contact?.emails"></app-email-table>
+        <br>
+      </div>
+
+      <div *ngIf="contact?.webpages.length > 0">
+        <app-website-table [webpages]="contact?.webpages"></app-website-table>
+        <br/>
+      </div>
 
       <div *ngIf="contact?.notes != null">
         <mat-form-field class="col-12">

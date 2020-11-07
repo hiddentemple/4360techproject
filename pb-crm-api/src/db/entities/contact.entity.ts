@@ -131,7 +131,7 @@ export class ContactEntity implements ContactModel {
     @ValidateNested({ each: true })
     webpages: WebpageEntity[];
 
-    @Column({type: 'varchar', length: 50, nullable:true})
+    @Column({type: 'varchar', length: 50, nullable: true, array: true})
     @IsOptional()
     @Length(2, 50, {each: true})
     tags: string[];
@@ -141,8 +141,8 @@ export class ContactEntity implements ContactModel {
 
     @UpdateDateColumn({name: 'updatedAt', nullable: true})
     updatedAt: Date;
-    
-  
+
+
     @BeforeInsert()
     @BeforeUpdate()
     async validate(){ await validateOrReject(this).then(
@@ -150,9 +150,9 @@ export class ContactEntity implements ContactModel {
         return onFulfilled
       },
       onRejected => {
-        throw new HttpException( {'statusCode': 400, 'message': onRejected[0].constraints}, 400)  
+        throw new HttpException( {'statusCode': 400, 'message': onRejected[0].constraints}, 400)
       }
     )
   }
-    
+
 }
