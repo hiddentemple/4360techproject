@@ -8,7 +8,6 @@ import { PhoneService } from './phone.service';
 import { AddressService } from './address.service';
 import { WebpageService } from './webpage.service';
 import { UploadService } from '../../upload/upload.service';
-import { validate } from 'class-validator';
 
 @Injectable()
 export class ContactService {
