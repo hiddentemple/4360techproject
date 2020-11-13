@@ -15,6 +15,7 @@ export class DialogService {
     if (this.dialogRef){
       this.dialogRef.close();
     }
+
     this.dialogRef = this.dialog.open(DialogComponent, {
       width: '600px',
       data,

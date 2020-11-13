@@ -6,6 +6,7 @@ import {DeleteConfirmationComponent} from "../containers/delete-confirmation/del
 import {MatDialog} from "@angular/material/dialog";
 
 export type ContactActionCallback = (ContactModel) => Promise<any>;
+export type DeleteActionCallBack = () => any;
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,7 @@ export class ContactActionsService {
     return callback(updatedContact);
   }
 
-  async deleteContact(contact: ContactModel, callback: () => any): Promise<any> {
+  async deleteContact(contact: ContactModel, callback: DeleteActionCallBack): Promise<any> {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {

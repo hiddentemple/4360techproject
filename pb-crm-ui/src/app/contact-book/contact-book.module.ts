@@ -37,6 +37,7 @@ import {OverlayModule} from '@angular/cdk/overlay';
 import { WebpageTableComponent } from './containers/website-table/webpage-table.component';
 import { ContactFormComponent } from './form/contact-form.component';
 import { NameFormComponent } from './form/components/name-form/name-form.component';
+import { CompanyFormComponent } from './form/components/company-form/company-form.component';
 
 
 
@@ -55,6 +56,7 @@ import { NameFormComponent } from './form/components/name-form/name-form.compone
     WebpageTableComponent,
     ContactFormComponent,
     NameFormComponent,
+    CompanyFormComponent,
   ],
   exports: [
   ],

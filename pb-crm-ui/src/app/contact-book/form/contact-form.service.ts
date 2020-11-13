@@ -1,10 +1,13 @@
 import {Injectable, OnInit} from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
-import {ContactFormInput, ContactFormModel} from "./contact-form.model";
-import {Form, FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ContactFormModel, initPhone} from "./contact-form.model";
+import {AbstractControl, Form, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {PhoneValidator} from "../containers/contact-form/contact-form.component";
+import {ContactModel} from "@hiddentemple/api-interfaces";
 
+// expected to update the current value of the FormGroup in some way
 export type FormGroupModifier = (FormGroup) => void;
+export type ControlGenerator = () => AbstractControl;
 
 @Injectable({
   providedIn: 'root'
@@ -19,48 +22,61 @@ export class ContactFormService implements OnInit {
     this.contactForm = new BehaviorSubject<FormGroup>(initialForm)
   }
 
-  ngOnInit(): void {
-    console.log("Form Service OnInit");
-  }
+  ngOnInit(): void {}
 
-  setContact(contact: ContactFormInput) {
+  // Called in update contact view to set the contact
+  setContact(contact: ContactModel) {
     const newForm = this.fb.group(new ContactFormModel(contact));
     this.contactForm.next(newForm);
   }
 
-  addPhone() { this.add('phones'); }
-  removePhone(i: number) { this.remove('phones', i); }
+  // public api methods for use in all child components
+  addPhone(){ this.addArrayElement('phones', initPhone); }
+  removePhone(i: number) { this.removeArrayElement('phones', i); }
 
+  /**
+   * Gets the value of the form and calls a callback function to update the form before emitting the (asynchronously)
+   * updated value. Note, this function defers all responsibility of processing and updating the form to the callback.
+   */
   private accessAndUpdate(callback: FormGroupModifier) {
     const currentForm: FormGroup = this.contactForm.getValue();
     callback(currentForm);
     this.contactForm.next(currentForm);
   }
 
-  private add(key: string) {
+  /**
+   * Uses an object property key to pick a specific array. Then, generates a new AbstractControl for that array by
+   * calling the generator callback.
+   */
+  private addArrayElement(key: string, generatorCallback: ControlGenerator) {
     const callback: FormGroupModifier = formGroup => {
-      const currentPhones: FormArray = formGroup.get(key);
-      if (!currentPhones) {
-        throw new Error(`Invalid contact form key in add: ${key}`);
+      const currentArray: FormArray = formGroup.get(key);
+      if (!currentArray) {
+        throw new Error(`Invalid contact form key in addArrayElement: ${key}`);
       }
 
-      currentPhones.push(this.fb.group({
-        phoneNumber: ["", [Validators.required, PhoneValidator]],
-        category: ["", [Validators.required]]
-      }))
+      const newControl: AbstractControl = generatorCallback();
+      if (!newControl) {
+        throw new Error(`Generator function in addArrayElement failed to generate a defined control for key: ${key}`)
+      }
+
+      currentArray.push(generatorCallback())
     };
 
     this.accessAndUpdate(callback);
   }
 
-  private remove(key: string, i: number) {
+  /**
+   * Uses an object property key to pick a specific array. Then, removes the control at index i.
+   */
+  private removeArrayElement(key: string, i: number) {
     const callback: FormGroupModifier = formGroup => {
-      const currentPhones: FormArray = formGroup.get(key);
-      if (!currentPhones) {
-        throw new Error(`Invalid contact form key in add: ${key}`);
+      const currentArray: FormArray = formGroup.get(key);
+      if (!currentArray) {
+        throw new Error(`Invalid contact form key in removeArrayElement: ${key}`);
       }
 
-      currentPhones.removeAt(i);
+      currentArray.removeAt(i);
     }
 
     this.accessAndUpdate(callback);
