@@ -10,7 +10,7 @@ import {AbstractControl, FormControl, FormGroup} from "@angular/forms";
         <mat-form-field class="col-sm-12 col-md-6">
           <!-- Input -->
           <mat-label>First Name</mat-label>
-          <input matInput placeholder="Ex. John" formControlName="firstName" (blur)="trimFirstName()">
+          <input matInput placeholder="Ex. John" formControlName="firstName">
 
           <!-- Errors -->
           <mat-error *ngIf="firstNameHasRequiredError">
@@ -25,7 +25,7 @@ import {AbstractControl, FormControl, FormGroup} from "@angular/forms";
         <mat-form-field class="col-sm-12 col-md-6">
           <!-- Input -->
           <mat-label>Last Name</mat-label>
-          <input matInput placeholder="Ex. John" formControlName="lastName" (blur)="trimLastName()">
+          <input matInput placeholder="Ex. John" formControlName="lastName">
 
           <!-- Errors -->
           <mat-error *ngIf="lastNameHasRequiredError">
@@ -65,15 +65,5 @@ export class NameFormComponent {
 
   get lastNameHasMaxLengthError(): boolean {
     return !this.lastNameHasRequiredError && this.lastNameControl.hasError('maxLength');
-  }
-
-  trimFirstName() {
-    const firstName: string = this.firstNameControl.value;
-    this.firstNameControl.setValue(firstName.trim());
-  }
-
-  trimLastName() {
-    const lastName: string = this.lastNameControl.value;
-    this.lastNameControl.setValue(lastName.trim());
   }
 }

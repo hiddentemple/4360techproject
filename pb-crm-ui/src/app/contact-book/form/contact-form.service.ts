@@ -1,6 +1,6 @@
 import {Injectable, OnInit} from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
-import {ContactFormModel, initPhone} from "./contact-form.model";
+import {ContactFormModel} from "./contact-form.model";
 import {AbstractControl, Form, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {PhoneValidator} from "../containers/contact-form/contact-form.component";
 import {ContactModel} from "@hiddentemple/api-interfaces";
@@ -31,8 +31,31 @@ export class ContactFormService implements OnInit {
   }
 
   // public api methods for use in all child components
-  addPhone(){ this.addArrayElement('phones', initPhone); }
+  addPhone(){ this.addArrayElement('phones', ContactFormModel.initPhone); }
   removePhone(i: number) { this.removeArrayElement('phones', i); }
+
+  addEmail() { this.addArrayElement('emails', ContactFormModel.initEmail); }
+  removeEmail(i: number) { this.removeArrayElement('emails', i); }
+
+  addWebpage() { this.addArrayElement('webpages', ContactFormModel.initWebpage)}
+  removeWebpage(i: number) { this.removeArrayElement('webpages', i); }
+
+  addAddress() { this.addArrayElement('addresses', ContactFormModel.initAddress)}
+  removeAddress(i: number) { this.removeArrayElement('addresses', i); }
+
+  // TODO tags
+
+  /**
+   * This method defers all validation to the FormGroup underlying this class. If the form is valid, then the value
+   * of the form is returned.
+   */
+  getSubmittableContact(): ContactModel | undefined {
+    const contactForm = this.contactForm.getValue();
+    if (contactForm.invalid) {
+      throw new Error("Tried to get submittable contact, but form contained errors.")
+    }
+    return contactForm.value;
+  }
 
   /**
    * Gets the value of the form and calls a callback function to update the form before emitting the (asynchronously)
