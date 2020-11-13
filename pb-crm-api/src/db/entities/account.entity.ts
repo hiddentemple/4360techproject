@@ -27,8 +27,13 @@ export class AccountEntity implements AccountModel{
   @Length(2, 50)
   @IsOptional()
   acctNumber: string;
-  
-  @OneToOne(type => CustomerEntity, { cascade: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'})
+
+  @OneToOne(type => CustomerEntity, {
+    cascade: true,
+    eager: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+  })  
   @JoinColumn()
   customer: CustomerEntity;
   
@@ -42,7 +47,12 @@ export class AccountEntity implements AccountModel{
   @ValidateNested({ each: true })
   invoices: InvoiceEntity[];
 
-  @OneToOne(type => PaymentEntity, { cascade: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'})
+  @OneToOne(type => PaymentEntity, {
+    cascade: true,
+    eager: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+  })
   @JoinColumn()
   @IsOptional()
   paymentInfo: PaymentEntity;

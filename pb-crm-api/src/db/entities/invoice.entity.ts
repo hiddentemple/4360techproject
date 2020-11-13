@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { InvoiceModel } from '@hiddentemple/api-interfaces/dist/invoicing/invoice.model';
 import {
-  IsAlphanumeric, IsBoolean,
+  IsBoolean,
   IsDefined,
   IsNumber,
   IsOptional,
@@ -20,7 +20,6 @@ import {
 } from 'class-validator';
 import { BillerEntity } from './biller.entity';
 import { CustomerEntity } from './customer.entity';
-import { WebpageEntity } from './webpage.entity';
 import { LineItemEntity } from './line-item.entity';
 import { AccountEntity } from './account.entity';
 import { HttpException } from '@nestjs/common';
@@ -36,8 +35,12 @@ export class InvoiceEntity implements InvoiceModel {
   @IsDefined()
   date: string;
 
-  @OneToOne(type => BillerEntity, { cascade: true, onDelete: 'CASCADE', onUpdate: 'CASCADE' })
-  @JoinColumn()
+  @OneToOne(() => BillerEntity, biller => biller.invoice,  {
+    cascade: true,
+    eager: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+  })  @JoinColumn()
   biller: BillerEntity;
 
   @Column({ type: 'varchar', length: 50 })
@@ -50,7 +53,12 @@ export class InvoiceEntity implements InvoiceModel {
   @Length(2, 50)
   technician: string;
 
-  @OneToOne(type => CustomerEntity, { cascade: true, onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+  @OneToOne(() => CustomerEntity, customer => customer.invoice, { 
+    cascade: true, 
+    eager: true, 
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+  })
   @JoinColumn()
   customer: CustomerEntity;
 

@@ -64,7 +64,6 @@ async create(invoice: InvoiceEntity, dto: LineItemDTO, entityManager: EntityMana
   }
 
   async deleteMany(lineItems: LineItemEntity[], entityManger: EntityManager): Promise<any> {
-    if (!lineItems || lineItems.length == 0) return
     this.logger.log(`Attempting to delete ${lineItems.length} lineItem(s) with entities: ${JSON.stringify(lineItems)}`)
     if (!lineItems || lineItems.length === 0) return;
     for (const lineItem of lineItems) { await this.delete(lineItem.id, entityManger) }

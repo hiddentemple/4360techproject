@@ -3,7 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
+  JoinColumn, ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -15,6 +15,8 @@ import { PaymentEntity } from './payment.entity';
 import { PhoneEntity } from './phone.entity';
 import { IsBoolean, IsDefined, IsOptional, ValidateNested, validateOrReject } from 'class-validator';
 import { HttpException } from '@nestjs/common';
+import { InvoiceEntity } from './invoice.entity';
+
 
 
 @Entity('billers')
@@ -26,30 +28,55 @@ export class BillerEntity implements BillerModel{
   @IsDefined()
   name: string;
 
-  @OneToOne(type => AddressEntity,{ cascade : true, onDelete: "CASCADE", onUpdate: 'CASCADE' })
+  @OneToOne(type => AddressEntity, {
+    cascade: true,
+    eager: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+  })
   @JoinColumn()
   @ValidateNested()
   address: AddressEntity;
 
-  @OneToOne(type => PhoneEntity,{ cascade : true, onDelete: "CASCADE", onUpdate: 'CASCADE' })
+  @OneToOne(type => PhoneEntity, {
+    cascade: true,
+    eager: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+  }) 
   @JoinColumn()
   @IsOptional()
   @ValidateNested()
   mobilePhone: PhoneEntity;
 
-  @OneToOne(type => PhoneEntity,{ cascade : true, onDelete: "CASCADE", onUpdate: 'CASCADE' })
+  @OneToOne(type => PhoneEntity, {
+    cascade: true,
+    eager: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+  })
   @JoinColumn()
   @IsOptional()
   @ValidateNested()
   businessPhone: PhoneEntity;
 
-  @OneToOne(type => PhoneEntity,{ cascade : true, onDelete: "CASCADE", onUpdate: 'CASCADE' })
+  @OneToOne(type => PhoneEntity, {
+    cascade: true,
+    eager: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+  })
   @JoinColumn()
   @IsOptional()
   @ValidateNested()
   fax: PhoneEntity;
 
-  @OneToOne(type => EmailEntity,{ cascade : true, onDelete: "CASCADE", onUpdate: 'CASCADE' })
+  @OneToOne(type => EmailEntity, {
+    cascade: true,
+    eager: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+  })
   @JoinColumn()
   @IsOptional()
   @ValidateNested()
@@ -62,8 +89,13 @@ export class BillerEntity implements BillerModel{
   @Column({type: 'varchar', length: 255, nullable: true})
   @IsOptional()
   notes: string;
-  
-  @OneToOne(type => PaymentEntity,{ cascade : true, onDelete: "CASCADE", onUpdate: 'CASCADE' })
+
+  @OneToOne(type => PaymentEntity, {
+    cascade: true,
+    eager: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+  })
   @JoinColumn()
   @IsOptional()
   @ValidateNested()
@@ -79,7 +111,15 @@ export class BillerEntity implements BillerModel{
 
   @UpdateDateColumn({name: 'updatedAt', nullable: true})
   updatedAt: Date;
+  
+  @OneToOne(() => InvoiceEntity, invoice => invoice.biller, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+  })
+  invoice: InvoiceEntity;
+  
 
+  
   @BeforeInsert()
   @BeforeUpdate()
   async validate() {

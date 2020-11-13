@@ -44,8 +44,6 @@ export class UploadService {
           firstName: record.FirstName,
           lastName: record.LastName,
           nickName: record.Nickname,
-          countryCode: record.CountryCode,
-          relatedName: record.RelatedName,
           jobTitle: record.JobTitle,
           department: record.Department,
           organization: record.Organization,
