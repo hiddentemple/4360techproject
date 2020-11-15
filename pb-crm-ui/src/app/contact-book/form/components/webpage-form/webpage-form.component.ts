@@ -1,63 +1,79 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Form, FormArray, FormGroup} from "@angular/forms";
+import {AbstractControl, Form, FormArray, FormGroup} from "@angular/forms";
+import {Observable} from "rxjs";
+import {ContactFormService} from "../../contact-form.service";
+import {map} from "rxjs/operators";
+import {URLCategory} from "@hiddentemple/api-interfaces";
 
 @Component({
   selector: 'app-webpage-form',
   template: `
-    <form>
-      <!-- Website Input -->
-      <div formArrayName="webpages">
-        <div *ngFor="let webpage of webpagesFormArray.controls; let i=index">
-          <!-- Angular assigns array index as group name by default 0, 1, 2, ... -->
-          <div class="row" [formGroupName]="i">
-            <div class="col-1">
-              <button class="col-1" mat-icon-button type="button" (click)="removeWebpage(i)">
+    <form [formGroup]="contactForm">
+      <table mat-table formArrayName="webpages" [dataSource]="webpageFormArrayControls$">
+        <!-- URL Column -->
+        <ng-container matColumnDef="url" >
+          <td mat-cell *matCellDef="let webpage; let i=index" class="col-6 p-1">
+            <mat-form-field [formGroupName]="i">
+              <mat-label>URL</mat-label>
+              <input matInput required type="url" placeholder="Ex. www.google.com" formControlName="url">
+            </mat-form-field>
+          </td>
+        </ng-container>
+
+        <!-- Category Column -->
+        <ng-container matColumnDef="category">
+          <td mat-cell *matCellDef="let webpage; let i=index" class="col-5 p-1">
+            <mat-form-field [formGroupName]="i">
+              <mat-label>Category</mat-label>
+              <mat-select formControlName="category" required>
+                <mat-option *ngFor="let category of websiteCategories" value="{{category}}">
+                  {{category}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+        </ng-container>
+
+        <!-- Remove Webpage Column -->
+        <ng-container matColumnDef="remove">
+          <td mat-cell *matCellDef="let webpage; let i=index" class="col-1 p-1">
+            <div>
+              <button mat-icon-button type="button" (click)="removeWebpage(i)">
                 <mat-icon color="accent">remove_circle_outline</mat-icon>
               </button>
             </div>
-            <div class="col-11">
-              <div class="row">
-                <mat-form-field class="col-8">
-                  <mat-label>URL</mat-label>
-                  <input matInput type="text" placeholder="Ex. www.google.com" formControlName="url">
+          </td>
+        </ng-container>
 
-                  <mat-error *ngIf="phoneHasRequiredError(phone)">
-                    A phone is required
-                  </mat-error>
-                  <mat-error *ngIf="phoneHasPatternError(phone)">
-                    Not a valid phone number
-                  </mat-error>
-                </mat-form-field>
+        <tr mat-row *matRowDef="let row; let i=index; columns: displayedColumns;"></tr>
+      </table>
 
-                <mat-form-field class="col-sm-12 col-md-4">
-                  <mat-label>Type</mat-label>
-                  <mat-select formControlName="type" required>
-                    <mat-option *ngFor="let category of websiteCategories" value="{{category}}">
-                      {{category}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <button mat-icon-button type="button" (click)="addWebpage()" class="float-right">
+        <mat-icon>add</mat-icon>
+      </button>
     </form>
   `,
   styles: [
   ]
 })
-export class WebpageFormComponent implements OnInit {
+export class WebpageFormComponent {
   @Input() contactForm: FormGroup;
+  websiteCategories: URLCategory[] = Object.values(URLCategory);
+  displayedColumns = ["url", "category", "remove"];
 
-  get webpagesFormArray(): FormArray { return this.contactForm.get("webpages") as FormArray; }
+  get webpageFormArrayControls$(): Observable<AbstractControl[]> {
+    return this.formService.contactForm$.pipe(map(form =>
+      (form.get("webpages") as FormArray).controls
+    ))
+  }
 
-  constructor() { }
+  constructor(private formService: ContactFormService) { }
 
-  ngOnInit(): void {
+  addWebpage() {
+    this.formService.addWebpage();
   }
 
   removeWebpage(i: number) {
-
+    this.formService.removeWebpage(i)
   }
 }

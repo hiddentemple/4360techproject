@@ -54,7 +54,7 @@ import {SelectionModel} from "@angular/cdk/collections";
           </td>
         </ng-container>
 
-        <!-- Remove Email Column -->
+        <!-- Remove Phone Column -->
         <ng-container matColumnDef="remove">
           <td mat-cell *matCellDef="let phone; let i=index" class="col-1 p-1">
             <div>
