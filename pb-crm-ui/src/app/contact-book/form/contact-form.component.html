@@ -45,6 +45,18 @@
         <app-phones-form [contactForm]="contactForm"></app-phones-form>
       </mat-expansion-panel>
 
+      <!-- Emails -->
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Emails
+          </mat-panel-title>
+          <mat-panel-description>
+            <mat-icon>email</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <app-emails-form [contactForm]="contactForm"></app-emails-form>
+      </mat-expansion-panel>
     </mat-accordion>
 
     <button mat-raised-button color="primary" [disabled]="!contactForm.valid" type="submit" class="float-right">

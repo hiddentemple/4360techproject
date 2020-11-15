@@ -76,17 +76,11 @@ import {SelectionModel} from "@angular/cdk/collections";
   styles: []
 })
 export class PhonesFormComponent {
-  @Input() contactForm: FormGroup;
   displayedColumns = ["select", "phoneNumber", "category", "remove"];
   selection = new SelectionModel(false);
+  phoneCategories: PhoneCategory[] = Object.values(PhoneCategory);
 
-  get phoneCategories(): PhoneCategory[] {
-    return Object.values(PhoneCategory);
-  }
-
-  get phoneFormArray(): FormArray {
-    return this.contactForm.get("phones") as FormArray
-  };
+  @Input() contactForm: FormGroup;
 
   get phoneFormArrayControls$(): Observable<AbstractControl[]> {
     return this.formService.contactForm$.pipe(map(contactForm => {
