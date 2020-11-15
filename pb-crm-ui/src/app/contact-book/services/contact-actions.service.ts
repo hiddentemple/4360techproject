@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ContactModel} from "@hiddentemple/api-interfaces";
 import {ContactCacheService} from "./contact-cache.service";
 import {MatSnackBar} from "@angular/material/snack-bar";

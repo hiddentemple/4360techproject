@@ -1,8 +1,7 @@
 import {Injectable, OnInit} from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
 import {ContactFormModel} from "./contact-form.model";
-import {AbstractControl, Form, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {PhoneValidator} from "../containers/contact-form/contact-form.component";
+import {AbstractControl, FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {ContactModel} from "@hiddentemple/api-interfaces";
 
 // expected to update the current value of the FormGroup in some way

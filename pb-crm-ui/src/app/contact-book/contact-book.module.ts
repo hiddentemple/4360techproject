@@ -30,15 +30,18 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {DeleteConfirmationComponent} from './containers/delete-confirmation/delete-confirmation.component';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import { ContactCardDeckComponent } from './containers/contact-card-deck/contact-card-deck.component';
+import {ContactCardDeckComponent} from './containers/contact-card-deck/contact-card-deck.component';
 import {NgxMasonryModule} from "ngx-masonry";
 import {MatRadioModule} from '@angular/material/radio';
 import {OverlayModule} from '@angular/cdk/overlay';
-import { WebpageTableComponent } from './containers/website-table/webpage-table.component';
-import { ContactFormComponent } from './form/contact-form.component';
-import { NameFormComponent } from './form/components/name-form/name-form.component';
-import { CompanyFormComponent } from './form/components/company-form/company-form.component';
-
+import {WebpageTableComponent} from './containers/website-table/webpage-table.component';
+import {ContactFormComponent} from './form/contact-form.component';
+import {NameFormComponent} from './form/components/name-form/name-form.component';
+import {CompanyFormComponent} from './form/components/company-form/company-form.component';
+import {MatExpansionModule} from "@angular/material/expansion";
+import {PhonesFormComponent} from './form/components/phones-form/phones-form.component';
+import {EmailsFormComponent} from './form/components/emails-form/emails-form.component';
+import {WebpageFormComponent} from './form/components/webpage-form/webpage-form.component';
 
 
 @NgModule({
@@ -57,41 +60,46 @@ import { CompanyFormComponent } from './form/components/company-form/company-for
     ContactFormComponent,
     NameFormComponent,
     CompanyFormComponent,
+    PhonesFormComponent,
+    EmailsFormComponent,
+    WebpageFormComponent,
   ],
   exports: [
+    ContactFormComponent
   ],
-  imports: [
-    CommonModule,
-    CoreModule,
-    ContactBookRoutingModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTooltipModule,
-    MatDialogModule,
-    MatTableModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatMenuModule,
-    MatSnackBarModule,
-    MatRippleModule,
-    AngularSplitModule.forRoot(),
-    PortalModule,
-    MatOptionModule,
-    MatAutocompleteModule,
-    MatSelectModule,
-    MatCheckboxModule,
-    NgxMasonryModule,
-    FormsModule,
-    MatRadioModule,
-    OverlayModule
-  ],
+    imports: [
+        CommonModule,
+        CoreModule,
+        ContactBookRoutingModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatDialogModule,
+        MatTableModule,
+        MatSortModule,
+        MatPaginatorModule,
+        MatMenuModule,
+        MatSnackBarModule,
+        MatRippleModule,
+        AngularSplitModule.forRoot(),
+        PortalModule,
+        MatOptionModule,
+        MatAutocompleteModule,
+        MatSelectModule,
+        MatCheckboxModule,
+        NgxMasonryModule,
+        FormsModule,
+        MatRadioModule,
+        OverlayModule,
+        MatExpansionModule
+    ],
   entryComponents: [
     DialogComponent,
     ContactFormComponent,

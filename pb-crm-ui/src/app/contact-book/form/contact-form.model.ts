@@ -1,23 +1,17 @@
-import {
-  AddressModel,
-  ContactModel,
-  EmailModel,
-  PhoneEmailCategory,
-  PhoneModel,
-  WebpageModel
-} from "@hiddentemple/api-interfaces";
-import {BehaviorSubject} from "rxjs";
-import {AbstractControl, FormArray, FormControl, FormGroup, Validator, ValidatorFn, Validators} from "@angular/forms";
-import {PhoneValidator} from "../containers/contact-form/contact-form.component";
+import {AddressModel, ContactModel, EmailModel, PhoneModel, WebpageModel} from "@hiddentemple/api-interfaces";
+import {AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {filterToDefinedProperties, StringFilterer} from "../../core/utils/object.utils";
 
 export const DEFAULT_SIZE = 255;
 
 export function getMaxLengthValidator(size = DEFAULT_SIZE): ValidatorFn {
-  return Validators.maxLength(DEFAULT_SIZE)
+  return Validators.maxLength(size)
 }
 
 export const LengthAndRequiredValidators = [Validators.required, getMaxLengthValidator()]
+
+export const PhoneRegex = /^\+\d{5,15}$/;
+export const PhoneValidator = Validators.pattern(PhoneRegex); // TODO validate length and numeric
 
 export class ContactFormModel {
   // Personal Info (NameFormComponent)

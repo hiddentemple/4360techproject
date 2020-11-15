@@ -1,20 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {
-  AbstractContactRequest,
-  AddressDTO,
   ContactModel,
   CreateContactRequest,
   CreateContactResponse,
-  EmailDTO,
-  EmailModel,
   GetAllContactsResponse,
   GetContactResponse,
-  PhoneDTO,
-  PhoneModel,
   UpdateContactRequest,
   UpdateContactResponse,
-  WebpageDTO,
 } from '@hiddentemple/api-interfaces';
 import {ApiService} from '../../api/api.service';
 

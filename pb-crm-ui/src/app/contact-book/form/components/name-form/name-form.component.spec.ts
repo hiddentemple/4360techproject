@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { NameFormComponent } from './name-form.component';
+import {NameFormComponent} from './name-form.component';
 
 describe('NameFormComponent', () => {
   let component: NameFormComponent;

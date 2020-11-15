@@ -3,49 +3,11 @@ import {ContactFormService} from "./contact-form.service";
 import {FormGroup} from "@angular/forms";
 import {tap} from "rxjs/operators";
 import {MatAccordion} from "@angular/material/expansion";
+import {ContactModel} from "@hiddentemple/api-interfaces";
 
 @Component({
   selector: 'app-contact-form',
-  template: `
-    <div class="example-action-buttons">
-      <button mat-button (click)="accordion.openAll()">Expand All</button>
-      <button mat-button (click)="accordion.closeAll()">Collapse All</button>
-    </div>
-    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-      <mat-accordion class="example-headers-align" multi>
-
-        <!-- Personal Info -->
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Personal data
-            </mat-panel-title>
-            <mat-panel-description>
-              <mat-icon>account_circle</mat-icon>
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-          <app-name-form [contactForm]="contactForm"></app-name-form>
-        </mat-expansion-panel>
-
-        <!-- Company -->
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Company
-            </mat-panel-title>
-            <mat-panel-description>
-              <mat-icon>business</mat-icon>
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-          <app-company-form [contactForm]="contactForm"></app-company-form>
-        </mat-expansion-panel>
-      </mat-accordion>
-
-      <button mat-raised-button color="primary" [disabled]="!contactForm.valid" type="submit" class="float-right">
-        Submit
-      </button>
-    </form>
-  `,
+  templateUrl: './contact-form.component.html',
   styles: [
       `
       .example-action-buttons {
@@ -83,6 +45,10 @@ export class ContactFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log("Submit form", this.contactForm)
+    const submittableContact: ContactModel = this.formService.getSubmittableContact();
+    console.group("Submit form")
+    console.log("Form", this.contactForm)
+    console.log("Generated contact", submittableContact)
+    console.groupEnd()
   }
 }

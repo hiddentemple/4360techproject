@@ -6,8 +6,11 @@ import {Observable} from "rxjs";
 @Component({
   selector: 'app-dev',
   template: `
-
+    <div class="container">
+      <app-contact-form></app-contact-form>
+    </div>
   `
 })
 export class DevComponent{
+
 }

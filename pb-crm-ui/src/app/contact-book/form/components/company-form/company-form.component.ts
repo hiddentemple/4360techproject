@@ -1,20 +1,15 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {ContactFormModel} from "../../contact-form.model";
-import {FormControl, FormGroup} from "@angular/forms";
+import {Component, Input} from '@angular/core';
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-company-form',
   template: `
-    <form *ngIf="showCompany" [formGroup]="contactForm">
+    <form [formGroup]="contactForm">
       <!-- Company Input -->
       <div class="row">
         <mat-form-field class="col-12">
           <mat-label>Company Name</mat-label>
           <input matInput maxlength="256" placeholder="Ex. Juan in a Million" formControlName="company">
-
-          <mat-error *ngIf="companyHasRequiredError">
-            Company Name is required
-          </mat-error>
         </mat-form-field>
       </div>
 
@@ -46,25 +41,5 @@ import {FormControl, FormGroup} from "@angular/forms";
   styles: []
 })
 export class CompanyFormComponent {
-  showCompany = false;
   @Input() contactForm: FormGroup;
-  panelOpenState: boolean;
-
-  get companyControl(): FormControl {
-    return this.contactForm.get("company") as FormControl;
-  }
-
-  get companyHasRequiredError(): boolean {
-    return this.companyControl.hasError("required");
-  }
-
-  openCompany() {
-    this.showCompany = true;
-  }
-
-  closeCompany() {
-    // If company has filled in fields, confirm close and then set them to empty
-    // this.companyFormService.resetCompany()
-    this.showCompany = false;
-  }
 }
