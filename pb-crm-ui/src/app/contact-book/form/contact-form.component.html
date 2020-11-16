@@ -1,93 +1,122 @@
-<div class="row example-action-buttons float-right">
-  <button mat-button (click)="accordion.openAll()">Expand All</button>
-  <button mat-button (click)="accordion.closeAll()">Collapse All</button>
-</div>
-<div class="row">
-  <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-    <mat-accordion class="example-headers-align" multi>
+<div class="container">
+  <div class="row example-action-buttons">
+    <button mat-button (click)="accordion.openAll()">Expand All</button>
+    <button mat-button (click)="accordion.closeAll()">Collapse All</button>
+  </div>
+  <div class="row">
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+      <mat-accordion class="example-headers-align" multi>
 
-      <!-- Personal Info -->
-      <mat-expansion-panel expanded>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Personal data
-          </mat-panel-title>
-          <mat-panel-description>
-            <mat-icon>account_circle</mat-icon>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <app-name-form [contactForm]="contactForm"></app-name-form>
-      </mat-expansion-panel>
+        <!-- Personal Info -->
+        <mat-expansion-panel expanded>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Personal data
+            </mat-panel-title>
+            <mat-panel-description>
+              <mat-icon>account_circle</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <app-name-form [contactForm]="contactForm"></app-name-form>
+        </mat-expansion-panel>
 
-      <!-- Company -->
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Company
-          </mat-panel-title>
-          <mat-panel-description>
-            <mat-icon>business</mat-icon>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <app-company-form [contactForm]="contactForm"></app-company-form>
-      </mat-expansion-panel>
+        <!-- Company -->
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Company
+            </mat-panel-title>
+            <mat-panel-description>
+              <mat-icon>business</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <app-company-form [contactForm]="contactForm"></app-company-form>
+        </mat-expansion-panel>
 
-      <!-- Phones -->
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Phones
-          </mat-panel-title>
-          <mat-panel-description>
-            <mat-icon>phone</mat-icon>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <app-phones-form [contactForm]="contactForm"></app-phones-form>
-      </mat-expansion-panel>
+        <!-- Phones -->
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Phones
+            </mat-panel-title>
+            <mat-panel-description>
+              <mat-icon>phone</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <app-phones-form [contactForm]="contactForm"></app-phones-form>
+        </mat-expansion-panel>
 
-      <!-- Emails -->
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Emails
-          </mat-panel-title>
-          <mat-panel-description>
-            <mat-icon>email</mat-icon>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <app-emails-form [contactForm]="contactForm"></app-emails-form>
-      </mat-expansion-panel>
+        <!-- Emails -->
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Emails
+            </mat-panel-title>
+            <mat-panel-description>
+              <mat-icon>email</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <app-emails-form [contactForm]="contactForm"></app-emails-form>
+        </mat-expansion-panel>
 
-      <!-- Webpages -->
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Webpages
-          </mat-panel-title>
-          <mat-panel-description>
-            <mat-icon>language</mat-icon>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <app-webpage-form [contactForm]="contactForm"></app-webpage-form>
-      </mat-expansion-panel>
+        <!-- Webpages -->
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Webpages
+            </mat-panel-title>
+            <mat-panel-description>
+              <mat-icon>language</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <app-webpage-form [contactForm]="contactForm"></app-webpage-form>
+        </mat-expansion-panel>
 
-      <!-- Addresses -->
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Addresses
-          </mat-panel-title>
-          <mat-panel-description>
-            <mat-icon>home</mat-icon>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <app-addresses-form [contactForm]="contactForm"></app-addresses-form>
-      </mat-expansion-panel>
+        <!-- Addresses -->
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Addresses
+            </mat-panel-title>
+            <mat-panel-description>
+              <mat-icon>home</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <app-addresses-form [contactForm]="contactForm"></app-addresses-form>
+        </mat-expansion-panel>
 
-    </mat-accordion>
+        <!-- Notes -->
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Notes
+            </mat-panel-title>
+            <mat-panel-description>
+              <mat-icon>notes</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <app-notes-form [contactForm]="contactForm"></app-notes-form>
+        </mat-expansion-panel>
 
-    <button mat-raised-button color="primary" [disabled]="!contactForm.valid" type="submit" class="float-right">
-      Submit
-    </button>
-  </form>
+        <!-- tags -->
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Tags
+            </mat-panel-title>
+            <mat-panel-description>
+              <mat-icon>loyalty</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <app-tags-form></app-tags-form>
+        </mat-expansion-panel>
+
+      </mat-accordion>
+
+      <button mat-raised-button color="primary" [disabled]="!contactForm.valid" type="submit" class="float-right mt-1">
+        Submit
+      </button>
+    </form>
+  </div>
+
 </div>

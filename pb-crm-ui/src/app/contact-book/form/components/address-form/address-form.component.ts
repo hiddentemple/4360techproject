@@ -5,6 +5,7 @@ import {AbstractControl, FormArray, FormGroup} from "@angular/forms";
 import {map} from "rxjs/operators";
 import {AddressCategory} from "@hiddentemple/api-interfaces";
 import {SelectionModel} from "@angular/cdk/collections";
+import {getCountryNames, getSortedCountryCodes} from "../../../../core/countries";
 
 export interface StateMapEntry { name: string; abbreviation: string; }
 
@@ -140,7 +141,20 @@ export const StatesMap: StateMapEntry[] = [
 
             <div class="row">
               <!-- Category -->
-              <mat-form-field class="col-10">
+              <mat-form-field class="col-5">
+                <mat-label>Country</mat-label>
+                <mat-select formControlName="country" required>
+                  <mat-option *ngFor="let country of countries" value="{{country}}">
+                    {{country}}
+                  </mat-option>
+                </mat-select>
+
+                <mat-error *ngIf="countryHasRequiredError(address)">
+                  Category is required
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="col-5">
                 <mat-label>Category</mat-label>
                 <mat-select formControlName="category" required>
                   <mat-option *ngFor="let category of addressCategories" value="{{category}}">
@@ -174,6 +188,7 @@ export class AddressFormComponent {
   states = StatesMap;
   addressCategories = Object.values(AddressCategory);
   selection = new SelectionModel(false);
+  countries: string[] = getCountryNames();
 
   get addressesControls$(): Observable<AbstractControl[]> {
     return this.formService.contactForm$.pipe(map(form =>
@@ -209,5 +224,9 @@ export class AddressFormComponent {
 
   categoryHasRequiredError(address: AbstractControl) {
     return address.get("category").hasError("required")
+  }
+
+  countryHasRequiredError(address: AbstractControl) {
+    return address.get("country").hasError("required")
   }
 }

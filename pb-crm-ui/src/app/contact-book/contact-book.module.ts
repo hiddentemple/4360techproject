@@ -18,7 +18,7 @@ import {ContactDetailPageComponent} from './components/contact-detail-page/conta
 import {ContactDetailComponent} from './containers/contact-detail/contact-detail.component';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {MatOptionModule, MatRippleModule} from '@angular/material/core';
+import {MatNativeDateModule, MatOptionModule, MatRippleModule} from '@angular/material/core';
 import {AngularSplitModule} from 'angular-split';
 import {EmailTableComponent} from './containers/email-table/email-table.component';
 import {PhoneTableComponent} from './containers/phone-table/phone-table.component';
@@ -44,6 +44,10 @@ import {EmailsFormComponent} from './form/components/emails-form/emails-form.com
 import {WebpageFormComponent} from './form/components/webpage-form/webpage-form.component';
 import {AddressFormComponent} from './form/components/address-form/address-form.component';
 import {MatCardModule} from "@angular/material/card";
+import { NotesFormComponent } from './form/components/notes-form/notes-form.component';
+import { TagsFormComponent } from './form/components/tags-form/tags-form.component';
+import {MatChipsModule} from "@angular/material/chips";
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 
 @NgModule({
@@ -67,6 +71,8 @@ import {MatCardModule} from "@angular/material/card";
     WebpageFormComponent,
     AddressFormComponent,
     AddressFormComponent,
+    NotesFormComponent,
+    TagsFormComponent,
   ],
   exports: [
     ContactFormComponent
@@ -103,7 +109,10 @@ import {MatCardModule} from "@angular/material/card";
     MatRadioModule,
     OverlayModule,
     MatExpansionModule,
-    MatCardModule
+    MatCardModule,
+    MatChipsModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   entryComponents: [
     DialogComponent,

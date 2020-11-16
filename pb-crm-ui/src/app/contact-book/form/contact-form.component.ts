@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, Output, ViewChild, EventEmitter} from '@angular/core';
 import {ContactFormService} from "./contact-form.service";
 import {FormGroup} from "@angular/forms";
 import {tap} from "rxjs/operators";
@@ -33,6 +33,10 @@ import {ContactModel} from "@hiddentemple/api-interfaces";
 export class ContactFormComponent implements OnInit {
   contactForm: FormGroup;
 
+  @Input() set contact(contact: ContactModel) { this.formService.setContact(contact); }
+
+  @Output() submitContact = new EventEmitter<ContactModel>();
+
   @ViewChild(MatAccordion) accordion: MatAccordion;
 
   constructor(private formService: ContactFormService) {
@@ -50,5 +54,6 @@ export class ContactFormComponent implements OnInit {
     console.log("Form", this.contactForm)
     console.log("Generated contact", submittableContact)
     console.groupEnd()
+    this.submitContact.emit(submittableContact);
   }
 }

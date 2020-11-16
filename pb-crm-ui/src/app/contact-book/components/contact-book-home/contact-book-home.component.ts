@@ -13,6 +13,7 @@ import {DialogInterface} from '../../../core/dialog/temp-dialog.interface';
 import {DialogService} from '../../../core/dialog/dialog.service';
 import {ImportFileService} from '../../containers/import-file/import-file.service';
 import {ImportFileComponent} from '../../containers/import-file/import-file.component';
+import {ContactFormComponent} from "../../form/contact-form.component";
 
 
 @Component({
@@ -112,9 +113,10 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
 
   openCreateContactForm() {
     this.filterStr = undefined;
-    this.selectedPortal = this.createPortal;
+    // this.selectedPortal = this.createPortal;
     this.selectedContact = undefined;
-    this.openRightPanel();
+    // this.openRightPanel();
+    this.dialog.open(ContactFormComponent, {})
   }
 
   closeRightPanelAndReset() {
@@ -133,7 +135,7 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     this.openRightPanel();
   }
 
-  async createContract(contact: ContactModel) {
+  async createContact(contact: ContactModel) {
     const callback: ContactActionCallback = async (contact) => this.setViewContact(contact);
     return this.contactActions.createContact(contact, callback);
   }

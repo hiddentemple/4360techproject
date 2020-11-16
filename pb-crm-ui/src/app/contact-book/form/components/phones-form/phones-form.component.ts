@@ -5,6 +5,7 @@ import {PhoneCategory} from "@hiddentemple/api-interfaces";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {SelectionModel} from "@angular/cdk/collections";
+import {CountryCodeMap, getSortedCountryCodes, UnitedStatesCountryCode} from "../../../../core/countries";
 
 @Component({
   selector: 'app-phones-form',
@@ -24,8 +25,22 @@ import {SelectionModel} from "@angular/cdk/collections";
           </td>
         </ng-container>
 
+        <!-- Country Code Column -->
+        <ng-container matColumnDef="country code">
+          <td mat-cell *matCellDef="let phone; let i=index" class="col-2 p-1">
+            <mat-form-field [formGroupName]="i">
+              <mat-label>Country Code</mat-label>
+              <mat-select formControlName="countryCode" required>
+                <mat-option *ngFor="let country of countries" value="{{country.dial_code}}">
+                  {{country.name}} ({{country.dial_code}})
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+        </ng-container>
+
         <!-- Phone Number Column -->
-        <ng-container matColumnDef="phoneNumber" >
+        <ng-container matColumnDef="phoneNumber">
           <td mat-cell *matCellDef="let phone; let i=index" class="col-5 p-1">
             <mat-form-field [formGroupName]="i">
               <mat-label>Phone Number</mat-label>
@@ -42,7 +57,7 @@ import {SelectionModel} from "@angular/cdk/collections";
 
         <!-- Category Column -->
         <ng-container matColumnDef="category">
-          <td mat-cell *matCellDef="let phone; let i=index" class="col-5 p-1">
+          <td mat-cell *matCellDef="let phone; let i=index" class="col-3 p-1">
             <mat-form-field [formGroupName]="i">
               <mat-label>Category</mat-label>
               <mat-select formControlName="category" required>
@@ -74,9 +89,11 @@ import {SelectionModel} from "@angular/cdk/collections";
   styles: []
 })
 export class PhonesFormComponent {
-  displayedColumns = ["select", "phoneNumber", "category", "remove"];
+  displayedColumns = ["select", "country code", "phoneNumber", "category", "remove"];
   selection = new SelectionModel(false);
   phoneCategories: PhoneCategory[] = Object.values(PhoneCategory);
+  countries = getSortedCountryCodes();
+  compareWith = (option, selection) => option === selection.name;
 
   @Input() contactForm: FormGroup;
 

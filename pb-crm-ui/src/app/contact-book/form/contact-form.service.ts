@@ -1,8 +1,8 @@
 import {Injectable, OnInit} from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
-import {ContactFormModel} from "./contact-form.model";
+import {ContactFormModel, PhoneInputModel} from "./contact-form.model";
 import {AbstractControl, FormArray, FormBuilder, FormGroup} from "@angular/forms";
-import {ContactModel} from "@hiddentemple/api-interfaces";
+import {ContactModel, PhoneModel} from "@hiddentemple/api-interfaces";
 
 // expected to update the current value of the FormGroup in some way
 export type FormGroupModifier = (FormGroup) => void;
@@ -29,21 +29,6 @@ export class ContactFormService implements OnInit {
     this.contactForm.next(newForm);
   }
 
-  // public api methods for use in all child components
-  addPhone(){ this.addArrayElement('phones', ContactFormModel.initPhone); }
-  removePhone(i: number) { this.removeArrayElement('phones', i); }
-
-  addEmail() { this.addArrayElement('emails', ContactFormModel.initEmail); }
-  removeEmail(i: number) { this.removeArrayElement('emails', i); }
-
-  addWebpage() { this.addArrayElement('webpages', ContactFormModel.initWebpage)}
-  removeWebpage(i: number) { this.removeArrayElement('webpages', i); }
-
-  addAddress() { this.addArrayElement('addresses', ContactFormModel.initAddress)}
-  removeAddress(i: number) { this.removeArrayElement('addresses', i); }
-
-  // TODO tags
-
   /**
    * This method defers all validation to the FormGroup underlying this class. If the form is valid, then the value
    * of the form is returned.
@@ -53,7 +38,45 @@ export class ContactFormService implements OnInit {
     if (contactForm.invalid) {
       throw new Error("Tried to get submittable contact, but form contained errors.")
     }
-    return contactForm.value;
+
+    const rawValue = contactForm.value;
+    rawValue.phones = Object.values(rawValue.phones).map((phone: PhoneInputModel) => {
+      let {phoneNumber, countryCode, ...other} = phone
+      phoneNumber = countryCode + phoneNumber;
+      return {...other, phoneNumber}
+    });
+
+    return rawValue;
+  }
+
+  // public api methods for use in all child components
+  addPhone(){ this.addArrayElement('phones', ContactFormModel.initPhone); }
+
+  removePhone(i: number) { this.removeArrayElement('phones', i); }
+  addEmail() { this.addArrayElement('emails', ContactFormModel.initEmail); }
+
+  removeEmail(i: number) { this.removeArrayElement('emails', i); }
+  addWebpage() { this.addArrayElement('webpages', ContactFormModel.initWebpage)}
+
+  removeWebpage(i: number) { this.removeArrayElement('webpages', i); }
+  addAddress() { this.addArrayElement('addresses', ContactFormModel.initAddress)}
+
+  removeAddress(i: number) { this.removeArrayElement('addresses', i); }
+
+  addTag(tag: string) {
+    this.addArrayElement("tags", () => ContactFormModel.initTag(tag));
+  }
+  removeTag(tag: string) {
+    const callBack: FormGroupModifier = (form: FormGroup) => {
+      const currentTags: FormArray = form.get("tags") as FormArray;
+      const rawTags: string[] = currentTags.getRawValue();
+      const index: number = rawTags.indexOf(tag);
+      if (index >= 0) {
+        currentTags.removeAt(index)
+      }
+    }
+
+    this.accessAndUpdate(callBack);
   }
 
   /**

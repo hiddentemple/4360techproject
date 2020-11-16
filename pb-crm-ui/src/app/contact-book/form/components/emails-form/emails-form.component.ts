@@ -10,7 +10,7 @@ import {SelectionModel} from "@angular/cdk/collections";
   selector: 'app-emails-form',
   template: `
     <form [formGroup]="contactForm">
-      <table mat-table formArrayName="emails" [dataSource]="emailFormArrayControls$">
+      <table mat-table formArrayName="emails" [dataSource]="emailFormArrayControls$" class="row">
 
         <!-- Checkbox Column -->
         <ng-container matColumnDef="select">

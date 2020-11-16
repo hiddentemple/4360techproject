@@ -1,6 +1,15 @@
-import {AddressModel, ContactModel, EmailModel, PhoneModel, WebpageModel} from "@hiddentemple/api-interfaces";
+import {
+  AddressModel,
+  ContactModel,
+  EmailModel,
+  PhoneCategory,
+  PhoneModel,
+  WebpageModel
+} from "@hiddentemple/api-interfaces";
 import {AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {filterToDefinedProperties, StringFilterer} from "../../core/utils/object.utils";
+import {ControlGenerator} from "./contact-form.service";
+import {parsePhoneNumber} from "libphonenumber-js";
 
 export const DEFAULT_SIZE = 255;
 
@@ -10,8 +19,15 @@ export function getMaxLengthValidator(size = DEFAULT_SIZE): ValidatorFn {
 
 export const LengthAndRequiredValidators = [Validators.required, getMaxLengthValidator()]
 
-export const PhoneRegex = /^\+\d{5,15}$/;
+export const PhoneRegex = /^\d{5,15}$/;
 export const PhoneValidator = Validators.pattern(PhoneRegex); // TODO validate length and numeric
+
+export interface PhoneInputModel {
+  phoneNumber: string;
+  countryCode: string;
+  isPrimary: boolean
+  category: PhoneCategory;
+}
 
 export class ContactFormModel {
   // Personal Info (NameFormComponent)
@@ -19,7 +35,8 @@ export class ContactFormModel {
   lastName = new FormControl('', LengthAndRequiredValidators);
   gender = new FormControl('', [getMaxLengthValidator()]);
   nickName = new FormControl('', [getMaxLengthValidator()]);
-  // TODO anniversary, birthday
+  birthday = new FormControl('');
+  anniversary = new FormControl('')
 
   // Company info (CompanyFormComponent)
   company = new FormControl('', [getMaxLengthValidator()]);
@@ -33,7 +50,8 @@ export class ContactFormModel {
   emails = new FormArray([]);    // EmailFormComponent
   addresses = new FormArray([]); // AddressFormComponent
   webpages = new FormArray([]);  // WebpageFormComponent
-  tags = new FormArray([]);      // TagFormComponent
+
+  tags = new FormArray([]);
 
   constructor(contact?: ContactModel) {
     if (contact) this.setContact(contact);
@@ -48,13 +66,25 @@ export class ContactFormModel {
    * This way, we never initialize the value to a falsey state.
    */
   public static initPhone(phone?: PhoneModel): FormGroup {
-    let phoneNumber = phone?.phoneNumber || "";
     let isPrimary = phone?.isPrimary || false;
     let category = phone?.category || "";
+    let phoneNumber = "";
+    let countryCode = "+1";
+
+    if (phone) {
+      const parsedPhone = parsePhoneNumber(phone.phoneNumber);
+      if (parsedPhone.isValid()) {
+        phoneNumber = String(parsedPhone.nationalNumber)
+        countryCode = String(parsedPhone.countryCallingCode)
+      } else {
+        console.error(`Phone number was not valid, cannot fill in input with values`)
+      }
+    }
 
     return new FormGroup({
       phoneNumber: new FormControl(phoneNumber, [Validators.required, PhoneValidator]),
       category: new FormControl(category, [Validators.required]),
+      countryCode: new FormControl(countryCode, Validators.required),
       isPrimary: new FormControl(isPrimary)
     });
   }
@@ -105,6 +135,12 @@ export class ContactFormModel {
     })
   }
 
+  public static initTag(tag?: string) {
+    tag = tag || "";
+
+    return new FormControl(tag)
+  }
+
   private setContact(contact: ContactModel) {
     // Filter to only defined properties
     // Assign those properties to their corresponding property in this object
@@ -130,7 +166,7 @@ export class ContactFormModel {
   private assignSimple(key: string, value: string) { (this[key] as AbstractControl).setValue(value) }
 
   private assignDate(key: string, value: Date) {
-    // Assumes Date is valid
+    (this[key] as AbstractControl).setValue(value)
   }
 
   private assignArray(key: string, value: PhoneModel[] | EmailModel[] | AddressModel[] | WebpageModel[] | string[]) {
@@ -148,7 +184,8 @@ export class ContactFormModel {
         this.arrayAssigner(key, value, ContactFormModel.initWebpage)
         break;
       case 'tags':
-        // TODO
+        ;
+        break;
       default:
         throw new Error("Invalid key passed to assign array: " + key)
     }
