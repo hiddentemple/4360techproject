@@ -57,11 +57,9 @@ import {SelectionModel} from "@angular/cdk/collections";
         <!-- Remove Phone Column -->
         <ng-container matColumnDef="remove">
           <td mat-cell *matCellDef="let phone; let i=index" class="col-1 p-1">
-            <div>
-              <button mat-icon-button type="button" (click)="removePhoneInput(i)">
-                <mat-icon color="accent">remove_circle_outline</mat-icon>
-              </button>
-            </div>
+            <button mat-icon-button type="button" (click)="removePhoneInput(i)">
+              <mat-icon color="accent">remove_circle_outline</mat-icon>
+            </button>
           </td>
         </ng-container>
 

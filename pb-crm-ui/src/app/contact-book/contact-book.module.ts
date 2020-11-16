@@ -42,6 +42,8 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {PhonesFormComponent} from './form/components/phones-form/phones-form.component';
 import {EmailsFormComponent} from './form/components/emails-form/emails-form.component';
 import {WebpageFormComponent} from './form/components/webpage-form/webpage-form.component';
+import {AddressFormComponent} from './form/components/address-form/address-form.component';
+import {MatCardModule} from "@angular/material/card";
 
 
 @NgModule({
@@ -63,43 +65,46 @@ import {WebpageFormComponent} from './form/components/webpage-form/webpage-form.
     PhonesFormComponent,
     EmailsFormComponent,
     WebpageFormComponent,
+    AddressFormComponent,
+    AddressFormComponent,
   ],
   exports: [
     ContactFormComponent
   ],
-    imports: [
-        CommonModule,
-        CoreModule,
-        ContactBookRoutingModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatFormFieldModule,
-        ReactiveFormsModule,
-        MatInputModule,
-        MatInputModule,
-        MatFormFieldModule,
-        MatButtonModule,
-        MatIconModule,
-        MatTooltipModule,
-        MatDialogModule,
-        MatTableModule,
-        MatSortModule,
-        MatPaginatorModule,
-        MatMenuModule,
-        MatSnackBarModule,
-        MatRippleModule,
-        AngularSplitModule.forRoot(),
-        PortalModule,
-        MatOptionModule,
-        MatAutocompleteModule,
-        MatSelectModule,
-        MatCheckboxModule,
-        NgxMasonryModule,
-        FormsModule,
-        MatRadioModule,
-        OverlayModule,
-        MatExpansionModule
-    ],
+  imports: [
+    CommonModule,
+    CoreModule,
+    ContactBookRoutingModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatDialogModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatMenuModule,
+    MatSnackBarModule,
+    MatRippleModule,
+    AngularSplitModule.forRoot(),
+    PortalModule,
+    MatOptionModule,
+    MatAutocompleteModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    NgxMasonryModule,
+    FormsModule,
+    MatRadioModule,
+    OverlayModule,
+    MatExpansionModule,
+    MatCardModule
+  ],
   entryComponents: [
     DialogComponent,
     ContactFormComponent,

@@ -71,6 +71,19 @@
         <app-webpage-form [contactForm]="contactForm"></app-webpage-form>
       </mat-expansion-panel>
 
+      <!-- Addresses -->
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Addresses
+          </mat-panel-title>
+          <mat-panel-description>
+            <mat-icon>home</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <app-addresses-form [contactForm]="contactForm"></app-addresses-form>
+      </mat-expansion-panel>
+
     </mat-accordion>
 
     <button mat-raised-button color="primary" [disabled]="!contactForm.valid" type="submit" class="float-right">
