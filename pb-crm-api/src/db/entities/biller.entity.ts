@@ -13,14 +13,17 @@ import { AddressEntity } from './address.entity';
 import { EmailEntity } from './email.entity';
 import { PaymentEntity } from './payment.entity';
 import { PhoneEntity } from './phone.entity';
-import { IsBoolean, IsDefined, IsOptional, ValidateNested, validateOrReject } from 'class-validator';
+import { IsBoolean, IsDefined, IsEmail, IsOptional, Matches, ValidateNested, validateOrReject } from 'class-validator';
 import { HttpException } from '@nestjs/common';
 import { InvoiceEntity } from './invoice.entity';
 
 
 
-@Entity('billers')
+@Entity('biller')
 export class BillerEntity implements BillerModel{
+  
+  
+  
   @PrimaryGeneratedColumn('uuid')
   id: string;
   
@@ -28,59 +31,34 @@ export class BillerEntity implements BillerModel{
   @IsDefined()
   name: string;
 
-  @OneToOne(type => AddressEntity, {
+  @OneToOne(() => AddressEntity , {
     cascade: true,
     eager: true,
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE'
   })
   @JoinColumn()
-  @ValidateNested()
   address: AddressEntity;
 
-  @OneToOne(type => PhoneEntity, {
-    cascade: true,
-    eager: true,
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
-  }) 
-  @JoinColumn()
+  @Column({ type: "varchar", nullable: true })
   @IsOptional()
-  @ValidateNested()
-  mobilePhone: PhoneEntity;
+  @Matches(/^\+\d{5,15}$/, {message: "phone number needs to be in international format"})
+  mobilePhone: string
 
-  @OneToOne(type => PhoneEntity, {
-    cascade: true,
-    eager: true,
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
-  })
-  @JoinColumn()
+  @Column({ type: "varchar", nullable: true })
   @IsOptional()
-  @ValidateNested()
-  businessPhone: PhoneEntity;
+  @Matches(/^\+\d{5,15}$/, {message: "phone number needs to be in international format"})
+  businessPhone: string
 
-  @OneToOne(type => PhoneEntity, {
-    cascade: true,
-    eager: true,
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
-  })
-  @JoinColumn()
+  @Column({ type: "varchar", nullable: true })
   @IsOptional()
-  @ValidateNested()
-  fax: PhoneEntity;
+  @Matches(/^\+\d{5,15}$/, {message: "phone number needs to be in international format"})
+  fax: string
 
-  @OneToOne(type => EmailEntity, {
-    cascade: true,
-    eager: true,
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
-  })
-  @JoinColumn()
+  @Column({ type: "varchar", nullable: true })
   @IsOptional()
-  @ValidateNested()
-  email: EmailEntity;
+  @IsEmail()
+  email: string
 
   @Column({type: 'varchar', length: 255, nullable: true})
   @IsOptional()
@@ -90,7 +68,7 @@ export class BillerEntity implements BillerModel{
   @IsOptional()
   notes: string;
 
-  @OneToOne(type => PaymentEntity, {
+  @OneToOne(() => PaymentEntity, {
     cascade: true,
     eager: true,
     onDelete: 'CASCADE',
@@ -112,13 +90,11 @@ export class BillerEntity implements BillerModel{
   @UpdateDateColumn({name: 'updatedAt', nullable: true})
   updatedAt: Date;
   
-  @OneToOne(() => InvoiceEntity, invoice => invoice.biller, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
+  @OneToOne(() => InvoiceEntity, invoice => invoice.biller,{
+    cascade: ['insert', 'update']
   })
-  invoice: InvoiceEntity;
+  invoice: InvoiceEntity
   
-
   
   @BeforeInsert()
   @BeforeUpdate()

@@ -11,11 +11,9 @@ import { InvoiceService } from './services/invoice.service';
 import { LineItemService } from './services/lineItem.service';
 import { BillerService } from './services/biller.service';
 import { AddressService } from '../contact/services/address.service';
-import { EmailService } from '../contact/services/email.service';
-import { PhoneService } from '../contact/services/phone.service';
-import { PhoneEntity } from '../db/entities/phone.entity';
-import { EmailEntity } from '../db/entities/email.entity';
 import { AddressEntity } from '../db/entities/address.entity';
+import { CustomerService } from './services/customer.service';
+
 
 @Module({
   imports: [TypeOrmModule.forFeature([
@@ -25,12 +23,10 @@ import { AddressEntity } from '../db/entities/address.entity';
     InvoiceEntity,
     LineItemEntity,
     PaymentEntity,
-    PhoneEntity,
-    EmailEntity,
-    AddressEntity,
+    AddressEntity
   ])],
   controllers: [AccountController],
-  providers: [InvoiceService, LineItemService, BillerService, AddressService, EmailService, PhoneService],
+  providers: [InvoiceService, LineItemService, BillerService, AddressService, CustomerService],
 })
 export class AccountModule {
 }

@@ -6,7 +6,6 @@ import { InvoiceEntity } from '../../db/entities/invoice.entity';
 import { LineItemDTO } from '@hiddentemple/api-interfaces/dist/invoicing/line-item.dto';
 
 
-
 @Injectable()
 export class LineItemService{
   private readonly logger = new Logger(LineItemService.name)
@@ -26,7 +25,7 @@ async create(invoice: InvoiceEntity, dto: LineItemDTO, entityManager: EntityMana
     const newLineItem: LineItemEntity = entityManager.create<LineItemEntity>(LineItemEntity, {...dto, invoice})
     const savedLineItem: LineItemEntity = await entityManager.save(newLineItem);
     this.logger.log(`Saved line item: ${JSON.stringify(savedLineItem)}`);
-    return newLineItem
+    return savedLineItem
 }
 
   async createMany(invoice: InvoiceEntity, lineItemDTOS: LineItemDTO[], entityManger: EntityManager): Promise<LineItemEntity[]> {
@@ -40,13 +39,12 @@ async create(invoice: InvoiceEntity, dto: LineItemDTO, entityManager: EntityMana
     this.logger.log(`Created ${newLineItems.length} line item(s): ${JSON.stringify(newLineItems)}`)
     return newLineItems;
   }
-
-
-  async updateMany(invoice: InvoiceEntity, lineItemDTOS: LineItemDTO[], entityManager: EntityManager): Promise<LineItemEntity[]> {
-    if (!lineItemDTOS || lineItemDTOS.length === 0) return;
+  
+  async updateMany(invoice: InvoiceEntity, lineItemDTOS: LineItemDTO[], entityManger: EntityManager): Promise<any> {
+    if (!lineItemDTOS || lineItemDTOS.length == 0 || !invoice.lineItems || invoice.lineItems.length == 0) return;
     this.logger.log(`Updating ${lineItemDTOS.length} line item(s) from DTO: ${JSON.stringify(lineItemDTOS)}`)
-    await this.deleteMany(invoice.lineItems, entityManager);
-    const updatedLineItems: LineItemEntity[] = await this.createMany(invoice, lineItemDTOS, entityManager);
+    await this.deleteMany(invoice.lineItems, entityManger);
+    const updatedLineItems: LineItemEntity[] = await this.createMany(invoice, lineItemDTOS, entityManger)
     this.logger.log(`Finished ${lineItemDTOS.length} line item(s)`);
     return updatedLineItems;
   }
@@ -54,19 +52,23 @@ async create(invoice: InvoiceEntity, dto: LineItemDTO, entityManager: EntityMana
   async delete(id: string, entityManager: EntityManager): Promise<any> {
     this.logger.log(`Attempting delete line item with id ${id}`)
     const lineItem: LineItemEntity = await this.getById(id);
-    const {affected} = await entityManager.delete(LineItemEntity, lineItem);
-    if (affected !== 1) {
-      const errMsg = `Failed to delete line item with id ${id}`
-      this.logger.error(errMsg)
-      throw new InternalServerErrorException(errMsg)
+    const {affected} = await entityManager.delete<LineItemEntity>(LineItemEntity, lineItem);
+    if (affected == 0) {
+      const errMsg = `Could not delete line item: ${JSON.stringify(lineItem)}`;
+      this.logger.error(errMsg);
+      throw new InternalServerErrorException(errMsg);
     }
     this.logger.log(`Delete line item success. ID: ${id}`)
   }
 
   async deleteMany(lineItems: LineItemEntity[], entityManger: EntityManager): Promise<any> {
-    this.logger.log(`Attempting to delete ${lineItems.length} lineItem(s) with entities: ${JSON.stringify(lineItems)}`)
     if (!lineItems || lineItems.length === 0) return;
-    for (const lineItem of lineItems) { await this.delete(lineItem.id, entityManger) }
+    this.logger.log(`Attempting to delete ${lineItems.length} lineItem(s) with entities: ${JSON.stringify(lineItems)}`)
+    for (const lineItem of lineItems) {
+      if (lineItem != null) {
+        await this.delete(lineItem.id, entityManger)
+      }
+    }
+    this.logger.log(`Successfully deleted ${lineItems.length} lineItems(s)`)
   }
-  
 }

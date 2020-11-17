@@ -45,7 +45,6 @@ export class LineItemEntity implements LineItemModel {
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
   })
-  @JoinColumn()
   invoice: InvoiceEntity;
 
   @BeforeInsert()

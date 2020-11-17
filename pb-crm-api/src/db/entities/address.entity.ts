@@ -1,8 +1,18 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { AddressModel, AddressType } from '@hiddentemple/api-interfaces';
 import { ContactEntity } from './contact.entity';
 import { IsDefined, IsEnum, IsOptional, validateOrReject } from 'class-validator';
 import { HttpException } from '@nestjs/common';
+import { BillerEntity } from './biller.entity';
 
 
 @Entity('addresses')
@@ -45,7 +55,7 @@ export class AddressEntity implements AddressModel {
   })
   @JoinColumn()
   contact: ContactEntity;
-
+  
   @BeforeInsert()
   @BeforeUpdate()
   async validate(){ await validateOrReject(this).then(
@@ -57,5 +67,4 @@ export class AddressEntity implements AddressModel {
     }
   )
   }
-
 }

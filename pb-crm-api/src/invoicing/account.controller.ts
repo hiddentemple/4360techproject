@@ -39,5 +39,4 @@ export class AccountController {
   async delete(@Param() id: string): Promise<any> {
     return this.invoiceService.delete(id)
   }
-  
 }

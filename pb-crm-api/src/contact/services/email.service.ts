@@ -72,7 +72,11 @@ export class EmailService {
         if (!emails || emails.length == 0) return
         this.logger.log(`Attempting to delete ${emails.length} email(s) with entities: ${JSON.stringify(emails)}`)
         if (!emails || emails.length === 0) return;
-        for (const email of emails) { await this.delete(email.id, entityManger) }
+        for (const email of emails) { 
+            if( email != null){ 
+                await this.delete(email.id, entityManger) 
+            }
+        }
     }
 
     containsNoMoreThanOnePrimary(emails: EmailDTO[]): boolean {

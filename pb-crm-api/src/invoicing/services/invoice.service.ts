@@ -1,12 +1,13 @@
 import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { InvoiceEntity } from '../../db/entities/invoice.entity';
-import { createQueryBuilder, DeleteResult, EntityManager, getConnection, Repository, UpdateResult } from 'typeorm';
+import { EntityManager, getConnection, Repository} from 'typeorm';
 import { CreateInvoiceRequest, UpdateInvoiceRequest} from '@hiddentemple/api-interfaces/dist/invoicing/invoice.contract';
 import { LineItemService } from './lineItem.service';
-import { BillerEntity } from '../../db/entities/biller.entity';
-import { CustomerEntity } from '../../db/entities/customer.entity';
 import { BillerService } from './biller.service';
+import { CustomerService } from './customer.service';
+import { ContactEntity } from '../../db/entities/contact.entity';
+import { AccountEntity } from '../../db/entities/account.entity';
 
 @Injectable()
 export class InvoiceService {
@@ -15,7 +16,8 @@ export class InvoiceService {
   constructor(
     @InjectRepository(InvoiceEntity) private invoiceRepo: Repository<InvoiceEntity>,
     private lineItemService: LineItemService,
-    private billerService: BillerService
+    private billerService: BillerService,
+    private customerService: CustomerService
   ) {}
   
   async getAll(): Promise<InvoiceEntity[]> {
@@ -67,12 +69,11 @@ export class InvoiceService {
     return invoices;
   }
   
-  
   async update(id: string, dto: UpdateInvoiceRequest): Promise<InvoiceEntity> {
     this.logger.log(`Attempting to update invoice with id ${id} with DTO ${JSON.stringify(dto)}`)
     const invoice: InvoiceEntity = await this.getById(id);
 
-    const acc: Partial<InvoiceEntity> = {};
+    const acc: Partial<ContactEntity> = {};
     const reducer = (acc, [key, value]) => {
       if (value && value !== '' && key !== 'lineItems') {
         return {...acc, [key]: value};
@@ -80,44 +81,62 @@ export class InvoiceService {
         return acc;
       }
     };
-    const filtered: Partial<InvoiceEntity> = Object.entries(dto.invoice).reduce(reducer, acc);
+    const filtered: Partial<ContactEntity> = Object.entries(dto.invoice).reduce(reducer, acc);
     this.logger.log(`Reduced DTO to simple properties: ${JSON.stringify(filtered)}`)
-
-    Object.assign(invoice, filtered);
-    this.logger.log(`Updated invoice with simple properties: ${JSON.stringify(invoice)}`)
-
     await getConnection().transaction(async entityManger => {
-      await this.lineItemService.updateMany(invoice, invoice.lineItems, entityManger);
-      const { affected }: UpdateResult = await entityManger.update<InvoiceEntity>(InvoiceEntity, id, filtered);
-      if (affected === 0) {
-        throw new InternalServerErrorException("Failed to update invoice")
-      }
+      const updatedInvoice =  this.invoiceRepo.merge(invoice, filtered);
+      await entityManger.save<InvoiceEntity>(updatedInvoice);
+      await this.lineItemService.updateMany(invoice, dto.invoice.lineItems, entityManger);
+      this.logger.log(`Updated contact: ${JSON.stringify({updatedInvoice})}`);
     });
-
     return this.getById(id);
   }
+  
+  async updateMany(account: AccountEntity, invoiceDTOs: UpdateInvoiceRequest[]): Promise<InvoiceEntity[]>{
+    if(!invoiceDTOs || invoiceDTOs.length === 0 || account.invoices.length == 0){ return; }
+    this.logger.log(`Updating ${invoiceDTOs.length} invoice(s) from DTO: ${JSON.stringify(invoiceDTOs)}`)
+    let updatedInvoices: InvoiceEntity[] = []
+    for (let i = 0; i < invoiceDTOs.length; i++) {
+      if(account.invoices[i]){
+        const updatedInvoice = await this.update(account.invoices[i].id, invoiceDTOs[i])
+        updatedInvoices.push(updatedInvoice)
+      }
+      else{
+        const newInvoice = await this.create(invoiceDTOs[i])
+        updatedInvoices.push(newInvoice)
+      }
+    }
+    return updatedInvoices
+  }
 
+  
   async delete(id: string): Promise<any> {
     this.logger.log(`Attempting delete of invoice with id ${JSON.stringify(id)}`)
     const invoice: InvoiceEntity = await this.getById(id);
     this.logger.log(`Found invoice to delete: ${JSON.stringify(invoice)}`)
-
     await getConnection().transaction(async entityManger => {
-      
       await this.lineItemService.deleteMany(invoice.lineItems, entityManger);
-      
-      const { affected }: DeleteResult = await entityManger.delete<InvoiceEntity>(InvoiceEntity, id);
-      await this.billerService.deleteMany(invoice.biller, entityManger);
-      if (affected === 0) {
-        const errMsg = `Could not delete invoice: ${JSON.stringify(invoice)}`;
-        this.logger.error(errMsg);
-        throw new InternalServerErrorException(errMsg);
-      }
-      
+      await this.billerService.delete(invoice.biller.id, entityManger);
+      await this.customerService.delete(invoice.customer.id, entityManger)
+      await entityManger.delete<InvoiceEntity>(InvoiceEntity, id);
     });
+    if(await this.invoiceRepo.findOne(id)){
+      const errMsg = `Could not delete invoice: ${JSON.stringify(invoice)}`
+        this.logger.error(errMsg)
+        throw new InternalServerErrorException(errMsg)
+    }
 
     this.logger.log(`Deleted invoice with id ${JSON.stringify(id)}`);
   }
   
-  
+  async deleteMany(invoices: InvoiceEntity[], entityManager: EntityManager): Promise<any>{
+    if (!invoices || invoices.length === 0) return;
+    this.logger.log(`Attempting to delete ${invoices.length} invoice(s) with entities: ${JSON.stringify(invoices)}`)
+    for (const invoice of invoices) {
+      if (invoice != null) {
+        await this.delete(invoice.id)
+      }
+    }
+    this.logger.log(`Successfully deleted ${invoices.length} invoices(s)`)
+  }
 }

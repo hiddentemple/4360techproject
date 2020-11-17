@@ -70,7 +70,11 @@ export class PhoneService {
     async deleteMany(phones: PhoneEntity[], entityManager: EntityManager): Promise<any> {
         if (!phones || phones.length === 0) return
         this.logger.log(`Attempting to delete ${phones.length} phone(s) with DTO: ${JSON.stringify(phones)}`)
-        for (const phone of phones) { await this.delete(phone.id, entityManager) }
+        for (const phone of phones) {
+            if(phone != null){
+                await this.delete(phone.id, entityManager)
+            }
+        }
         this.logger.log(`Successfully deleted ${phones.length} phone(s)`)
     }
 

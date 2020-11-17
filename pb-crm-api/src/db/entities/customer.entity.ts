@@ -16,9 +16,9 @@ import { WebpageEntity } from './webpage.entity';
 import {
   IsAlphanumeric,
   IsBoolean,
-  IsDefined,
-  IsOptional,
-  Length,
+  IsDefined, IsEmail,
+  IsOptional, IsUrl,
+  Length, Matches,
   ValidateNested,
   validateOrReject,
 } from 'class-validator';
@@ -55,60 +55,30 @@ export class CustomerEntity implements CustomerModel {
   @IsOptional()
   address: AddressEntity;
 
-  @OneToOne(type => PhoneEntity, {
-    cascade: true,
-    eager: true,
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
-  @JoinColumn()
-  @ValidateNested()
+  @Column({ type: "varchar", nullable: true })
   @IsOptional()
-  mobilePhone: PhoneEntity;
+  @Matches(/^\+\d{5,15}$/, {message: "phone number needs to be in international format"})
+  mobilePhone: string
 
-  @OneToOne(type => PhoneEntity, {
-    cascade: true,
-    eager: true,
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
-  @JoinColumn()
-  @ValidateNested()
+  @Column({ type: "varchar", nullable: true })
   @IsOptional()
-  businessPhone: PhoneEntity;
+  @Matches(/^\+\d{5,15}$/, {message: "phone number needs to be in international format"})
+  businessPhone: string
 
-  @OneToOne(type => PhoneEntity, {
-    cascade: true,
-    eager: true,
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
-  @JoinColumn()
-  @ValidateNested()
+  @Column({ type: "varchar", nullable: true })
   @IsOptional()
-  fax: PhoneEntity;
+  @Matches(/^\+\d{5,15}$/, {message: "phone number needs to be in international format"})
+  fax: string
 
-  @OneToOne(type => EmailEntity, {
-    cascade: true,
-    eager: true,
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
-  @JoinColumn()
-  @ValidateNested()
+  @Column({ type: "varchar", nullable: true })
   @IsOptional()
-  email: EmailEntity;
+  @IsEmail()
+  email: string
 
-  @OneToOne(type => WebpageEntity, {
-    cascade: true,
-    eager: true,
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
-  @JoinColumn()
-  @ValidateNested()
+  @Column({ type: "varchar", nullable: true })
   @IsOptional()
-  webpage: WebpageEntity;
+  @IsUrl()
+  webpage: string
 
   @Column({ type: 'varchar', length: 50, nullable: true })
   @IsOptional()

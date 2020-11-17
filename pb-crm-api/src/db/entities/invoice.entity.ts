@@ -35,7 +35,7 @@ export class InvoiceEntity implements InvoiceModel {
   @IsDefined()
   date: string;
 
-  @OneToOne(() => BillerEntity, biller => biller.invoice,  {
+  @OneToOne(() => BillerEntity, biller => biller.invoice, {
     cascade: true,
     eager: true,
     onDelete: 'CASCADE',
@@ -53,23 +53,20 @@ export class InvoiceEntity implements InvoiceModel {
   @Length(2, 50)
   technician: string;
 
-  @OneToOne(() => CustomerEntity, customer => customer.invoice, { 
+  @OneToOne(() => CustomerEntity,{ 
     cascade: true, 
-    eager: true, 
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
+    eager: true,
   })
   @JoinColumn()
   customer: CustomerEntity;
 
-  @OneToMany(type => LineItemEntity, lineItem => lineItem.invoice, {
+  @OneToMany(() => LineItemEntity, lineItems => lineItems.invoice, {
     cascade: true,
     eager: true,
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
   })
   @IsOptional()
   @ValidateNested({ each: true })
+  @JoinColumn()
   lineItems: LineItemEntity[];
 
   @Column({ type: 'varchar', length: 50, nullable: true })
@@ -123,7 +120,7 @@ export class InvoiceEntity implements InvoiceModel {
   @Length(2, 50)
   updatedBy: string;
   
-  @ManyToOne(type => AccountEntity, account => account.invoices, {
+  @ManyToOne(() => AccountEntity, account => account.invoices, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
