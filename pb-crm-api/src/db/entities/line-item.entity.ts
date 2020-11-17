@@ -9,8 +9,8 @@ export class LineItemEntity implements LineItemModel {
   @PrimaryGeneratedColumn('uuid')
   id: string;
   
-  @Column({ type: "varchar", length: 50 })
-  @Length(2, 50)
+  @Column({ type: "varchar", length: 255 })
+  @Length(2, 255)
   @IsDefined()
   name: string;
   
@@ -18,14 +18,14 @@ export class LineItemEntity implements LineItemModel {
   @IsDefined()
   quantity: number;
 
-  @Column({ type: "varchar", length: 50 })
-  @Length(2, 50)
+  @Column({ type: "varchar", length: 255 })
+  @Length(2, 255)
   @IsDefined()
   itemCategory: string;
 
-  @Column({type: 'varchar', length: 50, nullable: true})
+  @Column({type: 'varchar', length: 255, nullable: true})
   @IsOptional()
-  @Length(2, 50)
+  @Length(2, 255)
   description: string;
 
   @Column({type: 'numeric'})
@@ -36,9 +36,9 @@ export class LineItemEntity implements LineItemModel {
   @IsDefined()
   totalPrice: number;
 
-  @Column({type: 'varchar', length: 50, nullable: true})
+  @Column({type: 'varchar', length: 255, nullable: true})
   @IsOptional()
-  @Length(2, 50)
+  @Length(2, 255)
   warranty: string;
   
   @ManyToOne(type => InvoiceEntity, invoice => invoice.lineItems, {

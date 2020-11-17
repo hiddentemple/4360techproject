@@ -43,14 +43,14 @@ export class InvoiceEntity implements InvoiceModel {
   })  @JoinColumn()
   biller: BillerEntity;
 
-  @Column({ type: 'varchar', length: 50 })
+  @Column({ type: 'varchar', length: 255 })
   @IsDefined()
-  @Length(2, 50)
+  @Length(2, 255)
   invoiceNumber: string;
 
-  @Column({ type: 'varchar', length: 50, nullable: true })
+  @Column({ type: 'varchar', length: 255, nullable: true })
   @IsOptional()
-  @Length(2, 50)
+  @Length(2, 255)
   technician: string;
 
   @OneToOne(() => CustomerEntity,{ 
@@ -69,9 +69,9 @@ export class InvoiceEntity implements InvoiceModel {
   @JoinColumn()
   lineItems: LineItemEntity[];
 
-  @Column({ type: 'varchar', length: 50, nullable: true })
+  @Column({ type: 'varchar', length: 255, nullable: true })
   @IsOptional()
-  @Length(2, 50)
+  @Length(2, 255)
   notes: string;
   
   @Column({type: 'numeric', nullable: true})
@@ -107,17 +107,17 @@ export class InvoiceEntity implements InvoiceModel {
   @CreateDateColumn({ name: 'createdAt', nullable: false })
   createdAt: Date;
 
-  @Column({ type: 'varchar', length: 50, nullable: true })
+  @Column({ type: 'varchar', length: 255, nullable: true })
   @IsOptional()
-  @Length(2, 50)
+  @Length(2, 255)
   createdBy: string;
 
   @UpdateDateColumn({ name: 'updatedAt', nullable: true })
   updatedAt: Date;
 
-  @Column({ type: 'varchar', length: 50, nullable: true })
+  @Column({ type: 'varchar', length: 255, nullable: true })
   @IsOptional()
-  @Length(2, 50)
+  @Length(2, 255)
   updatedBy: string;
   
   @ManyToOne(() => AccountEntity, account => account.invoices, {

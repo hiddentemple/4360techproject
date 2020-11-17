@@ -25,6 +25,7 @@ import {
 import { NameRegex } from '@hiddentemple/api-interfaces';
 import { HttpException } from '@nestjs/common';
 import { InvoiceEntity } from './invoice.entity';
+import { AccountEntity } from './account.entity';
 
 
 @Entity('customers')
@@ -33,14 +34,14 @@ export class CustomerEntity implements CustomerModel {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'varchar', length: 50 })
+  @Column({ type: 'varchar', length: 255 })
   @IsAlphanumeric()
-  @Length(2, 50)
+  @Length(2, 255)
   @IsDefined()
   name: string;
 
-  @Column({ type: 'varchar', length: 50, nullable: true })
-  @Length(2, 50)
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  @Length(2, 255)
   @IsOptional()
   attn: string;
 
@@ -80,9 +81,9 @@ export class CustomerEntity implements CustomerModel {
   @IsUrl()
   webpage: string
 
-  @Column({ type: 'varchar', length: 50, nullable: true })
+  @Column({ type: 'varchar', length: 255, nullable: true })
   @IsOptional()
-  @Length(2, 50)
+  @Length(2, 255)
   salesTech: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
@@ -101,11 +102,12 @@ export class CustomerEntity implements CustomerModel {
   @UpdateDateColumn({ name: 'updatedAt', nullable: true })
   updatedAt: Date;
   
-  @OneToOne(() => InvoiceEntity, invoice => invoice.customer, {
+  @OneToOne(() => AccountEntity, account => account.customer, {
+    cascade: ['update', 'insert'],
     onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
+    onUpdate: 'CASCADE',
   })
-  invoice: InvoiceEntity
+  account: AccountEntity;
 
   @BeforeInsert()
   @BeforeUpdate()

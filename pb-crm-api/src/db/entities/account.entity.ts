@@ -23,31 +23,24 @@ export class AccountEntity implements AccountModel{
   @PrimaryGeneratedColumn('uuid')
   id: string;
   
-  @Column({type: 'varchar', length: 50})
-  @Length(2, 50)
+  @Column({type: 'varchar', length: 255})
+  @Length(2, 255)
   @IsOptional()
   acctNumber: string;
-
-  @OneToOne(type => CustomerEntity, {
-    cascade: true,
-    eager: true,
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
-  })  
-  @JoinColumn()
-  customer: CustomerEntity;
   
-  @OneToMany(type => InvoiceEntity, invoice => invoice.account, {
+  
+  @OneToMany(() => InvoiceEntity, invoices => invoices.account, {
     cascade: true,
     eager: true,
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
   })
+  @JoinColumn()
   @IsOptional()
   @ValidateNested({ each: true })
   invoices: InvoiceEntity[];
 
-  @OneToOne(type => PaymentEntity, {
+  @OneToOne(() => PaymentEntity, paymentInfo => paymentInfo.account, {
     cascade: true,
     eager: true,
     onDelete: 'CASCADE',
@@ -57,8 +50,8 @@ export class AccountEntity implements AccountModel{
   @IsOptional()
   paymentInfo: PaymentEntity;
   
-  @Column({type: 'varchar', length: 50})
-  @Length(2, 50)
+  @Column({type: 'varchar', length: 255})
+  @Length(2, 255)
   @IsOptional()
   notes: string;
 

@@ -27,7 +27,7 @@ export class BillerEntity implements BillerModel{
   @PrimaryGeneratedColumn('uuid')
   id: string;
   
-  @Column({type: 'varchar', length: 50})
+  @Column({type: 'varchar', length: 255})
   @IsDefined()
   name: string;
 
