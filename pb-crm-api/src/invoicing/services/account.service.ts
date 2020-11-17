@@ -1,23 +1,15 @@
-import { Body, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
+import {Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AccountEntity } from '../../db/entities/account.entity';
-import { DeleteResult, EntityManager, getConnection, Repository, UpdateResult } from 'typeorm';
+import { EntityManager, getConnection, Repository} from 'typeorm';
 import {
-    CreateContactRequest,
     CreateInvoiceRequest,
-    UpdateContactRequest,
     UpdateInvoiceRequest,
 } from '@hiddentemple/api-interfaces';
-import { UploadService } from '../../upload/upload.service';
-import {ContactEntity} from "../../db/entities/contact.entity";
-import {CreateAccountRequest, UpdateAccountRequest} from "@hiddentemple/api-interfaces/dist/invoicing/account.contract";
-import {InvoiceEntity} from "../../db/entities/invoice.entity";
-import {EmailService} from "../../contact/services/email.service";
-import {PhoneService} from "../../contact/services/phone.service";
-import {AddressService} from "../../contact/services/address.service";
-import {WebpageService} from "../../contact/services/webpage.service";
+import {CreateAccountRequest, UpdateAccountRequest} from "@hiddentemple/api-interfaces";
 import { InvoiceService } from './invoice.service';
 import { CustomerService } from './customer.service';
+import { PaymentEntity } from '../../db/entities/payment.entity';
 
 @Injectable()
 export class AccountService {
@@ -26,7 +18,6 @@ export class AccountService {
     constructor(
         @InjectRepository(AccountEntity) private accountRepo: Repository<AccountEntity>,
         private invoiceService: InvoiceService,
-        private customerService: CustomerService
     ) {}
 
 
@@ -50,7 +41,6 @@ export class AccountService {
         await getConnection().transaction(async (entityManager: EntityManager) => {
             const newAccount = await entityManager.create<AccountEntity>( AccountEntity, {
                 acctNumber: account.acctNumber,
-                customer: account.customer,
                 paymentInfo: account.paymentInfo,
                 notes: account.notes,
                 invoices: account.invoices
@@ -77,7 +67,7 @@ export class AccountService {
         
         const acc: Partial<AccountEntity> = {};
         const reducer = (acc, [key, value]) => {
-            if (value && value !== '' && key !== 'invoices' && key !== 'customer' && key !== 'paymentInfo') {
+            if (value && value !== '' && key !== 'invoices' &&  key !== 'paymentInfo') {
                 return {...acc, [key]: value};
             } else {
                 return acc;
@@ -88,21 +78,23 @@ export class AccountService {
         this.logger.log(`Reduced DTO to simple properties: ${JSON.stringify(filtered)}`)
 
         Object.assign(account, filtered);
-        // this.logger.log(`Updated account with simple properties: ${JSON.stringify(account)}`)
 
         await getConnection().transaction(async entityManger => {
-            // let updateInvoiceReqs: UpdateInvoiceRequest[] = []
-            // for(const invoice of dto.account.invoices){
-            //     const tempInvoice = new CreateInvoiceRequest();
-            //     tempInvoice.invoice = invoice;
-            //     updateInvoiceReqs.push(tempInvoice);
-            // }
-            //await this.invoiceService.updateMany(account, updateInvoiceReqs)
-            await this.customerService.update(account, dto.account.customer, entityManger)
-            const {affected}  = await entityManger.update<AccountEntity>(AccountEntity, id, filtered)
-
+            let updateInvoiceReqs: UpdateInvoiceRequest[] = []
+            for(const invoice of dto.account.invoices){
+                const tempInvoice = new CreateInvoiceRequest();
+                tempInvoice.invoice = invoice;
+                updateInvoiceReqs.push(tempInvoice);
+            }
+            await this.invoiceService.updateMany(account, updateInvoiceReqs)
+            await entityManger.update<PaymentEntity>(PaymentEntity, account.paymentInfo.id, dto.account.paymentInfo)
+            const {affected} = await entityManger.update<AccountEntity>(AccountEntity, id, filtered)
+            this.logger.log(`Updated account: ${JSON.stringify({affected})}`);
+            if(affected === 0){
+                throw new InternalServerErrorException("Failed to update account")
+            }
+            this.logger.log(`Updated account with id ${JSON.stringify(id)}`);
         });
-
         return this.getById(id);
     }
 
@@ -112,18 +104,15 @@ export class AccountService {
         this.logger.log(`Found account to delete: ${JSON.stringify(account)}`)
 
         await getConnection().transaction(async entityManger => {
-            // await this.emailService.deleteMany(contact.emails, entityManger);
-            // await this.phoneService.deleteMany(contact.phones, entityManger);
-            // await this.addressService.deleteMany(contact.addresses, entityManger)
-            // await this.webpageService.deleteMany(contact.webpages, entityManger)
-            const { affected }: DeleteResult = await entityManger.delete<AccountEntity>(AccountEntity, id);
-            if (affected === 0) {
-                const errMsg = `Could not delete account: ${JSON.stringify(account)}`;
-                this.logger.error(errMsg);
-                throw new InternalServerErrorException(errMsg);
-            }
+            await this.invoiceService.deleteMany(account.invoices, entityManger)
+            await entityManger.delete<PaymentEntity>(PaymentEntity, account.paymentInfo.id)
+            await entityManger.delete<AccountEntity>(AccountEntity, id);
         });
-
+        if(await this.accountRepo.findOne(id)){
+            const errMsg = `Could not delete account: ${JSON.stringify(account)}`
+            this.logger.error(errMsg)
+            throw new InternalServerErrorException(errMsg)
+        }
         this.logger.log(`Deleted account with id ${JSON.stringify(id)}`);
     }
 }

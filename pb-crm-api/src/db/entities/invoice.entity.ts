@@ -53,9 +53,11 @@ export class InvoiceEntity implements InvoiceModel {
   @Length(2, 255)
   technician: string;
 
-  @OneToOne(() => CustomerEntity,{ 
-    cascade: true, 
+  @OneToOne(() => CustomerEntity, customer => customer.invoice, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
     eager: true,
+    cascade: true
   })
   @JoinColumn()
   customer: CustomerEntity;
@@ -126,6 +128,8 @@ export class InvoiceEntity implements InvoiceModel {
   })
   @JoinColumn()
   account: AccountEntity;
+  
+
 
   @BeforeInsert()
   @BeforeUpdate()

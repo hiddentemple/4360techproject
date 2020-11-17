@@ -29,14 +29,14 @@ export class CustomerService {
     return customer;
   }
   
-  async create(account: AccountEntity, dto: CustomerDTO, entityManager: EntityManager): Promise<CustomerEntity> {
-    const newCustomer: CustomerEntity = entityManager.create<CustomerEntity>(CustomerEntity, { ...dto, account });
+  async create(invoice: InvoiceEntity, dto: CustomerDTO, entityManager: EntityManager): Promise<CustomerEntity> {
+    const newCustomer: CustomerEntity = entityManager.create<CustomerEntity>(CustomerEntity, { ...dto, invoice });
     const savedCustomer = await entityManager.save<CustomerEntity>(newCustomer)
     this.logger.log(`Saved customer: ${JSON.stringify(savedCustomer)}`);
     return newCustomer
   }
 
-  async update(account: AccountEntity, customerDTO: CustomerDTO, entityManager: EntityManager): Promise<any> {
+  async update(invoice: InvoiceEntity, customerDTO: CustomerDTO, entityManager: EntityManager): Promise<any> {
     // if (!customerDTO) return;
     // this.logger.log(`Updating customer from DTO: ${JSON.stringify(customerDTO)}`)
     // const { affected }: UpdateResult = await this.customerRepo.update( object.customer.id, customerDTO)
@@ -46,8 +46,8 @@ export class CustomerService {
     //   throw new InternalServerErrorException(errMsg)
     // }
     // this.logger.log(`Finished ${customerDTO} customer(s)`);
-    await entityManager.delete<CustomerEntity>(CustomerEntity, account.customer)
-    const updatedCustomer: CustomerEntity = await this.create(account, customerDTO, entityManager)
+    await entityManager.delete<CustomerEntity>(CustomerEntity, invoice.customer.id)
+    const updatedCustomer: CustomerEntity = await this.create(invoice, customerDTO, entityManager)
     this.logger.log(`New biller with id: ${JSON.stringify(updatedCustomer.id)}`)
     return updatedCustomer
     

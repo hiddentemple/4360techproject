@@ -102,12 +102,12 @@ export class CustomerEntity implements CustomerModel {
   @UpdateDateColumn({ name: 'updatedAt', nullable: true })
   updatedAt: Date;
   
-  @OneToOne(() => AccountEntity, account => account.customer, {
+  @OneToOne(() => InvoiceEntity, invoice => invoice.customer, {
     cascade: ['update', 'insert'],
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  account: AccountEntity;
+  invoice: InvoiceEntity;
 
   @BeforeInsert()
   @BeforeUpdate()
