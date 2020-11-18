@@ -23,7 +23,7 @@ export class WebpageService {
   private async create(contact: ContactEntity, dto: WebpageDTO, entityManager: EntityManager): Promise<WebpageEntity>{
     const newWebpage: WebpageEntity = entityManager.create<WebpageEntity>(WebpageEntity, {...dto, contact});
     const savedWebpage = await entityManager.save(newWebpage)
-    this.logger.log(`Saved email: ${JSON.stringify(savedWebpage)}`);
+    this.logger.log(`Saved webpage: ${JSON.stringify(savedWebpage)}`);
     return newWebpage
   }
 
@@ -46,7 +46,7 @@ export class WebpageService {
     this.logger.log(`Updating ${webpageDTOs.length} webpage(s) from DTO: ${JSON.stringify(webpageDTOs)}`)
     await this.deleteMany(contact.webpages, entityManager);
     const updatedWebpages: WebpageEntity[] = await this.createMany(contact, webpageDTOs, entityManager);
-    this.logger.log(`Finished ${webpageDTOs.length} webpage(s)`);
+    this.logger.log(`Updated ${webpageDTOs.length} webpage(s)`);
     return updatedWebpages;
   }
 
@@ -64,7 +64,7 @@ export class WebpageService {
 
   async deleteMany(webpages: WebpageEntity[], entityManger: EntityManager): Promise<any> {
     if (!webpages || webpages.length == 0) return
-    this.logger.log(`Attempting to delete ${webpages.length} address(es) with entities: ${JSON.stringify(webpages)}`)
+    this.logger.log(`Attempting to delete ${webpages.length} webpage(s) with entities: ${JSON.stringify(webpages)}`)
     if (!webpages || webpages.length === 0) return;
     for (const webpage of webpages) {
       if( webpage != null) {

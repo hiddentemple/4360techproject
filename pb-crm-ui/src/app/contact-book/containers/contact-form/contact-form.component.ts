@@ -1,6 +1,13 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ContactModel, EmailModel, PhoneEmailCategory, PhoneModel} from '@hiddentemple/api-interfaces';
+import {
+  ContactModel,
+  EmailModel,
+  PhoneEmailCategory,
+  PhoneModel,
+  urlType,
+  WebpageModel
+} from '@hiddentemple/api-interfaces';
 import {BreakpointService} from '../../../core/layout/breakpoint.service';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {debounceTime, filter, map, tap} from 'rxjs/operators';
@@ -28,9 +35,11 @@ export class ContactFormComponent implements OnInit, OnChanges {
   get emailCategories(): PhoneEmailCategory[] {
     return Object.values(PhoneEmailCategory).filter(category => category !== PhoneEmailCategory.FAX);
   }
+  get websiteCategories(): urlType[] { return Object.values(urlType); }
 
   get emailFormArray(): FormArray { return this.contactForm.controls.emails as FormArray; }
   get phoneFormArray(): FormArray { return this.contactForm.controls.phones as FormArray; }
+  get webpagesFormArray(): FormArray { return this.contactForm.controls.webpages as FormArray; }
   get firstNameFormControl(): FormControl { return this.contactForm.controls.firstName as FormControl; }
   get lastNameFormControl(): FormControl { return this.contactForm.controls.lastName as FormControl; }
   get companyFormControl(): FormControl { return this.contactForm.controls.company as FormControl; }
@@ -71,7 +80,8 @@ export class ContactFormComponent implements OnInit, OnChanges {
       gender: new FormControl('', [Validators.maxLength(50)]),
       notes: new FormControl('', [Validators.maxLength(250)]),
       emails: this.fb.array([]),
-      phones: this.fb.array([])
+      phones: this.fb.array([]),
+      webpages: this.fb.array([])
     });
   }
 
@@ -106,6 +116,9 @@ export class ContactFormComponent implements OnInit, OnChanges {
     );
     Object.values(this.contact.phones).forEach(
       (phone: PhoneModel) => this.phoneFormArray.push(this.initPhone(phone.phoneNumber, phone.category))
+    );
+    Object.values(this.contact.webpages).forEach(
+      (webpage: WebpageModel) => this.webpagesFormArray.push(this.initWebpage(webpage.url, webpage.type))
     );
   }
 
@@ -152,6 +165,10 @@ export class ContactFormComponent implements OnInit, OnChanges {
     });
   }
 
+  getEmailCategory(i: number): FormControl {
+    return this.emailFormArray[i].controls.category as FormControl;
+  }
+
   emailHasRequiredError(emailControl: AbstractControl): boolean {
     return emailControl.get('address').hasError('required');
   }
@@ -171,6 +188,7 @@ export class ContactFormComponent implements OnInit, OnChanges {
     });
   }
   hasPhones(): boolean { return this.phoneFormArray.length > 0; }
+
   initPhone(number: string = '', category: PhoneEmailCategory | string = ''): FormGroup {
     return this.fb.group({
       phoneNumber: [number, [Validators.required, PhoneValidator]],
@@ -186,7 +204,23 @@ export class ContactFormComponent implements OnInit, OnChanges {
     return phoneControl.get('phoneNumber').hasError('pattern');
   }
 
-  getEmailCategory(i: number): FormControl {
-    return this.emailFormArray[i].controls.category as FormControl;
+  /** Websites **/
+
+  initWebpage(url: string = "", type: urlType = urlType.PERSONAL): FormGroup {
+    return this.fb.group({
+      type: [type, Validators.required],
+      url: [url, Validators.required]
+    })
   }
+
+  addWebpageInput(): void { this.webpagesFormArray.push(this.initWebpage()); }
+  removeWebpageInput(i: number): void {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.webpagesFormArray.removeAt(i);
+      }
+    });
+  }
+  hasWebsites(): boolean { return this.webpagesFormArray.length > 0; }
 }

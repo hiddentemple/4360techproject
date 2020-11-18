@@ -26,6 +26,7 @@
     </mat-form-field>
   </div>
 
+  <!-- Job Title -->
   <div class="row">
     <mat-form-field class="col-12">
       <mat-label>Job Title</mat-label>
@@ -33,6 +34,7 @@
     </mat-form-field>
   </div>
 
+  <!-- Department -->
   <div class="row">
     <mat-form-field class="col-12">
       <mat-label>Department</mat-label>
@@ -40,6 +42,7 @@
     </mat-form-field>
   </div>
 
+  <!-- Organization -->
   <div class="row">
     <mat-form-field class="col-12">
       <mat-label>Organization</mat-label>
@@ -47,6 +50,7 @@
     </mat-form-field>
   </div>
 
+  <!-- Gender -->
   <div class="row">
     <mat-form-field class="col-12">
       <mat-label>Gender</mat-label>
@@ -144,10 +148,49 @@
     </div>
   </div>
 
+  <hr *ngIf="hasWebsites()"/>
+
+  <!-- Website Input -->
+  <div formArrayName="webpages">
+    <div *ngFor="let webpage of webpagesFormArray.controls; let i=index">
+      <!-- Angular assigns array index as group name by default 0, 1, 2, ... -->
+      <div class="row" [formGroupName]="i">
+        <div class="col-1">
+          <button class="col-1" mat-icon-button type="button" (click)="removeWebpageInput(i)">
+            <mat-icon color="accent">remove_circle_outline</mat-icon>
+          </button>
+        </div>
+        <div class="col-11">
+          <div class="row">
+            <mat-form-field class="col-sm-12 col-md-8">
+              <mat-label>URL</mat-label>
+              <input matInput type="text" placeholder="Ex. www.google.com" formControlName="url">
+<!--              <mat-error *ngIf="phoneHasRequiredError(phone)">-->
+<!--                A phone is required-->
+<!--              </mat-error>-->
+<!--              <mat-error *ngIf="phoneHasPatternError(phone)">-->
+<!--                Not a valid phone number-->
+<!--              </mat-error>-->
+            </mat-form-field>
+            <mat-form-field class="col-sm-12 col-md-4">
+              <mat-label>Type</mat-label>
+              <mat-select formControlName="type" required>
+                <mat-option *ngFor="let category of websiteCategories" value="{{category}}">
+                  {{category}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!--Bottom Buttons -->
   <div class="mt-2">
     <button mat-raised-button (click)="addEmailInput()" type="button" class="mr-1" color="accent">Add Email</button>
     <button mat-raised-button (click)="addPhoneInput()" type="button" class="mr-1" color="accent">Add Phone</button>
+    <button mat-raised-button (click)="addWebpageInput()" type="button" class="mr-1" color="accent">Add Webpage</button>
     <button mat-raised-button *ngIf="!showNotes" (click)="showNotes = !showNotes" type="button" color="accent">Show Notes</button>
     <button mat-button *ngIf="showNotes" (click)="showNotes = !showNotes" type="button" color="warn">Hide Notes</button>
     <button mat-raised-button color="primary" [disabled]="!contactForm.valid" type="submit" class="float-right">Submit</button>

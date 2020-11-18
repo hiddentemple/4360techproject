@@ -35,6 +35,9 @@ import { ContactCardDeckComponent } from './containers/contact-card-deck/contact
 import {NgxMasonryModule} from "ngx-masonry";
 import {MatRadioModule} from '@angular/material/radio';
 import {OverlayModule} from '@angular/cdk/overlay';
+import { WebpageTableComponent } from './containers/website-table/webpage-table.component';
+
+
 
 @NgModule({
   declarations: [
@@ -49,6 +52,7 @@ import {OverlayModule} from '@angular/cdk/overlay';
     PhoneTableComponent,
     DeleteConfirmationComponent,
     ContactCardDeckComponent,
+    WebpageTableComponent,
   ],
   exports: [
     ContactFormComponent,

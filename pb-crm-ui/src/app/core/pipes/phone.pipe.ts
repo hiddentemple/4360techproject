@@ -10,7 +10,7 @@ export class PhonePipe implements PipeTransform {
     if (typeof value === "string") {
       const phoneNumber = parsePhoneNumber(value);
       if (phoneNumber.isValid()) {
-        return phoneNumber.formatNational();
+        return phoneNumber.formatInternational();
       } else {
         return value;
       }
