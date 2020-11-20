@@ -166,7 +166,7 @@ export class ContactFormModel {
   private assignSimple(key: string, value: string) { (this[key] as AbstractControl).setValue(value) }
 
   private assignDate(key: string, value: Date) {
-    (this[key] as AbstractControl).setValue(value)
+    (this[key] as AbstractControl).setValue(value.toISOString())
   }
 
   private assignArray(key: string, value: PhoneModel[] | EmailModel[] | AddressModel[] | WebpageModel[] | string[]) {
@@ -184,7 +184,7 @@ export class ContactFormModel {
         this.arrayAssigner(key, value, ContactFormModel.initWebpage)
         break;
       case 'tags':
-        ;
+        ; // TODO
         break;
       default:
         throw new Error("Invalid key passed to assign array: " + key)

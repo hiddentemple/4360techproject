@@ -1,5 +1,5 @@
 import {ContactSearchConfig, contactToSearchString, contactToSearchStringReducer, searchContacts} from "./search.utils";
-import {AddressType, ContactModel, PhoneEmailCategory} from "@hiddentemple/api-interfaces";
+import {AddressCategory, ContactModel, EmailCategory, PhoneCategory} from "@hiddentemple/api-interfaces";
 
 
 describe('Contact Search Reducer', () => {
@@ -48,7 +48,7 @@ describe('Contact Search Reducer', () => {
 
   it('should append the string value of a string enum', () => {
     // Given
-    const propertyValue = PhoneEmailCategory.PRIMARY;
+    const propertyValue = PhoneCategory.FAX;
     const acc = "start";
     const expected = "startPrimary";
 
@@ -102,12 +102,14 @@ describe("Contact To Search String", () => {
       id: '123456UA',
       phones: [{
         phoneNumber: "3032568985",
-        category: PhoneEmailCategory.PRIMARY,
+        category: PhoneCategory.PERSONAL,
+        isPrimary: true,
         id: "phoneId"
       }],
       emails: [{
         address: "test@gmail.com",
-        category: PhoneEmailCategory.PRIMARY,
+        category: EmailCategory.PERSONAL,
+        isPrimary: true,
         id: "emailId"
       }],
       addresses: [{
@@ -115,7 +117,8 @@ describe("Contact To Search String", () => {
         city: "littleton",
         state: "colorado",
         postalCode: "80124",
-        type: AddressType.HOME
+        category: AddressCategory.HOME,
+        isPrimary: true
       }],
       updatedAt: new Date(),
       createdAt: new Date()
