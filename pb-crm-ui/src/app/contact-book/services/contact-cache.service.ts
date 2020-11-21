@@ -8,6 +8,7 @@ import {
 import {ContactService} from './contact.service';
 import {Injectable} from '@angular/core';
 import {map, take, tap} from 'rxjs/operators';
+import {CacheOperation} from "../../core/cache";
 
 
 // File scoped interface (no export)
@@ -29,9 +30,6 @@ interface CacheDelete extends CacheModel {
   deletedContact: ContactModel;
 }
 
-// file Scoped
-enum CacheOperation { INIT="INIT", LOAD="LOAD", ADD="ADD", UPDATE="UPDATE", DELETE="DELETE"}
-
 @Injectable({
   providedIn: 'root'
 })
@@ -48,7 +46,7 @@ export class ContactCacheService {
     return this._contacts$.asObservable()
       .pipe(
         tap((cacheModel: CacheModel) => {
-          console.group("Cache Value Change");
+          console.group("Contact Cache Value Change");
           console.log("Operation: ", cacheModel.lastChange);
           console.log("Model", cacheModel);
           console.groupEnd();
