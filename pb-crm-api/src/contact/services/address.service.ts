@@ -24,7 +24,7 @@ export class AddressService {
   }
 
   private async create(contact: ContactEntity, dto: AddressDTO, entityManager: EntityManager): Promise<AddressEntity> {
-    const newAddress: AddressEntity = entityManager.create<AddressEntity>(AddressEntity, { ...dto });
+    const newAddress: AddressEntity = entityManager.create<AddressEntity>(AddressEntity, { ...dto, contact });
     const savedAddress = await entityManager.save(newAddress);
     this.logger.log(`Saved address: ${JSON.stringify(savedAddress)}`);
     return savedAddress;
