@@ -1,21 +1,5 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {
-  AbstractContactRequest,
-  AddressDTO,
-  ContactModel,
-  CreateContactRequest,
-  CreateContactResponse,
-  EmailDTO,
-  EmailModel,
-  GetAllContactsResponse,
-  GetContactResponse,
-  PhoneDTO,
-  PhoneModel,
-  UpdateContactRequest,
-  UpdateContactResponse,
-  WebpageDTO,
-} from '@hiddentemple/api-interfaces';
 import {ApiService} from '../../api/api.service';
 import {GetAllAccountResponse} from '@hiddentemple/api-interfaces';
 import {GetAccountResponse} from '@hiddentemple/api-interfaces';
@@ -23,7 +7,7 @@ import {
   AccountModel,
   CreateAccountRequest,
   CreateAccountResponse, UpdateAccountRequest, UpdateAccountResponse
-} from "../../../../../../api-interfaces/src/invoicing";
+} from '@hiddentemple/api-interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -61,8 +45,8 @@ export class ContactService {
     return this.apiService.put<UpdateAccountResponse>('/api/contact/' + account.id, req, {}).toPromise();
   }
 
-  deleteContact(id: string): Observable<any> {
-    const url = '/api/contact/' + id;
+  deleteAccount(id: string): Observable<any> {
+    const url = '/api/account/' + id;
     return this.apiService.delete(url, {});
   }
 }
