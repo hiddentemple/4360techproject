@@ -91,15 +91,15 @@ export class AccountCacheService {
     });
   }
 
-  deleteContact(contact: ContactModel): Observable<boolean> {
-    return this.contactService.deleteContact(contact.id).pipe(
+  deleteAccount(account: AccountModel): Observable<boolean> {
+    return this.accountService.deleteAccount(account.id).pipe(
       // https://www.learnrxjs.io/learn-rxjs/operators/utility/do
       // TODO what happens if delete fails? does this do what we expect it to?
       take(1),
       map(() => {
-        const filtered = this.remove(contact.id);
-        const newModel: CacheDelete = { deletedContact: contact, lastChange: CacheOperation.DELETE, contacts: filtered};
-        this._contacts$.next(newModel);
+        const filtered = this.remove(account.id);
+        const newModel: CacheDelete = { deleteAccount: account, lastChange: CacheOperation.DELETE, accounts: filtered};
+        this._accounts$.next(newModel);
         return true;
       })
     );
