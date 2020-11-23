@@ -12,7 +12,6 @@
       "rejectUnauthorized": false
     }
   },
-  "synchronize": false,
   "logging": true,
   "migrations": ["dist/db/migrations/*{.js,.ts}"],
   "seeds": ["dist/db/seeders/**/*.js"],

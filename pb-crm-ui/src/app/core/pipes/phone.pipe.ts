@@ -7,7 +7,7 @@ import {parsePhoneNumber} from "libphonenumber-js";
 export class PhonePipe implements PipeTransform {
 
   transform(value: unknown, ...args: unknown[]): unknown {
-    if (typeof value === "string") {
+    if (value && typeof value === "string") {
       const phoneNumber = parsePhoneNumber(value);
       if (phoneNumber.isValid()) {
         return phoneNumber.formatInternational();
