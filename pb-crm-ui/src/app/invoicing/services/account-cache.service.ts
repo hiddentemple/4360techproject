@@ -59,7 +59,7 @@ export class AccountCacheService {
       ({account}: CreateAccountResponse) => {
         const {accounts} = this._accounts$.getValue();
         const newAccounts: AccountModel[] = [...accounts, account];
-        const newModel: CacheAdd = { accounts: newAccounts, lastChange: CacheOperation.ADD, newAccount: account }
+        const newModel: CacheAdd = { accounts: newAccounts, lastChange: CacheOperation.ADD, newAccount: account };
         this._accounts$.next(newModel);
         return account;
       }
@@ -85,7 +85,7 @@ export class AccountCacheService {
         lastChange: CacheOperation.UPDATE,
         oldAccount: toUpdate,
         updateAccount: updatedAccount
-      }
+      };
       this._accounts$.next(newModel);
       return updatedAccount;
     });
