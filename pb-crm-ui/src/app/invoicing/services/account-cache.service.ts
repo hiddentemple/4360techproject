@@ -5,7 +5,7 @@ import {map, take, tap} from 'rxjs/operators';
 import {CacheOperation} from "../../core/cache";
 import {
   AccountModel,
-  CreateAccountResponse,
+  CreateAccountResponse, GetAllAccountResponse,
   UpdateAccountResponse
 } from "../../../../../../api-interfaces/src/invoicing";
 
@@ -106,11 +106,11 @@ export class AccountCacheService {
   }
 
   refresh(): Observable<any> {
-    return this.contactService.getContacts()
+    return this.accountService.getAccounts()
       .pipe(
-        tap(({contacts}: GetAllContactsResponse) => {
-          const newModel: CacheModel = { lastChange: CacheOperation.LOAD, contacts: contacts };
-          this._contacts$.next(newModel);
+        tap(({accounts}: GetAllAccountResponse) => {
+          const newModel: CacheModel = { lastChange: CacheOperation.LOAD, accounts: accounts };
+          this._accounts$.next(newModel);
         })
       );
   }
