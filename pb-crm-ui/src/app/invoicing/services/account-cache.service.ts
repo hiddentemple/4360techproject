@@ -62,11 +62,11 @@ export class AccountCacheService {
     );
   }
 
-  getContact(idKey: string): Observable<ContactModel | undefined> {
-    return this.contacts$.pipe(map((contacts: ContactModel[]) =>
+  getAccount(idKey: string): Observable<AccountModel | undefined> {
+    return this.accounts$.pipe(map((contacts: AccountModel[]) =>
       // TODO if undefined is returned here, attempt to query the api for a contact matching this id
       //  presently, we just assume that if the cache does not have this key, it does not exist
-      contacts.find((element: ContactModel) => idKey === element.id)
+      contacts.find((element: AccountModel) => idKey === element.id)
     ));
   }
 
