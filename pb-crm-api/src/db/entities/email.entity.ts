@@ -1,7 +1,7 @@
 import {ContactEntity} from "./contact.entity";
 import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { IsDefined, IsEmail, IsEnum, validateOrReject } from 'class-validator';
-import {EmailModel, PhoneEmailCategory} from "@hiddentemple/api-interfaces";
+import {EmailCategory, EmailModel} from "@hiddentemple/api-interfaces";
 import { HttpException } from '@nestjs/common';
 
 
@@ -20,10 +20,14 @@ export class EmailEntity implements EmailModel {
     @IsEmail()
     address: string
 
-    @Column('enum', {enum: PhoneEmailCategory, nullable: false})
+    @Column('boolean', {default: false})
     @IsDefined()
-    @IsEnum(PhoneEmailCategory)
-    category: PhoneEmailCategory;
+    isPrimary: boolean
+
+    @Column('enum', {enum: EmailCategory, nullable: false})
+    @IsDefined()
+    @IsEnum(EmailCategory)
+    category: EmailCategory;
 
     @ManyToOne(() => ContactEntity, contact => contact.emails, {
         onDelete: "CASCADE",

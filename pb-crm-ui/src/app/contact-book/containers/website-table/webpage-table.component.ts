@@ -12,9 +12,9 @@ import {WebpageModel} from "@hiddentemple/api-interfaces";
       </ng-container>
 
       <!-- Type Column -->
-      <ng-container matColumnDef="type">
-        <th mat-header-cell *matHeaderCellDef>Type</th>
-        <td mat-cell *matCellDef="let webpage">{{webpage.type}}</td>
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef>Category</th>
+        <td mat-cell *matCellDef="let webpage">{{webpage.category}}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -28,7 +28,7 @@ import {WebpageModel} from "@hiddentemple/api-interfaces";
   ]
 })
 export class WebpageTableComponent{
-  displayedColumns = ['url', 'type'];
+  displayedColumns = ['url', 'category'];
 
   @Input() webpages: WebpageModel[];
 }
