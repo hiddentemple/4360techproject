@@ -7,7 +7,7 @@ import {
   AccountModel,
   CreateAccountResponse, GetAllAccountResponse,
   UpdateAccountResponse
-} from "../../../../../../api-interfaces/src/invoicing";
+} from '@hiddentemple/api-interfaces';
 
 
 // File scoped interface (no export)
@@ -115,9 +115,9 @@ export class AccountCacheService {
       );
   }
 
-  private remove(id: string): ContactModel[] {
-    const {contacts} = this._contacts$.getValue();
-    return contacts.filter(element => element.id !== id);
+  private remove(id: string): AccountModel[] {
+    const {accounts} = this._accounts$.getValue();
+    return accounts.filter(element => element.id !== id);
   }
 
 }
