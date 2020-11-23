@@ -15,7 +15,7 @@ import {
 export class ContactService {
   constructor(private apiService: ApiService) {}
 
-  GetAccounts(): Observable<GetAllAccountResponse>  {
+  getAccounts(): Observable<GetAllAccountResponse>  {
     return this.apiService.get<GetAllAccountResponse>('/api/contact', {});
   }
 
