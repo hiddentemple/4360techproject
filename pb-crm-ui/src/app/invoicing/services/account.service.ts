@@ -19,6 +19,11 @@ import {
 import {ApiService} from '../../api/api.service';
 import {GetAllAccountResponse} from '@hiddentemple/api-interfaces';
 import {GetAccountResponse} from '@hiddentemple/api-interfaces';
+import {
+  AccountModel,
+  CreateAccountRequest,
+  CreateAccountResponse, UpdateAccountRequest, UpdateAccountResponse
+} from "../../../../../../api-interfaces/src/invoicing";
 
 @Injectable({
   providedIn: 'root'
@@ -46,14 +51,14 @@ export class ContactService {
     return Object.entries(model).reduce(this.emptyReducer, acc);
   }
 
-  async createContact(contact: ContactModel): Promise<CreateContactResponse> {
-    const req: CreateContactRequest = { contact: this.reduceToDefined(contact) as ContactModel }; // cast will fail if invalid model passed
-    return this.apiService.post<CreateContactResponse>('/api/contact', req, {}).toPromise();
+  async createAccount(account: AccountModel): Promise<CreateAccountResponse> {
+    const req: CreateAccountRequest = { account: this.reduceToDefined(account) as AccountModel }; // cast will fail if invalid model passed
+    return this.apiService.post<CreateAccountResponse>('/api/contact', req, {}).toPromise();
   }
 
-  async updateContact(contact: ContactModel): Promise<UpdateContactResponse>{
-    const req: UpdateContactRequest = { contact: this.reduceToDefined(contact) as ContactModel }; // cast will fail if invalid model passed
-    return this.apiService.put<UpdateContactResponse>('/api/contact/' + contact.id, req, {}).toPromise();
+  async updateAccount(account: AccountModel): Promise<UpdateAccountResponse>{
+    const req: UpdateAccountRequest = { account: this.reduceToDefined(account) as AccountModel }; // cast will fail if invalid model passed
+    return this.apiService.put<UpdateAccountResponse>('/api/contact/' + account.id, req, {}).toPromise();
   }
 
   deleteContact(id: string): Observable<any> {
