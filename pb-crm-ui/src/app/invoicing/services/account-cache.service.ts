@@ -3,7 +3,11 @@ import {AccountService} from './account.service';
 import {Injectable} from '@angular/core';
 import {map, take, tap} from 'rxjs/operators';
 import {CacheOperation} from "../../core/cache";
-import {AccountModel, CreateAccountResponse} from "../../../../../../api-interfaces/src/invoicing";
+import {
+  AccountModel,
+  CreateAccountResponse,
+  UpdateAccountResponse
+} from "../../../../../../api-interfaces/src/invoicing";
 
 
 // File scoped interface (no export)
@@ -70,20 +74,20 @@ export class AccountCacheService {
     ));
   }
 
-  async updateContact(toUpdate: ContactModel): Promise<ContactModel> {
+  async updateAccount(toUpdate: AccountModel): Promise<AccountModel> {
     // Object construction with the spread operator
-    return await this.contactService.updateContact(toUpdate).then((response: UpdateContactResponse) => {
-      const updatedContact = response.contact;
+    return await this.accountService.updateAccount(toUpdate).then((response: UpdateAccountResponse) => {
+      const updatedAccount = response.account;
       const filtered = this.remove(toUpdate.id);
-      filtered.push(updatedContact);
+      filtered.push(updatedAccount);
       const newModel: CacheUpdate = {
-        contacts: filtered,
+        accounts: filtered,
         lastChange: CacheOperation.UPDATE,
-        oldContact: toUpdate,
-        updatedContact: updatedContact
+        oldAccount: toUpdate,
+        updateAccount: updatedAccount
       }
-      this._contacts$.next(newModel);
-      return updatedContact;
+      this._accounts$.next(newModel);
+      return updatedAccount;
     });
   }
 
