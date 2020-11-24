@@ -17,6 +17,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatInputModule} from "@angular/material/input";
 import {HttpRequestLoggerInterceptor} from "./core/interceptors/http-request-logger-interceptor.service";
+import {InvoicingModule} from "./invoicing/invoicing.module";
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import {HttpRequestLoggerInterceptor} from "./core/interceptors/http-request-log
     ApiModule,
     AuthModule,
     ContactBookModule,
+    InvoicingModule,
 
     AppRoutingModule,
     CoreModule,

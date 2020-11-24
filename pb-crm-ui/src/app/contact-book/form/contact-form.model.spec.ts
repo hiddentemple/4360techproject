@@ -1,6 +1,6 @@
 import {ContactFormModel} from "./contact-form.model";
 import {AbstractControl, FormGroup} from "@angular/forms";
-import {PhoneCategory, PhoneModel} from "@hiddentemple/api-interfaces";
+import {ContactModel, PhoneCategory, PhoneModel} from "@hiddentemple/api-interfaces";
 import {parsePhoneNumber} from "libphonenumber-js";
 
 describe('Setting a Contact', () => {
@@ -51,16 +51,67 @@ describe('Setting a Contact', () => {
 
     // When
     const formGroup: FormGroup = ContactFormModel.initPhone(phone);
-    console.log(formGroup)
-    const actualCountryCode = formGroup.controls['countryCode'].value;
-    const actualPhoneNumber = formGroup.controls['phoneNumber'].value;
 
     // Then
+    const actualCountryCode = formGroup.controls['countryCode'].value;
+    const actualPhoneNumber = formGroup.controls['phoneNumber'].value;
     expect(actualCountryCode).toEqual(expectedCountryCode)
     expect(actualPhoneNumber).toEqual(expectedNumberPart)
   });
 
-  it('should assign tags');
+  it('should assign array values (based on phones)', () => {
+    // Given
+    const phone1: PhoneModel = {
+      phoneNumber: "+13037085589",
+      isPrimary: false,
+      category: PhoneCategory.PERSONAL
+    }
+    const phone2: PhoneModel = {
+      phoneNumber: "+13037088896",
+      isPrimary: false,
+      category: PhoneCategory.WORK
+    }
+    const phones = [phone1, phone2]
+    const contact: ContactModel = {
+      updatedAt: undefined, createdAt: undefined,
+      firstName: 'first',
+      lastName: 'last',
+      phones
+    }
+
+    // When
+    model = new ContactFormModel(contact)
+
+    // Then
+    const actualPhoneControls = model.phones
+    expect(actualPhoneControls.length).toEqual(2)
+
+    // Values of the actual controls are proven by init phone tests
+  })
+
+  it('should assign tags', () => {
+    // Given
+    const tag1 = 'tag1';
+    const tag2 = 'tag2';
+    const tags = [tag1, tag2];
+    const contact: ContactModel = {
+      createdAt: undefined,
+      updatedAt: undefined,
+      firstName: 'first',
+      lastName: 'last',
+      tags
+    }
+
+    // When
+    model = new ContactFormModel(contact);
+
+    // Then
+    const actualTagControls = model.tags.value;
+    expect(actualTagControls.length).toEqual(2)
+
+    expect(actualTagControls.includes(tag1)).toBeTrue();
+    expect(actualTagControls.includes(tag2)).toBeTrue();
+  });
 
 
 })

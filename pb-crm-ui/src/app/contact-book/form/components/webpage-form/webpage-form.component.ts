@@ -3,7 +3,7 @@ import {AbstractControl, Form, FormArray, FormGroup} from "@angular/forms";
 import {Observable} from "rxjs";
 import {ContactFormService} from "../../contact-form.service";
 import {map} from "rxjs/operators";
-import {URLCategory} from "@hiddentemple/api-interfaces";
+import {WebpageCategory} from "@hiddentemple/api-interfaces";
 
 @Component({
   selector: 'app-webpage-form',
@@ -58,7 +58,7 @@ import {URLCategory} from "@hiddentemple/api-interfaces";
 })
 export class WebpageFormComponent {
   @Input() contactForm: FormGroup;
-  websiteCategories: URLCategory[] = Object.values(URLCategory);
+  websiteCategories: WebpageCategory[] = Object.values(WebpageCategory);
   displayedColumns = ["url", "category", "remove"];
 
   get webpageFormArrayControls$(): Observable<AbstractControl[]> {

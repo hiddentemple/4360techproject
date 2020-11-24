@@ -118,7 +118,6 @@ describe("Contact To Search String", () => {
         state: "colorado",
         postalCode: "80124",
         category: AddressCategory.HOME,
-        isPrimary: true
       }],
       updatedAt: new Date(),
       createdAt: new Date()

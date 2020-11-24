@@ -109,7 +109,6 @@ export class ContactFormModel {
     let postalCode = address?.postalCode || "";
     let country = address?.country || "";
     let category = address?.category || "";
-    let isPrimary = address?.isPrimary || false;
 
     return new FormGroup({
       street: new FormControl(street, LengthAndRequiredValidators),
@@ -119,19 +118,16 @@ export class ContactFormModel {
       postalCode: new FormControl(postalCode, [Validators.required]),
       country: new FormControl(country, [Validators.required]),
       category: new FormControl(category, Validators.required),
-      isPrimary: new FormControl(isPrimary)
     })
   }
 
   public static initWebpage(webpage?: WebpageModel) {
     let url = webpage?.url || "";
     let category = webpage?.category || "";
-    let isPrimary = webpage?.isPrimary || false;
 
     return new FormGroup({
       url: new FormControl(url, LengthAndRequiredValidators),
       category: new FormControl(category, Validators.required),
-      isPrimary: new FormControl(isPrimary)
     })
   }
 
@@ -145,7 +141,7 @@ export class ContactFormModel {
     // Filter to only defined properties
     // Assign those properties to their corresponding property in this object
     //   If those properties are arrays, their specific function needs to be called
-    const keysToIgnore = ["updatedAt", "createdAt", "anniversary", "birthdate"]; // TODO
+    const keysToIgnore = ["updatedAt", "createdAt"];
     const keyFilter: StringFilterer = (key: string) => !(key in keysToIgnore);
     const reduced: Partial<ContactModel> = filterToDefinedProperties(contact, keyFilter);
     Object.entries(reduced).forEach(([key, value]) => this.assigner(key, value));
@@ -184,16 +180,16 @@ export class ContactFormModel {
         this.arrayAssigner(key, value, ContactFormModel.initWebpage)
         break;
       case 'tags':
-        ; // TODO
+        this.arrayAssigner(key, value, ContactFormModel.initTag)
         break;
       default:
         throw new Error("Invalid key passed to assign array: " + key)
     }
   }
 
-  private arrayAssigner(key: string, values: any[], generator: (any) => FormGroup) {
+  private arrayAssigner(key: string, values: any[], generator: (any) => AbstractControl) {
     Object.values(values).forEach(value => {
-      const form: FormGroup = generator(value);
+      const form: AbstractControl = generator(value);
       (this[key] as FormArray).push(form);
     })
   }
