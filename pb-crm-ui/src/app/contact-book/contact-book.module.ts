@@ -48,6 +48,7 @@ import { NotesFormComponent } from './form/components/notes-form/notes-form.comp
 import { TagsFormComponent } from './form/components/tags-form/tags-form.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import { ContactFormDialogComponent } from './form/contact-form-dialog.component';
 
 
 @NgModule({
@@ -73,6 +74,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     AddressFormComponent,
     NotesFormComponent,
     TagsFormComponent,
+    ContactFormDialogComponent,
   ],
   exports: [
     ContactFormComponent

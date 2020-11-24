@@ -21,15 +21,17 @@ export class ContactService {
     return this.apiService.get<GetAllContactsResponse>('/api/contact', {});
   }
 
-  getContact(id: string): Observable<GetContactResponse>{
-    return this.apiService.get<GetContactResponse>('/api/contact/' + id);
+  emptyReducer<T>(acc: T, [key, value]): T {
+    if (!value) return acc
+    else if (Array.isArray(value) && value.length === 0) { return acc;}
+    else if (typeof value === 'object') { return {...acc, ...this.reduceToDefined(value)} }
+    else if (value == {}) {return acc;}
+    else if (typeof value === 'string' && value.length === 0) { return acc; }
+    else return {...acc, [key]: value}
   }
 
-  emptyReducer<T>(acc: T, [key, value]): T {
-    if (Array.isArray(value) && value.length === 0) { return acc;}
-    else if (typeof value === 'string' && value.length === 0) { return acc; }
-    else if (value == {}) {return acc;}
-    else return {...acc, [key]: value}
+  getContact(id: string): Observable<GetContactResponse>{
+    return this.apiService.get<GetContactResponse>('/api/contact/' + id);
   }
 
   reduceToDefined<T>(model: T): Partial<T> {

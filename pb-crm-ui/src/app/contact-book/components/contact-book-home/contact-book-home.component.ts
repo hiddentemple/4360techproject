@@ -14,6 +14,7 @@ import {DialogService} from '../../../core/dialog/dialog.service';
 import {ImportFileService} from '../../containers/import-file/import-file.service';
 import {ImportFileComponent} from '../../containers/import-file/import-file.component';
 import {ContactFormComponent} from "../../form/contact-form.component";
+import {ContactFormDialogComponent} from "../../form/contact-form-dialog.component";
 
 
 @Component({
@@ -116,7 +117,10 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     // this.selectedPortal = this.createPortal;
     this.selectedContact = undefined;
     // this.openRightPanel();
-    this.dialog.open(ContactFormComponent, {})
+    const dialogReg = this.dialog.open(ContactFormDialogComponent)
+    dialogReg.afterClosed().subscribe(result => {
+      if (result) this.contactActions.createContact(result, async c => console.log(`Created contact: ${c}`))
+    })
   }
 
   closeRightPanelAndReset() {
@@ -129,20 +133,14 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     this.openRightPanel();
   }
 
-  setEditContact(contact: ContactModel) {
-    this.selectedContact = contact;
-    this.selectedPortal = this.editPortal;
-    this.openRightPanel();
-  }
-
-  async createContact(contact: ContactModel) {
-    const callback: ContactActionCallback = async (contact) => this.setViewContact(contact);
-    return this.contactActions.createContact(contact, callback);
-  }
-
-  async editContact(contact: ContactModel) {
-    const callback: ContactActionCallback = async (contact) => this.setViewContact(contact);
-    return this.contactActions.updateContact(contact, callback);
+  openEditDialog(contact: ContactModel) {
+    const editDialog = this.dialog.open(ContactFormDialogComponent, {
+      data: {contact}
+    })
+    editDialog.afterClosed().subscribe(result => {
+      const callback = async () => console.log("Edit dialog returned")
+      if (result) this.contactActions.createContact(result, callback)
+    })
   }
 
   deleteContact(contact: ContactModel) {

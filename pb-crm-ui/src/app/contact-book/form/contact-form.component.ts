@@ -33,7 +33,7 @@ import {ContactModel} from "@hiddentemple/api-interfaces";
 export class ContactFormComponent implements OnInit {
   contactForm: FormGroup;
 
-  @Input() set contact(contact: ContactModel) { this.formService.setContact(contact); }
+  @Input() set contact(contact: ContactModel) { if (contact) this.formService.setContact(contact); }
 
   @Output() submitContact = new EventEmitter<ContactModel>();
 
