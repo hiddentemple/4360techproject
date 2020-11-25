@@ -1,5 +1,5 @@
 import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { urlType, WebpageModel } from '@hiddentemple/api-interfaces';
+import {WebpageCategory, WebpageModel} from '@hiddentemple/api-interfaces';
 import { IsDefined, IsEnum, validateOrReject } from 'class-validator';
 import { ContactEntity } from './contact.entity';
 import { HttpException } from '@nestjs/common';
@@ -14,9 +14,9 @@ export class WebpageEntity implements WebpageModel{
   @IsDefined()
   url: string;
 
-  @Column('enum', {enum: urlType})
-  @IsEnum(urlType)
-  type: urlType;
+  @Column('enum', {enum: WebpageCategory})
+  @IsEnum(WebpageCategory)
+  category: WebpageCategory;
 
   @ManyToOne(type => ContactEntity, contact => contact.webpages, {
     onDelete: 'CASCADE',

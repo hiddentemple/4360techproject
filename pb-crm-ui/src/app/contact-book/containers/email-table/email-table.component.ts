@@ -12,7 +12,7 @@ import {EmailModel} from '@hiddentemple/api-interfaces';
       </ng-container>
 
       <!-- Type Column -->
-      <ng-container matColumnDef="type">
+      <ng-container matColumnDef="category">
         <th mat-header-cell *matHeaderCellDef>Type</th>
         <td mat-cell *matCellDef="let email">{{email.category}}</td>
       </ng-container>
@@ -30,7 +30,7 @@ import {EmailModel} from '@hiddentemple/api-interfaces';
 
 
 export class EmailTableComponent {
-  displayedColumns: string[] = ['address', 'type'];
+  displayedColumns: string[] = ['address', 'category'];
 
   @Input() emails: EmailModel[];
 

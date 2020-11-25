@@ -4,7 +4,6 @@ import { EntityManager, getConnection, Repository, UpdateResult } from 'typeorm'
 import { AddressEntity } from '../../db/entities/address.entity';
 import { ContactEntity } from '../../db/entities/contact.entity';
 import { AddressDTO } from '@hiddentemple/api-interfaces';
-import { BillerEntity } from '../../db/entities/biller.entity';
 
 
 
@@ -50,7 +49,7 @@ export class AddressService {
     if (affected === 0) {
       const errMsg = `Could not delete address with id: ${id}`;
       this.logger.error(errMsg);
-      throw new InternalServerErrorException(errMsg);
+      throw new InternalServerErrorException(errMsg);f
     }
     this.logger.log(`Updated address with id ${JSON.stringify(id)}`);
   }

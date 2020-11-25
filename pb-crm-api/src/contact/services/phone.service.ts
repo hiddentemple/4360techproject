@@ -1,7 +1,7 @@
 import {BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {EntityManager, Repository} from "typeorm";
-import {PhoneDTO, PhoneEmailCategory} from "@hiddentemple/api-interfaces";
+import {PhoneDTO} from "@hiddentemple/api-interfaces";
 import {ContactEntity} from "../../db/entities/contact.entity";
 import {PhoneEntity} from "../../db/entities/phone.entity";
 
@@ -79,7 +79,7 @@ export class PhoneService {
     }
 
     containsNoMoreThanOnePrimary(phones: PhoneDTO[]): boolean {
-        const primaries: PhoneDTO[] = phones.filter(phone => phone.category === PhoneEmailCategory.PRIMARY);
+        const primaries: PhoneDTO[] = phones.filter(phone => phone.isPrimary);
         return primaries.length <= 1;
     }
 }

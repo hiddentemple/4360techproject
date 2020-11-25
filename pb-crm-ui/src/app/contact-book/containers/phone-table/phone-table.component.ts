@@ -12,8 +12,8 @@ import {PhoneModel} from '@hiddentemple/api-interfaces';
       </ng-container>
 
       <!-- Type Column -->
-      <ng-container matColumnDef="type">
-        <th mat-header-cell *matHeaderCellDef>Type</th>
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef>Category</th>
         <td mat-cell *matCellDef="let phone">{{phone.category.valueOf()}}</td>
       </ng-container>
 
@@ -28,7 +28,7 @@ import {PhoneModel} from '@hiddentemple/api-interfaces';
   ]
 })
 export class PhoneTableComponent {
-  displayedColumns: string[] = ['number', 'type'];
+  displayedColumns: string[] = ['number', 'category'];
 
   @Input() phones: PhoneModel[];
 

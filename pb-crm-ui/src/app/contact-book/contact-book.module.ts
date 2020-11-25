@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {ContactBookRoutingModule} from './contact-book-routing.module';
-import {ContactFormComponent} from './containers/contact-form/contact-form.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
@@ -41,7 +40,6 @@ import { WebpageTableComponent } from './containers/website-table/webpage-table.
 
 @NgModule({
   declarations: [
-    ContactFormComponent,
     ContactBookHomeComponent,
     ContactTableComponent,
     ContactDetailPageComponent,
@@ -55,7 +53,6 @@ import { WebpageTableComponent } from './containers/website-table/webpage-table.
     WebpageTableComponent,
   ],
   exports: [
-    ContactFormComponent,
   ],
   imports: [
     CommonModule,
@@ -91,7 +88,6 @@ import { WebpageTableComponent } from './containers/website-table/webpage-table.
   ],
   entryComponents: [
     DialogComponent,
-    ContactFormComponent,
     ContactDetailComponent,
     DeleteConfirmationComponent,
     ImportFileComponent

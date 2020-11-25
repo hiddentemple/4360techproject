@@ -1,14 +1,5 @@
-import {
-  BeforeInsert,
-  BeforeUpdate,
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { AddressModel, AddressType } from '@hiddentemple/api-interfaces';
+import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {AddressCategory, AddressModel} from '@hiddentemple/api-interfaces';
 import { ContactEntity } from './contact.entity';
 import { IsDefined, IsEnum, IsOptional, validateOrReject } from 'class-validator';
 import { HttpException } from '@nestjs/common';
@@ -46,8 +37,8 @@ export class AddressEntity implements AddressModel {
   country: string;
 
   @Column( 'varchar', {})
-  @IsEnum(AddressType)
-  type: AddressType;
+  @IsEnum(AddressCategory)
+  category: AddressCategory;
 
   @ManyToOne(type => ContactEntity, contact => contact.addresses, {
     onDelete: 'CASCADE',

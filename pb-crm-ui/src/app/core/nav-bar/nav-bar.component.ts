@@ -21,7 +21,7 @@ import {ContactBookRoutes} from '../../contact-book/contact-book-routing.module'
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" routerLink="{{contactHomeRoute}}" routerLinkActive="active">Contacts</a>
+            <a class="nav-link" routerLink="{{contactHomeRoute}}" routerLinkActive="active" href="#">Contacts</a>
           </li>
         </ul>
       </div>

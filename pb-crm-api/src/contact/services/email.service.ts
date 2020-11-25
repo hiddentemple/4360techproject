@@ -2,7 +2,7 @@ import {Injectable, InternalServerErrorException, Logger, NotFoundException} fro
 import {InjectRepository} from "@nestjs/typeorm";
 import {EmailEntity} from "../../db/entities/email.entity";
 import {EntityManager, Repository} from "typeorm";
-import {EmailDTO, PhoneEmailCategory} from "@hiddentemple/api-interfaces";
+import {EmailDTO} from "@hiddentemple/api-interfaces";
 import {ContactEntity} from "../../db/entities/contact.entity";
 
 
@@ -80,7 +80,7 @@ export class EmailService {
     }
 
     containsNoMoreThanOnePrimary(emails: EmailDTO[]): boolean {
-        const primaries: EmailDTO[] = emails.filter(email => email.category === PhoneEmailCategory.PRIMARY);
+        const primaries: EmailDTO[] = emails.filter(email => email.isPrimary);
         return primaries.length <= 1;
     }
 }

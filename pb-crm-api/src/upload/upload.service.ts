@@ -1,14 +1,18 @@
 import {Injectable} from '@nestjs/common';
 import {
-  AddressDTO,
-  AddressType,
-  CreateContactRequest,
-  CSVColumns, CSVExportModel, EmailDTO, PhoneDTO,
-  PhoneEmailCategory,
-  urlType, WebpageDTO,
+    AddressCategory,
+    AddressDTO,
+    CreateContactRequest,
+    CSVColumns,
+    CSVExportModel, EmailCategory,
+    EmailDTO,
+    PhoneCategory,
+    PhoneDTO, WebpageCategory,
+    WebpageDTO,
 } from '@hiddentemple/api-interfaces';
 import fs from "fs";
 import csv from 'csv-parse';
+
 const { Parser, transforms: { unwind } } = require('json2csv');
 
 
@@ -73,20 +77,23 @@ export class UploadService {
           phone.phoneNumber = record[key].replace(/-/g, '');
           switch (key) {
             case 'HomePhone': {
-              phone.category = PhoneEmailCategory.PERSONAL
+              phone.category = PhoneCategory.HOME
               break;
             }
             case 'BusinessPhone': {
-              phone.category = PhoneEmailCategory.WORK
+              phone.category = PhoneCategory.WORK
               break;
             }
             case 'MobilePhone': {
-              phone.category = PhoneEmailCategory.PRIMARY
+              phone.category = PhoneCategory.MOBILE
+              phone.isPrimary = true
               break;
             }
             case 'BusinessFax':
+              phone.category = PhoneCategory.BUSINESS_FAX
+              break
             case 'HomeFax': {
-              phone.category = PhoneEmailCategory.FAX
+              phone.category = PhoneCategory.HOME_FAX
               break;
             }
           }
@@ -107,11 +114,12 @@ export class UploadService {
         if (record[key]) {
           email.address = record[key];
           if (key.valueOf() === 'EmailAddress') {
-            email.category = PhoneEmailCategory.PRIMARY;
+            email.category = EmailCategory.OTHER;
+            email.isPrimary = true;
           } else if (key.includes('2')) {
-            email.category = PhoneEmailCategory.OTHER
+            email.category = EmailCategory.OTHER;
           } else if (key.includes('3')) {
-            email.category = PhoneEmailCategory.OTHER
+            email.category = EmailCategory.OTHER;
           }
           emails.push(email);
         }
@@ -130,10 +138,10 @@ export class UploadService {
         if(record[key]){
           webpage.url = record[key];
           if(key.valueOf() === 'WebPage') {
-            webpage.type = urlType.PERSONAL;
+            webpage.category = WebpageCategory.PERSONAL;
           }
           if(key.valueOf() === 'WebPage2') {
-            webpage.type = urlType.BUSINESS;
+            webpage.category = WebpageCategory.BUSINESS;
           }
           webpages.push(webpage);
         }
@@ -159,7 +167,7 @@ export class UploadService {
       if (record.HomeCountry) {
         homeAddress.country = record.HomeCountry
       }
-      homeAddress.type = AddressType.HOME;
+      homeAddress.category = AddressCategory.HOME;
       addresses.push(homeAddress)
     }
     if(record.BusinessAddress) {
@@ -173,7 +181,7 @@ export class UploadService {
       if(record.BusinessCountry){
         businessAddress.country = record.BusinessCountry;
       }
-      businessAddress.type = AddressType.BUSINESS;
+      businessAddress.category = AddressCategory.BUSINESS;
       
       addresses.push(businessAddress)
     }
