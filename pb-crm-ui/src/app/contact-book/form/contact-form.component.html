@@ -1,14 +1,14 @@
 <div class="container">
   <div class="row example-action-buttons">
-    <button mat-button (click)="accordion.openAll()">Expand All</button>
-    <button mat-button (click)="accordion.closeAll()">Collapse All</button>
+    <button mat-button (click)="openAll()">Expand All</button>
+    <button mat-button (click)="closeAll()">Collapse All</button>
   </div>
   <div class="row">
     <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
       <mat-accordion class="example-headers-align" multi>
 
         <!-- Personal Info -->
-        <mat-expansion-panel expanded>
+        <mat-expansion-panel [expanded]="personalInfoExpanded">
           <mat-expansion-panel-header>
             <mat-panel-title>
               Personal data
@@ -21,7 +21,7 @@
         </mat-expansion-panel>
 
         <!-- Company -->
-        <mat-expansion-panel>
+        <mat-expansion-panel [expanded]="companyInfoExpanded">
           <mat-expansion-panel-header>
             <mat-panel-title>
               Company
@@ -34,7 +34,7 @@
         </mat-expansion-panel>
 
         <!-- Phones -->
-        <mat-expansion-panel>
+        <mat-expansion-panel [expanded]="phonesExpanded">
           <mat-expansion-panel-header>
             <mat-panel-title>
               Phones
@@ -47,7 +47,7 @@
         </mat-expansion-panel>
 
         <!-- Emails -->
-        <mat-expansion-panel>
+        <mat-expansion-panel [expanded]="emailsExpanded">
           <mat-expansion-panel-header>
             <mat-panel-title>
               Emails
@@ -60,7 +60,7 @@
         </mat-expansion-panel>
 
         <!-- Webpages -->
-        <mat-expansion-panel>
+        <mat-expansion-panel [expanded]="webpagesExpanded">
           <mat-expansion-panel-header>
             <mat-panel-title>
               Webpages
@@ -73,7 +73,7 @@
         </mat-expansion-panel>
 
         <!-- Addresses -->
-        <mat-expansion-panel>
+        <mat-expansion-panel [expanded]="addressesExpanded">
           <mat-expansion-panel-header>
             <mat-panel-title>
               Addresses
@@ -86,7 +86,7 @@
         </mat-expansion-panel>
 
         <!-- Notes -->
-        <mat-expansion-panel>
+        <mat-expansion-panel [expanded]="notesExpanded">
           <mat-expansion-panel-header>
             <mat-panel-title>
               Notes
@@ -99,7 +99,7 @@
         </mat-expansion-panel>
 
         <!-- tags -->
-        <mat-expansion-panel>
+        <mat-expansion-panel [expanded]="tagsExpanded">
           <mat-expansion-panel-header>
             <mat-panel-title>
               Tags

@@ -31,6 +31,7 @@ export interface PhoneInputModel {
 
 export class ContactFormModel {
   // Personal Info (NameFormComponent)
+  static readonly personalInfoKeys = ['firstName', 'lastName', 'gender', 'nickName', 'birthday', 'anniversary'];
   firstName = new FormControl('', LengthAndRequiredValidators);
   lastName = new FormControl('', LengthAndRequiredValidators);
   gender = new FormControl('', [getMaxLengthValidator()]);
@@ -39,6 +40,7 @@ export class ContactFormModel {
   anniversary = new FormControl('')
 
   // Company info (CompanyFormComponent)
+  static readonly companyKeys = ['company', 'jobTitle', 'department', 'organization'];
   company = new FormControl('', [getMaxLengthValidator()]);
   jobTitle = new FormControl('', [getMaxLengthValidator()]);
   department = new FormControl('', [getMaxLengthValidator()]);
@@ -141,13 +143,18 @@ export class ContactFormModel {
     // Filter to only defined properties
     // Assign those properties to their corresponding property in this object
     //   If those properties are arrays, their specific function needs to be called
+    console.group('Contact form set value')
+    console.log('Paramter value', contact);
     const keysToIgnore = ["updatedAt", "createdAt"];
     const keyFilter: StringFilterer = (key: string) => !(key in keysToIgnore);
     const reduced: Partial<ContactModel> = filterToDefinedProperties(contact, keyFilter);
+    console.log('Filtered to defined properties', reduced)
     Object.entries(reduced).forEach(([key, value]) => this.assigner(key, value));
+    console.groupEnd()
   }
 
   private assigner(key: string, value: any) {
+    console.group(`Assign key '${key}' to type '${typeof value}' with value: ${JSON.stringify(value)}`)
     if (typeof value === 'string') this.assignSimple(key, value);
     else if (Array.isArray(value)) this.assignArray(key, value);
     else if (Object.prototype.toString.call(value) === "[object Date]" && !isNaN(value)) {
@@ -157,12 +164,18 @@ export class ContactFormModel {
     else {
       throw new Error(`Failed to assign property key '${key}' to value '${JSON.stringify(value)}'`)
     }
+    console.log('Abstract control after assign', this[key])
+    console.groupEnd()
   }
 
-  private assignSimple(key: string, value: string) { (this[key] as AbstractControl).setValue(value) }
+  private assignSimple(key: string, value: string) {
+    console.log(`Simple Assign on key '${key}'`);
+    (this[key] as AbstractControl).setValue(value);
+  }
 
   private assignDate(key: string, value: Date) {
-    (this[key] as AbstractControl).setValue(value.toISOString())
+    console.log(`Date assign on key '${key}'`);
+    (this[key] as AbstractControl).setValue(value.toISOString());
   }
 
   private assignArray(key: string, value: PhoneModel[] | EmailModel[] | AddressModel[] | WebpageModel[] | string[]) {
@@ -188,6 +201,7 @@ export class ContactFormModel {
   }
 
   private arrayAssigner(key: string, values: any[], generator: (any) => AbstractControl) {
+    console.log(`Array assigner on key '${key}'`)
     Object.values(values).forEach(value => {
       const form: AbstractControl = generator(value);
       (this[key] as FormArray).push(form);

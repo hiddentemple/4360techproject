@@ -204,7 +204,7 @@ export const CountryCodeMap: CountryCodeMapEntry[] = [
   },
   {
     "name": "Cayman Islands",
-    "dial_code": "+ 345",
+    "dial_code": "+345",
     "code": "KY"
   },
   {
@@ -289,12 +289,12 @@ export const CountryCodeMap: CountryCodeMapEntry[] = [
   },
   {
     "name": "Dominica",
-    "dial_code": "+1 767",
+    "dial_code": "+1767",
     "code": "DM"
   },
   {
     "name": "Dominican Republic",
-    "dial_code": "+1 849",
+    "dial_code": "+1849",
     "code": "DO"
   },
   {
@@ -919,7 +919,7 @@ export const CountryCodeMap: CountryCodeMapEntry[] = [
   },
   {
     "name": "Trinidad and Tobago",
-    "dial_code": "+1 868",
+    "dial_code": "+1868",
     "code": "TT"
   },
   {
@@ -939,7 +939,7 @@ export const CountryCodeMap: CountryCodeMapEntry[] = [
   },
   {
     "name": "Turks and Caicos Islands",
-    "dial_code": "+1 649",
+    "dial_code": "+1649",
     "code": "TC"
   },
   {
@@ -1139,12 +1139,12 @@ export const CountryCodeMap: CountryCodeMapEntry[] = [
   },
   {
     "name": "Saint Kitts and Nevis",
-    "dial_code": "+1 869",
+    "dial_code": "+1869",
     "code": "KN"
   },
   {
     "name": "Saint Lucia",
-    "dial_code": "+1 758",
+    "dial_code": "+1758",
     "code": "LC"
   },
   {
@@ -1159,7 +1159,7 @@ export const CountryCodeMap: CountryCodeMapEntry[] = [
   },
   {
     "name": "Saint Vincent and the Grenadines",
-    "dial_code": "+1 784",
+    "dial_code": "+1784",
     "code": "VC"
   },
   {
@@ -1209,12 +1209,12 @@ export const CountryCodeMap: CountryCodeMapEntry[] = [
   },
   {
     "name": "Virgin Islands, British",
-    "dial_code": "+1 284",
+    "dial_code": "+1284",
     "code": "VG"
   },
   {
     "name": "Virgin Islands, U.S.",
-    "dial_code": "+1 340",
+    "dial_code": "+1340",
     "code": "VI"
   }
 ]

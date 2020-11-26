@@ -3,6 +3,8 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {ContactFormModel, PhoneInputModel} from "./contact-form.model";
 import {AbstractControl, FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {ContactModel, PhoneModel} from "@hiddentemple/api-interfaces";
+import {filterToDefinedProperties, isDefined} from "../../core/utils/object.utils";
+import {all} from "../../core/utils/function.utils";
 
 // expected to update the current value of the FormGroup in some way
 export type FormGroupModifier = (FormGroup) => void;
@@ -31,7 +33,8 @@ export class ContactFormService implements OnInit {
 
   /**
    * This method defers all validation to the FormGroup underlying this class. If the form is valid, then the value
-   * of the form is returned.
+   * of the form is returned. Note that all non-defined or empty fields are stripped from the model before return,
+   * which is based on the assumption that missing required attributes are considered errors making the form invalid.
    */
   getSubmittableContact(): ContactModel | undefined {
     const contactForm = this.contactForm.getValue();
@@ -40,13 +43,42 @@ export class ContactFormService implements OnInit {
     }
 
     const rawValue = contactForm.value;
-    rawValue.phones = Object.values(rawValue.phones).map((phone: PhoneInputModel) => {
-      let {phoneNumber, countryCode, ...other} = phone
-      phoneNumber = countryCode + phoneNumber;
-      return {...other, phoneNumber}
-    });
+    const reducedValue = filterToDefinedProperties<ContactModel>(rawValue) as ContactModel;
+    if (reducedValue.phones) {
+      reducedValue.phones = Object.values(reducedValue.phones).map((phone: PhoneInputModel) => {
+        let {phoneNumber, countryCode, ...other} = phone
+        phoneNumber = countryCode + phoneNumber;
+        return {...other, phoneNumber}
+      });
+    }
 
-    return rawValue;
+    return reducedValue;
+  }
+
+  public hasValue(key: string): boolean {
+    const currentValue: FormGroup = this.contactForm.getValue();
+    if (!(key in currentValue.controls)) return false;
+    const value = currentValue.controls[key].value
+    return isDefined(value)
+  }
+
+  public anyHaveValue(keys: string[]): boolean {
+    const currentValue: FormGroup = this.contactForm.getValue();
+    for (const key of keys) {
+      console.log('EVALUATE KEY' + key)
+      if (!(key in currentValue.controls)) { /* Do nothing, ie: continue */}
+      else if (isDefined(currentValue.controls[key].value)) {return true;}
+      // else, continue
+    }
+    return false;
+  }
+
+  public allHaveValue(keys: string[]) {
+    const currentValue: FormGroup = this.contactForm.getValue();
+    const valuesAreValid = Object.values(keys)
+      .filter((key: string) => key in currentValue.controls)
+      .map(key => isDefined(currentValue.controls[key].value))
+    return all(valuesAreValid)
   }
 
   // public api methods for use in all child components

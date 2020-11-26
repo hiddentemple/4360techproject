@@ -30,7 +30,7 @@ import {CountryCodeMap, getSortedCountryCodes, UnitedStatesCountryCode} from "..
           <td mat-cell *matCellDef="let phone; let i=index" class="col-2 p-1">
             <mat-form-field [formGroupName]="i">
               <mat-label>Country Code</mat-label>
-              <mat-select formControlName="countryCode" required>
+              <mat-select formControlName="countryCode" required [compareWith]="compareWith">
                 <mat-option *ngFor="let country of countries" value="{{country.dial_code}}">
                   {{country.name}} ({{country.dial_code}})
                 </mat-option>
@@ -93,7 +93,7 @@ export class PhonesFormComponent {
   selection = new SelectionModel(false);
   phoneCategories: PhoneCategory[] = Object.values(PhoneCategory);
   countries = getSortedCountryCodes();
-  compareWith = (option, selection) => option === selection.name;
+  compareWith = (option, selection) => option.dial_code === selection.dial_code;
 
   @Input() contactForm: FormGroup;
 
