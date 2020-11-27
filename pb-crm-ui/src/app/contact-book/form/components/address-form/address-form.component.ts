@@ -6,6 +6,8 @@ import {map} from "rxjs/operators";
 import {AddressCategory} from "@hiddentemple/api-interfaces";
 import {SelectionModel} from "@angular/cdk/collections";
 import {getCountryNames, getSortedCountryCodes} from "../../../../core/countries";
+import {DeleteConfirmationComponent} from "../../../containers/delete-confirmation/delete-confirmation.component";
+import {MatDialog} from "@angular/material/dialog";
 
 export interface StateMapEntry { name: string; abbreviation: string; }
 
@@ -196,7 +198,7 @@ export class AddressFormComponent {
     ))
   }
 
-  constructor(private formService: ContactFormService) {
+  constructor(private formService: ContactFormService, private dialog: MatDialog) {
   }
 
   addAddress() {
@@ -204,7 +206,12 @@ export class AddressFormComponent {
   }
 
   removeAddressInput(i: number) {
-    this.formService.removeAddress(i)
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.formService.removeAddress(i)
+      }
+    });
   }
 
   streetHasRequiredError(address: AbstractControl): boolean {

@@ -4,6 +4,8 @@ import {Observable} from "rxjs";
 import {ContactFormService} from "../../contact-form.service";
 import {map} from "rxjs/operators";
 import {WebpageCategory} from "@hiddentemple/api-interfaces";
+import {MatDialog} from "@angular/material/dialog";
+import {DeleteConfirmationComponent} from "../../../containers/delete-confirmation/delete-confirmation.component";
 
 @Component({
   selector: 'app-webpage-form',
@@ -67,13 +69,18 @@ export class WebpageFormComponent {
     ))
   }
 
-  constructor(private formService: ContactFormService) { }
+  constructor(private formService: ContactFormService, private dialog: MatDialog) { }
 
   addWebpage() {
     this.formService.addWebpage();
   }
 
   removeWebpage(i: number) {
-    this.formService.removeWebpage(i)
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.formService.removeWebpage(i)
+      }
+    });
   }
 }

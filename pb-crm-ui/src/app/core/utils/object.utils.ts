@@ -2,6 +2,8 @@ import {ContactModel} from "@hiddentemple/api-interfaces";
 
 // Method which returns true if a string is accepted. Used to filter keys bellow
 export type StringFilterer = (string) => boolean;
+
+// By default, all keys are valid
 export const DefaultStringFilter: StringFilterer = (str: string) => true;
 
 /**

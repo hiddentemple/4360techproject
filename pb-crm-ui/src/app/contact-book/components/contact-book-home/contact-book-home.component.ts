@@ -117,7 +117,7 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     // this.selectedPortal = this.createPortal;
     this.selectedContact = undefined;
     // this.openRightPanel();
-    const dialogReg = this.dialog.open(ContactFormDialogComponent)
+    const dialogReg = this.dialog.open(ContactFormDialogComponent, {width: 'auto'})
     dialogReg.afterClosed().subscribe(result => {
       if (result) this.contactActions.createContact(result, async c => console.log(`Created contact: ${c}`))
     })
@@ -137,6 +137,7 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     const editDialog = this.dialog.open(ContactFormDialogComponent, {
       data: {contact}
     })
+
     editDialog.afterClosed().subscribe(result => {
       const callback = async () => console.log("Edit dialog returned")
       if (result) this.contactActions.createContact(result, callback)

@@ -73,12 +73,12 @@ export class ContactFormService implements OnInit {
     return false;
   }
 
-  public allHaveValue(keys: string[]) {
+  public allHaveValue(keys: string[]): boolean {
     const currentValue: FormGroup = this.contactForm.getValue();
-    const valuesAreValid = Object.values(keys)
-      .filter((key: string) => key in currentValue.controls)
-      .map(key => isDefined(currentValue.controls[key].value))
-    return all(valuesAreValid)
+    for (const key of keys) {
+      if (!(key in currentValue.controls && isDefined(currentValue.controls[key].value))) return false;
+    }
+    return true;
   }
 
   // public api methods for use in all child components

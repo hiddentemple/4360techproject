@@ -6,11 +6,13 @@ import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {SelectionModel} from "@angular/cdk/collections";
 import {CountryCodeMap, getSortedCountryCodes, UnitedStatesCountryCode} from "../../../../core/countries";
+import {DeleteConfirmationComponent} from "../../../containers/delete-confirmation/delete-confirmation.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-phones-form',
   template: `
-    <form [formGroup]="contactForm">
+    <form [formGroup]="contactForm" class="row">
       <table mat-table formArrayName="phones" [dataSource]="phoneFormArrayControls$">
 
         <!-- Checkbox Column -->
@@ -103,14 +105,19 @@ export class PhonesFormComponent {
     }))
   }
 
-  constructor(private formService: ContactFormService) {}
+  constructor(private formService: ContactFormService, private dialog: MatDialog) {}
 
   addPhone() {
     this.formService.addPhone();
   }
 
   removePhoneInput(i: number) {
-    this.formService.removePhone(i);
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.formService.removePhone(i)
+      }
+    });
   }
 
   phoneHasRequiredError(phone: AbstractControl): boolean {

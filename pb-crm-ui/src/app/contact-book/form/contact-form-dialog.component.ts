@@ -7,9 +7,9 @@ export interface ContactFormDialogData { contact?: ContactModel }
 @Component({
   selector: 'app-contact-form-dialog',
   template: `
-    <mat-dialog-content>
-      <app-contact-form [contact]="data?.contact" (submitContact)="onSubmit($event)"></app-contact-form>
-    </mat-dialog-content>
+    <div>
+        <app-contact-form [contact]="data?.contact" (submitContact)="onSubmit($event)"></app-contact-form>
+    </div>
   `,
   styles: [
   ]

@@ -21,29 +21,10 @@ export interface ContactFormAccordionState {
 @Component({
   selector: 'app-contact-form',
   templateUrl: './contact-form.component.html',
-  styles: [
-      `
-      .example-action-buttons {
-        padding-bottom: 20px;
-      }
-
-      .example-headers-align .mat-expansion-panel-header-title,
-      .example-headers-align .mat-expansion-panel-header-description {
-        flex-basis: 0;
-      }
-
-      .example-headers-align .mat-expansion-panel-header-description {
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .example-headers-align .mat-form-field + .mat-form-field {
-        margin-left: 8px;
-      }
-    `
-  ]
+  styleUrls: ['./contact-form.component.scss']
 })
 export class ContactFormComponent implements OnInit {
+  title = 'Create a New Contact';
   contactForm: FormGroup;
   openState: ContactFormAccordionState = {
     overrideToggle: false,
@@ -58,10 +39,9 @@ export class ContactFormComponent implements OnInit {
   }
 
   @Input() set contact(contact: ContactModel) { this.setContact(contact); }
-
   @Output() submitContact = new EventEmitter<ContactModel>();
-
   @ViewChild(MatAccordion) accordion: MatAccordion;
+
   constructor(private formService: ContactFormService) {}
 
   get personalInfoExpanded(): boolean { return this.openState.personalInfo }
@@ -118,6 +98,7 @@ export class ContactFormComponent implements OnInit {
 
   private setContact(contact: ContactModel) {
     if (contact) {
+      this.title = 'Edit Contact';
       this.formService.setContact(contact);
       this.openState = {
         overrideToggle: false,
