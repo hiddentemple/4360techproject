@@ -6,36 +6,30 @@ import {FormGroup} from "@angular/forms";
   template: `
     <form [formGroup]="contactForm">
       <!-- Company Input -->
-      <div class="row">
-        <mat-form-field class="col-12">
-          <mat-label>Company Name</mat-label>
-          <input matInput maxlength="256" placeholder="Ex. Juan in a Million" formControlName="company">
-        </mat-form-field>
-      </div>
+      <mat-form-field class="col-sm-12 col-md-6">
+        <mat-label>Company Name</mat-label>
+        <input matInput maxlength="256" placeholder="Ex. Juan in a Million" formControlName="company">
+      </mat-form-field>
 
       <!-- Job Title -->
-      <div class="row">
-        <mat-form-field class="col-12">
-          <mat-label>Job Title</mat-label>
-          <input matInput maxlength="50" placeholder="Ex. Project Manager" formControlName="jobTitle">
-        </mat-form-field>
-      </div>
+      <mat-form-field class="col-sm-12 col-md-6">
+        <mat-label>Job Title</mat-label>
+        <input matInput maxlength="50" placeholder="Ex. Project Manager" formControlName="jobTitle">
+      </mat-form-field>
 
       <!-- Department -->
-      <div class="row">
-        <mat-form-field class="col-12">
-          <mat-label>Department</mat-label>
-          <input matInput maxlength="50" placeholder="Ex. Accounting" formControlName="department">
-        </mat-form-field>
-      </div>
+      <mat-form-field class="col-sm-12 col-md-6">
+        <mat-label>Department</mat-label>
+        <input matInput maxlength="50" placeholder="Ex. Accounting" formControlName="department">
+      </mat-form-field>
+
 
       <!-- Organization -->
-      <div class="row">
-        <mat-form-field class="col-12">
-          <mat-label>Organization</mat-label>
-          <input matInput maxlength="50" placeholder="Ex. Tesla" formControlName="organization">
-        </mat-form-field>
-      </div>
+      <mat-form-field class="col-sm-12 col-md-6">
+        <mat-label>Organization</mat-label>
+        <input matInput maxlength="50" placeholder="Ex. Tesla" formControlName="organization">
+      </mat-form-field>
+
     </form>
   `,
   styles: []

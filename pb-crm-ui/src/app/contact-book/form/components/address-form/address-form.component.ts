@@ -108,7 +108,7 @@ export const StatesMap: StateMapEntry[] = [
 
             <div class="row">
               <!-- City -->
-              <mat-form-field class="col-6">
+              <mat-form-field class="col-sm-12 col-md-6">
                 <mat-label>City</mat-label>
                 <input matInput required class="full-width" placeholder="Littleton" type="text" formControlName="city">
 
@@ -118,7 +118,7 @@ export const StatesMap: StateMapEntry[] = [
               </mat-form-field>
 
               <!-- State -->
-              <mat-form-field class="col-2">
+              <mat-form-field class="col-sm-6 col-md-2">
                 <mat-select placeholder="State" formControlName="state" required>
                   <mat-option *ngFor="let state of states" [value]="state.abbreviation">
                     {{ state.abbreviation }}
@@ -130,7 +130,7 @@ export const StatesMap: StateMapEntry[] = [
               </mat-form-field>
 
               <!-- Zip Code -->
-              <mat-form-field class="col-4">
+              <mat-form-field class="col-sm-6 col-md-4">
                 <mat-label>Zip Code</mat-label>
                 <input matInput required maxlength="9" placeholder="80124" formControlName="postalCode">
 
@@ -143,7 +143,7 @@ export const StatesMap: StateMapEntry[] = [
 
             <div class="row">
               <!-- Category -->
-              <mat-form-field class="col-5">
+              <mat-form-field class="col-sm-12 col-md-5">
                 <mat-label>Country</mat-label>
                 <mat-select formControlName="country" required>
                   <mat-option *ngFor="let country of countries" value="{{country}}">
@@ -156,7 +156,7 @@ export const StatesMap: StateMapEntry[] = [
                 </mat-error>
               </mat-form-field>
 
-              <mat-form-field class="col-5">
+              <mat-form-field class="col-sm-10 col-md-5">
                 <mat-label>Category</mat-label>
                 <mat-select formControlName="category" required>
                   <mat-option *ngFor="let category of addressCategories" value="{{category}}">

@@ -7,7 +7,7 @@ import {AbstractControl, FormGroup} from "@angular/forms";
     <form [formGroup]="contactForm">
       <div class="row">
         <!-- First -->
-        <mat-form-field class="col-6">
+        <mat-form-field class="col-sm-12 col-md-6">
           <!-- Input -->
           <mat-label>First Name</mat-label>
           <input matInput placeholder="Ex. John" formControlName="firstName">
@@ -22,7 +22,7 @@ import {AbstractControl, FormGroup} from "@angular/forms";
         </mat-form-field>
 
         <!-- Last -->
-        <mat-form-field class="col-6">
+        <mat-form-field class="col-sm-12 col-md-6">
           <!-- Input -->
           <mat-label>Last Name</mat-label>
           <input matInput placeholder="Ex. John" formControlName="lastName">
@@ -39,13 +39,13 @@ import {AbstractControl, FormGroup} from "@angular/forms";
 
       <div class="row">
         <!-- Gender -->
-        <mat-form-field class="col-6 full-width">
+        <mat-form-field class="col-sm-12 col-md-6">
           <mat-label>Gender</mat-label>
           <input matInput maxlength="255" placeholder="Ex. Non-Binary" formControlName="gender">
         </mat-form-field>
 
         <!-- Nick Name -->
-        <mat-form-field class="col-6 full-width">
+        <mat-form-field class="col-sm-12 col-md-6">
           <mat-label>Nick Name</mat-label>
           <input matInput maxlength="255" placeholder="Ex. Non-Binary" formControlName="nickName">
         </mat-form-field>
@@ -53,7 +53,7 @@ import {AbstractControl, FormGroup} from "@angular/forms";
 
       <div class="row">
         <!-- Birthday -->
-        <mat-form-field class="col-6">
+        <mat-form-field class="col-sm-12 col-md-6">
           <mat-label>Birthday</mat-label>
           <input matInput [matDatepicker]="birthday">
           <mat-datepicker-toggle matSuffix [for]="birthday" ></mat-datepicker-toggle>
@@ -61,7 +61,7 @@ import {AbstractControl, FormGroup} from "@angular/forms";
         </mat-form-field>
 
         <!-- Anniversary -->
-        <mat-form-field class="col-6">
+        <mat-form-field class="col-sm-12 col-md-6">
           <mat-label>Anniversary</mat-label>
           <input matInput [matDatepicker]="anniversary">
           <mat-datepicker-toggle matSuffix [for]="anniversary"></mat-datepicker-toggle>

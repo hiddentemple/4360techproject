@@ -12,25 +12,21 @@ import {MatDialog} from "@angular/material/dialog";
 @Component({
   selector: 'app-phones-form',
   template: `
-    <form [formGroup]="contactForm" class="row">
-      <table mat-table formArrayName="phones" [dataSource]="phoneFormArrayControls$">
-
-        <!-- Checkbox Column -->
-        <ng-container matColumnDef="select">
-          <td mat-cell *matCellDef="let phone; let i=index" [formGroupName]="i" class="col-1 p-1">
+    <form [formGroup]="contactForm">
+      <div formArrayName="phones">
+        <div class="row p-1 " *ngFor="let phone of phoneFormArrayControls$ | async; let i=index">
+          <div [formGroupName]="i">
+            <!-- Checkbox Column -->
             <mat-checkbox (click)="$event.stopPropagation()"
                           (change)="$event ? selection.toggle(phone) : null"
                           [checked]="selection.isSelected(phone)"
                           formControlName="isPrimary"
-                          matTooltip="Check to display in table">
+                          matTooltip="Check to display in table"
+                          class="col-1">
             </mat-checkbox>
-          </td>
-        </ng-container>
 
-        <!-- Country Code Column -->
-        <ng-container matColumnDef="country code">
-          <td mat-cell *matCellDef="let phone; let i=index" class="col-2 p-1">
-            <mat-form-field [formGroupName]="i">
+            <!-- Country Code Column -->
+            <mat-form-field class="col-sm-11 col-md-3">
               <mat-label>Country Code</mat-label>
               <mat-select formControlName="countryCode" required [compareWith]="compareWith">
                 <mat-option *ngFor="let country of countries" value="{{country.dial_code}}">
@@ -38,13 +34,9 @@ import {MatDialog} from "@angular/material/dialog";
                 </mat-option>
               </mat-select>
             </mat-form-field>
-          </td>
-        </ng-container>
 
-        <!-- Phone Number Column -->
-        <ng-container matColumnDef="phoneNumber">
-          <td mat-cell *matCellDef="let phone; let i=index" class="col-5 p-1">
-            <mat-form-field [formGroupName]="i">
+            <!-- Phone Number Column -->
+            <mat-form-field class="col-sm-12 col-md-4">
               <mat-label>Phone Number</mat-label>
               <input matInput type="text" placeholder="Ex. 303 867 5309" formControlName="phoneNumber">
               <mat-error *ngIf="phoneHasRequiredError(phone)">
@@ -54,13 +46,9 @@ import {MatDialog} from "@angular/material/dialog";
                 Not a valid phone number
               </mat-error>
             </mat-form-field>
-          </td>
-        </ng-container>
 
-        <!-- Category Column -->
-        <ng-container matColumnDef="category">
-          <td mat-cell *matCellDef="let phone; let i=index" class="col-3 p-1">
-            <mat-form-field [formGroupName]="i">
+            <!-- Category Column -->
+            <mat-form-field class="col-sm-12 col-md-3">
               <mat-label>Category</mat-label>
               <mat-select formControlName="category" required>
                 <mat-option *ngFor="let category of phoneCategories" value="{{category}}">
@@ -68,27 +56,107 @@ import {MatDialog} from "@angular/material/dialog";
                 </mat-option>
               </mat-select>
             </mat-form-field>
-          </td>
-        </ng-container>
 
-        <!-- Remove Phone Column -->
-        <ng-container matColumnDef="remove">
-          <td mat-cell *matCellDef="let phone; let i=index" class="col-1 p-1">
-            <button mat-icon-button type="button" (click)="removePhoneInput(i)">
+            <!-- Remove Phone Column -->
+            <button mat-icon-button
+                    type="button"
+                    (click)="removePhoneInput(i)"
+                    class="col-1 float-right"
+                    matTooltip="Remove phone">
               <mat-icon color="accent">remove_circle_outline</mat-icon>
             </button>
-          </td>
-        </ng-container>
 
-        <tr mat-row *matRowDef="let row; let i=index; columns: displayedColumns;"></tr>
-      </table>
+            <!-- After singular phone -->
+            <hr>
+          </div>
+        </div>
+        <!-- After all phones -->
+      </div>
 
-      <button mat-icon-button type="button" (click)="addPhone()" class="float-right">
-        <mat-icon>add</mat-icon>
-      </button>
+      <div class="row">
+        <button mat-icon-button type="button" (click)="addPhone()" class="float-right">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
     </form>
+    <!--      <table mat-table formArrayName="phones" [dataSource]="phoneFormArrayControls$" style="width: 100%;">-->
+
+    <!--        &lt;!&ndash; Checkbox Column &ndash;&gt;-->
+    <!--        <ng-container matColumnDef="select" class="row">-->
+    <!--          <td mat-cell *matCellDef="let phone; let i=index" [formGroupName]="i" class="col-1 p-1">-->
+    <!--            <mat-checkbox (click)="$event.stopPropagation()"-->
+    <!--                          (change)="$event ? selection.toggle(phone) : null"-->
+    <!--                          [checked]="selection.isSelected(phone)"-->
+    <!--                          formControlName="isPrimary"-->
+    <!--                          matTooltip="Check to display in table">-->
+    <!--            </mat-checkbox>-->
+    <!--          </td>-->
+    <!--        </ng-container>-->
+
+    <!--        &lt;!&ndash; Country Code Column &ndash;&gt;-->
+    <!--        <ng-container matColumnDef="country code" class="row">-->
+    <!--          <td mat-cell *matCellDef="let phone; let i=index" class="col-sm-12 col-md-2 p-1">-->
+    <!--            <mat-form-field [formGroupName]="i">-->
+    <!--              <mat-label>Country Code</mat-label>-->
+    <!--              <mat-select formControlName="countryCode" required [compareWith]="compareWith">-->
+    <!--                <mat-option *ngFor="let country of countries" value="{{country.dial_code}}">-->
+    <!--                  {{country.name}} ({{country.dial_code}})-->
+    <!--                </mat-option>-->
+    <!--              </mat-select>-->
+    <!--            </mat-form-field>-->
+    <!--          </td>-->
+    <!--        </ng-container>-->
+
+    <!--        &lt;!&ndash; Phone Number Column &ndash;&gt;-->
+    <!--        <ng-container matColumnDef="phoneNumber" class="row">-->
+    <!--          <td mat-cell *matCellDef="let phone; let i=index" class="col-sm-12 col-5 p-1">-->
+    <!--            <mat-form-field [formGroupName]="i">-->
+    <!--              <mat-label>Phone Number</mat-label>-->
+    <!--              <input matInput type="text" placeholder="Ex. 303 867 5309" formControlName="phoneNumber">-->
+    <!--              <mat-error *ngIf="phoneHasRequiredError(phone)">-->
+    <!--                A phone is required-->
+    <!--              </mat-error>-->
+    <!--              <mat-error *ngIf="phoneHasPatternError(phone)">-->
+    <!--                Not a valid phone number-->
+    <!--              </mat-error>-->
+    <!--            </mat-form-field>-->
+    <!--          </td>-->
+    <!--        </ng-container>-->
+
+    <!--        &lt;!&ndash; Category Column &ndash;&gt;-->
+    <!--        <ng-container matColumnDef="category" class="row">-->
+    <!--          <td mat-cell *matCellDef="let phone; let i=index" class="col-3">-->
+    <!--            <mat-form-field [formGroupName]="i">-->
+    <!--              <mat-label>Category</mat-label>-->
+    <!--              <mat-select formControlName="category" required>-->
+    <!--                <mat-option *ngFor="let category of phoneCategories" value="{{category}}">-->
+    <!--                  {{category}}-->
+    <!--                </mat-option>-->
+    <!--              </mat-select>-->
+    <!--            </mat-form-field>-->
+    <!--          </td>-->
+    <!--        </ng-container>-->
+
+    <!--        &lt;!&ndash; Remove Phone Column &ndash;&gt;-->
+    <!--        <ng-container matColumnDef="remove" class="row">-->
+    <!--          <td mat-cell *matCellDef="let phone; let i=index" class="col-1">-->
+    <!--            <button mat-icon-button type="button" (click)="removePhoneInput(i)">-->
+    <!--              <mat-icon color="accent">remove_circle_outline</mat-icon>-->
+    <!--            </button>-->
+    <!--          </td>-->
+    <!--        </ng-container>-->
+
+    <!--        <tr mat-row *matRowDef="let row; let i=index; columns: displayedColumns;"></tr>-->
+    <!--      </table>-->
+
+    <!--      <button mat-icon-button type="button" (click)="addPhone()" class="float-right">-->
+    <!--        <mat-icon>add</mat-icon>-->
+    <!--      </button>-->
+    <!--    </form>-->
   `,
-  styles: []
+  styles: [
+
+  ]
 })
 export class PhonesFormComponent {
   displayedColumns = ["select", "country code", "phoneNumber", "category", "remove"];
@@ -105,7 +173,8 @@ export class PhonesFormComponent {
     }))
   }
 
-  constructor(private formService: ContactFormService, private dialog: MatDialog) {}
+  constructor(private formService: ContactFormService, private dialog: MatDialog) {
+  }
 
   addPhone() {
     this.formService.addPhone();

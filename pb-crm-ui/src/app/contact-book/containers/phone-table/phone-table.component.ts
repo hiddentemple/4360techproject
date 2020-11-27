@@ -6,7 +6,7 @@ import {PhoneModel} from '@hiddentemple/api-interfaces';
   template: `
     <table mat-table [dataSource]="phones" class="full-width-table" >
       <!-- Phone Column -->
-      <ng-container matColumnDef="number">
+      <ng-container matColumnDef="number" class="col">
         <th mat-header-cell *matHeaderCellDef>Phone Number</th>
         <td mat-cell *matCellDef="let phone"> {{phone.phoneNumber | phone}}</td>
       </ng-container>

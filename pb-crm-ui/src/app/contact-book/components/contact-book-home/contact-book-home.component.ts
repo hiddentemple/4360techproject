@@ -140,7 +140,7 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
 
     editDialog.afterClosed().subscribe(result => {
       const callback = async () => console.log("Edit dialog returned")
-      if (result) this.contactActions.createContact(result, callback)
+      if (result) this.contactActions.updateContact(result, callback)
     })
   }
 

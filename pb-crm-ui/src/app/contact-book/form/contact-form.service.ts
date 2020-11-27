@@ -65,7 +65,6 @@ export class ContactFormService implements OnInit {
   public anyHaveValue(keys: string[]): boolean {
     const currentValue: FormGroup = this.contactForm.getValue();
     for (const key of keys) {
-      console.log('EVALUATE KEY' + key)
       if (!(key in currentValue.controls)) { /* Do nothing, ie: continue */}
       else if (isDefined(currentValue.controls[key].value)) {return true;}
       // else, continue
