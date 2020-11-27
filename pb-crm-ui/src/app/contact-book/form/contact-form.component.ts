@@ -45,13 +45,29 @@ export class ContactFormComponent implements OnInit {
   constructor(private formService: ContactFormService) {}
 
   get personalInfoExpanded(): boolean { return this.openState.personalInfo }
+  set personalInfoExpanded(isExpanded: boolean) { this.openState.personalInfo = isExpanded }
+
   get companyInfoExpanded(): boolean { return this.openState.companyInfo }
+  set companyInfoExpanded(isExpanded: boolean) { this.openState.companyInfo = isExpanded }
+
   get notesExpanded(): boolean { return this.openState.notes }
+  set notesExpanded(isExpanded: boolean) { this.openState.notes = isExpanded }
+
   get phonesExpanded(): boolean { return this.openState.phones }
+  set phonesExpanded(isExpanded: boolean) { this.openState.phones = isExpanded }
+
   get emailsExpanded(): boolean { return this.openState.emails }
+  set emailsExpanded(isExpanded: boolean) { this.openState.emails = isExpanded }
+
   get addressesExpanded(): boolean { return this.openState.addresses }
+  set addressesExpanded(isExpanded: boolean) { this.openState.addresses = isExpanded }
+
   get webpagesExpanded(): boolean { return this.openState.webpages }
+  set webpagesExpanded(isExpanded: boolean) { this.openState.webpages = isExpanded }
+
   get tagsExpanded(): boolean { return this.openState.tags }
+  set tagsExpanded(isExpanded: boolean) { this.openState.tags = isExpanded }
+
 
   ngOnInit(): void {
     this.formService.contactForm$
