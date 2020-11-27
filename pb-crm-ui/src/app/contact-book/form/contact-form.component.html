@@ -117,7 +117,7 @@
   <div mat-dialog-actions>
     <button mat-button (click)="openAll()">Expand All</button>
     <button mat-button (click)="closeAll()">Collapse All</button>
-    <button mat-raised-button color="primary" [disabled]="!contactForm.valid" type="submit">
+    <button mat-raised-button color="primary" [disabled]="!contactForm.valid" (click)="onSubmit()" type="submit">
       Submit
     </button>
   </div>

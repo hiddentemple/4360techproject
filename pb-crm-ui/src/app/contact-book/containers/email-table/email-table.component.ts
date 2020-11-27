@@ -7,7 +7,7 @@ import {EmailModel} from '@hiddentemple/api-interfaces';
     <table mat-table [dataSource]="emails" class="full-width-table">
       <!-- Address Column -->
       <ng-container matColumnDef="address">
-        <th mat-header-cell *matHeaderCellDef>Address</th>
+        <th mat-header-cell *matHeaderCellDef>Email</th>
         <td mat-cell *matCellDef="let email"> {{email.address}}</td>
       </ng-container>
 

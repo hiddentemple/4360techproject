@@ -38,6 +38,9 @@ export class ContactFormComponent implements OnInit {
     tags: false
   }
 
+  // If set, then this is added to the submitted contact
+  private id: string;
+
   @Input() set contact(contact: ContactModel) { this.setContact(contact); }
   @Output() submitContact = new EventEmitter<ContactModel>();
   @ViewChild(MatAccordion) accordion: MatAccordion;
@@ -77,6 +80,7 @@ export class ContactFormComponent implements OnInit {
 
   onSubmit() {
     const submittableContact: ContactModel = this.formService.getSubmittableContact();
+    if (this.id) { submittableContact['id'] = this.id; }
     console.group("Submit form")
     console.log("Form", this.contactForm)
     console.log("Generated contact", submittableContact)
@@ -113,8 +117,10 @@ export class ContactFormComponent implements OnInit {
   }
 
   private setContact(contact: ContactModel) {
+    this.id = undefined;
     if (contact) {
       this.title = 'Edit Contact';
+      this.id = contact.id;
       this.formService.setContact(contact);
       this.openState = {
         overrideToggle: false,

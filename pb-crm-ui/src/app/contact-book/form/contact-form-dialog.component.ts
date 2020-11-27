@@ -19,7 +19,9 @@ export class ContactFormDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<ContactFormDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ContactFormDialogData
-  ) {}
+  ) {
+    console.log("FORM DIALOG INIT WITH DATA", data)
+  }
 
   onSubmit(contact: ContactModel) {
     this.dialogRef.close(contact)

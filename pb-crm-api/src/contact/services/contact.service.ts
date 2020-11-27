@@ -86,8 +86,9 @@ export class ContactService {
     const contact: ContactEntity = await this.getById(id);
 
     const acc: Partial<ContactEntity> = {};
+    const complexKeys = ['emails', 'phones', 'addresses', 'webpages']
     const reducer = (acc, [key, value]) => {
-      if (value && value !== '' && key !== 'emails' && key !== 'phones') {
+      if (value && value !== '' && !complexKeys.includes(key)) {
         return {...acc, [key]: value};
       } else {
         return acc;

@@ -77,7 +77,7 @@ export class ContactFormModel {
       const parsedPhone = parsePhoneNumber(phone.phoneNumber);
       if (parsedPhone.isValid()) {
         phoneNumber = String(parsedPhone.nationalNumber)
-        countryCode = String(parsedPhone.countryCallingCode)
+        countryCode = "+" + String(parsedPhone.countryCallingCode)
       } else {
         console.error(`Phone number was not valid, cannot fill in input with values`)
       }
@@ -145,8 +145,8 @@ export class ContactFormModel {
     //   If those properties are arrays, their specific function needs to be called
     console.group('Contact form set value')
     console.log('Paramter value', contact);
-    const keysToIgnore = ["updatedAt", "createdAt"];
-    const keyFilter: StringFilterer = (key: string) => !(key in keysToIgnore);
+    const keysToIgnore = ["updatedAt", "createdAt", "id"];
+    const keyFilter: StringFilterer = (key: string) => !(keysToIgnore.includes(key));
     const reduced: Partial<ContactModel> = filterToDefinedProperties(contact, keyFilter);
     console.log('Filtered to defined properties', reduced)
     Object.entries(reduced).forEach(([key, value]) => this.assigner(key, value));
