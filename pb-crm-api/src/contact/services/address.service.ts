@@ -3,8 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Repository } from 'typeorm';
 import { AddressEntity } from '../../db/entities/address.entity';
 import { ContactEntity } from '../../db/entities/contact.entity';
-import { AddressDTO, AddressType } from '@hiddentemple/api-interfaces';
-import assert from 'assert';
+import { AddressDTO } from '@hiddentemple/api-interfaces';
 
 
 @Injectable()

@@ -1,7 +1,7 @@
 import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import {ContactEntity} from "./contact.entity";
 import { IsDefined, IsEnum, Matches, validateOrReject } from 'class-validator';
-import {PhoneEmailCategory, PhoneModel} from "@hiddentemple/api-interfaces";
+import {PhoneCategory, PhoneModel} from "@hiddentemple/api-interfaces";
 import { HttpException } from '@nestjs/common';
 
 
@@ -16,10 +16,14 @@ export class PhoneEntity implements PhoneModel {
     @Matches(/^\+\d{5,15}$/, {message: "phone number needs to be in international format"})
     phoneNumber: string
 
-    @Column('enum', {enum: PhoneEmailCategory, nullable: false})
+    @Column('boolean', {default: false})
     @IsDefined()
-    @IsEnum(PhoneEmailCategory)
-    category: PhoneEmailCategory;
+    isPrimary: boolean
+
+    @Column('enum', {enum: PhoneCategory, nullable: false})
+    @IsDefined()
+    @IsEnum(PhoneCategory)
+    category: PhoneCategory;
 
     @ManyToOne(type => ContactEntity, contact => contact.phones, {
         onDelete: "CASCADE",

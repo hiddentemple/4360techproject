@@ -45,8 +45,6 @@ export class ContactService {
         firstName: contact.firstName,
         lastName: contact.lastName,
         nickName: contact.nickName,
-        countryCode: contact.countryCode,
-        relatedName: contact.relatedName,
         organization: contact.organization, 
         jobTitle: contact.jobTitle,
         department: contact.department,
