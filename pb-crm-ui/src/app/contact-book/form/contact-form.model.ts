@@ -7,7 +7,7 @@ import {
   WebpageModel
 } from "@hiddentemple/api-interfaces";
 import {AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
-import {filterToDefinedProperties, StringFilterer} from "../../core/utils/object.utils";
+import {filterToDefinedProperties, isDefined, StringFilterer} from "../../core/utils/object.utils";
 import {ControlGenerator} from "./contact-form.service";
 import {parsePhoneNumber} from "libphonenumber-js";
 
@@ -155,7 +155,10 @@ export class ContactFormModel {
 
   private assigner(key: string, value: any) {
     console.group(`Assign key '${key}' to type '${typeof value}' with value: ${JSON.stringify(value)}`)
-    if (typeof value === 'string') this.assignSimple(key, value);
+    if (!(isDefined(value))) {
+      throw new Error('Tried to assign a falsey value to contact form')
+    }
+    else if (typeof value === 'string') this.assignSimple(key, value);
     else if (Array.isArray(value)) this.assignArray(key, value);
     else if (Object.prototype.toString.call(value) === "[object Date]" && !isNaN(value)) {
       // https://stackoverflow.com/questions/643782/how-to-check-whether-an-object-is-a-date

@@ -55,15 +55,15 @@ import {AbstractControl, FormGroup} from "@angular/forms";
         <!-- Birthday -->
         <mat-form-field class="col-sm-12 col-md-6">
           <mat-label>Birthday</mat-label>
-          <input matInput [matDatepicker]="birthday">
-          <mat-datepicker-toggle matSuffix [for]="birthday" ></mat-datepicker-toggle>
+          <input matInput [matDatepicker]="birthday" formControlName="birthday">
+          <mat-datepicker-toggle matSuffix [for]="birthday"></mat-datepicker-toggle>
           <mat-datepicker #birthday></mat-datepicker>
         </mat-form-field>
 
         <!-- Anniversary -->
         <mat-form-field class="col-sm-12 col-md-6">
           <mat-label>Anniversary</mat-label>
-          <input matInput [matDatepicker]="anniversary">
+          <input matInput [matDatepicker]="anniversary" formControlName="birthday">
           <mat-datepicker-toggle matSuffix [for]="anniversary"></mat-datepicker-toggle>
           <mat-datepicker #anniversary></mat-datepicker>
         </mat-form-field>

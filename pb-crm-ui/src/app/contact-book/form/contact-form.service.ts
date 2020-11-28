@@ -5,6 +5,7 @@ import {AbstractControl, FormArray, FormBuilder, FormGroup} from "@angular/forms
 import {ContactModel, PhoneModel} from "@hiddentemple/api-interfaces";
 import {filterToDefinedProperties, isDefined} from "../../core/utils/object.utils";
 import {all} from "../../core/utils/function.utils";
+import {debounceTime, switchMap} from "rxjs/operators";
 
 // expected to update the current value of the FormGroup in some way
 export type FormGroupModifier = (FormGroup) => void;
@@ -21,6 +22,16 @@ export class ContactFormService implements OnInit {
   constructor(private fb: FormBuilder) {
     const initialForm = this.fb.group(new ContactFormModel())
     this.contactForm = new BehaviorSubject<FormGroup>(initialForm)
+    this.contactForm$
+      .pipe(
+        debounceTime(500),
+        switchMap((form: FormGroup) => form.valueChanges)
+      )
+      .subscribe(form => {
+        console.group("Form Change")
+        console.log('value', form)
+        console.groupEnd()
+      })
   }
 
   ngOnInit(): void {}

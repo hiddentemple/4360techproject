@@ -70,4 +70,15 @@ describe('_definedReducer', () => {
     expectReducerToSucceed('birthday')
   })
 
+  it('should handle date properties when they are Date objects (anniversary)', () => {
+    // When a Material DatePicker returns with the NativeDateProvider, it returns a Date Object which has no keys
+    expect(Object.keys(new Date()).length).toEqual(0);
+
+    // Thus, use override key to test isDefined
+    const overrideKey = 'dateObj';
+    const overrideValue = new Date();
+    contact[overrideKey] = overrideValue;
+    expectReducerToSucceed(overrideKey);
+  })
+
 })
