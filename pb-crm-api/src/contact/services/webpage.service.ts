@@ -66,7 +66,11 @@ export class WebpageService {
     if (!webpages || webpages.length == 0) return
     this.logger.log(`Attempting to delete ${webpages.length} webpage(s) with entities: ${JSON.stringify(webpages)}`)
     if (!webpages || webpages.length === 0) return;
-    for (const address of webpages) { await this.delete(address.id, entityManger) }
+    for (const webpage of webpages) {
+      if( webpage != null) {
+        await this.delete(webpage.id, entityManger)
+      }
+    }
   }
 
 }
