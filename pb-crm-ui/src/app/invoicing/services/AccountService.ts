@@ -1,12 +1,14 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {ApiService} from '../../api/api.service';
-import {GetAllAccountResponse} from '@hiddentemple/api-interfaces';
-import {GetAccountResponse} from '@hiddentemple/api-interfaces';
 import {
   AccountModel,
   CreateAccountRequest,
-  CreateAccountResponse, UpdateAccountRequest, UpdateAccountResponse
+  CreateAccountResponse,
+  GetAccountResponse,
+  GetAllAccountResponse,
+  UpdateAccountRequest,
+  UpdateAccountResponse
 } from '@hiddentemple/api-interfaces';
 
 @Injectable({

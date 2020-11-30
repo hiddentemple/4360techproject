@@ -2,10 +2,11 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {AccountService} from './AccountService';
 import {Injectable} from '@angular/core';
 import {map, take, tap} from 'rxjs/operators';
-import {CacheOperation} from "../../core/cache";
+import {CacheOperation} from '../../core/cache';
 import {
   AccountModel,
-  CreateAccountResponse, GetAllAccountResponse,
+  CreateAccountResponse,
+  GetAllAccountResponse,
   UpdateAccountResponse
 } from '@hiddentemple/api-interfaces';
 
@@ -45,9 +46,9 @@ export class AccountCacheService {
     return this._accounts$.asObservable()
       .pipe(
         tap((cacheModel: CacheModel) => {
-          console.group("Account Cache Value Change");
-          console.log("Operation: ", cacheModel.lastChange);
-          console.log("Model", cacheModel);
+          console.group('Account Cache Value Change');
+          console.log('Operation: ', cacheModel.lastChange);
+          console.log('Model', cacheModel);
           console.groupEnd();
         }),
         map((cacheModel: CacheModel) => cacheModel.accounts)
