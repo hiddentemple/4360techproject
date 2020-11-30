@@ -8,7 +8,6 @@ import { PhoneService } from './phone.service';
 import { AddressService } from './address.service';
 import { WebpageService } from './webpage.service';
 import { UploadService } from '../../upload/upload.service';
-import { validate } from 'class-validator';
 
 @Injectable()
 export class ContactService {
@@ -67,6 +66,8 @@ export class ContactService {
     return createdContact;
   }
   
+  
+  // for Import
   async getRequestFromFile(filename: string): Promise<ContactEntity[]>{
     let requests: CreateContactRequest[] = await this.uploadService.contactParse(filename)
     return await this.createMany(requests)
@@ -87,7 +88,7 @@ export class ContactService {
 
     const acc: Partial<ContactEntity> = {};
     const reducer = (acc, [key, value]) => {
-      if (value && value !== '' && key !== 'emails' && key !== 'phones') {
+      if (value && value !== '' && key !== 'emails' && key !== 'phones' && key != 'addresses' && key != 'webpages') {
         return {...acc, [key]: value};
       } else {
         return acc;

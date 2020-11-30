@@ -10,6 +10,7 @@ import { UploadModule } from './upload/upload.module';
 import { MulterModule } from '@nestjs/platform-express';
 
 import {ErrorService} from "./core/services/error.service";
+import {AccountModule} from './invoicing/account.module';
 
 @Module({
     imports: [
@@ -36,6 +37,7 @@ import {ErrorService} from "./core/services/error.service";
         ),
         // Feature Modules
         ContactModule,
+        AccountModule,
         AuthnModule,
         UsersModule,
         UploadModule,
