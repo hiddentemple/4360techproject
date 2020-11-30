@@ -1,5 +1,5 @@
 import {BehaviorSubject, Observable} from 'rxjs';
-import {AccountService} from './account.service';
+import {AccountService} from './AccountService';
 import {Injectable} from '@angular/core';
 import {map, take, tap} from 'rxjs/operators';
 import {CacheOperation} from "../../core/cache";
