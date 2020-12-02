@@ -86,7 +86,7 @@ export class AccountSummaryPageComponent implements AfterViewInit {
     }
   }
 
-  onClick(contact: any) {
+  onClick(account: any) {
 
   }
 }
