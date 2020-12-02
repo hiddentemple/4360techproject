@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {InvoicingRoutes} from "../../invoicing-routing.module";
+import {ActivatedRoute, Router} from '@angular/router';
+import {InvoicingRoutes} from '../../invoicing-routing.module';
 
 @Component({
   selector: 'app-account-summary-page',

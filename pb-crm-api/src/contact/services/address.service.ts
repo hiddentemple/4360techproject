@@ -49,7 +49,7 @@ export class AddressService {
     if (affected === 0) {
       const errMsg = `Could not delete address with id: ${id}`;
       this.logger.error(errMsg);
-      throw new InternalServerErrorException(errMsg);f
+      throw new InternalServerErrorException(errMsg);
     }
     this.logger.log(`Updated address with id ${JSON.stringify(id)}`);
   }
