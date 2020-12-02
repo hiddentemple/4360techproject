@@ -25,13 +25,13 @@ export enum TableSize { FULL, COMPACT }
   ]
 })
 export class AccountSummaryPageComponent implements AfterViewInit {
-  dataSource: MatTableDataSource<ContactModel>;
+  dataSource: MatTableDataSource<AccountModel>;
 
   @ViewChild(MatTable) dataTable: MatTable<any>;
 
-  @Output() delete = new EventEmitter<ContactModel>();
-  @Output() edit = new EventEmitter<ContactModel>();
-  @Output() view = new EventEmitter<ContactModel>();
+  @Output() delete = new EventEmitter<AccountModel>();
+  @Output() edit = new EventEmitter<AccountModel>();
+  @Output() view = new EventEmitter<AccountModel>();
 
   @Input() size: TableSize;
   @Input() set accounts(accounts: AccountModel[]) { this.setAccounts(accounts); }
@@ -53,14 +53,14 @@ export class AccountSummaryPageComponent implements AfterViewInit {
   // }
 
 
-  onView(accounts: AccountModel) { this.view.emit(accounts); }
+  onView(account: AccountModel) { this.view.emit(account); }
 
   ngAfterViewInit(): void {
   }
 
-  onEdit(accounts: AccountModel) { this.edit.emit(accounts); }
-  onDelete(accounts: AccountModel) { this.delete.emit(accounts); }
-  onView(accounts: AccountModel) { this.view.emit(accounts); }
+  onEdit(account: AccountModel) { this.edit.emit(account); }
+  onDelete(account: AccountModel) { this.delete.emit(account); }
+  onView(account: AccountModel) { this.view.emit(account); }
 
 
   private setAccounts(accounts: AccountModel[]) {
