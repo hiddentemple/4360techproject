@@ -6,13 +6,23 @@ import { AccountDashboardPageComponent } from './components/account-dashboard-pa
 import { AccountListComponent } from './containers/account-list/account-list.component';
 import { AccountSummaryPageComponent } from './components/account-summary-page/account-summary-page.component';
 import { InvoicePageComponent } from './components/invoice-page/invoice-page.component';
+import {MatTableModule} from "@angular/material/table";
+import {MatButtonModule} from "@angular/material/button";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatSortModule} from "@angular/material/sort";
+import {MatIconModule} from "@angular/material/icon";
 
 
 @NgModule({
   declarations: [AccountDashboardPageComponent, AccountListComponent, AccountSummaryPageComponent, InvoicePageComponent],
   imports: [
     CommonModule,
-    InvoicingRoutingModule
+    InvoicingRoutingModule,
+    MatTableModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MatSortModule,
+    MatIconModule
   ]
 })
 export class InvoicingModule { }
