@@ -53,7 +53,6 @@ export class AccountSummaryPageComponent implements AfterViewInit {
   // }
 
 
-  onView(account: AccountModel) { this.view.emit(account); }
 
   ngAfterViewInit(): void {
   }
