@@ -20,7 +20,6 @@ export class ContactFormDialogComponent {
     public dialogRef: MatDialogRef<ContactFormDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ContactFormDialogData
   ) {
-    console.log("FORM DIALOG INIT WITH DATA", data)
   }
 
   onSubmit(contact: ContactModel) {

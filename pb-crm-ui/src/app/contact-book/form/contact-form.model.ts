@@ -30,7 +30,7 @@ export interface PhoneInputModel {
 }
 
 export class ContactFormModel {
-  // Personal Info (NameFormComponent)
+  // Personal Info (PersonalInfoFormComponent)
   static readonly personalInfoKeys = ['firstName', 'lastName', 'gender', 'nickName', 'birthday', 'anniversary'];
   firstName = new FormControl('', LengthAndRequiredValidators);
   lastName = new FormControl('', LengthAndRequiredValidators);

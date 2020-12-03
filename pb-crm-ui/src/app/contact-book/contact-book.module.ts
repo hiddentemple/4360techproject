@@ -36,7 +36,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {OverlayModule} from '@angular/cdk/overlay';
 import {WebpageTableComponent} from './containers/website-table/webpage-table.component';
 import {ContactFormComponent} from './form/contact-form.component';
-import {NameFormComponent} from './form/components/name-form/name-form.component';
+import {PersonalInfoFormComponent} from './form/components/personal-info-form/personal-info-form.component';
 import {CompanyFormComponent} from './form/components/company-form/company-form.component';
 import {MatExpansionModule} from "@angular/material/expansion";
 import {PhonesFormComponent} from './form/components/phones-form/phones-form.component';
@@ -49,6 +49,9 @@ import { TagsFormComponent } from './form/components/tags-form/tags-form.compone
 import {MatChipsModule} from "@angular/material/chips";
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { ContactFormDialogComponent } from './form/contact-form-dialog.component';
+import { AddressListComponent } from './containers/address-list/address-list.component';
+import { AddressListItemComponent } from './containers/address-list/address-list-item.component';
+import {MatListModule} from "@angular/material/list";
 
 
 @NgModule({
@@ -65,7 +68,7 @@ import { ContactFormDialogComponent } from './form/contact-form-dialog.component
     ContactCardDeckComponent,
     WebpageTableComponent,
     ContactFormComponent,
-    NameFormComponent,
+    PersonalInfoFormComponent,
     CompanyFormComponent,
     PhonesFormComponent,
     EmailsFormComponent,
@@ -75,6 +78,8 @@ import { ContactFormDialogComponent } from './form/contact-form-dialog.component
     NotesFormComponent,
     TagsFormComponent,
     ContactFormDialogComponent,
+    AddressListComponent,
+    AddressListItemComponent,
   ],
   exports: [
     ContactFormComponent
@@ -114,7 +119,8 @@ import { ContactFormDialogComponent } from './form/contact-form-dialog.component
     MatCardModule,
     MatChipsModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatListModule
   ],
   entryComponents: [
     DialogComponent,

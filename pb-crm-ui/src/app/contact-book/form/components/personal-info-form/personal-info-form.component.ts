@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import {AbstractControl, FormGroup} from "@angular/forms";
 
 @Component({
-  selector: 'app-name-form',
+  selector: 'app-personal-info',
   template: `
     <form [formGroup]="contactForm">
       <div class="row">
@@ -10,7 +10,7 @@ import {AbstractControl, FormGroup} from "@angular/forms";
         <mat-form-field class="col-sm-12 col-md-6">
           <!-- Input -->
           <mat-label>First Name</mat-label>
-          <input matInput placeholder="Ex. John" formControlName="firstName">
+          <input matInput placeholder="Ex. Alan" formControlName="firstName">
 
           <!-- Errors -->
           <mat-error *ngIf="firstNameHasRequiredError">
@@ -25,7 +25,7 @@ import {AbstractControl, FormGroup} from "@angular/forms";
         <mat-form-field class="col-sm-12 col-md-6">
           <!-- Input -->
           <mat-label>Last Name</mat-label>
-          <input matInput placeholder="Ex. John" formControlName="lastName">
+          <input matInput placeholder="Ex. Turing" formControlName="lastName">
 
           <!-- Errors -->
           <mat-error *ngIf="lastNameHasRequiredError">
@@ -41,13 +41,13 @@ import {AbstractControl, FormGroup} from "@angular/forms";
         <!-- Gender -->
         <mat-form-field class="col-sm-12 col-md-6">
           <mat-label>Gender</mat-label>
-          <input matInput maxlength="255" placeholder="Ex. Non-Binary" formControlName="gender">
+          <input matInput maxlength="255" formControlName="gender">
         </mat-form-field>
 
         <!-- Nick Name -->
         <mat-form-field class="col-sm-12 col-md-6">
           <mat-label>Nick Name</mat-label>
-          <input matInput maxlength="255" placeholder="Ex. Non-Binary" formControlName="nickName">
+          <input matInput maxlength="255" placeholder="Ex. Bobby" formControlName="nickName">
         </mat-form-field>
       </div>
 
@@ -63,7 +63,7 @@ import {AbstractControl, FormGroup} from "@angular/forms";
         <!-- Anniversary -->
         <mat-form-field class="col-sm-12 col-md-6">
           <mat-label>Anniversary</mat-label>
-          <input matInput [matDatepicker]="anniversary" formControlName="birthday">
+          <input matInput [matDatepicker]="anniversary" formControlName="anniversary">
           <mat-datepicker-toggle matSuffix [for]="anniversary"></mat-datepicker-toggle>
           <mat-datepicker #anniversary></mat-datepicker>
         </mat-form-field>
@@ -72,7 +72,7 @@ import {AbstractControl, FormGroup} from "@angular/forms";
   `,
   styles: []
 })
-export class NameFormComponent {
+export class PersonalInfoFormComponent {
   @Input() contactForm: FormGroup;
 
   get firstNameControl(): AbstractControl {

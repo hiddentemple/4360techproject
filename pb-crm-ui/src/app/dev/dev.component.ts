@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ContactModel, EmailCategory, PhoneCategory} from "@hiddentemple/api-interfaces";
+import {ContactModel, EmailCategory, LineItemModel, PhoneCategory} from "@hiddentemple/api-interfaces";
 
 
 @Component({

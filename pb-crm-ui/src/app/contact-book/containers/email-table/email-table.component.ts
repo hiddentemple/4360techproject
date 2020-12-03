@@ -31,7 +31,5 @@ import {EmailModel} from '@hiddentemple/api-interfaces';
 
 export class EmailTableComponent {
   displayedColumns: string[] = ['address', 'category'];
-
   @Input() emails: EmailModel[];
-
 }

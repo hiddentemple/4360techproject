@@ -1,78 +1,14 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {ContactFormService} from "../../contact-form.service";
 import {Observable} from "rxjs";
 import {AbstractControl, FormArray, FormGroup} from "@angular/forms";
 import {map} from "rxjs/operators";
 import {AddressCategory} from "@hiddentemple/api-interfaces";
 import {SelectionModel} from "@angular/cdk/collections";
-import {getCountryNames, getSortedCountryCodes} from "../../../../core/countries";
+import {getCountryNames} from "../../../../core/countries";
 import {DeleteConfirmationComponent} from "../../../containers/delete-confirmation/delete-confirmation.component";
 import {MatDialog} from "@angular/material/dialog";
-
-export interface StateMapEntry { name: string; abbreviation: string; }
-
-export const StatesMap: StateMapEntry[] = [
-  {name: 'Alabama', abbreviation: 'AL'},
-  {name: 'Alaska', abbreviation: 'AK'},
-  {name: 'American Samoa', abbreviation: 'AS'},
-  {name: 'Arizona', abbreviation: 'AZ'},
-  {name: 'Arkansas', abbreviation: 'AR'},
-  {name: 'California', abbreviation: 'CA'},
-  {name: 'Colorado', abbreviation: 'CO'},
-  {name: 'Connecticut', abbreviation: 'CT'},
-  {name: 'Delaware', abbreviation: 'DE'},
-  {name: 'District Of Columbia', abbreviation: 'DC'},
-  {name: 'Federated States Of Micronesia', abbreviation: 'FM'},
-  {name: 'Florida', abbreviation: 'FL'},
-  {name: 'Georgia', abbreviation: 'GA'},
-  {name: 'Guam', abbreviation: 'GU'},
-  {name: 'Hawaii', abbreviation: 'HI'},
-  {name: 'Idaho', abbreviation: 'ID'},
-  {name: 'Illinois', abbreviation: 'IL'},
-  {name: 'Indiana', abbreviation: 'IN'},
-  {name: 'Iowa', abbreviation: 'IA'},
-  {name: 'Kansas', abbreviation: 'KS'},
-  {name: 'Kentucky', abbreviation: 'KY'},
-  {name: 'Louisiana', abbreviation: 'LA'},
-  {name: 'Maine', abbreviation: 'ME'},
-  {name: 'Marshall Islands', abbreviation: 'MH'},
-  {name: 'Maryland', abbreviation: 'MD'},
-  {name: 'Massachusetts', abbreviation: 'MA'},
-  {name: 'Michigan', abbreviation: 'MI'},
-  {name: 'Minnesota', abbreviation: 'MN'},
-  {name: 'Mississippi', abbreviation: 'MS'},
-  {name: 'Missouri', abbreviation: 'MO'},
-  {name: 'Montana', abbreviation: 'MT'},
-  {name: 'Nebraska', abbreviation: 'NE'},
-  {name: 'Nevada', abbreviation: 'NV'},
-  {name: 'New Hampshire', abbreviation: 'NH'},
-  {name: 'New Jersey', abbreviation: 'NJ'},
-  {name: 'New Mexico', abbreviation: 'NM'},
-  {name: 'New York', abbreviation: 'NY'},
-  {name: 'North Carolina', abbreviation: 'NC'},
-  {name: 'North Dakota', abbreviation: 'ND'},
-  {name: 'Northern Mariana Islands', abbreviation: 'MP'},
-  {name: 'Ohio', abbreviation: 'OH'},
-  {name: 'Oklahoma', abbreviation: 'OK'},
-  {name: 'Oregon', abbreviation: 'OR'},
-  {name: 'Palau', abbreviation: 'PW'},
-  {name: 'Pennsylvania', abbreviation: 'PA'},
-  {name: 'Puerto Rico', abbreviation: 'PR'},
-  {name: 'Rhode Island', abbreviation: 'RI'},
-  {name: 'South Carolina', abbreviation: 'SC'},
-  {name: 'South Dakota', abbreviation: 'SD'},
-  {name: 'Tennessee', abbreviation: 'TN'},
-  {name: 'Texas', abbreviation: 'TX'},
-  {name: 'Utah', abbreviation: 'UT'},
-  {name: 'Vermont', abbreviation: 'VT'},
-  {name: 'Virgin Islands', abbreviation: 'VI'},
-  {name: 'Virginia', abbreviation: 'VA'},
-  {name: 'Washington', abbreviation: 'WA'},
-  {name: 'West Virginia', abbreviation: 'WV'},
-  {name: 'Wisconsin', abbreviation: 'WI'},
-  {name: 'Wyoming', abbreviation: 'WY'}
-];
-
+import {StatesMap} from "../../../../core/states";
 
 @Component({
   selector: 'app-addresses-form',
@@ -101,7 +37,7 @@ export const StatesMap: StateMapEntry[] = [
             <!-- Street 2 -->
             <div class="row">
               <mat-form-field class="col-12">
-                <mat-label>Street 1</mat-label>
+                <mat-label>Street 2</mat-label>
                 <input matInput class="full-width" type="text" formControlName="street2">
               </mat-form-field>
             </div>
@@ -119,7 +55,7 @@ export const StatesMap: StateMapEntry[] = [
 
               <!-- State -->
               <mat-form-field class="col-sm-6 col-md-2">
-                <mat-select placeholder="State" formControlName="state" required>
+                <mat-select placeholder="State" formControlName="state" required [compareWith]="stateCompareWith">
                   <mat-option *ngFor="let state of states" [value]="state.abbreviation">
                     {{ state.abbreviation }}
                   </mat-option>
@@ -139,7 +75,6 @@ export const StatesMap: StateMapEntry[] = [
                 </mat-error>
               </mat-form-field>
             </div>
-
 
             <div class="row">
               <!-- Category -->
@@ -191,6 +126,7 @@ export class AddressFormComponent {
   addressCategories = Object.values(AddressCategory);
   selection = new SelectionModel(false);
   countries: string[] = getCountryNames();
+  stateCompareWith = (option, selection) => option.abbreviation === selection.abbreviation;
 
   get addressesControls$(): Observable<AbstractControl[]> {
     return this.formService.contactForm$.pipe(map(form =>
