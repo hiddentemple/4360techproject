@@ -11,10 +11,11 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSortModule} from "@angular/material/sort";
 import {MatIconModule} from "@angular/material/icon";
+import { InvoiceTableComponent } from './containers/invoice-table/invoice-table.component';
 
 
 @NgModule({
-  declarations: [AccountDashboardPageComponent, AccountListComponent, AccountSummaryPageComponent, InvoicePageComponent],
+  declarations: [AccountDashboardPageComponent, AccountListComponent, AccountSummaryPageComponent, InvoicePageComponent, InvoiceTableComponent],
   imports: [
     CommonModule,
     InvoicingRoutingModule,
@@ -23,6 +24,9 @@ import {MatIconModule} from "@angular/material/icon";
     MatTooltipModule,
     MatSortModule,
     MatIconModule
+  ],
+  exports: [
+    AccountSummaryPageComponent
   ]
 })
 export class InvoicingModule { }

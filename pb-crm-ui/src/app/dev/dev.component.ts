@@ -8,7 +8,9 @@ export enum TableSize { FULL, COMPACT }
 
 @Component({
   selector: 'app-dev',
-  templateUrl: '../invoicing/components/account-summary-page/account-summary-page-component.html',
+  template: `
+    <app-account-summary-page></app-account-summary-page>
+  `,
   styles: [
     `table {
       width: 100%;
