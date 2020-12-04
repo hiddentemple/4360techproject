@@ -13,7 +13,7 @@ import {AccountCacheService} from '../../services/account-cache.service';
   styles: []
 })
 
-export class AccountDetailComponent implements OnInit {
+export class AccountDetailPageComponent implements OnInit {
   account: AccountModel;
 
   constructor(private accountCache: AccountCacheService, private route: ActivatedRoute) {}

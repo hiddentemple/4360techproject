@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {AccountDashboardPageComponent} from './components/account-dashboard-page/account-dashboard-page.component';
-import {AccountDetailComponent} from './components/account-detail-page/account-detail.component';
+import {AccountDetailPageComponent} from './components/account-detail-page/account-detail-page.component';
 import {InvoicePageComponent} from './components/invoice-page/invoice-page.component';
 
 export const InvoicingRoutes = {
@@ -14,7 +14,7 @@ export const InvoicingRoutes = {
 
 const routes: Routes = [
   {path: InvoicingRoutes.home, component: AccountDashboardPageComponent},
-  {path: InvoicingRoutes.account, component: AccountDetailComponent},
+  {path: InvoicingRoutes.account, component: AccountDetailPageComponent},
   {path: InvoicingRoutes.invoices, component: InvoicePageComponent}
 ];
 
