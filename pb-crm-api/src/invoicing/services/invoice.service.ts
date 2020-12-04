@@ -41,6 +41,7 @@ export class InvoiceService {
       const newInvoice = await entityManger.create<InvoiceEntity>(InvoiceEntity, {
         date: invoice.date,
         invoiceNumber: invoice.invoiceNumber,
+        type: invoice.type,
         technician: invoice.technician,
         biller: invoice.biller,
         customer: invoice.customer,

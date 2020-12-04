@@ -8,7 +8,6 @@ import {
 } from '@hiddentemple/api-interfaces';
 import {CreateAccountRequest, UpdateAccountRequest} from "@hiddentemple/api-interfaces";
 import { InvoiceService } from './invoice.service';
-import { CustomerService } from './customer.service';
 import { PaymentEntity } from '../../db/entities/payment.entity';
 
 @Injectable()
