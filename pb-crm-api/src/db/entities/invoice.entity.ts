@@ -8,10 +8,10 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { InvoiceModel } from '@hiddentemple/api-interfaces/dist/invoicing/invoice.model';
+import { InvoiceModel, InvoiceType } from '@hiddentemple/api-interfaces';
 import {
   IsBoolean,
-  IsDefined,
+  IsDefined, IsEnum,
   IsNumber,
   IsOptional,
   Length,
@@ -47,6 +47,11 @@ export class InvoiceEntity implements InvoiceModel {
   @IsDefined()
   @Length(2, 255)
   invoiceNumber: string;
+  
+  @Column({ type: 'varchar'})
+  @IsDefined()
+  @IsEnum(InvoiceType)
+  type: InvoiceType;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   @IsOptional()
