@@ -38,6 +38,8 @@ export class DevComponent{
 
   constructor(private router: Router, private route: ActivatedRoute) {
     const id = route.snapshot.paramMap.get('id'); // get the id from the URL
+    this.dataSource = new MatTableDataSource([]);
+
     // Get the account from cache
   }
 
