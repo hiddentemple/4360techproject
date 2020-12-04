@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AccountSummaryPageComponent } from './account-summary-page.component';
+import { AccountDetailComponent } from './account-detail.component';
 
 describe('AccountSummaryPageComponent', () => {
-  let component: AccountSummaryPageComponent;
-  let fixture: ComponentFixture<AccountSummaryPageComponent>;
+  let component: AccountDetailComponent;
+  let fixture: ComponentFixture<AccountDetailComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AccountSummaryPageComponent ]
+      declarations: [ AccountDetailComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AccountSummaryPageComponent);
+    fixture = TestBed.createComponent(AccountDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
