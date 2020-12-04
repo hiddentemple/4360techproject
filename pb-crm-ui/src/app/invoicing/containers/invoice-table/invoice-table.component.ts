@@ -1,9 +1,9 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {MatTable, MatTableDataSource} from '@angular/material/table';
-import {AccountModel, InvoiceModel} from '@hiddentemple/api-interfaces';
-import {InvoicingRoutes} from "../../invoicing-routing.module";
-import {MatSort} from "@angular/material/sort";
+import {AfterViewInit, Component, Input, ViewChild} from '@angular/core';
+import {Router} from '@angular/router';
+import {MatTableDataSource} from '@angular/material/table';
+import {InvoiceModel} from '@hiddentemple/api-interfaces';
+import {InvoicingRoutes} from '../../invoicing-routing.module';
+import {MatSort} from '@angular/material/sort';
 
 @Component({
   selector: 'app-invoice-table',
@@ -38,6 +38,16 @@ import {MatSort} from "@angular/material/sort";
     </table>
   `,
   styles: [
+    `table {
+      width: 100%;
+    }`,
+    `mat-form-field {
+      font-size: 14px;
+      width: 100%;
+    }`,
+    `td, th {
+      width: auto;
+    }`
   ]
 })
 export class InvoiceTableComponent implements AfterViewInit {

@@ -1,27 +1,26 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {MatTable, MatTableDataSource} from '@angular/material/table';
-import {AccountModel, InvoiceModel} from '@hiddentemple/api-interfaces';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {AccountModel} from '@hiddentemple/api-interfaces';
+import {AccountCacheService} from '../../services/AccountCacheService';
 
 @Component({
   selector: 'app-account-summary-page',
-  templateUrl: './account-summary-page-component.html',
-  styles: [
-      `table {
-      width: 100%;
-    }`,
-      `mat-form-field {
-      font-size: 14px;
-      width: 100%;
-    }`,
-      `td, th {
-      width: auto;
-    }`
-  ]
+  template: `
+    <div class="container">
+      <app-invoice-table [invoices]="account?.invoices"></app-invoice-table>
+    </div>
+  `,
+  styles: []
 })
 
-export class AccountSummaryPageComponent implements AfterViewInit {
+export class AccountSummaryPageComponent implements OnInit {
+  account: AccountModel;
 
-  constructor(private invoiceCache: InvoiceCache) {
+  constructor(private accountCache: AccountCacheService, private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    this.accountCache.getAccount(id).subscribe(account => this.account = account);
   }
+
 }
