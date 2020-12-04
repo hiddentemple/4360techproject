@@ -43,7 +43,8 @@ export class AccountService {
                 acctNumber: account.acctNumber,
                 paymentInfo: account.paymentInfo,
                 notes: account.notes,
-                invoices: account.invoices
+                invoices: account.invoices,
+                name: account.name
             });
             savedAccount = await entityManager.save(newAccount); // Populates ID
         });

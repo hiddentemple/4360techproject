@@ -10,7 +10,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { AccountModel } from '@hiddentemple/api-interfaces/dist/invoicing/account.model';
-import { IsOptional, Length, ValidateNested, validateOrReject } from 'class-validator';
+import {IsDefined, IsOptional, Length, ValidateNested, validateOrReject} from 'class-validator';
 import { CustomerEntity } from './customer.entity';
 import { InvoiceEntity } from './invoice.entity';
 import { PaymentEntity } from './payment.entity';
@@ -27,7 +27,11 @@ export class AccountEntity implements AccountModel{
   @Length(2, 255)
   @IsOptional()
   acctNumber: string;
-  
+
+  @Column({type: 'varchar', length: 255, nullable: false})
+  @Length(2, 255)
+  @IsDefined()
+  name: string;
   
   @OneToMany(() => InvoiceEntity, invoices => invoices.account, {
     cascade: true,
