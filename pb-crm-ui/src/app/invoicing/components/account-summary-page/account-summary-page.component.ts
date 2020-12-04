@@ -1,9 +1,7 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {InvoicingRoutes} from '../../invoicing-routing.module';
-import {ContactModel} from '@hiddentemple/api-interfaces';
 import {MatTable, MatTableDataSource} from '@angular/material/table';
-import {AccountModel} from '../../../../../../../api-interfaces/src/invoicing';
+import {AccountModel} from '@hiddentemple/api-interfaces';
 
 export enum TableSize { FULL, COMPACT }
 
@@ -64,11 +62,11 @@ export class AccountSummaryPageComponent implements AfterViewInit {
 
   private setAccounts(accounts: AccountModel[]) {
     if ((!accounts) || accounts === []) {
-      console.log('Contacts received a falsey value: ', accounts);
+      console.log('Accounts received a falsey value: ', accounts);
       return;
     }
 
-    console.log('Contact Table received new contacts: ', accounts);
+    console.log('Account Table received new contacts: ', accounts);
     this.dataSource.data = accounts;
     if (this.dataTable) {
       console.log('Data table is present, rendering rows');
