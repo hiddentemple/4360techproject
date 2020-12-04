@@ -65,7 +65,6 @@ export class AccountEntity implements AccountModel{
   @UpdateDateColumn({name: 'updatedAt', nullable: true})
   updatedAt: Date;
 
-
   @BeforeInsert()
   @BeforeUpdate()
   async validate() {

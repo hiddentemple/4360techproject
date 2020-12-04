@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { InvoiceModel, InvoiceType } from '@hiddentemple/api-interfaces';
+import {EmailCategory, InvoiceModel, InvoiceType} from '@hiddentemple/api-interfaces';
 import {
   IsBoolean,
   IsDefined, IsEnum,
@@ -48,7 +48,7 @@ export class InvoiceEntity implements InvoiceModel {
   @Length(2, 255)
   invoiceNumber: string;
   
-  @Column({ type: 'varchar'})
+  @Column('enum', {enum: InvoiceType, nullable: false})
   @IsDefined()
   @IsEnum(InvoiceType)
   type: InvoiceType;
