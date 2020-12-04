@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {AccountModel} from '@hiddentemple/api-interfaces';
-import {AccountCacheService} from '../../services/AccountCacheService';
+import {AccountCacheService} from '../../services/account-cache.service';
 
 @Component({
   selector: 'app-account-summary-page',

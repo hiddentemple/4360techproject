@@ -1,6 +1,6 @@
 import {TestBed} from '@angular/core/testing';
 
-import {AccountCacheService} from './AccountCacheService';
+import {AccountCacheService} from './account-cache.service';
 
 describe('AccountCacheService', () => {
   let service: AccountCacheService;
