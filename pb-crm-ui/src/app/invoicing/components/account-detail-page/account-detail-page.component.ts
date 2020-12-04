@@ -7,6 +7,7 @@ import {AccountCacheService} from '../../services/account-cache.service';
   selector: 'app-account-summary-page',
   template: `
     <div class="container">
+      <h1>{{account.name}}</h1>
       <app-invoice-table [invoices]="account?.invoices"></app-invoice-table>
     </div>
   `,
