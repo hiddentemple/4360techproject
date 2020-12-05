@@ -4,7 +4,6 @@ import { AccountModel, InvoiceModel, PaymentModel } from '@hiddentemple/api-inte
 import {ApiService} from '../../../api/api.service';
 import {InvoicingRoutes} from '../../invoicing-routing.module';
 import {Router} from '@angular/router';
-import {MatListModule} from '@angular/material/list'
 
 @Component({
   selector: 'app-account-list',

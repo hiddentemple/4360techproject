@@ -30,7 +30,7 @@ import {AccountModule} from './invoicing/account.module';
                 password: configService.get('DB_PWD'),
                 database: configService.get('DB_NAME'),
                 entities: ["dist/db/entities/**/*.entity{.js, .ts}"],
-                synchronize: true,
+                synchronize: false,
                 dropSchema: configService.get<boolean>('DB_DROP'),
                 logging: true,
                 migrations: ["../dist/db/migrations/*{.js,.ts}"],
