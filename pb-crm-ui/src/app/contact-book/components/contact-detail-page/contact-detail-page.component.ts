@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ContactModel} from '@hiddentemple/api-interfaces';
 import {ContactCacheService} from '../../services/contact-cache.service';

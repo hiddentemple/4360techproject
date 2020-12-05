@@ -55,11 +55,11 @@
     <as-split>
       <!-- Left Side -->
       <as-split-area *ngIf="showLeft" [order]="0">
-        <!-- Search View --->
+        <!-- Deck View --->
         <app-contact-card-deck *ngIf="showDeck; else tableView"
                                [filterStr$]="filterStr$"
                                (delete)="deleteContact($event)"
-                               (edit)="setEditContact($event)">
+                               (edit)="openEditDialog($event)">
         </app-contact-card-deck>
       </as-split-area>
 
@@ -83,7 +83,7 @@
   <app-contact-table [contacts]="contacts"
                      [size]="tableSize"
                      (delete)="deleteContact($event)"
-                     (edit)="setEditContact($event)"
+                     (edit)="openEditDialog($event)"
                      (view)="setViewContact($event)">
   </app-contact-table>
 </ng-template>
@@ -91,14 +91,6 @@
 <ng-template #contactDetail>
   <app-contact-detail [contact]="selectedContact"
                       (delete)="deleteContact($event)"
-                      (edit)="setEditContact($event)">
+                      (edit)="openEditDialog($event)">
   </app-contact-detail>
-</ng-template>
-
-<ng-template #createContactForm>
-  <app-contact-form [contact]="selectedContact" (submitContact)="createContract($event)"></app-contact-form>
-</ng-template>
-
-<ng-template #editContactForm>
-  <app-contact-form [contact]="selectedContact" (submitContact)="editContact($event)"></app-contact-form>
 </ng-template>

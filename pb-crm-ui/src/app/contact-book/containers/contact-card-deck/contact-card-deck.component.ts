@@ -1,10 +1,9 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ContactCacheService} from "../../services/contact-cache.service";
 import {BehaviorSubject, Observable} from "rxjs";
 import {ContactModel} from "@hiddentemple/api-interfaces";
-import {debounceTime, filter, take} from "rxjs/operators";
+import {debounceTime, filter} from "rxjs/operators";
 import {NgxMasonryOptions} from "ngx-masonry";
-import { DeviceDetectorService } from 'ngx-device-detector';
 import {BreakpointService} from "../../../core/layout/breakpoint.service";
 import {ContactSearchConfig, searchContacts} from "../../../core/utils/search.utils";
 import {LoadingService} from "../../../core/loading/loading.service";

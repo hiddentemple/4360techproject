@@ -25,4 +25,8 @@ export class LoadingService {
     this.isLoadingSubject.next(filtered);
   }
 
+  endAll() {
+    this.isLoadingSubject.next([]);
+  }
+
 }

@@ -3,9 +3,8 @@ import {MatDialog} from '@angular/material/dialog';
 import {ContactModel} from '@hiddentemple/api-interfaces';
 import {ContactCacheService} from '../../services/contact-cache.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import { ContactTableComponent, TableSize } from '../../containers/contact-table/contact-table.component';
+import {TableSize} from '../../containers/contact-table/contact-table.component';
 import {Portal, TemplatePortal} from '@angular/cdk/portal';
-import {DeleteConfirmationComponent} from '../../containers/delete-confirmation/delete-confirmation.component';
 import {ContactActionCallback, ContactActionsService} from "../../services/contact-actions.service";
 import {BreakpointService} from "../../../core/layout/breakpoint.service";
 import {BehaviorSubject, Observable} from "rxjs";
@@ -14,6 +13,8 @@ import {DialogInterface} from '../../../core/dialog/temp-dialog.interface';
 import {DialogService} from '../../../core/dialog/dialog.service';
 import {ImportFileService} from '../../containers/import-file/import-file.service';
 import {ImportFileComponent} from '../../containers/import-file/import-file.component';
+import {ContactFormComponent} from "../../form/contact-form.component";
+import {ContactFormDialogComponent} from "../../form/contact-form-dialog.component";
 
 
 @Component({
@@ -113,9 +114,13 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
 
   openCreateContactForm() {
     this.filterStr = undefined;
-    this.selectedPortal = this.createPortal;
+    // this.selectedPortal = this.createPortal;
     this.selectedContact = undefined;
-    this.openRightPanel();
+    // this.openRightPanel();
+    const dialogReg = this.dialog.open(ContactFormDialogComponent, {width: 'auto'})
+    dialogReg.afterClosed().subscribe(result => {
+      if (result) this.contactActions.createContact(result, async c => console.log(`Created contact: ${c}`))
+    })
   }
 
   closeRightPanelAndReset() {
@@ -128,20 +133,15 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     this.openRightPanel();
   }
 
-  setEditContact(contact: ContactModel) {
-    this.selectedContact = contact;
-    this.selectedPortal = this.editPortal;
-    this.openRightPanel();
-  }
+  openEditDialog(contact: ContactModel) {
+    const editDialog = this.dialog.open(ContactFormDialogComponent, {
+      data: {contact}
+    })
 
-  async createContract(contact: ContactModel) {
-    const callback: ContactActionCallback = async (contact) => this.setViewContact(contact);
-    return this.contactActions.createContact(contact, callback);
-  }
-
-  async editContact(contact: ContactModel) {
-    const callback: ContactActionCallback = async (contact) => this.setViewContact(contact);
-    return this.contactActions.updateContact(contact, callback);
+    editDialog.afterClosed().subscribe(result => {
+      const callback = async () => console.log("Edit dialog returned")
+      if (result) this.contactActions.updateContact(result, callback)
+    })
   }
 
   deleteContact(contact: ContactModel) {

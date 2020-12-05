@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { WebpageTableComponent } from './webpage-table.component';
+import {WebpageTableComponent} from './webpage-table.component';
 
 describe('WebsiteTableComponent', () => {
   let component: WebpageTableComponent;

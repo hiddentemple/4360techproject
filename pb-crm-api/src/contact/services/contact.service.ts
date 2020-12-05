@@ -66,7 +66,7 @@ export class ContactService {
     return createdContact;
   }
   
-  
+
   // for Import
   async getRequestFromFile(filename: string): Promise<ContactEntity[]>{
     let requests: CreateContactRequest[] = await this.uploadService.contactParse(filename)
@@ -87,8 +87,9 @@ export class ContactService {
     const contact: ContactEntity = await this.getById(id);
 
     const acc: Partial<ContactEntity> = {};
+    const complexKeys = ['emails', 'phones', 'addresses', 'webpages']
     const reducer = (acc, [key, value]) => {
-      if (value && value !== '' && key !== 'emails' && key !== 'phones' && key != 'addresses' && key != 'webpages') {
+      if (value && value !== '' && !complexKeys.includes(key)) {
         return {...acc, [key]: value};
       } else {
         return acc;

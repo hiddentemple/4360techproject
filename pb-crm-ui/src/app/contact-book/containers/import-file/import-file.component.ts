@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
-import { ApiService } from '../../../api/api.service';
-import { ImportFileService } from './import-file.service';
+import {Component} from '@angular/core';
+import {ImportFileService} from './import-file.service';
 
 @Component({
   selector: 'app-import-file',
