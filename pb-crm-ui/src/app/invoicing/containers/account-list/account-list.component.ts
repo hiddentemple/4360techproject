@@ -1,20 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Observable, of} from 'rxjs';
+import { AccountModel, InvoiceModel, PaymentModel } from '@hiddentemple/api-interfaces';
+import {ApiService} from '../../../api/api.service';
+import {InvoicingRoutes} from '../../invoicing-routing.module';
+import {Router} from '@angular/router';
+import {MatListModule} from '@angular/material/list'
 
 @Component({
   selector: 'app-account-list',
   template: `
-    <p>
-      account-list works!
-    </p>
+    <mat-list>
+      <mat-list-item *nfFor = "let account of accounts" (click)="goToAccount(account.id)">
+        {{account.name}}
+      </mat-list-item>
+    </mat-list>
   `,
   styles: [
   ]
 })
-export class AccountListComponent implements OnInit {
+export class AccountListComponent {
+  @Input() accounts: AccountModel[];
 
-  constructor() { }
+  constructor(private router: Router){}
 
-  ngOnInit(): void {
+  goToAccount(id: string){
+    this.router.navigate([InvoicingRoutes.accountWithoutID, id]);
   }
-
 }

@@ -31,10 +31,12 @@ import {AccountDetailPageComponent} from "./components/account-detail-page/accou
     MatButtonModule,
     MatTooltipModule,
     MatSortModule,
-    MatIconModule
+    MatIconModule,
+    MatListModule
   ],
   exports: [
-    AccountDetailPageComponent
+    AccountDetailPageComponent,
+    AccountListComponent
   ]
 })
 export class InvoicingModule {
