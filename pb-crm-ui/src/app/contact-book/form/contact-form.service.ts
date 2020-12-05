@@ -2,7 +2,7 @@ import {Injectable, OnInit} from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
 import {ContactFormModel, PhoneInputModel} from "./contact-form.model";
 import {AbstractControl, FormArray, FormBuilder, FormGroup} from "@angular/forms";
-import {ContactModel, PhoneModel} from "@hiddentemple/api-interfaces";
+import {AddressModel, ContactModel, PhoneModel} from "@hiddentemple/api-interfaces";
 import {filterToDefinedProperties, isDefined} from "../../core/utils/object.utils";
 import {all} from "../../core/utils/function.utils";
 import {debounceTime, switchMap} from "rxjs/operators";
@@ -55,12 +55,21 @@ export class ContactFormService implements OnInit {
 
     const rawValue = contactForm.value;
     const reducedValue = filterToDefinedProperties<ContactModel>(rawValue) as ContactModel;
+
+    // Email Work Around
     if (reducedValue.phones) {
       reducedValue.phones = Object.values(reducedValue.phones).map((phone: PhoneInputModel) => {
         let {phoneNumber, countryCode, ...other} = phone
         phoneNumber = countryCode + phoneNumber;
         return {...other, phoneNumber}
       });
+    }
+
+    // Address Work around
+    if (reducedValue.addresses) {
+      reducedValue.addresses = Object.values(reducedValue.addresses).map((address) => {
+        return filterToDefinedProperties<AddressModel>(address) as AddressModel
+      })
     }
 
     return reducedValue;

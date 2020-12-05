@@ -12,26 +12,6 @@ import {AccountModel} from "@hiddentemple/api-interfaces";
   ]
 })
 export class InvoicePageComponent implements OnInit {
-  accounts: AccountModel[] = [
-    {
-      acctNumber: "",
-      createdAt: undefined,
-      id: "",
-      invoices: [],
-      notes: "",
-      paymentInfo: undefined,
-      updatedAt: undefined
-    },
-    {
-      acctNumber: "",
-      createdAt: undefined,
-      id: "",
-      invoices: [],
-      notes: "",
-      paymentInfo: undefined,
-      updatedAt: undefined
-    },
-  ]
 
   constructor() { }
 

@@ -15,22 +15,22 @@ export function addressToStrings(address: AddressModel): string[] {
   selector: 'app-address-list',
   styles: [],
   template: `
-    <table mat-table [dataSource]="addresses">
-      <ng-template matColumnDef="addressString">
+    <table mat-table [dataSource]="addresses" style="width: 100%">
+      <ng-container matColumnDef="addressString">
         <th mat-header-cell *matHeaderCellDef> Physical Address </th>
         <td mat-cell *matCellDef="let address">
           <div *ngFor="let addressLine of getLines(address)">
             {{addressLine}}<br>
           </div>
         </td>
-      </ng-template>
+      </ng-container>
 
-      <ng-template matColumnDef="category">
+      <ng-container matColumnDef="category">
         <th mat-header-cell *matHeaderCellDef> Category </th>
         <td mat-cell *matCellDef="let address">
           {{address.category}}
         </td>
-      </ng-template>
+      </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -43,7 +43,10 @@ export function addressToStrings(address: AddressModel): string[] {
 })
 export class AddressListComponent implements OnInit {
   @Input() addresses: AddressModel[];
-  displayedColumns: string[] = ["addressString", "category"];
+  displayedColumns: string[] = [
+    "addressString",
+    "category"
+  ];
 
   constructor() { }
 

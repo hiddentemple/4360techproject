@@ -13,7 +13,7 @@ import {EmailModel} from '@hiddentemple/api-interfaces';
 
       <!-- Type Column -->
       <ng-container matColumnDef="category">
-        <th mat-header-cell *matHeaderCellDef>Type</th>
+        <th mat-header-cell *matHeaderCellDef>Category</th>
         <td mat-cell *matCellDef="let email">{{email.category}}</td>
       </ng-container>
 

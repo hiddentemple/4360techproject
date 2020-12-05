@@ -53,7 +53,7 @@ import {ContactModel} from '@hiddentemple/api-interfaces';
         <app-address-list [addresses]="contact?.addresses"></app-address-list>
       </div>
 
-      <div *ngIf="contact?.notes != null">
+      <div *ngIf="contact?.notes" class="mt-2">
         <mat-form-field class="col-12">
           <mat-label>Notes</mat-label>
           <textarea matInput [value]="contact?.notes" readonly></textarea>
