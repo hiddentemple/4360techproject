@@ -1,5 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ContactBookHomeComponent } from './contact-book-home.component';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ContactBookHomeComponent} from './contact-book-home.component';
 
 describe('ContactBookHomeComponent', () => {
   let component: ContactBookHomeComponent;

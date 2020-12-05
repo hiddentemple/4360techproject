@@ -1,0 +1,124 @@
+<div class="">
+  <h1 mat-dialog-title>{{title}}</h1>
+  <div mat-dialog-content>
+    <div class="">
+      <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+        <mat-accordion class="example-headers-align" multi>
+
+          <!-- Personal Info -->
+          <mat-expansion-panel [(expanded)]="personalInfoExpanded">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Personal data
+              </mat-panel-title>
+              <mat-panel-description>
+                <mat-icon>account_circle</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <app-personal-info [contactForm]="contactForm"></app-personal-info>
+          </mat-expansion-panel>
+
+          <!-- Company -->
+          <mat-expansion-panel [(expanded)]="companyInfoExpanded">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Company
+              </mat-panel-title>
+              <mat-panel-description>
+                <mat-icon>business</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <app-company-form [contactForm]="contactForm"></app-company-form>
+          </mat-expansion-panel>
+
+          <!-- Phones -->
+          <mat-expansion-panel [(expanded)]="phonesExpanded">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Phones
+              </mat-panel-title>
+              <mat-panel-description>
+                <mat-icon>phone</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <app-phones-form [contactForm]="contactForm"></app-phones-form>
+          </mat-expansion-panel>
+
+          <!-- Emails -->
+          <mat-expansion-panel [(expanded)]="emailsExpanded">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Emails
+              </mat-panel-title>
+              <mat-panel-description>
+                <mat-icon>email</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <app-emails-form [contactForm]="contactForm"></app-emails-form>
+          </mat-expansion-panel>
+
+          <!-- Webpages -->
+          <mat-expansion-panel [(expanded)]="webpagesExpanded">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Webpages
+              </mat-panel-title>
+              <mat-panel-description>
+                <mat-icon>language</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <app-webpage-form [contactForm]="contactForm"></app-webpage-form>
+          </mat-expansion-panel>
+
+          <!-- Addresses -->
+          <mat-expansion-panel [(expanded)]="addressesExpanded">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Addresses
+              </mat-panel-title>
+              <mat-panel-description>
+                <mat-icon>home</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <app-addresses-form [contactForm]="contactForm"></app-addresses-form>
+          </mat-expansion-panel>
+
+          <!-- Notes -->
+          <mat-expansion-panel [(expanded)]="notesExpanded">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Notes
+              </mat-panel-title>
+              <mat-panel-description>
+                <mat-icon>notes</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <app-notes-form [contactForm]="contactForm"></app-notes-form>
+          </mat-expansion-panel>
+
+          <!-- tags -->
+          <mat-expansion-panel [(expanded)]="tagsExpanded">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Tags
+              </mat-panel-title>
+              <mat-panel-description>
+                <mat-icon>loyalty</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <app-tags-form></app-tags-form>
+          </mat-expansion-panel>
+
+        </mat-accordion>
+      </form>
+    </div>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-button (click)="openAll()">Expand All</button>
+    <button mat-button (click)="closeAll()">Collapse All</button>
+    <button mat-raised-button color="primary" [disabled]="!contactForm.valid" (click)="onSubmit()" type="submit">
+      Submit
+    </button>
+  </div>
+</div>

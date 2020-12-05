@@ -70,6 +70,7 @@ export class ApiService {
 
   handleError(error: HttpErrorResponse): Observable<any> {
     console.log('Im a little hoe');
+    this.loadingService.endAll();
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('A client-side or network error occurred:', error);

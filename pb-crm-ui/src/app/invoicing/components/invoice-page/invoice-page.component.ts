@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {AccountModel} from "@hiddentemple/api-interfaces";
 
 @Component({
   selector: 'app-invoice-page',
