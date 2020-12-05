@@ -50,22 +50,27 @@ export class WebpageService {
     return updatedWebpages;
   }
 
-  async delete(webpage: WebpageEntity, entityManager: EntityManager): Promise<any> {
-    this.logger.log(`Attempting delete webpage ${JSON.stringify(webpage)}`)
+  async delete(id: string, entityManager: EntityManager): Promise<any> {
+    this.logger.log(`Attempting delete webpage with id ${id}`)
+    const webpage: WebpageEntity = await this.getById(id);
     const {affected} = await entityManager.delete(WebpageEntity, webpage);
     if (affected !== 1) {
-      const errMsg = `Failed to delete webpage`
+      const errMsg = `Failed to delete webpage with id ${id}`
       this.logger.error(errMsg)
       throw new InternalServerErrorException(errMsg)
     }
-    this.logger.log(`Delete webpage success.`)
+    this.logger.log(`Delete webpage success. ID: ${id}`)
   }
 
   async deleteMany(webpages: WebpageEntity[], entityManger: EntityManager): Promise<any> {
     if (!webpages || webpages.length == 0) return
     this.logger.log(`Attempting to delete ${webpages.length} webpage(s) with entities: ${JSON.stringify(webpages)}`)
     if (!webpages || webpages.length === 0) return;
-    for (const webpage of webpages) { await this.delete(webpage, entityManger) }
+    for (const webpage of webpages) {
+      if( webpage != null) {
+        await this.delete(webpage.id, entityManger)
+      }
+    }
   }
 
 }

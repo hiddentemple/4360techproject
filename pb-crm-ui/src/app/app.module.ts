@@ -18,6 +18,11 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatInputModule} from "@angular/material/input";
 import {HttpRequestLoggerInterceptor} from "./core/interceptors/http-request-logger-interceptor.service";
 import {InvoicingModule} from "./invoicing/invoicing.module";
+import {MatTableModule} from "@angular/material/table";
+import {MatSortModule} from "@angular/material/sort";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatButtonModule} from "@angular/material/button";
+import {MatIconModule} from "@angular/material/icon";
 
 
 @NgModule({
@@ -39,6 +44,11 @@ import {InvoicingModule} from "./invoicing/invoicing.module";
     MatFormFieldModule,
     MatAutocompleteModule,
     MatInputModule,
+    MatTableModule,
+    MatSortModule,
+    MatTooltipModule,
+    MatButtonModule,
+    MatIconModule,
 
   ],
   providers: [

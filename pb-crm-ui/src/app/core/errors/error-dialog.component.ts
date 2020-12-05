@@ -9,12 +9,12 @@ export class ErrorDialogData { error: HttpErrorResponse }
   template: `
     <h1 mat-dialog-title>Ruh Roh!</h1>
     <div mat-dialog-content>
-      <h3>An error has occurred</h3>
-      <p>{{error | json}}</p>
-<!--      <div *ngIf="isBackendError(); else clientOrNetworkError">-->
-<!--        <h4>Backend Error</h4>-->
-<!--        <p>Return code: {{error.status}}</p>-->
-<!--      </div>-->
+      <h3><b>An error has occurred</b></h3>
+      <p>{{error.error | json}}</p>
+      <div *ngIf="isBackendError(); else clientOrNetworkError">
+        <h3><b>Backend Error</b></h3>
+        <p>Return code: {{error.status}} -  {{error.statusText}}</p>
+      </div>
     </div>
     <div mat-dialog-actions>
       <button mat-button [mat-dialog-close] cdkFocusInitial>Ok</button>
@@ -40,7 +40,7 @@ export class ErrorDialogComponent {
     this.dialogRef.close();
   }
 
-  isBackendError() {
+  isBackendError(): any {
     return !(this.data.error instanceof ErrorEvent);
   }
 }

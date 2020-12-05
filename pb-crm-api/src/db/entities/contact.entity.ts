@@ -23,26 +23,26 @@ export class ContactEntity implements ContactModel {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @Column({ type: "character varying", length: 50 })
+    @Column({ type: "character varying", length: 255 })
     @Matches(NameRegex, {message: "firstName must contain only alphabetic characters and '-'"})
-    @Length(2, 50)
+    @Length(2, 255)
     @IsDefined()
     firstName: string;
 
-    @Column({ type: "character varying", length: 50 })
+    @Column({ type: "character varying", length: 255 })
     @Matches(NameRegex, {message: "lastName must contain only alphabetic characters and '-'"})
-    @Length(2, 50)
+    @Length(2, 255)
     @IsDefined()
     lastName: string;
 
-    @Column({ type: 'varchar', length: 50, nullable: true})
+    @Column({ type: 'varchar', length: 255, nullable: true})
     @IsOptional()
-    @Length(2, 50)
+    @Length(2, 255)
     nickName: string;
     
-    @Column({ type: "varchar", length: 50, nullable: true})
+    @Column({ type: "varchar", length: 255, nullable: true})
     @IsOptional()
-    @Length(2, 50)
+    @Length(2, 255)
     organization: string;
     
     @OneToMany(type => EmailEntity, email => email.contact, {
@@ -82,43 +82,43 @@ export class ContactEntity implements ContactModel {
     @Length(2, 25)
     countryCode: string;
 
-    @Column({type: 'varchar', length: 50, nullable: true})
+    @Column({type: 'varchar', length: 255, nullable: true})
     @IsOptional()
-    @Length(2,50)
+    @Length(2,255)
     relatedName: string;
 
-    @Column({type: 'varchar', length: 50, nullable: true})
+    @Column({type: 'varchar', length: 255, nullable: true})
     @IsOptional()
-    @Length(2, 50)
+    @Length(2, 255)
     jobTitle: string;
 
-    @Column({type: 'varchar', length: 50, nullable: true})
+    @Column({type: 'varchar', length: 255, nullable: true})
     @IsOptional()
-    @Length(2, 50)
+    @Length(2, 255)
     department: string;
 
-    @Column({type: 'varchar', length: 50, nullable: true})
+    @Column({type: 'varchar', length: 255, nullable: true})
     @IsOptional()
-    @Length(2, 50)
+    @Length(2, 255)
     company: string;
 
     @Column({ type: "text", nullable: true})
     @IsOptional()
     notes: string
 
-    @Column({type: 'varchar', length: 50, nullable: true})
+    @Column({type: 'varchar', length: 255, nullable: true})
     @IsOptional()
-    @Length(2, 50)
+    @Length(2, 255)
     birthday: string;
 
-    @Column({type: 'varchar', length: 50, nullable: true})
+    @Column({type: 'varchar', length: 255, nullable: true})
     @IsOptional()
-    @Length(2, 50)
+    @Length(2, 255)
     anniversary: string;
 
-    @Column({type: 'varchar', length: 50, nullable: true})
+    @Column({type: 'varchar', length: 255, nullable: true})
     @IsOptional()
-    @Length(2, 50)
+    @Length(2, 255)
     gender: string;
 
     @OneToMany(type => WebpageEntity, webpage => webpage.contact, {
@@ -131,9 +131,9 @@ export class ContactEntity implements ContactModel {
     @ValidateNested({ each: true })
     webpages: WebpageEntity[];
 
-    @Column({type: 'varchar', length: 50, nullable: true, array: true})
+    @Column({type: 'varchar', length: 255, nullable: true, array: true})
     @IsOptional()
-    @Length(2, 50, {each: true})
+    @Length(2, 255, {each: true})
     tags: string[];
 
     @CreateDateColumn({name: 'createdAt', nullable: false})

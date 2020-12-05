@@ -24,11 +24,11 @@ export class UserEntity implements UserModel {
 
   @Column('varchar', { nullable: false, unique: true })
   @IsEmail()
-  @MaxLength(50)
+  @MaxLength(255)
   email: string
 
   @Column('varchar', { nullable: true }) // TODO change to false after authn updates
-  @Length(8,50)
+  @Length(8,255)
   password: string
 
   @OneToOne(type => UserTypeEntity, { cascade: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'})

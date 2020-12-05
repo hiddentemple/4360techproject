@@ -10,7 +10,7 @@ export class UserTypeEntity implements UserTypeModel {
   id: string
 
   @Column('varchar', { nullable: false})
-  @MaxLength(50)
+  @MaxLength(255)
   type: string
 
   @Column('varchar', { nullable: true})

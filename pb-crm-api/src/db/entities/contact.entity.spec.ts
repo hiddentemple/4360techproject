@@ -32,9 +32,9 @@ describe("ContactEntity", () => {
     });
 
     it('should reject companies of invalid length (too long)', () => {
-        const expectedMessage = 'company must be shorter than or equal to 50 characters';
+        const expectedMessage = 'company must be shorter than or equal to 255 characters';
         const tooLong = 'Iamreallyveryveryveryveryveryveryveryveryveryveryverylong'
-        expect(tooLong.length > 50).toBeTruthy()
+        expect(tooLong.length > 255).toBeTruthy()
 
         contact = getValidContact(contact);
         contact.company = tooLong;
@@ -147,9 +147,9 @@ async function validateName(contact: ContactEntity, name: NameType) {
     await expectError(contact, target, 'length', errorMessage);
 
     const tooLong = 'Iamreallyveryveryveryveryveryveryveryveryveryveryverylong'
-    expect(tooLong.length > 50).toBeTruthy()
+    expect(tooLong.length > 255).toBeTruthy()
     contact[target] = tooLong;
-    errorMessage = target + ' must be shorter than or equal to 50 characters';
+    errorMessage = target + ' must be shorter than or equal to 255 characters';
     await expectError(contact, target, 'length', errorMessage)
 
     contact[target] = 'I have spaces'
