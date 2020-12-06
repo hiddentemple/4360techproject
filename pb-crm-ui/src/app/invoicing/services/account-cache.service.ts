@@ -110,7 +110,6 @@ export class AccountCacheService {
     return this.accountService.getAccounts()
       .pipe(
         tap((res: GetAllAccountResponse) => {
-          console.log("ACCOUNT CACHE RETURN WITH", res)
           const newModel: CacheModel = { lastChange: CacheOperation.LOAD, accounts: res.accounts };
           this._accounts$.next(newModel);
         })

@@ -25,7 +25,7 @@ import {MatSort} from '@angular/material/sort';
       <!-- Date Column -->
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
-        <td mat-cell *matCellDef="let invoice"> {{invoice.date}} </td>
+        <td mat-cell *matCellDef="let invoice"> {{invoice.date | date}} </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
