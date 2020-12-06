@@ -12,46 +12,55 @@ import {LineItemModel} from '@hiddentemple/api-interfaces';
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
         <td mat-cell *matCellDef="let lineItem"> {{lineItem.name}} </td>
+        <td mat-footer-cell *matFooterCellDef><strong>Total Cost</strong></td>
       </ng-container>
 
       <!-- Category Column -->
       <ng-container matColumnDef="itemCategory">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
         <td mat-cell *matCellDef="let lineItem"> {{lineItem.itemCategory}} </td>
+        <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
 
       <!-- Description Column -->
       <ng-container matColumnDef="description">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
         <td mat-cell *matCellDef="let lineItem"> {{lineItem.description}} </td>
+        <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
 
       <!-- Quantity Column -->
       <ng-container matColumnDef="quantity">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</th>
         <td mat-cell *matCellDef="let lineItem"> {{lineItem.quantity}} </td>
+        <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
 
       <!-- Unit Price Column -->
       <ng-container matColumnDef="unitPrice">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Unit Price</th>
-        <td mat-cell *matCellDef="let lineItem"> {{lineItem.unitPrice}} </td>
+        <td mat-cell *matCellDef="let lineItem"> {{lineItem.unitPrice | currency}} </td>
+        <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
 
       <!-- Warranty Column -->
       <ng-container matColumnDef="warranty">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Warranty</th>
         <td mat-cell *matCellDef="let lineItem"> {{lineItem.warranty}} </td>
+        <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
 
       <!-- Total Price Column -->
       <ng-container matColumnDef="totalPrice">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Price</th>
-        <td mat-cell *matCellDef="let lineItem"> {{lineItem.totalPrice}} </td>
+        <td mat-cell *matCellDef="let lineItem"> {{getTotalCostOfLineItem(lineItem) | currency}} </td>
+        <td mat-footer-cell *matFooterCellDef> <strong>{{getTotalCost() | currency}}</strong> </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+
     </table>
   `,
   styles: [
@@ -67,8 +76,9 @@ export class LineItemTableComponent implements AfterViewInit {
   @ViewChild(MatTable) dataTable: MatTable<any>;
 
   @Input() set lineItems(lineItems: LineItemModel[]) { this.setLineItems(lineItems); }
+  get lineItems() { return this.dataSource?.data}
 
-  displayedColumns: string[] = ['name', 'itemCategory', 'description', 'quantity', 'unitPrice', 'warranty', 'totalPrice'];
+  displayedColumns: string[] = ['name', 'itemCategory', 'quantity', 'unitPrice', 'totalPrice'];
 
   constructor() {
     this.dataSource = new MatTableDataSource([]);
@@ -76,6 +86,18 @@ export class LineItemTableComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
+  }
+
+  getTotalCostOfLineItem(lineItem: LineItemModel): number {
+    return lineItem.unitPrice * lineItem.quantity;
+  }
+
+  getTotalCost(): number {
+    if (!this.lineItems) return 0;
+
+    const acc = 0;
+    const reducer = (acc, lineItem) => acc + this.getTotalCostOfLineItem(lineItem);
+    return Object.values(this.lineItems).reduce(reducer, acc);
   }
 
   private setLineItems(lineItems: LineItemModel[]) {
@@ -91,5 +113,4 @@ export class LineItemTableComponent implements AfterViewInit {
       this.dataTable.renderRows();
     }
   }
-
 }
