@@ -1,8 +1,10 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
-import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
-import {ContactModel} from "../../../api/api-interfaces/contact/models/contact.model";
+import {AfterViewInit, Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {MatTable, MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {ContactModel} from '@hiddentemple/api-interfaces';
+
+export enum TableSize { FULL, COMPACT }
 
 @Component({
   selector: 'app-contact-table',
@@ -16,26 +18,25 @@ import {ContactModel} from "../../../api/api-interfaces/contact/models/contact.m
       width: 100%;
     }`,
     `td, th {
-        width: 25%;
+      width: auto;
     }`
   ]
 })
 export class ContactTableComponent implements AfterViewInit {
-  displayedColumns: string[] = ['name', 'phone', 'email', 'company'];
   dataSource: MatTableDataSource<ContactModel>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatTable) dataTable: MatTable<any>;
 
-  @Input() set contacts(contacts: ContactModel[]) {
-    if (!contacts || contacts === []) {
-      console.log("Contacts received a falsey value: ", contacts);
-      return;
-    }
+  @Output() delete = new EventEmitter<ContactModel>();
+  @Output() edit = new EventEmitter<ContactModel>();
+  @Output() view = new EventEmitter<ContactModel>();
 
-    console.log("Contact Table received new contacts: ", contacts);
-    this.dataSource.data = contacts;
-  }
+  @Input() size: TableSize;
+  @Input() set contacts(contacts: ContactModel[]) { this.setContacts(contacts); }
+
+  get displayedColumns(): string[] { return this.getColumns(); }
 
   constructor() {
     this.dataSource = new MatTableDataSource([]);
@@ -46,22 +47,42 @@ export class ContactTableComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  onEdit(contact: ContactModel) { this.edit.emit(contact); }
+  onDelete(contact: ContactModel) { this.delete.emit(contact); }
+  onView(contact: ContactModel) { this.view.emit(contact); }
 
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
+  getPrimaryPhone(contact: ContactModel): string {
+    if (!contact.phones || contact.phones.length === 0) return '';
+    // else
+    return contact.phones.find(phone => phone.isPrimary)?.phoneNumber
+  }
+
+  getPrimaryEmail(contact: ContactModel): string {
+    if (!contact.emails || contact.emails.length === 0) return '';
+    // else
+    return contact.emails.find(email => email.isPrimary)?.address
+  }
+
+  private setContacts(contacts: ContactModel[]) {
+    if ((!contacts) || contacts === []) {
+      console.log('Contacts received a falsey value: ', contacts);
+      return;
+    }
+
+    console.log('Contact Table received new contacts: ', contacts);
+    this.dataSource.data = contacts;
+    if (this.dataTable) {
+      console.log("Data table is present, rendering rows");
+      this.dataTable.renderRows();
     }
   }
 
-  getPhoneForRow(contact: ContactModel): number | string {
-    if (contact.phones && contact.phones.length > 0) { return contact.phones[0].number; }
-    else { return ''; }
-  }
-
-  getEmailForRow(contact: ContactModel): string {
-    if (contact.emails && contact.emails.length > 0) { return contact.emails[0].address; }
-    else { return ''; }
+  private getColumns(): string[] {
+    switch (this.size){
+      case TableSize.COMPACT:
+        return ['firstName', 'lastName', 'actions'];
+      case TableSize.FULL:
+        return ['firstName', 'lastName', 'company', 'email', 'phone', 'actions'];
+    }
   }
 }

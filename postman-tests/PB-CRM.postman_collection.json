@@ -1,0 +1,730 @@
+{
+	"info": {
+		"_postman_id": "d6a9f528-3a23-4bf2-8f74-69b9639c6182",
+		"name": "PB-CRM",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "contact",
+			"item": [
+				{
+					"name": "Create Contact",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1aeed7ba-bbf3-4138-86da-1463eed340d9",
+								"exec": [
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"contact\": {",
+									"            \"type\": \"object\",",
+									"            \"required\": [\"id\", \"firstName\", \"lastName\", \"emails\"],",
+									"            \"properties\": {",
+									"                \"id\": {type: \"string\"},",
+									"                \"firstName\": {type: \"string\"},",
+									"                \"lastName\": {type: \"string\"},",
+									"                \"company\": {type: \"string\"},",
+									"                \"notes\": {type: \"string\"},",
+									"                \"emails\": {",
+									"                    type: \"array\",",
+									"                    \"minItems\": 2,",
+									"                    \"maxItems\": 2,",
+									"                    items: {",
+									"                        type: \"object\",",
+									"                        required: [\"id\", \"address\", \"isPrimary\", \"category\"],",
+									"                        properties: {",
+									"                            id: {type: \"string\"},",
+									"                            address: {type: \"string\"},",
+									"                            isPrimary: {type: \"boolean\"},",
+									"                            category: {type: \"string\"}",
+									"                        }",
+									"                    }",
+									"                },",
+									"                \"phones\": {",
+									"                    type: \"array\",",
+									"                    \"minItems\": 2,",
+									"                    \"maxItems\": 2,",
+									"                    items: {",
+									"                        type: \"object\",",
+									"                        required: [\"id\", \"phoneNumber\", \"isPrimary\", \"category\"],",
+									"                        properties: {",
+									"                            id: {type: \"string\"},",
+									"                            phoneNumber: {type: \"string\"},",
+									"                            isPrimary: {type: \"boolean\"},",
+									"                            category: {type: \"string\"}",
+									"                        }",
+									"                    }",
+									"                },",
+									"            }",
+									"        },",
+									"    }",
+									"}",
+									"",
+									"pm.test(\"201 Created\",  () => pm.response.to.have.status(201));",
+									"pm.test(\"Response has body\",  () => pm.response.to.be.withBody);",
+									"pm.test(\"Body is  JSON\",  () => pm.response.to.be.json);",
+									"pm.test(\"Response object has valid schema\", () => pm.response.to.be.jsonSchema(schema));",
+									"",
+									"jsonData = pm.response.json();",
+									"pm.environment.set(\"contact.id\", jsonData.contact.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"contact\": {\n        \"firstName\": \"michael\",\n        \"lastName\": \"newman\",\n        \"company\": \"Charles Schwab\",\n        \"notes\": \"Really swell buckaro\",\n        \"gender\": \"non-binary\",\n        \"emails\": [\n            {\n                \"address\": \"test@gmail.com\",\n                \"category\": \"Personal\",\n                \"isPrimary\": true\n            },\n            {\n                \"address\": \"test@work.com\",\n                \"category\": \"Work\",\n                \"isPrimary\": false\n            }\n        ],\n        \"phones\": [\n            {\n                \"phoneNumber\": \"+2545898875\",\n                \"category\": \"Personal\",\n                \"isPrimary\": true\n            },\n            {\n                \"phoneNumber\": \"+2545898875\",\n                \"category\": \"Work\",\n                \"isPrimary\": false\n            }\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-route}}/contact",
+							"host": [
+								"{{api-route}}"
+							],
+							"path": [
+								"contact"
+							]
+						},
+						"description": "Given\n    Valid contact A\nWhen\n    Post contact A\nThen\n    Contact A is created"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single Contact",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "04275916-16d0-4d34-9e34-acb74fc7c8f4",
+								"exec": [
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"contact\": {",
+									"            \"type\": \"object\",",
+									"            \"required\": [\"id\", \"firstName\", \"lastName\", \"emails\"],",
+									"            \"properties\": {",
+									"                \"id\": {type: \"string\"},",
+									"                \"firstName\": {type: \"string\"},",
+									"                \"lastName\": {type: \"string\"},",
+									"                \"company\": {type: \"string\"},",
+									"                \"notes\": {type: \"string\"},",
+									"                \"emails\": {",
+									"                    type: \"array\",",
+									"                    \"minItems\": 2,",
+									"                    \"maxItems\": 2,",
+									"                    items: {",
+									"                        type: \"object\",",
+									"                        required: [\"id\", \"address\", \"isPrimary\", \"category\"],",
+									"                        properties: {",
+									"                            id: {type: \"string\"},",
+									"                            address: {type: \"string\"},",
+									"                            isPrimary: {type: \"boolean\"},",
+									"                            category: {type: \"string\"}",
+									"                        }",
+									"                    }",
+									"                },",
+									"                \"phones\": {",
+									"                    type: \"array\",",
+									"                    \"minItems\": 2,",
+									"                    \"maxItems\": 2,",
+									"                    items: {",
+									"                        type: \"object\",",
+									"                        required: [\"id\", \"phoneNumber\", \"isPrimary\", \"category\"],",
+									"                        properties: {",
+									"                            id: {type: \"string\"},",
+									"                            phoneNumber: {type: \"string\"},",
+									"                            isPrimary: {type: \"boolean\"},",
+									"                            category: {type: \"string\"}",
+									"                        }",
+									"                    }",
+									"                },",
+									"            }",
+									"        },",
+									"    }",
+									"}",
+									"",
+									"pm.test(\"200 OK\",  () => pm.response.to.have.status(200));",
+									"pm.test(\"Response has body\",  () => pm.response.to.be.withBody);",
+									"pm.test(\"Body is  JSON\",  () => pm.response.to.be.json);",
+									"pm.test(\"Response object has valid schema\", () => pm.response.to.be.jsonSchema(schema));",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-route}}/contact/{{contact.id}}",
+							"host": [
+								"{{api-route}}"
+							],
+							"path": [
+								"contact",
+								"{{contact.id}}"
+							]
+						},
+						"description": "Given\n    Contact A exists with ID X\nWhen\n    GET ID X\nThen\n    Contact A is returned"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Contacts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "79d2a41d-e9d9-4c72-bcde-22a39dfe9c4e",
+								"exec": [
+									"const schema = ",
+									"{",
+									"    type: \"object\",",
+									"    required: [\"contacts\"],",
+									"    properties: {",
+									"        contacts: {",
+									"            type: \"array\",",
+									"            minItems: 1,",
+									"            items: {",
+									"                \"type\": \"object\",",
+									"                \"properties\": {",
+									"                     \"contact\": {",
+									"                        \"type\": \"object\",",
+									"                        \"required\": [\"id\", \"firstName\", \"lastName\", \"emails\"],",
+									"                        \"properties\": {",
+									"                            \"id\": {type: \"string\"},",
+									"                            \"firstName\": {type: \"string\"},",
+									"                            \"lastName\": {type: \"string\"},",
+									"                            \"company\": {type: \"string\"},",
+									"                            \"notes\": {type: \"string\"},",
+									"                            \"emails\": {",
+									"                                type: \"array\",",
+									"                                items: {",
+									"                                    type: \"object\",",
+									"                                    required: [\"id\", \"address\", \"isPrimary\", \"category\"],",
+									"                                    properties: {",
+									"                                        id: {type: \"string\"},",
+									"                                        address: {type: \"string\"},",
+									"                                        isPrimary: {type: \"boolean\"},",
+									"                                        category: {type: \"string\"}",
+									"                                    }",
+									"                                }",
+									"                            },",
+									"                            \"phones\": {",
+									"                                type: \"array\",",
+									"                                items: {",
+									"                                    type: \"object\",",
+									"                                    required: [\"id\", \"phoneNumber\", \"isPrimary\", \"category\"],",
+									"                                    properties: {",
+									"                                        id: {type: \"string\"},",
+									"                                        phoneNumber: {type: \"string\"},",
+									"                                        isPrimary: {type: \"boolean\"},",
+									"                                        category: {type: \"string\"}",
+									"                                    }",
+									"                                }",
+									"                            }",
+									"                        }",
+									"                    }",
+									"                }",
+									"            }",
+									"        }",
+									"    }",
+									"}",
+									"",
+									"pm.test(\"200 OK\",  () => pm.response.to.have.status(200));",
+									"pm.test(\"Response has body\",  () => pm.response.to.be.withBody);",
+									"pm.test(\"Body is  JSON\",  () => pm.response.to.be.json);",
+									"pm.test(\"Response object has valid schema\", () => pm.response.to.be.jsonSchema(schema));",
+									"",
+									"pm.test(\"List contains created contact\", () => {",
+									"    const createdContactId = pm.environment.get(\"contact.id\");",
+									"    const body = pm.response.json();",
+									"    const ids = body.contacts.map(contact => contact.id);",
+									"    pm.expect(ids.includes(createdContactId)).to.be.true;",
+									"})",
+									"",
+									"jsonData = pm.response.json();",
+									"pm.environment.set(\"contacts.count\", jsonData.contacts.length);",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-route}}/contact",
+							"host": [
+								"{{api-route}}"
+							],
+							"path": [
+								"contact"
+							]
+						},
+						"description": "Given\n    Contact A exists\nWhen\n    Get all contacts\nThen\n    Contact A is returned"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Contact",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c72a182d-3ab0-4b78-ade3-78a4011fb097",
+								"exec": [
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"contact\": {\r",
+									"            \"type\": \"object\",\r",
+									"            \"required\": [\"id\", \"firstName\", \"lastName\", \"emails\"],\r",
+									"            \"properties\": {\r",
+									"                \"id\": {type: \"string\"},\r",
+									"                \"firstName\": {type: \"string\"},\r",
+									"                \"lastName\": {type: \"string\"},\r",
+									"                \"company\": {type: \"string\"},\r",
+									"                \"notes\": {type: \"string\"},\r",
+									"                \"emails\": {\r",
+									"                    type: \"array\",\r",
+									"                    \"minItems\": 1,\r",
+									"                    \"maxItems\": 1,\r",
+									"                    items: {\r",
+									"                        type: \"object\",\r",
+									"                        required: [\"id\", \"address\", \"isPrimary\", \"category\"],\r",
+									"                        properties: {\r",
+									"                            id: {type: \"string\"},\r",
+									"                            address: {type: \"string\"},\r",
+									"                            isPrimary: {type: \"boolean\"},\r",
+									"                            category: {type: \"string\"}\r",
+									"                        }\r",
+									"                    }\r",
+									"                },\r",
+									"                \"phones\": {\r",
+									"                    type: \"array\",\r",
+									"                    \"minItems\": 1,\r",
+									"                    \"maxItems\": 1,\r",
+									"                    items: {\r",
+									"                        type: \"object\",\r",
+									"                        required: [\"id\", \"phoneNumber\", \"isPrimary\", \"category\"],\r",
+									"                        properties: {\r",
+									"                            id: {type: \"string\"},\r",
+									"                            phoneNumber: {type: \"string\"},\r",
+									"                            isPrimary: {type: \"boolean\"},\r",
+									"                            category: {type: \"string\"}\r",
+									"                        }\r",
+									"                    }\r",
+									"                },\r",
+									"            }\r",
+									"        },\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.test(\"200 OK\",  () => pm.response.to.have.status(200));\r",
+									"pm.test(\"Response has body\",  () => pm.response.to.be.withBody);\r",
+									"pm.test(\"Body is  JSON\",  () => pm.response.to.be.json);\r",
+									"pm.test(\"Response object has valid schema\", () => pm.response.to.be.jsonSchema(schema));\r",
+									"\r",
+									"pm.test(\"Contact ID remains the same\", () => {\r",
+									"    const updatedContactId = pm.environment.get(\"contact.id\");\r",
+									"    const body = pm.response.json();\r",
+									"    pm.expect(body.contact.id).to.equal(updatedContactId)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"contact\": {\r\n        \"firstName\": \"Test\",\r\n        \"lastName\": \"User\",\r\n        \"company\": \"Test company\",\r\n        \"notes\": \"Test User\",\r\n        \"emails\": [\r\n            {\r\n                \"address\": \"testUser@personal.com\",\r\n                \"category\": \"Personal\",\r\n                \"isPrimary\": true\r\n            }\r\n        ],\r\n        \"phones\": [\r\n            {\r\n                \"phoneNumber\": \"3038675309\",\r\n                \"category\": \"Personal\",\r\n                \"isPrimary\": true\r\n            }\r\n        ]\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-route}}/contact/{{contact.id}}",
+							"host": [
+								"{{api-route}}"
+							],
+							"path": [
+								"contact",
+								"{{contact.id}}"
+							]
+						},
+						"description": "Given\n    Contact A exists in the DB with emails E1, phones P1, and id X\n\nWhen\n    PUT Contact to id X with emails E2 and phones P2\nThen\n    Emails E1 and phones P1 are deleted\n    Emails E2 and phones P2 are created\n    Contact A is returned"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Contact",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3dd8a4d9-49dc-4f1f-b4a9-364220c4c4df",
+								"exec": [
+									"pm.test(\"200 OK\",  () => pm.response.to.have.status(200));",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api-route}}/contact/{{contact.id}}",
+							"host": [
+								"{{api-route}}"
+							],
+							"path": [
+								"contact",
+								"{{contact.id}}"
+							]
+						},
+						"description": "Given\n    Contact A exists with id X\nWhen\n    DELETE id X\nThen\n    200 OK\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Validation ",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "347cdf92-e34f-46d3-a7fb-d104d1ea945d",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "97a4388b-9f34-4d0e-8f19-df343322065b",
+								"exec": [
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"required\": [\"message\", \"statusCode\", \"error\"],",
+									"    \"properties\": {",
+									"        \"message\": {",
+									"            \"type\": \"array\",",
+									"            \"minItems\": 1,",
+									"        },",
+									"        \"error\": {",
+									"            \"type\": \"string\",",
+									"            \"pattern\": \"^Bad Request$\"",
+									"        },",
+									"        \"statusCode\": {",
+									"            \"type:\": \"number\",",
+									"            \"minimum\": 400,",
+									"            \"exclusiveMaximum\": 401",
+									"        }",
+									"    }",
+									"}",
+									"",
+									"",
+									"pm.test(\"400 Bad Request\",  () => pm.response.to.have.status(400));",
+									"pm.test(\"Response has body\",  () => pm.response.to.be.withBody);",
+									"pm.test(\"Body is  JSON\",  () => pm.response.to.be.json);",
+									"pm.test(\"Response object has valid schema\", () => pm.response.to.have.jsonSchema(schema));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"contact\": {\n        \"firstName\": \"michael\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-route}}/contact",
+							"host": [
+								"{{api-route}}"
+							],
+							"path": [
+								"contact"
+							]
+						},
+						"description": "Given\n    Contact A with only a first name\nWhen\n    POST contact A\nThen\n    400 Bad Request"
+					},
+					"response": []
+				},
+				{
+					"name": "Only Accept Valid Categories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fbae50b7-2a3f-4d3e-ac7a-d54293abb380",
+								"exec": [
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"required\": [\"message\", \"statusCode\", \"error\"],",
+									"    \"properties\": {",
+									"        \"message\": {",
+									"            \"type\": \"array\",",
+									"            \"minItems\": 1,",
+									"        },",
+									"        \"error\": {",
+									"            \"type\": \"string\",",
+									"            \"pattern\": \"^Bad Request$\"",
+									"        },",
+									"        \"statusCode\": {",
+									"            \"type:\": \"number\",",
+									"            \"minimum\": 400,",
+									"            \"exclusiveMaximum\": 401",
+									"        }",
+									"    }",
+									"}",
+									"",
+									"",
+									"pm.test(\"400 Bad Request\",  () => pm.response.to.have.status(400));",
+									"pm.test(\"Response has body\",  () => pm.response.to.be.withBody);",
+									"pm.test(\"Body is  JSON\",  () => pm.response.to.be.json);",
+									"pm.test(\"Response object has valid schema\", () => pm.response.to.have.jsonSchema(schema));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"contact\": {\n        \"firstName\": \"michael\",\n        \"lastName\": \"newman\",\n        \"company\": \"Charles Schwab\",\n        \"notes\": \"Really swell buckaro\",\n        \"gender\": \"non-binary\",\n        \"emails\": [\n            {\n                \"address\": \"test@gmail.com\",\n                \"category\": \"I Dont Exist\",\n                \"isPrimary\": true\n            },\n            {\n                \"address\": \"test@work.com\",\n                \"category\": \"Work\",\n                \"isPrimary\": false\n            }\n        ],\n        \"phones\": [\n            {\n                \"phoneNumber\": \"2545898875\",\n                \"category\": \"Personal\",\n                \"isPrimary\": true\n            },\n            {\n                \"phoneNumber\": \"2545898875\",\n                \"category\": \"Work\",\n                \"isPrimary\": false\n            }\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-route}}/contact",
+							"host": [
+								"{{api-route}}"
+							],
+							"path": [
+								"contact"
+							]
+						},
+						"description": "Given\n    Category A does not exist\nWhen\n    Post contact C with email with category A\nThen\n    Contact A is not created"
+					},
+					"response": []
+				},
+				{
+					"name": "Only One Primary Allowed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2d58b11c-0629-4b71-acec-74e55a0e2c5e",
+								"exec": [
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"required\": [\"message\", \"statusCode\", \"error\"],",
+									"    \"properties\": {",
+									"        \"message\": {",
+									"            \"type\": \"string\",",
+									"            pattern: \"^Emails contained more than 1 primary.$\"",
+									"        },",
+									"        \"error\": {",
+									"            \"type\": \"string\",",
+									"            \"pattern\": \"^Bad Request$\"",
+									"        },",
+									"        \"statusCode\": {",
+									"            \"type:\": \"number\",",
+									"            \"minimum\": 400,",
+									"            \"exclusiveMaximum\": 401",
+									"        }",
+									"    }",
+									"}",
+									"",
+									"",
+									"pm.test(\"400 Bad Request\",  () => pm.response.to.have.status(400));",
+									"pm.test(\"Response has body\",  () => pm.response.to.be.withBody);",
+									"pm.test(\"Body is  JSON\",  () => pm.response.to.be.json);",
+									"pm.test(\"Response object has valid schema\", () => pm.response.to.have.jsonSchema(schema));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"contact\": {\n        \"firstName\": \"michael\",\n        \"lastName\": \"newman\",\n        \"company\": \"Charles Schwab\",\n        \"notes\": \"Really swell buckaro\",\n        \"gender\": \"non-binary\",\n        \"emails\": [\n            {\n                \"address\": \"test@gmail.com\",\n                \"category\": \"Personal\",\n                \"isPrimary\": true\n            },\n            {\n                \"address\": \"test@work.com\",\n                \"category\": \"Work\",\n                \"isPrimary\": true\n            }\n        ],\n        \"phones\": [\n            {\n                \"phoneNumber\": \"2545898875\",\n                \"category\": \"Personal\",\n                \"isPrimary\": true\n            },\n            {\n                \"phoneNumber\": \"2545898875\",\n                \"category\": \"Work\",\n                \"isPrimary\": false\n            }\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api-route}}/contact",
+							"host": [
+								"{{api-route}}"
+							],
+							"path": [
+								"contact"
+							]
+						},
+						"description": "Given\n    Contact A has more than one primary email\nWhen\n    Post contact A\nThen\n    Contact A is not created"
+					},
+					"response": []
+				},
+				{
+					"name": "Failed post does not create contacts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "61d57724-54f8-4818-ace1-8218559e5fd2",
+								"exec": [
+									"const schema = ",
+									"{",
+									"    type: \"object\",",
+									"    required: [\"contacts\"],",
+									"    properties: {",
+									"        contacts: {",
+									"            type: \"array\",",
+									"            minItems: 0,",
+									"            maxItems: 0,",
+									"        }",
+									"    }",
+									"}",
+									"",
+									"pm.test(\"200 OK\",  () => pm.response.to.have.status(200));",
+									"pm.test(\"Response has body\",  () => pm.response.to.be.withBody);",
+									"pm.test(\"Body is  JSON\",  () => pm.response.to.be.json);",
+									"pm.test(\"Response object has valid schema\", () => pm.response.to.be.jsonSchema(schema));",
+									"",
+									"pm.test(\"No new contacts should have been created\", () => {",
+									"    // This test will only be valid when all tests are ran in order. \"Get All Contacts\" sets the count, \"Delete Contact\" deletes one contact.",
+									"    // Thus, the expected count is the count from \"Get All Contacts\" - 1",
+									"",
+									"    const apiRoute = pm.globals.get(\"api-route\");",
+									"    pm.sendRequest(apiRoute + \"/contact\", (error, response) => {",
+									"        if (error) {",
+									"            console.log(error);",
+									"            throw new Error(\"FAILED\")",
+									"        } else {",
+									"            const expectedCount = Number(pm.environment.get(\"contacts.count\")) - 1;",
+									"            const body = pm.response.json();",
+									"            console.log(body);",
+									"            pm.expect(body.contacts.length).to.equal(expectedCount)",
+									"        }",
+									"    });",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{api-route}}/contact",
+							"host": [
+								"{{api-route}}"
+							],
+							"path": [
+								"contact"
+							]
+						},
+						"description": "Given\n    Contact A failed to post\nWhen\n    Get all contacts\nThen\n    Contact A is not returned"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "user",
+			"item": [],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{pwd}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{user}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "111dcaa3-49fb-4366-81f6-4febe9aace37",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "8c1c4baf-b14f-45c9-beac-e0cc11237b50",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

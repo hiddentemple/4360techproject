@@ -1,25 +1,61 @@
 import {Module} from '@nestjs/common';
 import {AuthnModule} from './authn/authn.module';
 import {TypeOrmModule} from "@nestjs/typeorm";
-import {ContactsController} from "./contact/contacts.controller";
-import {ContactEntity} from "./db/entities/contact.entity";
-import {EmailEntity} from "./db/entities/email.entity";
-import {PhoneEntity} from "./db/entities/phone.entity";
-import {UserEntity} from "./db/entities/user.entity";
-import {UserTypeEntity} from "./db/entities/user-type.entity";
 import {ContactModule} from "./contact/contact.module";
-import { UsersModule } from './authn/users/users.module';
+import {UsersModule} from './authn/users/users.module';
+import {ConfigModule, ConfigService} from "@nestjs/config";
+import {UploadModule} from './upload/upload.module';
+import {MulterModule} from '@nestjs/platform-express';
+import {ErrorService} from "./core/services/error.service";
+import {AccountModule} from './invoicing/account.module';
+
+
 
 @Module({
     imports: [
-        TypeOrmModule.forRoot(),
+        MulterModule.registerAsync({
+            useFactory: () => ({
+                dest: './files'
+            }),
+        }),
+        TypeOrmModule.forRootAsync({
+            imports: [ConfigModule.forRoot({
+                envFilePath: `./config/.env.${process.env.ENV}`
+            })],
+            useFactory: (configService: ConfigService) => ({
+                type: 'postgres',
+                host: configService.get('DB_HOST'),
+                port: +configService.get<number>('DB_PORT'),
+                username: configService.get('DB_USR'),
+                password: configService.get('DB_PWD'),
+                database: configService.get('DB_NAME'),
+                entities: ["dist/db/entities/**/*.entity{.js, .ts}"],
+                synchronize: false,
+                dropSchema: configService.get<boolean>('DB_DROP'),
+                logging: true,
+                migrations: ["../dist/db/migrations/*{.js,.ts}"],
+                seeds: ["../dist/db/seeders/**/*.js"],
+                factories: ["../dist/db/factories/**/*.js"],
+                cli: {
+                    migrationsDir: "src/db/migrations"
+                },
+                ssl: process.env.ENV === 'dev' ? {
+                    rejectUnauthorized: false
+                }: undefined,
+            }),
+            inject: [ConfigService],
+        }),
         // Feature Modules
         ContactModule,
+        AccountModule,
         AuthnModule,
-        UsersModule
+        UsersModule,
+        UploadModule,
     ],
     controllers: [],
-    providers: [],
+    providers: [ErrorService],
+
 })
+
 export class AppModule {
 }

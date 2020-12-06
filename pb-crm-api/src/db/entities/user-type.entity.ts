@@ -1,5 +1,7 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
-import {UserTypeModel} from "../../api-interfaces/user/model/user-type.model";
+import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { IsOptional, MaxLength, validateOrReject } from 'class-validator';
+import {UserTypeModel} from "@hiddentemple/api-interfaces";
+import { HttpException } from '@nestjs/common';
 
 @Entity('user_types')
 export class UserTypeEntity implements UserTypeModel {
@@ -7,10 +9,25 @@ export class UserTypeEntity implements UserTypeModel {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @Column('varchar', {length: 50, nullable: false})
+  @Column('varchar', { nullable: false})
+  @MaxLength(255)
   type: string
 
-  @Column('varchar', {length: 100, nullable: true})
-  description?: string;
+  @Column('varchar', { nullable: true})
+  @IsOptional()
+  @MaxLength(100)
+  description: string;
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  async validate(){ await validateOrReject(this).then(
+    onFulfilled => {
+      return onFulfilled
+    },
+    onRejected => {
+      throw new HttpException( {'statusCode': 400, 'message': onRejected[0].constraints}, 400)
+    }
+  )
+  }
 
 }

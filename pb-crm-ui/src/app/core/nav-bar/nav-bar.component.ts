@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import {ContactBookRoutes} from "../../contact-book/contact-book-routing.module";
+import {Component} from '@angular/core';
+import {ContactBookRoutes} from '../../contact-book/contact-book-routing.module';
+import {InvoicingRoutes} from "../../invoicing/invoicing-routing.module";
 
 @Component({
   selector: 'app-nav-bar',
   template: `
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
       <!-- Icon -->
       <img src="assets/img/peanut-butter.svg" width="30" height="30" alt="" loading="lazy">
 
@@ -21,7 +22,10 @@ import {ContactBookRoutes} from "../../contact-book/contact-book-routing.module"
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" routerLink="{{contactHomeRoute}}" routerLinkActive="active">Contacts</a>
+            <a class="nav-link" routerLink="{{contactHomeRoute}}" routerLinkActive="active" href="#">Contacts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="{{accountListRoute}}" routerLinkActive="active" href="#">Accounts</a>
           </li>
         </ul>
       </div>
@@ -34,5 +38,6 @@ import {ContactBookRoutes} from "../../contact-book/contact-book-routing.module"
   ]
 })
 export class NavBarComponent  {
+  get accountListRoute() { return InvoicingRoutes.home; }
   get contactHomeRoute() { return ContactBookRoutes.home; }
 }

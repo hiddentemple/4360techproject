@@ -1,17 +1,14 @@
-import {Controller} from '@nestjs/common';
+import {Controller, HttpCode} from '@nestjs/common';
 import {Crud, CrudController, CrudRequest, Override, ParsedBody, ParsedRequest} from "@nestjsx/crud";
 import {UserService} from "./user.service";
 import {UserEntity} from "../../db/entities/user.entity";
-import {
-  CreateUserResponse
-} from "../../api-interfaces/user/contracts/create.user";
-
-
+import {ErrorService} from "../../core/services/error.service";
 
 @Crud({
   model: {
     type: UserEntity
   },
+  //these are parameters that are used in request --> /api/contacts/{{id}}
   params:{
     id: {
       field: 'id',
@@ -32,17 +29,28 @@ import {
     exclude: ['passwordHash']
   },
 })
+
+
 @Controller('users')
 export class UserController implements CrudController<UserEntity> {
-  constructor(public service: UserService) {}
+  constructor(public service: UserService, public errorService: ErrorService) {}
 
   get base(): CrudController<UserEntity> {
     return this;
   }
 
+
+  //allows customization of POST request for a single user
   @Override()
-  async createOne(@ParsedRequest() req: CrudRequest, @ParsedBody() dto: UserEntity): Promise<CreateUserResponse> {
-    const user: UserEntity = await this.base.createOneBase(req, dto);
-    return { id: user.id };
+  @HttpCode(201)
+  // tries to create a user in the postgresDB
+  async createOne(@ParsedRequest() req: CrudRequest, @ParsedBody() dto: UserEntity): Promise<{id: string}> {
+    const user: UserEntity = await this.base.createOneBase(req, dto).catch(error =>{
+      error = this.errorService.handleError(error)
+      throw error
+    });
+    return {
+      id: user.id
+    };
   }
 }

@@ -4,19 +4,34 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-import {RouterModule} from "@angular/router";
+import {RouterModule} from '@angular/router';
+import {LayoutModule} from '@angular/cdk/layout';
+import { DialogComponent } from './dialog/dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import {ErrorDialogComponent} from './errors/error-dialog.component';
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {FormsModule} from "@angular/forms";
+import { LoadingBarComponent } from './loading/loading-bar.component';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { PhonePipe } from './pipes/phone.pipe';
 
 
 
 @NgModule({
-  declarations: [NavBarComponent],
+  declarations: [NavBarComponent, DialogComponent, ErrorDialogComponent, LoadingBarComponent, PhonePipe],
   imports: [
     CommonModule,
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
-    RouterModule
+    RouterModule,
+    LayoutModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    FormsModule,
+    MatProgressBarModule
   ],
-  exports: [NavBarComponent]
+  exports: [NavBarComponent, DialogComponent, LoadingBarComponent, PhonePipe],
+  entryComponents: [DialogComponent, ErrorDialogComponent]
 })
 export class CoreModule { }

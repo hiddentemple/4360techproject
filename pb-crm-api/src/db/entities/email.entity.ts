@@ -1,6 +1,10 @@
 import {ContactEntity} from "./contact.entity";
-import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
-import {EmailModel} from "../../api-interfaces/contact/models/email.model";
+import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { IsDefined, IsEmail, IsEnum, validateOrReject } from 'class-validator';
+import {EmailCategory, EmailModel} from "@hiddentemple/api-interfaces";
+import { HttpException } from '@nestjs/common';
+
+
 
 @Entity('emails')
 export class EmailEntity implements EmailModel {
@@ -8,15 +12,39 @@ export class EmailEntity implements EmailModel {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @Column('varchar', { length: 50, nullable: false })
+    @Column({
+        type: "character varying",
+        nullable: false
+    })
+    @IsDefined()
+    @IsEmail()
     address: string
 
-    @Column('varchar', { length: 50, nullable: true })
-    type?: string
+    @Column('boolean', {default: false})
+    @IsDefined()
+    isPrimary: boolean
 
-    @ManyToOne(type => ContactEntity, contact => contact.emails, {
-        onDelete: "CASCADE"
+    @Column('enum', {enum: EmailCategory, nullable: false})
+    @IsDefined()
+    @IsEnum(EmailCategory)
+    category: EmailCategory;
+
+    @ManyToOne(() => ContactEntity, contact => contact.emails, {
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE"
     })
     @JoinColumn()
     contact: ContactEntity
+
+    @BeforeInsert()
+    @BeforeUpdate()
+    async validate(){ await validateOrReject(this).then(
+      onFulfilled => {
+          return onFulfilled
+      },
+      onRejected => {
+          throw new HttpException( {'statusCode': 400, 'message': onRejected[0].constraints}, 400)
+      }
+    )
+    }
 }

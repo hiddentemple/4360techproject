@@ -1,14 +1,29 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
 import {ContactBookModule} from './contact-book/contact-book.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ApiModule} from './api/api.module';
 import {CoreModule} from './core/core.module';
 import {DevComponent} from './dev/dev.component';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {AuthModule} from './auth/auth.module';
+import { DialogComponent } from './core/dialog/dialog.component';
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatInputModule} from "@angular/material/input";
+import {HttpRequestLoggerInterceptor} from "./core/interceptors/http-request-logger-interceptor.service";
+import {InvoicingModule} from "./invoicing/invoicing.module";
+import {MatTableModule} from "@angular/material/table";
+import {MatSortModule} from "@angular/material/sort";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatButtonModule} from "@angular/material/button";
+import {MatIconModule} from "@angular/material/icon";
+
 
 @NgModule({
   declarations: [AppComponent, DevComponent],
@@ -16,14 +31,29 @@ import {DevComponent} from './dev/dev.component';
     BrowserModule,
     BrowserAnimationsModule,
     NgbModule,
+    HttpClientModule,
 
-    ContactBookModule,
     ApiModule,
+    AuthModule,
+    ContactBookModule,
+    InvoicingModule,
 
     AppRoutingModule,
-    CoreModule
+    CoreModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    MatTableModule,
+    MatSortModule,
+    MatTooltipModule,
+    MatButtonModule,
+    MatIconModule,
+
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: HttpRequestLoggerInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

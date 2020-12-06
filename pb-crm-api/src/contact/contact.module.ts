@@ -1,16 +1,23 @@
-import { Module } from '@nestjs/common';
+import {Module} from '@nestjs/common';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {ContactEntity} from "../db/entities/contact.entity";
+import {ContactService} from "./services/contact.service";
+import {EmailService} from "./services/email.service";
 import {EmailEntity} from "../db/entities/email.entity";
 import {PhoneEntity} from "../db/entities/phone.entity";
-import {ContactsController} from "./contacts.controller";
-import {ContactsService} from "./contacts.service";
+import {PhoneService} from "./services/phone.service";
+import {ContactController} from "./contact.controller";
+import { AddressService } from './services/address.service';
+import { AddressEntity } from '../db/entities/address.entity';
+import { WebpageEntity } from '../db/entities/webpage.entity';
+import { WebpageService } from './services/webpage.service';
+import { UploadService } from '../upload/upload.service';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([ ContactEntity ] )
+        TypeOrmModule.forFeature([ ContactEntity, EmailEntity, PhoneEntity, AddressEntity, WebpageEntity ] )
     ],
-    controllers: [ContactsController],
-    providers: [ContactsService],
+    controllers: [ContactController],
+    providers: [ContactService, EmailService, PhoneService, AddressService, WebpageService, UploadService],
 })
 export class ContactModule {}
