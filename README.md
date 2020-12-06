@@ -1,6 +1,12 @@
-# PBFalcon CRM
+|  |  |
+| --- | --- |
+| ![PBFalcon Logo](./pb-crm-ui/src/assets/img/peanut-butter.png#left) | <h1>PBFalcon CRM</h1> | 
 
-Open-Source Web application for managing customers and resources.
+<br>
+
+A customer resource management web-application, utilizing Angular, NestJS and Postgres technologies. 
+
+Allows users to manage contacts, create and manage invoices or quotes. With intentions to progess further with time tracking and employee management.
 
 
 #
@@ -11,7 +17,6 @@ Requirements
     * NodeJS
     * Postgres Database
     * Docker (if running locally)
-    * @HiddenTemple/Api-Interfaces
     
  
 Install Instructions
@@ -20,17 +25,20 @@ Install Instructions
 [ For local installation and development ]
 1) Download / Clone Repository
 1) Download and Install NodeJS
+    * https://nodejs.org/en/download/
+        * v14.11.0 or higher
 2) Download and Install AngularCLI
     * `npm i -g @angular/cli:10.1.1`
 3) Download and Install NestJS/CLI
     * `npm i -g @nestjs/cli:7.0.0`
-4)
 5) Run `npm install` in the following project folders: 
     * `/../pb-crm-api/`
     * `/../pb-crm-ui/`
     
 6) To configure the database connection: 
-    * Create a new `.env.dev` file in `./pb-crm-api/config/` folder
+    * Create a new `.env` file in `./pb-crm-api/config/` folder
+        * `.env.dev` for development environment configuration
+        * `.env.local` for local environment configuration
     * Add the following properties: 
     
         ```
@@ -40,42 +48,31 @@ Install Instructions
             DB_USR=<db-user>
             DB_PWD=<db-password>
             DB_NAME=<your-db-name-here>
-            DB_DROP=true (optional - drops schema on each change)
+            DB_DROP=boolean   //Drops existing schema and data from database. Recommended only for local use.
+            DB_SYNC=boolean   //Synchronizes database schema with that in codebase. Recommended only for local use.
+      
         ```
       
 7) Configure Docker for local development:
+    * `cd` into directory `/local-db`
     * Run the following command: 
         * On MacOS / Linux:
-            * `run command here`
+            * `docker run -d --name pg -v "$PWD/my-postgres.conf":/etc/postgresql/postgresql.conf -e POSTGRES_PASSWORD=localpassword -p 5432:5432 postgres -c 'config_file=/etc/postgresql/postgresql.conf'`
         * On Windows: 
-            * `run command here`
-      
+            * `docker run -d --name pg -v "%cd%/my-postgres.conf:/etc/postgresql/postgresql.conf" -e POSTGRES_PASSWORD=localpassword -p 5432:5432 postgres -c "config_file=/etc/postgresql/postgresql.conf"`
+    * **( Note )** - To change the password of the local postgres instance, change the following `POSTGRES_PASSWORD=localpassword` in the command to whatever password you desire. Otherwise it will be set to `localpassword`.
 8)  To start the API, run the following command:
-    * To connect to a provisioned database:
+    * To connect to a provisioned / configured database:
         * `npm run start:dev` or `npm run start:dev -- watch` to watch for changes.
     * To connect to a local postgres database
         * Run `npm run start:local`
 9) To start the UI, run the following command:
-    * `ng serve` 
+    * `ng serve` or `npm run start` 
     
 10) Open browser to:
     * http://localhost:4200
     
 ----
-
-
-
-[ For production deployment ]
-
-1) 
-    *
-2)
-    *
-3)
-    *
-    
-____
-
 
 Features
 --------------------------
@@ -93,10 +90,7 @@ Features
 
 
     
-    
-
-    
-
+  
 
 
 
