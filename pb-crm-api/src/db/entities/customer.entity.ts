@@ -35,7 +35,7 @@ export class CustomerEntity implements CustomerModel {
   id: string;
 
   @Column({ type: 'varchar', length: 255 })
-  @IsAlphanumeric()
+  @Matches(/[A-Za-z0-9 .,-]/)
   @Length(2, 255)
   @IsDefined()
   name: string;
@@ -117,7 +117,8 @@ export class CustomerEntity implements CustomerModel {
         return onFulfilled;
       },
       onRejected => {
-        throw new HttpException({ 'statusCode': 400, 'message': onRejected[0].constraints }, 400);
+        console.log("REJECTEd", onRejected)
+        throw new HttpException({ 'statusCode': 400, 'message': onRejected[0]?.constraints }, 400);
       },
     );
   }

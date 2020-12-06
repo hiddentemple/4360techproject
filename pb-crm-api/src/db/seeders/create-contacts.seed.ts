@@ -5,6 +5,6 @@ import {ContactEntity} from "../entities/contact.entity";
 
 export default class CreateContacts implements Seeder {
     public async run(factory: Factory, connection: Connection): Promise<any> {
-        await factory(ContactEntity)().createMany(10)
+        await factory(ContactEntity)().createMany(100)
     }
 }

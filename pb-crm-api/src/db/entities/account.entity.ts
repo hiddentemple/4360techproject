@@ -54,7 +54,7 @@ export class AccountEntity implements AccountModel{
   @IsOptional()
   paymentInfo: PaymentEntity;
   
-  @Column({type: 'varchar', length: 255})
+  @Column({type: 'varchar', length: 255, nullable: true})
   @Length(2, 255)
   @IsOptional()
   notes: string;
