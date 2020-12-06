@@ -55,6 +55,8 @@ export class InvoiceTableComponent implements AfterViewInit {
   dataSource = new MatTableDataSource<InvoiceModel> ([]);
   displayedColumns = ['invoiceNumber', 'type', 'date'];
 
+  @Input() accountId: string;
+
   @Input() set invoices(invoices: InvoiceModel[]) {
     if (invoices){
       this.dataSource.data = invoices;
@@ -69,7 +71,7 @@ export class InvoiceTableComponent implements AfterViewInit {
   }
 
   onClick(invoice: InvoiceModel) {
-    this.router.navigate([InvoicingRoutes.invoicesWithoutID, invoice.id]);
+    this.router.navigate([InvoicingRoutes.invoicesWithoutID, invoice.id], {queryParams: {acc: this.accountId}});
   }
 
   ngAfterViewInit(): void {

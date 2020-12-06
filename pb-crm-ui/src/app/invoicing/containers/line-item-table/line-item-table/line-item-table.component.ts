@@ -35,7 +35,7 @@ import {LineItemModel} from '@hiddentemple/api-interfaces';
       <!-- Unit Price Column -->
       <ng-container matColumnDef="unitPrice">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Unit Price</th>
-        <td mat-cell *matCellDef="let lineItem"> {{lineItem.unitPrice}} </td>
+        <td mat-cell *matCellDef="let lineItem"> {{lineItem.unitPrice | currency}} </td>
       </ng-container>
 
       <!-- Warranty Column -->
@@ -47,7 +47,7 @@ import {LineItemModel} from '@hiddentemple/api-interfaces';
       <!-- Total Price Column -->
       <ng-container matColumnDef="totalPrice">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Price</th>
-        <td mat-cell *matCellDef="let lineItem"> {{lineItem.totalPrice}} </td>
+        <td mat-cell *matCellDef="let lineItem"> {{getTotalCostOfLineItem(lineItem) | currency}} </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -68,7 +68,7 @@ export class LineItemTableComponent implements AfterViewInit {
 
   @Input() set lineItems(lineItems: LineItemModel[]) { this.setLineItems(lineItems); }
 
-  displayedColumns: string[] = ['name', 'itemCategory', 'description', 'quantity', 'unitPrice', 'warranty', 'totalPrice'];
+  displayedColumns: string[] = ['name', 'itemCategory', 'quantity', 'unitPrice', 'totalPrice'];
 
   constructor() {
     this.dataSource = new MatTableDataSource([]);
@@ -76,6 +76,10 @@ export class LineItemTableComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
+  }
+
+  getTotalCostOfLineItem(lineItem: LineItemModel): number {
+    return lineItem.unitPrice * lineItem.quantity;
   }
 
   private setLineItems(lineItems: LineItemModel[]) {
