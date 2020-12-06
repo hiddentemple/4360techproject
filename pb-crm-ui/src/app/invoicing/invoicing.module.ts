@@ -14,6 +14,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {InvoiceTableComponent} from './containers/invoice-table/invoice-table.component';
 import {AccountDetailPageComponent} from "./components/account-detail-page/account-detail-page.component";
 import {MatListModule} from "@angular/material/list";
+import {MatRippleModule} from "@angular/material/core";
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import {MatListModule} from "@angular/material/list";
     MatTooltipModule,
     MatSortModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    MatRippleModule
   ],
   exports: [
     AccountDetailPageComponent,
