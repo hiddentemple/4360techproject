@@ -10,7 +10,7 @@ import {MatListModule} from '@angular/material/list'
   selector: 'app-account-list',
   template: `
     <mat-list>
-      <mat-list-item *nfFor = "let account of accounts" (click)="goToAccount(account.id)">
+      <mat-list-item *ngFor = "let account of accounts" (click)="goToAccount(account.id)">
         {{account.name}}
       </mat-list-item>
     </mat-list>
@@ -21,7 +21,7 @@ import {MatListModule} from '@angular/material/list'
 export class AccountListComponent {
   @Input() accounts: AccountModel[];
 
-  constructor(private router: Router){}
+  constructor(private router: Router) {}
 
   goToAccount(id: string){
     this.router.navigate([InvoicingRoutes.accountWithoutID, id]);

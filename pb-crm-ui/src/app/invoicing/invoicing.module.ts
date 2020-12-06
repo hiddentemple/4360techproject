@@ -13,6 +13,7 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatIconModule} from "@angular/material/icon";
 import {InvoiceTableComponent} from './containers/invoice-table/invoice-table.component';
 import {AccountDetailPageComponent} from "./components/account-detail-page/account-detail-page.component";
+import {MatListModule} from "@angular/material/list";
 
 
 @NgModule({
