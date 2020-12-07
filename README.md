@@ -1,6 +1,5 @@
-|  |  |
-| --- | --- |
 | ![PBFalcon Logo](./pb-crm-ui/src/assets/img/peanut-butter.png#left) | <h1>PBFalcon CRM</h1> | 
+| --- | --- |
 
 <br>
 
@@ -16,13 +15,15 @@ Requirements
     * NestJS
     * NodeJS
     * Postgres Database
+    * @hiddentemple/api-interfaces
+        * https://github.com/hiddentemple/api-interfaces
     * Docker (if running locally)
     
  
 Install Instructions
 --------------------
 
-[ For local installation and development ]
+**[ For local installation and development ]**
 1) Download / Clone Repository
 1) Download and Install NodeJS
     * https://nodejs.org/en/download/
@@ -53,7 +54,14 @@ Install Instructions
       
         ```
       
-7) Configure Docker for local development:
+7) In order to install the required package `@hiddentemple/api-interfaces` you'll need to generate a github personal access token. Instructions can be found here:
+
+    https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token
+    
+    Once that token is generated, you will need to create and environment variable named `NPM_TOKEN` with the value of your newly generated token.
+    This can be placed in the `.env` file created above, as a system environment variable, or through your IDE's enviroment variables in the run configuration.
+    
+8) Configure Docker for local development:
     * `cd` into directory `/local-db`
     * Run the following command: 
         * On MacOS / Linux:
@@ -61,31 +69,19 @@ Install Instructions
         * On Windows: 
             * `docker run -d --name pg -v "%cd%/my-postgres.conf:/etc/postgresql/postgresql.conf" -e POSTGRES_PASSWORD=localpassword -p 5432:5432 postgres -c "config_file=/etc/postgresql/postgresql.conf"`
     * **( Note )** - To change the password of the local postgres instance, change the following `POSTGRES_PASSWORD=localpassword` in the command to whatever password you desire. Otherwise it will be set to `localpassword`.
-8)  To start the API, run the following command:
+9)  To start the API, run the following command:
     * To connect to a provisioned / configured database:
         * `npm run start:dev` or `npm run start:dev -- watch` to watch for changes.
     * To connect to a local postgres database
         * Run `npm run start:local`
-9) To start the UI, run the following command:
+10) To start the UI, run the following command:
     * `ng serve` or `npm run start` 
     
-10) Open browser to:
+11) Open browser to:
     * http://localhost:4200
     
 ----
 
-Features
---------------------------
-##### Contacts
-    *
-    *
-    *
-    *
-##### Invoices
-    *
-    *
-    *
-    *
 
 
 
