@@ -50,9 +50,10 @@ Install Instructions
             DB_PWD=<db-password>
             DB_NAME=<your-db-name-here>
             DB_DROP=boolean   //Drops existing schema and data from database. Recommended only for local use.
-            DB_SYNC=boolean   //Synchronizes database schema with that in codebase. Recommended only for local use.
+            DB_SYNC=true  //Synchronizes database schema with that in codebase.
       
         ```
+      **(NOTE)** - *DB_SYNC is recommended to be set to true in order for changes to the schema to be propogated to the database. If you would prefer, you can set up migrations to do this, however it is not currently configured.*
       
 7) In order to install the required package `@hiddentemple/api-interfaces` you'll need to generate a github personal access token. Instructions can be found here:
 
