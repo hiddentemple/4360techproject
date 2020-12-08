@@ -9,9 +9,10 @@ import { InvoiceService } from './services/invoice.service';
 import { AccountEntity } from '../db/entities/account.entity';
 import { AccountService } from './services/account.service';
 import {
+  AccountModel,
   CreateAccountRequest,
   CreateAccountResponse,
-  GetAccountResponse,
+  GetAccountResponse, GetAllAccountResponse,
   UpdateAccountRequest, UpdateAccountResponse,
 } from '@hiddentemple/api-interfaces';
 
@@ -30,8 +31,9 @@ export class AccountController {
 */
   
   @Get()
-  getAllAccounts(): Promise<AccountEntity[]> {
-    return this.accountService.getAll();
+  async getAllAccounts(): Promise<GetAllAccountResponse> {
+    const accounts: AccountModel[] = await this.accountService.getAll();
+    return {accounts};
   }
   
   @Get(':id')

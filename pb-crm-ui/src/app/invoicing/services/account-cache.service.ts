@@ -109,8 +109,8 @@ export class AccountCacheService {
   refresh(): Observable<any> {
     return this.accountService.getAccounts()
       .pipe(
-        tap(({accounts}: GetAllAccountResponse) => {
-          const newModel: CacheModel = { lastChange: CacheOperation.LOAD, accounts: accounts };
+        tap((res: GetAllAccountResponse) => {
+          const newModel: CacheModel = { lastChange: CacheOperation.LOAD, accounts: res.accounts };
           this._accounts$.next(newModel);
         })
       );

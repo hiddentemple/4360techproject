@@ -31,10 +31,6 @@ export class LineItemEntity implements LineItemModel {
   @Column({type: 'numeric'})
   @IsDefined()
   unitPrice: number;
-  
-  @Column({type: 'numeric'})
-  @IsDefined()
-  totalPrice: number;
 
   @Column({type: 'varchar', length: 255, nullable: true})
   @IsOptional()

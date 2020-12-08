@@ -5,11 +5,10 @@ import {
   GetAllInvoicesResponse,
   UpdateInvoiceResponse,
 } from '@hiddentemple/api-interfaces';
-import {InvoiceService} from './invoice.service';
-import {Injectable} from '@angular/core';
 import {map, take, tap} from 'rxjs/operators';
 import {CacheOperation} from "../../core/cache";
 import {BehaviorSubject, Observable} from "rxjs";
+import {InvoicePageService} from "./invoice-page.service";
 
 interface InvoicePageCacheModel {
   lastChange: CacheOperation;
@@ -36,7 +35,7 @@ export class InvoicePageCacheService {
 
   private _invoices$: BehaviorSubject<InvoicePageCacheModel>;
 
-  constructor(private invoiceService: InvoiceService) {
+  constructor(private invoiceService: InvoicePageService) {
     this._invoices$ = new BehaviorSubject<InvoicePageCacheModel>({ lastChange: CacheOperation.INIT, invoices: [] });
     this.refresh().subscribe(() => console.log('Cache Init'));
   }

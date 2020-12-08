@@ -25,7 +25,7 @@ import {MatSort} from '@angular/material/sort';
       <!-- Date Column -->
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
-        <td mat-cell *matCellDef="let invoice"> {{invoice.date}} </td>
+        <td mat-cell *matCellDef="let invoice"> {{invoice.date | date}} </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -55,6 +55,8 @@ export class InvoiceTableComponent implements AfterViewInit {
   dataSource = new MatTableDataSource<InvoiceModel> ([]);
   displayedColumns = ['invoiceNumber', 'type', 'date'];
 
+  @Input() accountId: string;
+
   @Input() set invoices(invoices: InvoiceModel[]) {
     if (invoices){
       this.dataSource.data = invoices;
@@ -69,7 +71,7 @@ export class InvoiceTableComponent implements AfterViewInit {
   }
 
   onClick(invoice: InvoiceModel) {
-    this.router.navigate([InvoicingRoutes.invoicesWithoutID, invoice.id]);
+    this.router.navigate([InvoicingRoutes.invoicesWithoutID, invoice.id], {queryParams: {acc: this.accountId}});
   }
 
   ngAfterViewInit(): void {

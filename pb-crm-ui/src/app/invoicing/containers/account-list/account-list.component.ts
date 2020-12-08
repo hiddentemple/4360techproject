@@ -10,7 +10,7 @@ import {MatListModule} from '@angular/material/list'
   selector: 'app-account-list',
   template: `
     <mat-list>
-      <mat-list-item *nfFor = "let account of accounts" (click)="goToAccount(account.id)">
+      <mat-list-item matRipple *ngFor = "let account of _accounts" (click)="goToAccount(account.id)">
         {{account.name}}
       </mat-list-item>
     </mat-list>
@@ -19,9 +19,14 @@ import {MatListModule} from '@angular/material/list'
   ]
 })
 export class AccountListComponent {
-  @Input() accounts: AccountModel[];
+  _accounts: AccountModel[];
 
-  constructor(private router: Router){}
+  @Input() set accounts(accounts: AccountModel[]) {
+    accounts.sort((a, b) => a.name.localeCompare(b.name))
+    this._accounts = accounts
+  };
+
+  constructor(private router: Router) {}
 
   goToAccount(id: string){
     this.router.navigate([InvoicingRoutes.accountWithoutID, id]);

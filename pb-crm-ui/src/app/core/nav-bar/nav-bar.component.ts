@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {ContactBookRoutes} from '../../contact-book/contact-book-routing.module';
+import {InvoicingRoutes} from "../../invoicing/invoicing-routing.module";
 
 @Component({
   selector: 'app-nav-bar',
@@ -23,6 +24,9 @@ import {ContactBookRoutes} from '../../contact-book/contact-book-routing.module'
           <li class="nav-item">
             <a class="nav-link" routerLink="{{contactHomeRoute}}" routerLinkActive="active" href="#">Contacts</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="{{accountListRoute}}" routerLinkActive="active" href="#">Accounts</a>
+          </li>
         </ul>
       </div>
     </nav>
@@ -34,5 +38,6 @@ import {ContactBookRoutes} from '../../contact-book/contact-book-routing.module'
   ]
 })
 export class NavBarComponent  {
+  get accountListRoute() { return InvoicingRoutes.home; }
   get contactHomeRoute() { return ContactBookRoutes.home; }
 }
