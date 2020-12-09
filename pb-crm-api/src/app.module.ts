@@ -30,8 +30,8 @@ import {AccountModule} from './invoicing/account.module';
                 password: configService.get('DB_PWD'),
                 database: configService.get('DB_NAME'),
                 entities: ["dist/db/entities/**/*.entity{.js, .ts}"],
-                synchronize: false,
-                dropSchema: configService.get<boolean>('DB_DROP'),
+                synchronize: configService.get('DB_SYNC') === 'true',
+                dropSchema: configService.get('DB_DROP') === 'true',
                 logging: true,
                 migrations: ["../dist/db/migrations/*{.js,.ts}"],
                 seeds: ["../dist/db/seeders/**/*.js"],
@@ -39,6 +39,7 @@ import {AccountModule} from './invoicing/account.module';
                 cli: {
                     migrationsDir: "src/db/migrations"
                 },
+                // TODO define ssl for production environment
                 ssl: process.env.ENV === 'dev' ? {
                     rejectUnauthorized: false
                 }: undefined,
