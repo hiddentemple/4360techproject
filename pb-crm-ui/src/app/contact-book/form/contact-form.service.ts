@@ -177,4 +177,8 @@ export class ContactFormService implements OnInit {
 
     this.accessAndUpdate(callback);
   }
+
+  reset() {
+    this.contactForm.next(this.fb.group(new ContactFormModel()))
+  }
 }
