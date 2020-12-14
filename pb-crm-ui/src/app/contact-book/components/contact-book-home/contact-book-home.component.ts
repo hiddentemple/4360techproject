@@ -15,6 +15,7 @@ import {ImportFileService} from '../../containers/import-file/import-file.servic
 import {ImportFileComponent} from '../../containers/import-file/import-file.component';
 import {ContactFormComponent} from "../../form/contact-form.component";
 import {ContactFormDialogComponent} from "../../form/contact-form-dialog.component";
+import {ContactFormService} from "../../form/contact-form.service";
 
 
 @Component({
@@ -69,7 +70,8 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     private contactActions: ContactActionsService,
     private dialogService: DialogService,
     private importFileService: ImportFileService,
-    private breakpointService: BreakpointService
+    private breakpointService: BreakpointService,
+    private formService: ContactFormService
   ) {}
 
   openImportDialog(): void {
@@ -115,8 +117,9 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
   openCreateContactForm() {
     this.filterStr = undefined;
     // this.selectedPortal = this.createPortal;
-    this.selectedContact = undefined;
+    // this.selectedContact = undefined;
     // this.openRightPanel();
+    this.formService.reset();
     const dialogReg = this.dialog.open(ContactFormDialogComponent, {width: 'auto'})
     dialogReg.afterClosed().subscribe(result => {
       if (result) this.contactActions.createContact(result, async c => console.log(`Created contact: ${c}`))
@@ -182,7 +185,7 @@ export class ContactBookHomeComponent implements OnInit, AfterViewInit {
     this.showLeft = true;
     this.showRight = false;
     this.tableSize = TableSize.FULL;
-    this.selectedContact = undefined;
+    this.formService.reset();
     this.selectedPortal = undefined;
     if (this.cardDeck) {
       this.cardDeck.fillTotalWidth = false;
